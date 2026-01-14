@@ -1,0 +1,37 @@
+{
+  "name": "front-end",
+  "description": "The front-end for the new blog-site",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b && vite build",
+    "dev": "vite",
+    "format": "pnpm run format-prettier && pnpm run format-eslint",
+    "format-eslint": "eslint --fix --suppress-all \"src/**/*.{ts,tsx}\" && rm -f eslint-suppressions.json",
+    "format-prettier": "pnpm run format-prettier-typescript && pnpm run format-prettier-javascript",
+    "format-prettier-javascript": "prettier --write \"./**/*.js\"",
+    "format-prettier-typescript": "prettier --write --parser typescript \"./**/*.{ts,tsx}\"",
+    "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-prettier",
+    "lint-eslint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint-prettier": "pnpm run lint-prettier-typescript && pnpm run lint-prettier-javascript",
+    "lint-prettier-javascript": "prettier --check \"./**/*.js\"",
+    "lint-prettier-typescript": "prettier --check --parser typescript \"./**/*.{ts,tsx}\"",
+    "lint-tsc": "tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4"
+  }
+}
