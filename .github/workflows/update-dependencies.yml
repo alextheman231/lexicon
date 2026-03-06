@@ -1,0 +1,17 @@
+name: Update Dependencies
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 21 * * 5
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-dependencies:
+    if: ${{ github.repository == 'alextheman231/blog-site' }}
+    uses: alextheman231/github-actions/.github/workflows/update-dependencies.yml@dc2d1246a158a1a04045a85a8c1bfd1978afeaf2 # v10.1.0
+    secrets:
+      APP_ID: ${{ secrets.ALEX_UP_BOT_APP_ID }}
+      APP_PRIVATE_KEY: ${{ secrets.ALEX_UP_BOT_PRIVATE_KEY }}
