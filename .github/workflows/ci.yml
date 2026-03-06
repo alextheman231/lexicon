@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -43,7 +43,7 @@ jobs:
           run_install: false
 
       - name: Use Node.js
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: 22
           cache: "pnpm"
@@ -71,4 +71,4 @@ jobs:
         run: pnpm run lint
 
   actions-ci:
-    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@eb296c1a513aa2df5b108b2d39c89ba2cb0bb4ca # v8.0.1
+    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@dc2d1246a158a1a04045a85a8c1bfd1978afeaf2 # v10.1.0
