@@ -37,5 +37,5 @@ yarn-error.log*
 .DS_Store
 *.pem
 
-.alex-c-line.private.config.js
-.alex-c-line
+**/.alex-c-line.private.config.js
+**/.alex-c-line
