@@ -7,6 +7,12 @@ const alexCLineConfig = {
       ["lint", { arguments: ["--ui=stream"] }],
     ],
   },
+  template: {
+    pullRequest: {
+      category: "general",
+      projectType: "app",
+    }
+  }
 };
 
 export default alexCLineConfig;

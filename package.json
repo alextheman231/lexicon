@@ -14,13 +14,13 @@
     "lint": "pnpm run lint-package-json && pnpm run lint-workspaces",
     "lint-package-json": "eslint \"./**/package.json\"",
     "lint-workspaces": "bash -c 'turbo run lint $@' --",
-    "pre-commit": "alex-c-line pre-commit-2",
+    "pre-commit": "alex-c-line pre-commit",
     "prepare": "husky",
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "devDependencies": {
     "@alextheman/eslint-plugin": "^5.7.0",
-    "alex-c-line": "^1.27.0",
+    "alex-c-line": "^2.0.1",
     "eslint": "^10.0.0",
     "husky": "^9.1.7",
     "prettier": "^3.8.1",
