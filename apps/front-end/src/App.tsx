@@ -1,5 +1,7 @@
+import Editor from "src/components/Editor";
+
 function App() {
-  return <p>Test</p>;
+  return <Editor />;
 }
 
 export default App;
