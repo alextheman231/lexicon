@@ -1,8 +1,8 @@
 {
-  "name": "blog-site",
+  "name": "lexicon",
   "private": true,
   "author": "alextheman",
-  "description": "The true successor to Neurosongs, allowing users to write blogs and share them, with a dynamic editor to help with in-line images/audio/files in general.",
+  "description": "The true successor to Neurosongs, allowing users to write blogs and share them, with a dynamic editor.",
   "type": "module",
   "scripts": {
     "build": "turbo run build",

@@ -20,7 +20,7 @@ function Editor({ initialContent }: EditorProps) {
     <>
       <LexicalComposer
         initialConfig={{
-          namespace: "blog-editor",
+          namespace: "lexicon-editor",
           theme: {},
           editorState: (editor) => {
             if (initialContent) {
