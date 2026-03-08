@@ -39,3 +39,5 @@ yarn-error.log*
 
 **/.alex-c-line.private.config.js
 **/.alex-c-line
+
+tsconfig.tsbuildinfo
