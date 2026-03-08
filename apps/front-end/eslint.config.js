@@ -1,3 +1,6 @@
 import alexPlugin from "@alextheman/eslint-plugin";
 
-export default alexPlugin.configs["combined/typescript-react"];
+export default [
+  ...alexPlugin.configs["combined/typescript-react"],
+  ...alexPlugin.configs["general/package-json"],
+];
