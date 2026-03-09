@@ -16,6 +16,7 @@
     "lint-workspaces": "bash -c 'turbo run lint $@' --",
     "pre-commit": "alex-c-line pre-commit",
     "prepare": "husky",
+    "test": "turbo run test",
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "devDependencies": {

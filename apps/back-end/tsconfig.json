@@ -1,7 +1,8 @@
 {
   "extends": ["../../tsconfig.json"],
   "references": [
-    { "path": "../../packages/schema" }
+    { "path": "../../packages/schema" },
+    { "path": "../../packages/models" }
   ],
   "compilerOptions": {
     "target": "ESNext",
@@ -27,6 +28,6 @@
     "noFallthroughCasesInSwitch": true,
     "declaration": true
   },
-  "include": ["src", "tests", "drizzle.config.ts"],
+  "include": ["src", "tests", "drizzle.config.ts", "vitest.config.ts"],
   "exclude": ["dist"]
 }
