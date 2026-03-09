@@ -1,10 +1,10 @@
 import type { Router } from "express";
 
-import useMiddleware from "src/utility/useMiddleware";
+import handleMiddleware from "src/utility/handleMiddleware";
 
 function getUsers(router: Router): void {
   router.route("/:userId").get(
-    useMiddleware<{ userId: string }>(async (_request, _response, _next) => {
+    handleMiddleware<{ userId: string }>(async (_request, _response, _next) => {
       // Logic here
     }),
   );
