@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
-function useMiddleware<
+function handleMiddleware<
   ParameterType extends ParamsDictionary,
   ResBody = unknown,
   ReqBody = unknown,
@@ -15,4 +15,4 @@ function useMiddleware<
   };
 }
 
-export default useMiddleware;
+export default handleMiddleware;
