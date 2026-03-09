@@ -21,8 +21,7 @@
     "lint-prettier": "pnpm run lint-prettier-typescript && pnpm run lint-prettier-javascript",
     "lint-prettier-javascript": "prettier --check \"./**/*.js\"",
     "lint-prettier-typescript": "prettier --check --parser typescript \"./**/*.{ts,tsx}\"",
-    "lint-tsc": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint-tsc": "tsc --noEmit"
   },
   "author": "alextheman",
   "license": "ISC",
