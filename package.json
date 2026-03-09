@@ -33,9 +33,6 @@
     "node": ">=18"
   },
   "pnpm": {
-    "overrides": {
-      "tsdown": "<0.20.0"
-    },
     "onlyBuiltDependencies": [
       "canvas",
       "esbuild"

@@ -41,3 +41,4 @@ yarn-error.log*
 **/.alex-c-line
 
 tsconfig.tsbuildinfo
+.env*
