@@ -14,22 +14,22 @@ permissions:
 jobs:
   lexicon-ci:
     runs-on: ubuntu-latest
-    # services:
-    #   postgres:
-    #     image: postgres:17
-    #     env:
-    #       POSTGRES_USER: postgres
-    #       POSTGRES_PASSWORD: prisma
-    #       POSTGRES_DB: tests
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
-    #     ports:
-    #       - 5432:5432
-    # env:
-    #   DATABASE_URL: postgresql://postgres:prisma@localhost:5432/tests?schema=public
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: prisma
+          POSTGRES_DB: tests
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    env:
+      DATABASE_URL: postgresql://postgres:prisma@localhost:5432/tests?schema=public
 
     steps:
       - name: Checkout the repository
@@ -48,27 +48,35 @@ jobs:
           node-version: 22
           cache: "pnpm"
 
-      # - name: Initialise environment variables
-      #   run: |
-      #     rm -f apps/back-end/.env.test
-      #     touch apps/back-end/.env.test
-      #     touch apps/back-end/.env.development
-      #     echo DATABASE_URL="postgresql://postgres:prisma@localhost:5432/tests?schema=public" >> apps/back-end/.env.test
-      #     echo DATABASE_URL="postgresql://postgres:prisma@localhost:5432/tests?schema=public" >> apps/back-end/.env.development
+      - name: Cache Turborepo cache
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        with:
+          path: .turbo
+          key: turbo-${{ hashFiles('.turbo') }}
+          restore-keys: turbo-
+
+      - name: Initialise environment variables
+        run: |
+          touch apps/back-end/.env.test
+          echo DATABASE_URL="postgresql://postgres:prisma@localhost:5432/tests?schema=public" >> apps/back-end/.env.test
 
       - name: Install dependencies
         run: pnpm install
 
-      # - name: Generate Prisma Client
-      #   run: |
-      #     pnpm run migrate-deploy
-      #     pnpm run generate --filter=back-end
+      - name: Apply migrations
+        run: pnpm run migrate-db
+        working-directory: apps/back-end
+        env:
+          NODE_ENV: test
 
       - name: Build packages
-        run: pnpm run build
+        run: pnpm run build --ui=stream
 
       - name: Run linting checks
-        run: pnpm run lint
+        run: pnpm run lint --ui=stream
+
+      - name: Run tests
+        run: pnpm test --ui=stream
 
   actions-ci:
     uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@dc2d1246a158a1a04045a85a8c1bfd1978afeaf2 # v10.1.0
