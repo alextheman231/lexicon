@@ -1,7 +1,6 @@
 {
   "extends": ["../../tsconfig.json"],
   "references": [
-    { "path": "../../packages/schema" },
     { "path": "../../packages/models" }
   ],
   "compilerOptions": {

@@ -1,8 +1,5 @@
 {
   "extends": ["../../tsconfig.json"],
-  "references": [
-    { "path": "../schema" }
-  ],
   "compilerOptions": {
     "composite": true,
     "target": "ESNext",

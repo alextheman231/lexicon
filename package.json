@@ -21,7 +21,9 @@
   },
   "devDependencies": {
     "@alextheman/eslint-plugin": "^5.10.1",
+    "@faker-js/faker": "^10.3.0",
     "alex-c-line": "^2.0.1",
+    "cross-env": "^10.1.0",
     "eslint": "^10.0.2",
     "husky": "^9.1.7",
     "prettier": "^3.8.1",

@@ -1,6 +1,6 @@
-import type { CreateEnumType } from "@alextheman/utility";
 import type { SerializedEditorState } from "lexical";
 
+import { BlogState } from "@lexicon/models";
 import {
   bigint,
   bigserial,
@@ -16,14 +16,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import { usersTable } from "src/users";
-
-export const BlogState = {
-  DRAFT: "draft",
-  PUBLISHED: "published",
-  ARCHIVED: "archived",
-} as const;
-export type BlogState = CreateEnumType<typeof BlogState>;
+import { usersTable } from "src/database/schema/users";
 
 export const blogStateEnum = pgEnum<typeof BlogState>("BLOG_STATE_T", BlogState);
 

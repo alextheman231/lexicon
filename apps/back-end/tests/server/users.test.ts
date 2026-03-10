@@ -1,23 +1,44 @@
+import { DataError } from "@alextheman/utility";
 import { parseUser } from "@lexicon/models";
 import request from "supertest";
 import { describe, expect, test } from "vitest";
 
+import { randomUUID } from "node:crypto";
+
 import TestFactory from "tests/factory";
 
-import connection from "src/database/connection";
+import { getConnection } from "src/database/connection";
 import app from "src/server/app";
 
 describe("GET", () => {
   describe("/api/users/:userId", () => {
-    test("Should get all users", async () => {
+    test("Should get the user with the given ID", async () => {
+      const connection = getConnection();
       const factory = TestFactory.create(connection);
       const factoryUser = await factory.users.insert();
 
       const { body } = await request(app).get(`/api/users/${factoryUser.id}`).expect(200);
-      const { payload } = body;
-      const user = parseUser(payload);
+      const user = parseUser(body.user);
 
       expect(user).toMatchObject(factoryUser);
+    });
+    test("Should fail with 404 if the ID is not found", async () => {
+      const missingId = randomUUID();
+
+      const { body } = await request(app).get(`/api/users/${missingId}`).expect(404);
+
+      const error = DataError.expectError(() => {
+        throw body.error;
+      });
+
+      expect(error.code).toBe("RESOURCE_NOT_FOUND");
+      expect(error.data.statusCode).toBe(404);
+      expect(error.data.resourceType).toBe("user");
+      expect(error.data.resourceId).toBe(missingId);
+    });
+    test("Should fail with 400 if not a valid UUID", async () => {
+      const { body } = await request(app).get(`/api/users/hello`).expect(400);
+      expect(body.error.id).toBe("hello");
     });
   });
 });

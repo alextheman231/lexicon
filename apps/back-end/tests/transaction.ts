@@ -1,13 +1,27 @@
+import type { PoolClient } from "pg";
+
 import { sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/node-postgres";
 import { afterEach, beforeEach } from "vitest";
 
-import connection from "src/database/connection";
+import { getConnection, pool, setConnection } from "src/database/connection";
+// eslint-disable-next-line @alextheman/no-namespace-imports
+import * as schema from "src/database/schema";
+
+let client: PoolClient;
 
 beforeEach(async () => {
+  client = await pool.connect();
+
+  const testConnection = drizzle(client, { schema });
+  setConnection(testConnection);
+
+  const connection = getConnection();
   await connection.execute(sql`BEGIN`);
-  await connection.execute(sql`SAVEPOINT vitest`);
 });
 
 afterEach(async () => {
-  await connection.execute(sql`ROLLBACK TO SAVEPOINT vitest`);
+  const connection = getConnection();
+  await connection.execute(sql`ROLLBACK`);
+  client.release();
 });

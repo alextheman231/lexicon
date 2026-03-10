@@ -12,7 +12,7 @@
     "format-prettier": "pnpm run format-prettier-typescript && pnpm run format-prettier-javascript",
     "format-prettier-javascript": "prettier --write \"**/*.js\"",
     "format-prettier-typescript": "prettier --write --parser typescript \"**/*.ts\"",
-    "generate-migration": "turbo run build --filter=@lexicon/schema --ui=stream && drizzle-kit generate",
+    "generate-migration": "drizzle-kit generate",
     "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-prettier",
     "lint-eslint": "eslint \"{src,tests}/**/*.ts\"",
     "lint-prettier": "pnpm run lint-prettier-typescript && pnpm run lint-prettier-javascript",
@@ -24,6 +24,7 @@
     "reset-db": "dropdb --if-exists lexicon_dev && createdb lexicon_dev",
     "start": "node dist/index.js",
     "test": "vitest --run",
+    "test-debug": "cross-env DEBUG=true pnpm test",
     "test-watch": "vitest"
   },
   "author": "alextheman",
@@ -47,7 +48,6 @@
   },
   "dependencies": {
     "@lexicon/models": "workspace:*",
-    "@lexicon/schema": "workspace:*",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",

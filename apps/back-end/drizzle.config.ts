@@ -10,7 +10,7 @@ dotenv.config({
 });
 
 const config: Config = {
-  schema: "./../../packages/schema/dist",
+  schema: "./src/database/schema/index.ts",
   out: "./src/database/migrations",
   dialect: "postgresql",
   dbCredentials: {
