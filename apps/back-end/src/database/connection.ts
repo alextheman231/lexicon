@@ -1,13 +1,15 @@
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
+import type { PoolClient } from "pg";
 
 import { DataError, parseEnv } from "@alextheman/utility";
-// eslint-disable-next-line @alextheman/no-namespace-imports
-import * as schema from "@lexicon/schema";
 import dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
 import path from "node:path";
+
+// eslint-disable-next-line @alextheman/no-namespace-imports
+import * as schema from "src/database/schema";
 
 const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 
@@ -30,9 +32,19 @@ const pool = new Pool({
   connectionString: DATABASE_URL,
 });
 
-const connection = drizzle(pool, { schema });
+export type Connection = NodePgDatabase<typeof schema> & {
+  $client: Pool | PoolClient;
+};
 
-export type Connection = NodePgDatabase<typeof schema>;
+let connection: Connection = drizzle(pool, { schema });
+
+export function getConnection(): Connection {
+  return connection;
+}
+
+export function setConnection(newConnection: Connection): void {
+  connection = newConnection;
+}
 
 export { pool };
 export default connection;

@@ -1,5 +1,5 @@
 {
-  "id": "8214e69f-13e5-4e9e-8931-743046642913",
+  "id": "813df76f-2bd3-4ac9-a6d8-02da464f5a86",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -318,11 +318,17 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "name": {
-          "name": "name",
+        "username": {
+          "name": "username",
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
         },
         "email": {
           "name": "email",

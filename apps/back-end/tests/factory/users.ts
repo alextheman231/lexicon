@@ -1,10 +1,12 @@
-import type { User } from "@lexicon/models";
+import type { User, UserData } from "@lexicon/models";
 
 import type FactoryContext from "tests/factory/context";
 
+import { faker } from "@faker-js/faker";
+
+import { insertUser } from "src/services/users";
+
 class UserFactory {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore: TODO: Implement
   private context: FactoryContext;
 
   public records: Record<string, User>;
@@ -14,10 +16,20 @@ class UserFactory {
     this.records = {};
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore: TODO: Implement
-  public async insert(): Promise<User> {
-    // Implementation here
+  public async insert(data?: Partial<UserData>): Promise<User> {
+    const userTemplate: UserData = {
+      username: faker.internet.username(),
+      displayName: faker.internet.displayName(),
+      email: faker.internet.email(),
+      dateOfBirth: faker.date.birthdate(),
+      ...data,
+    };
+
+    const user = await insertUser(this.context.connection, userTemplate);
+
+    this.records[user.id] = user;
+
+    return user;
   }
 }
 
