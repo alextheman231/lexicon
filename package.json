@@ -40,7 +40,8 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "canvas",
-      "esbuild"
+      "esbuild",
+      "unrs-resolver"
     ],
     "patchedDependencies": {
       "eslint-plugin-react": "patches/eslint-plugin-react.patch"
