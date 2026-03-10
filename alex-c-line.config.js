@@ -5,6 +5,7 @@ const alexCLineConfig = {
       ["build", { arguments: ["--ui=stream"] }],
       ["format", { arguments: ["--ui=stream"] }],
       ["lint", { arguments: ["--ui=stream"] }],
+      ["test", { arguments: ["--ui=stream"] }],
     ],
   },
   template: {
