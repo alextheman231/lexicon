@@ -22,7 +22,8 @@
     "lint-prettier": "pnpm run lint-prettier-typescript && pnpm run lint-prettier-javascript",
     "lint-prettier-javascript": "prettier --check \"./**/*.js\"",
     "lint-prettier-typescript": "prettier --check --parser typescript \"./**/*.{ts,tsx}\"",
-    "lint-tsc": "tsc --noEmit"
+    "lint-tsc": "tsc --noEmit",
+    "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "author": "alextheman",
   "license": "ISC",

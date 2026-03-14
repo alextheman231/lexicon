@@ -19,6 +19,9 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "update-dependencies": {
+      "dependsOn": ["^update-dependencies"]
     }
   }
 }
