@@ -1,8 +1,8 @@
 # Select a Template
 
-Please select the option that best describes your changes to `blog-site`:
+Please select the option that best describes your changes to `lexicon`:
 
-- [Breaking Change](?template=breaking_change.md) - may require changes in how the app is used and/or deployed.
+- [Breaking Change](?template=breaking_change.md) - For changes that have a substantial effect on how the app is used and/or deployed.
 - [New Feature](?template=new_feature.md) - For changes that add a new feature to the app.
 - [Bug Fix](?template=bug_fix.md) - For changes that fix a bug in the app.
 - [Tooling Change](?template=tooling_change.md) - For changes to the app's tooling (dependencies, devDependencies, configs...).
