@@ -11,10 +11,10 @@
       "dependsOn": ["^format"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": []
     },
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": []
     },
     "dev": {
       "cache": false,
