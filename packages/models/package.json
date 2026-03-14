@@ -31,6 +31,6 @@
     "lexical": "^0.41.0"
   },
   "devDependencies": {
-    "@types/node": "^25.2.3"
+    "@types/node": "^25.5.0"
   }
 }
