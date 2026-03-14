@@ -154,9 +154,6 @@ importers:
 
   packages/models:
     dependencies:
-      '@lexicon/schema':
-        specifier: workspace:*
-        version: link:../schema
       lexical:
         specifier: ^0.41.0
         version: 0.41.0
@@ -164,25 +161,6 @@ importers:
       '@types/node':
         specifier: ^25.2.3
         version: 25.2.3
-
-  packages/schema:
-    dependencies:
-      lexical:
-        specifier: ^0.41.0
-        version: 0.41.0
-      pg:
-        specifier: ^8.20.0
-        version: 8.20.0
-    devDependencies:
-      '@types/node':
-        specifier: ^25.2.3
-        version: 25.2.3
-      drizzle-orm:
-        specifier: ^0.45.1
-        version: 0.45.1(@types/pg@8.18.0)(pg@8.20.0)
-      tsdown:
-        specifier: ^0.21.0
-        version: 0.21.0(synckit@0.11.12)(typescript@5.9.3)
 
 packages:
 
