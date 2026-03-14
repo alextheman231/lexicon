@@ -27,7 +27,6 @@
   "author": "alextheman",
   "license": "ISC",
   "dependencies": {
-    "@lexicon/schema": "workspace:*",
     "lexical": "^0.41.0"
   },
   "devDependencies": {

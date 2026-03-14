@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@lexicon/schema": ["packages/schema/src"],
       "@lexicon/models": ["packages/models/src"]
     }
   }
