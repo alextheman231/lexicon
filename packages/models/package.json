@@ -28,7 +28,7 @@
   "author": "alextheman",
   "license": "ISC",
   "dependencies": {
-    "lexical": "^0.41.0"
+    "lexical": "^0.42.0"
   },
   "devDependencies": {
     "@types/node": "^25.5.0"
