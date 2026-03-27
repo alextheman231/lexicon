@@ -8,9 +8,8 @@
     "types": ["eslint", "node"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "baseUrl": ".",
     "paths": {
-      "src/*": ["src/*"]
+      "src/*": ["./src/*"]
     },
     "esModuleInterop": true,
     "rootDir": "src",

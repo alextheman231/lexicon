@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@lexicon/models": ["packages/models/src"]
+      "@lexicon/models": ["./packages/models/src"]
     }
   }
 }
