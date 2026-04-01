@@ -14,50 +14,50 @@ importers:
   .:
     dependencies:
       '@alextheman/utility':
-        specifier: ^5.9.0
+        specifier: 5.9.0
         version: 5.9.0
       '@lexical/react':
-        specifier: ^0.42.0
+        specifier: 0.42.0
         version: 0.42.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(yjs@13.6.29)
       lexical:
-        specifier: ^0.42.0
+        specifier: 0.42.0
         version: 0.42.0
       zod:
-        specifier: ^4.3.6
+        specifier: 4.3.6
         version: 4.3.6
     devDependencies:
       '@alextheman/eslint-plugin':
-        specifier: ^5.10.4
-        version: 5.10.4(3d5767a5ff1d822a4458047070c59d9a)
+        specifier: 5.11.0
+        version: 5.11.0(3d5767a5ff1d822a4458047070c59d9a)
       '@faker-js/faker':
-        specifier: ^10.4.0
+        specifier: 10.4.0
         version: 10.4.0
       '@typescript-eslint/utils':
-        specifier: ^8.58.0
+        specifier: 8.58.0
         version: 8.58.0(eslint@10.1.0)(typescript@6.0.2)
       alex-c-line:
-        specifier: ^2.4.1
+        specifier: 2.4.1
         version: 2.4.1(@types/node@25.5.0)
       cross-env:
-        specifier: ^10.1.0
+        specifier: 10.1.0
         version: 10.1.0
       eslint:
-        specifier: ^10.1.0
+        specifier: 10.1.0
         version: 10.1.0
       husky:
-        specifier: ^9.1.7
+        specifier: 9.1.7
         version: 9.1.7
       prettier:
-        specifier: ^3.8.1
+        specifier: 3.8.1
         version: 3.8.1
       turbo:
-        specifier: ^2.9.1
+        specifier: 2.9.1
         version: 2.9.1
       typescript:
-        specifier: ^6.0.2
+        specifier: 6.0.2
         version: 6.0.2
       typescript-eslint:
-        specifier: ^8.58.0
+        specifier: 8.58.0
         version: 8.58.0(eslint@10.1.0)(typescript@6.0.2)
 
   apps/back-end:
@@ -66,100 +66,100 @@ importers:
         specifier: workspace:*
         version: link:../../packages/models
       cors:
-        specifier: ^2.8.6
+        specifier: 2.8.6
         version: 2.8.6
       dotenv:
-        specifier: ^17.3.1
+        specifier: 17.3.1
         version: 17.3.1
       drizzle-orm:
-        specifier: ^0.45.2
+        specifier: 0.45.2
         version: 0.45.2(@types/pg@8.20.0)(pg@8.20.0)
       express:
-        specifier: ^5.2.1
+        specifier: 5.2.1
         version: 5.2.1
       pg:
-        specifier: ^8.20.0
+        specifier: 8.20.0
         version: 8.20.0
     devDependencies:
       '@faker-js/faker':
-        specifier: ^10.4.0
+        specifier: 10.4.0
         version: 10.4.0
       '@types/cors':
-        specifier: ^2.8.19
+        specifier: 2.8.19
         version: 2.8.19
       '@types/express':
-        specifier: ^5.0.6
+        specifier: 5.0.6
         version: 5.0.6
       '@types/express-serve-static-core':
-        specifier: ^5.1.1
+        specifier: 5.1.1
         version: 5.1.1
       '@types/node':
-        specifier: ^25.5.0
+        specifier: 25.5.0
         version: 25.5.0
       '@types/pg':
-        specifier: ^8.20.0
+        specifier: 8.20.0
         version: 8.20.0
       '@types/supertest':
-        specifier: ^7.2.0
+        specifier: 7.2.0
         version: 7.2.0
       drizzle-kit:
-        specifier: ^0.31.10
+        specifier: 0.31.10
         version: 0.31.10
       execa:
-        specifier: ^9.6.1
+        specifier: 9.6.1
         version: 9.6.1
       nodemon:
-        specifier: ^3.1.14
+        specifier: 3.1.14
         version: 3.1.14
       supertest:
-        specifier: ^7.2.2
+        specifier: 7.2.2
         version: 7.2.2
       tsdown:
-        specifier: ^0.21.7
+        specifier: 0.21.7
         version: 0.21.7(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(synckit@0.11.12)(typescript@6.0.2)
       typescript:
-        specifier: ^6.0.2
+        specifier: 6.0.2
         version: 6.0.2
       vitest:
-        specifier: ^4.1.2
+        specifier: 4.1.2
         version: 4.1.2(@types/node@25.5.0)(jsdom@28.1.0(@noble/hashes@1.8.0)(canvas@3.2.3))(vite@8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(esbuild@0.27.4)(tsx@4.21.0)(yaml@2.8.3))
 
   apps/front-end:
     dependencies:
       react:
-        specifier: ^19.2.4
+        specifier: 19.2.4
         version: 19.2.4
       react-dom:
-        specifier: ^19.2.4
+        specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
     devDependencies:
       '@types/node':
-        specifier: ^25.5.0
+        specifier: 25.5.0
         version: 25.5.0
       '@types/react':
-        specifier: ^19.2.14
+        specifier: 19.2.14
         version: 19.2.14
       '@types/react-dom':
-        specifier: ^19.2.3
+        specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.14)
       '@vitejs/plugin-react':
-        specifier: ^6.0.1
+        specifier: 6.0.1
         version: 6.0.1(vite@8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(esbuild@0.27.4)(tsx@4.21.0)(yaml@2.8.3))
       typescript:
-        specifier: ^6.0.2
+        specifier: 6.0.2
         version: 6.0.2
       vite:
-        specifier: ^8.0.3
+        specifier: 8.0.3
         version: 8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(esbuild@0.27.4)(tsx@4.21.0)(yaml@2.8.3)
 
   packages/models:
     dependencies:
       lexical:
-        specifier: ^0.42.0
+        specifier: 0.42.0
         version: 0.42.0
     devDependencies:
       '@types/node':
-        specifier: ^25.5.0
+        specifier: 25.5.0
         version: 25.5.0
 
 packages:
@@ -167,8 +167,8 @@ packages:
   '@acemir/cssom@0.9.31':
     resolution: {integrity: sha512-ZnR3GSaH+/vJ0YlHau21FjfLYjMpYVIzTD8M8vIEQvIGxeOXyXdzCI140rrCY862p/C/BbzWsjc1dgnM9mkoTA==}
 
-  '@alextheman/eslint-plugin@5.10.4':
-    resolution: {integrity: sha512-Iy1LD7TOf5s3+JONQfimbdsWvUhbcGd+m+dZ9YUgfGBYC3K27I9qMpVC+o69YGGGWRwhi0GdnwiLv1ZD0D+xeg==}
+  '@alextheman/eslint-plugin@5.11.0':
+    resolution: {integrity: sha512-l8qmwNGeXxyDzDe9SN3CTvYPXDbIi2TBY9fmF9mj7QEgF1V4DwO4zlGHShTD6O1I2YHB9hK6b20CdMbNulO4tQ==}
     peerDependencies:
       '@eslint/js': '>=9.0.0'
       eslint: '>=9.0.0'
@@ -190,6 +190,10 @@ packages:
       typescript-eslint: '>=8.0.0'
       vite-tsconfig-paths: '>=5.1.4'
       vitest: '>=4.0.13'
+
+  '@alextheman/utility@5.8.0':
+    resolution: {integrity: sha512-uU2URao/Xme3dDaDwbg/s0eA/ftmJ4LUBZtVqMXSOFROrsUJEQvjphm2Futfs671OIb2KZolSdzCgvZW9Iv8iw==}
+    engines: {node: '>=22.3.0'}
 
   '@alextheman/utility@5.9.0':
     resolution: {integrity: sha512-ALMb9uCOiV3AxavIgcB8rb4B04jfwGU7zLmvzX1Y078oOzQ000MyHG44MVyKvRVT/oXjIPAmizm/E/9BL85Vng==}
@@ -4232,9 +4236,9 @@ snapshots:
   '@acemir/cssom@0.9.31':
     optional: true
 
-  '@alextheman/eslint-plugin@5.10.4(3d5767a5ff1d822a4458047070c59d9a)':
+  '@alextheman/eslint-plugin@5.11.0(3d5767a5ff1d822a4458047070c59d9a)':
     dependencies:
-      '@alextheman/utility': 5.9.0
+      '@alextheman/utility': 5.8.0
       '@eslint/compat': 2.0.3(eslint@10.1.0)
       '@eslint/js': 9.39.2
       '@typescript-eslint/types': 8.58.0
@@ -4264,6 +4268,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
+
+  '@alextheman/utility@5.8.0':
+    dependencies:
+      dotenv: 17.3.1
+      execa: 9.6.1
+      libsodium-wrappers: 0.8.2
+      zod: 4.3.6
 
   '@alextheman/utility@5.9.0':
     dependencies:
