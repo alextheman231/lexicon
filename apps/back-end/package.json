@@ -33,27 +33,27 @@
   "author": "alextheman",
   "license": "ISC",
   "devDependencies": {
-    "@faker-js/faker": "^10.4.0",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/express-serve-static-core": "^5.1.1",
-    "@types/node": "^25.5.0",
-    "@types/pg": "^8.20.0",
-    "@types/supertest": "^7.2.0",
-    "drizzle-kit": "^0.31.10",
-    "execa": "^9.6.1",
-    "nodemon": "^3.1.14",
-    "supertest": "^7.2.2",
-    "tsdown": "^0.21.7",
-    "typescript": "^6.0.2",
-    "vitest": "^4.1.2"
+    "@faker-js/faker": "10.4.0",
+    "@types/cors": "2.8.19",
+    "@types/express": "5.0.6",
+    "@types/express-serve-static-core": "5.1.1",
+    "@types/node": "25.5.0",
+    "@types/pg": "8.20.0",
+    "@types/supertest": "7.2.0",
+    "drizzle-kit": "0.31.10",
+    "execa": "9.6.1",
+    "nodemon": "3.1.14",
+    "supertest": "7.2.2",
+    "tsdown": "0.21.7",
+    "typescript": "6.0.2",
+    "vitest": "4.1.2"
   },
   "dependencies": {
     "@lexicon/models": "workspace:*",
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "drizzle-orm": "^0.45.2",
-    "express": "^5.2.1",
-    "pg": "^8.20.0"
+    "cors": "2.8.6",
+    "dotenv": "17.3.1",
+    "drizzle-orm": "0.45.2",
+    "express": "5.2.1",
+    "pg": "8.20.0"
   }
 }
