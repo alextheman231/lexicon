@@ -79,4 +79,4 @@ jobs:
         run: pnpm test --ui=stream
 
   actions-ci:
-    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@e4a092a202ca5bac12242bbf53a046f32a08455a # v10.4.0
+    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@ec0a721b5d0c0f9fd8b86437636f9bcbc64218ef # v11.0.1
