@@ -22,17 +22,17 @@
     "update-dependencies": "turbo run update-dependencies && pnpm update --latest && pnpm update"
   },
   "devDependencies": {
-    "@alextheman/eslint-plugin": "5.11.0",
+    "@alextheman/eslint-plugin": "5.12.0",
     "@faker-js/faker": "10.4.0",
-    "@typescript-eslint/utils": "8.58.0",
-    "alex-c-line": "2.4.1",
+    "@typescript-eslint/utils": "8.58.1",
+    "alex-c-line": "2.5.0",
     "cross-env": "10.1.0",
     "eslint": "10.2.0",
     "husky": "9.1.7",
-    "prettier": "3.8.1",
-    "turbo": "2.9.3",
+    "prettier": "3.8.2",
+    "turbo": "2.9.6",
     "typescript": "6.0.2",
-    "typescript-eslint": "8.58.0"
+    "typescript-eslint": "8.58.1"
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
   "engines": {
@@ -49,9 +49,9 @@
     }
   },
   "dependencies": {
-    "@alextheman/utility": "5.9.0",
-    "@lexical/react": "0.42.0",
-    "lexical": "0.42.0",
+    "@alextheman/utility": "5.10.1",
+    "@lexical/react": "0.43.0",
+    "lexical": "0.43.0",
     "zod": "4.3.6"
   }
 }
