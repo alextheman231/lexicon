@@ -15,6 +15,13 @@
       "when": 1776295486828,
       "tag": "0001_familiar_redwing",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776296221834,
+      "tag": "0002_productive_veda",
+      "breakpoints": true
     }
   ]
 }
