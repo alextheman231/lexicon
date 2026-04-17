@@ -49,7 +49,7 @@ jobs:
           cache: "pnpm"
 
       - name: Cache Turborepo cache
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: .turbo
           key: turbo-${{ hashFiles('.turbo') }}
@@ -79,4 +79,4 @@ jobs:
         run: pnpm test --ui=stream
 
   actions-ci:
-    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@84fe032bc2c67a442beaae6648323087929d34c0 # v11.0.7
+    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@2e41fee3271c96b410b398994b6df72997e18c02 # v11.2.1
