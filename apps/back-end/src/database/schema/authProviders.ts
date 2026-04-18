@@ -29,3 +29,5 @@ export const authProvidersTable = pgTable(
     ];
   },
 );
+
+export type AuthProviderSchema = typeof authProvidersTable.$inferSelect;
