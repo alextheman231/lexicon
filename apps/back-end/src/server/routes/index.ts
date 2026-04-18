@@ -6,7 +6,7 @@ import handleMiddleware from "src/utility/handleMiddleware";
 
 function createEndpoints(app: Express) {
   app.get(
-    "/api",
+    defineEndpoint(),
     handleMiddleware((_request, response) => {
       response.status(200).send({ hello: "world" });
     }),
