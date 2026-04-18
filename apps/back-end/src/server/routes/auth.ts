@@ -107,7 +107,7 @@ authRouter.get(
         }
 
         const [baseUsername] = claims.email.toString().split("@");
-        const username = `${baseUsername}_${randomBytes(6).toString("hex")}`;
+        const username = `${baseUsername}_${randomBytes(3).toString("hex")}`;
 
         const user = await insertUser(transaction, {
           email: claims.email.toString(),
