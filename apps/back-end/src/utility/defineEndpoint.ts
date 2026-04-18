@@ -4,7 +4,7 @@ function defineEndpoint(...parts: Array<string>): string {
     return part.replace(/^\/+|\/+$/g, "");
   });
 
-  return ["/api", ...normalisedParts].join("/");
+  return ["/api", "v1", ...normalisedParts].join("/");
 }
 
 export default defineEndpoint;
