@@ -11,13 +11,13 @@ import { getConnection } from "src/database/connection";
 import app from "src/server/app";
 
 describe("GET", () => {
-  describe("/api/users/:userId", () => {
+  describe("/api/v1/users/:userId", () => {
     test("Should get the user with the given ID", async () => {
       const connection = getConnection();
       const factory = TestFactory.create(connection);
       const factoryUser = await factory.users.insert();
 
-      const { body } = await request(app).get(`/api/users/${factoryUser.id}`).expect(200);
+      const { body } = await request(app).get(`/api/v1/users/${factoryUser.id}`).expect(200);
       const user = parseUser(body.user);
 
       expect(user).toMatchObject(factoryUser);
@@ -25,7 +25,7 @@ describe("GET", () => {
     test("Should fail with 404 if the ID is not found", async () => {
       const missingId = randomUUID();
 
-      const { body } = await request(app).get(`/api/users/${missingId}`).expect(404);
+      const { body } = await request(app).get(`/api/v1/users/${missingId}`).expect(404);
 
       const error = DataError.expectError(() => {
         throw body.error;
@@ -37,7 +37,7 @@ describe("GET", () => {
       expect(error.data.resourceId).toBe(missingId);
     });
     test("Should fail with 400 if not a valid UUID", async () => {
-      const { body } = await request(app).get(`/api/users/hello`).expect(400);
+      const { body } = await request(app).get(`/api/v1/users/hello`).expect(400);
       expect(body.error.id).toBe("hello");
     });
   });
