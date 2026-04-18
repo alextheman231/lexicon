@@ -1,4 +1,5 @@
 import { stringListToArray } from "@alextheman/utility";
+import cookieParser from "cookie-parser";
 import express from "express";
 
 import { handleErrors } from "src/server/errors";
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(setupCors(stringListToArray(process.env.ALLOWED_ORIGINS ?? "")));
 app.use(express.json());
+app.use(cookieParser());
 
 createEndpoints(app);
 handleErrors(app);

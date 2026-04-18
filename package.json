@@ -49,9 +49,10 @@
     }
   },
   "dependencies": {
-    "@alextheman/utility": "5.11.2",
+    "@alextheman/utility": "5.11.3",
     "@lexical/react": "0.43.0",
     "lexical": "0.43.0",
+    "openid-client": "6.8.3",
     "zod": "4.3.6"
   }
 }

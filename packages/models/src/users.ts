@@ -14,7 +14,7 @@ export const userInsertSchema = z.object({
   username: z.string().max(50),
   displayName: z.string().max(50).optional(),
   email: z.email(),
-  dateOfBirth: z.coerce.date(),
+  dateOfBirth: z.coerce.date().optional(),
 });
 
 export type User = z.infer<typeof userSchema>;

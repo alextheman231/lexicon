@@ -33,7 +33,7 @@ const pool = new Pool({
 });
 
 export type Connection = NodePgDatabase<typeof schema> & {
-  $client: Pool | PoolClient;
+  $client?: Pool | PoolClient;
 };
 
 let connection: Connection = drizzle(pool, { schema });

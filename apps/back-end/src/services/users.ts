@@ -8,14 +8,12 @@ import { sql } from "drizzle-orm";
 import { usersTable } from "src/database/schema";
 
 export async function insertUser(connection: Connection, data: UserData): Promise<User> {
-  return await connection.transaction(async (transaction) => {
-    const parsedData = parseUserPayload(data);
-    const [user] = await transaction
-      .insert(usersTable)
-      .values({ ...parsedData, dateOfBirth: parsedData.dateOfBirth.toISOString() })
-      .returning();
-    return parseUser(user);
-  });
+  const parsedData = parseUserPayload(data);
+  const [user] = await connection
+    .insert(usersTable)
+    .values({ ...parsedData, dateOfBirth: parsedData.dateOfBirth?.toISOString() })
+    .returning();
+  return parseUser(user);
 }
 
 export async function selectUser(connection: Connection, userId: string): Promise<User | null> {
