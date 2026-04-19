@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { getConnection } from "src/database/connection";
 import { selectUser } from "src/services/users";
-import handleMiddleware from "src/utility/handleMiddleware";
+import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import resourceNotFoundError from "src/utility/resourceNotFoundError";
 import validateUUID from "src/utility/validators/validateUUID";
 
@@ -12,7 +12,7 @@ usersRouter
   .param("userId", validateUUID)
   .route("/:userId")
   .get(
-    handleMiddleware<{ userId: string }>(async (request, response) => {
+    handleEndpointMiddleware<{ userId: string }>(async (request, response) => {
       const user = await selectUser(getConnection(), request.params.userId);
 
       if (user === null) {
