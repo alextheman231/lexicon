@@ -6,7 +6,13 @@ import type UserFactory from "tests/factory/users";
 import { omitProperties } from "@alextheman/utility";
 import { faker } from "@faker-js/faker";
 
+import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
+
 import { insertAuthProvider } from "src/services/auth";
+
+export type AuthProviderFactoryData = Partial<
+  Omit<AuthProviderSchemaData, "userId"> & { user?: string | User }
+>;
 
 class AuthProviderFactory {
   private context: FactoryContext;
@@ -20,18 +26,8 @@ class AuthProviderFactory {
     this.records = {};
   }
 
-  public async insert(
-    data?: Partial<Omit<AuthProviderSchemaData, "userId"> & { user?: string | User }>,
-  ): Promise<AuthProviderSchema> {
-    let userId: string | User | undefined = data?.user;
-
-    // TODO: Make this binding logic its own function
-    if (!userId) {
-      userId = await this.users.insert();
-    }
-    if (typeof userId !== "string") {
-      userId = userId.id;
-    }
+  public async insert(data?: AuthProviderFactoryData): Promise<AuthProviderSchema> {
+    const userId = await getIdFromFactoryResource<string>(data?.user, this.users);
 
     const authProvider = await insertAuthProvider(this.context.connection, {
       provider: "google",

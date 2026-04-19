@@ -3,9 +3,15 @@ import type { User, UserSession, UserSessionData } from "@lexicon/models";
 import type FactoryContext from "tests/factory/context";
 import type UserFactory from "tests/factory/users";
 
+import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
+
 import { insertUserSession } from "src/services/userSessions";
 
-class AuthProviderFactory {
+export type UserSessionFactoryData = Partial<
+  Omit<UserSessionData, "userId"> & { user?: string | User }
+>;
+
+class UserSessionFactory {
   private context: FactoryContext;
   private users: UserFactory;
 
@@ -17,18 +23,8 @@ class AuthProviderFactory {
     this.records = {};
   }
 
-  public async insert(
-    data?: Partial<Omit<UserSessionData, "userId"> & { user?: string | User }>,
-  ): Promise<UserSession> {
-    let userId: string | User | undefined = data?.user;
-
-    // TODO: Make this binding logic its own function
-    if (!userId) {
-      userId = await this.users.insert();
-    }
-    if (typeof userId !== "string") {
-      userId = userId.id;
-    }
+  public async insert(data?: UserSessionFactoryData): Promise<UserSession> {
+    const userId = await getIdFromFactoryResource<string>(data?.user, this.users);
 
     const userSession = await insertUserSession(this.context.connection, { userId });
     this.records[userSession.id] = userSession;
@@ -36,4 +32,4 @@ class AuthProviderFactory {
   }
 }
 
-export default AuthProviderFactory;
+export default UserSessionFactory;
