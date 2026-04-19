@@ -167,3 +167,24 @@ describe("GET", () => {
     });
   });
 });
+
+describe("POST", () => {
+  describe("/api/v1/auth/logout", () => {
+    test("Signs out the currently signed-in user", async () => {
+      const { factory } = getTestFixtures();
+      const user = await factory.users.insert();
+      const userSession = await factory.userSessions.insert({ user });
+
+      await request(app)
+        .post("/api/v1/auth/logout")
+        .set("Cookie", [`session=${userSession.id}`])
+        .expect(204);
+
+      const { body } = await request(app)
+        .get("/api/v1/auth/current-user")
+        .set("Cookie", [`session=${userSession.id}`])
+        .expect(200);
+      expect(body.user).toBeNull();
+    });
+  });
+});

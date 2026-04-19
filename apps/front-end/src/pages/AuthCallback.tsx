@@ -1,5 +1,4 @@
 import { Page } from "@alextheman/components";
-import { wait } from "@alextheman/utility";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
@@ -11,10 +10,8 @@ function AuthCallback() {
   const [_, setLocation] = useLocation();
 
   useEffect(() => {
-    (async () => {
-      await Promise.all([authenticate(), wait(2)]);
-      setLocation("/");
-    })();
+    authenticate();
+    setLocation("/");
   }, []);
 
   return (
