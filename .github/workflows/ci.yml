@@ -59,6 +59,7 @@ jobs:
         run: |
           touch apps/back-end/.env.test
           echo DATABASE_URL="postgresql://postgres:prisma@localhost:5432/tests?schema=public" >> apps/back-end/.env.test
+          echo API_BASE_URL="http://localhost:5432" >> apps/back-end/.env.test
 
       - name: Install dependencies
         run: pnpm install
