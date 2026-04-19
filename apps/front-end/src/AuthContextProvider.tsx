@@ -11,8 +11,9 @@ import { useCurrentUserQuery } from "src/resources/Users/queries";
 import queryKeys from "src/utility/queryKeys";
 
 export interface AuthContextValue {
-  authenticate: () => Promise<void>;
+  authenticate: () => void;
   signedInUser: User | null | undefined;
+  signedInUserLoading: boolean;
   unauthenticate: () => void;
 }
 
@@ -47,13 +48,13 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
     queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
   }, [queryClient]);
 
-  const authenticate = useCallback(async () => {
-    await queryClient.refetchQueries({ queryKey: queryKeys.auth() });
+  const authenticate = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
   }, [queryClient]);
 
-  const value = useMemo(() => {
-    return { authenticate, signedInUser, unauthenticate };
-  }, [authenticate, signedInUser, unauthenticate]);
+  const value = useMemo<AuthContextValue>(() => {
+    return { authenticate, signedInUser, signedInUserLoading: isPending, unauthenticate };
+  }, [authenticate, signedInUser, isPending, unauthenticate]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
