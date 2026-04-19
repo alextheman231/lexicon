@@ -22,8 +22,8 @@ import handleMiddleware from "src/utility/handleMiddleware";
 
 const authRouter = Router();
 const ENV = parseEnv(process.env.NODE_ENV ?? "development");
-function getCallbackUrl() {
-  return `${process.env.API_BASE_URL!}/api/v1/auth/google/callback`;
+function getCallbackUrl(originalUrl: string = "/api/v1/auth/google/callback") {
+  return `${process.env.API_BASE_URL!}${originalUrl}`;
 }
 
 authRouter.get(
@@ -72,7 +72,7 @@ authRouter.get(
         throw new DataError({}, "MISSING_OAUTH_DATA", "Missing OAuth cookies");
       }
 
-      const callbackUrl = new URL(getCallbackUrl());
+      const callbackUrl = new URL(getCallbackUrl(request.originalUrl));
 
       if (request.query.state !== cookieState) {
         // TODO: Create a BaseError class.
@@ -81,11 +81,9 @@ authRouter.get(
         throw new DataError({}, "INVALID_STATE", "The state provided is invalid.");
       }
 
-      callbackUrl.searchParams.set("code", request.query.code);
-      callbackUrl.searchParams.set("state", request.query.state);
-
       const tokens = await authorizationCodeGrant(config, callbackUrl, {
         pkceCodeVerifier,
+        expectedState: cookieState,
       });
 
       response.clearCookie("oauth_state");
