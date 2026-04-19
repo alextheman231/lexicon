@@ -1,11 +1,16 @@
 import { ExternalLink, Loader } from "@alextheman/components";
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuProvider,
+  DropdownMenuTrigger,
+} from "@alextheman/components/v7";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 
 import { useAuth } from "src/AuthContextProvider";
 
 function UserDropdown() {
-  const { signedInUser, signedInUserLoading } = useAuth();
+  const { signedInUser, signedInUserLoading, unauthenticate } = useAuth();
 
   return (
     <Loader
@@ -21,7 +26,14 @@ function UserDropdown() {
       }
     >
       {(user) => {
-        return <Typography>{user.username}</Typography>;
+        return (
+          <DropdownMenuProvider>
+            <DropdownMenuTrigger>{user.displayName}</DropdownMenuTrigger>
+            <DropdownMenu>
+              <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
+            </DropdownMenu>
+          </DropdownMenuProvider>
+        );
       }}
     </Loader>
   );

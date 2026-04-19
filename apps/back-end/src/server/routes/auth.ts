@@ -17,7 +17,7 @@ import { getGoogleConfig } from "src/auth/google";
 import { getConnection } from "src/database/connection";
 import { insertAuthProvider, selectAuthProvider } from "src/services/auth";
 import { insertUser, selectUser } from "src/services/users";
-import { insertUserSession, selectUserSession } from "src/services/userSessions";
+import { expireUserSession, insertUserSession, selectUserSession } from "src/services/userSessions";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
 import handleMiddleware from "src/utility/handleMiddleware";
 
@@ -192,6 +192,22 @@ authRouter.get(
 
     const user = parseUser(await selectUser(connection, session.userId));
     return response.status(200).send({ user });
+  }),
+);
+
+authRouter.post(
+  "/logout",
+  handleMiddleware(async (request, response) => {
+    const connection = getConnection();
+    const sessionId = request.cookies.session;
+
+    if (!sessionId) {
+      return response.status(204).send({});
+    }
+
+    response.clearCookie("session");
+    await expireUserSession(connection, sessionId);
+    response.status(204).send({});
   }),
 );
 

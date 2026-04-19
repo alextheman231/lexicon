@@ -35,3 +35,18 @@ export async function selectUserSession(
     .where(eq(userSessionsTable.id, sessionId));
   return session ? parseUserSession(session) : null;
 }
+
+export async function expireUserSession(
+  connection: Connection,
+  sessionId: string,
+): Promise<UserSession | null> {
+  const [userSession] = await connection
+    .update(userSessionsTable)
+    .set({
+      expiresAt: new Date(),
+    })
+    .where(eq(userSessionsTable.id, sessionId))
+    .returning();
+
+  return userSession ? parseUserSession(userSession) : null;
+}

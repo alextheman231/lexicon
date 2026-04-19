@@ -7,7 +7,7 @@ import { DataError } from "@alextheman/utility";
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useCallback, useContext, useMemo } from "react";
 
-import { useCurrentUserQuery } from "src/resources/Users/queries";
+import { useCurrentUserQuery, useLogoutMutation } from "src/resources/Users/queries";
 import queryKeys from "src/utility/queryKeys";
 
 export interface AuthContextValue {
@@ -40,13 +40,13 @@ export interface AuthContextProviderProps {
 function AuthContextProvider({ children }: AuthContextProviderProps) {
   const queryClient = useQueryClient();
   const { data: currentUser, isPending } = useCurrentUserQuery();
+  const { mutateAsync: logout } = useLogoutMutation();
 
   const signedInUser: User | null | undefined = isPending ? undefined : currentUser;
 
-  const unauthenticate = useCallback(() => {
-    queryClient.setQueryData(queryKeys.auth(), null);
-    queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
-  }, [queryClient]);
+  const unauthenticate = useCallback(async () => {
+    await logout();
+  }, [logout]);
 
   const authenticate = useCallback(() => {
     queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
