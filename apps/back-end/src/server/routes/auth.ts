@@ -19,7 +19,7 @@ import { insertAuthProvider, selectAuthProvider } from "src/services/auth";
 import { insertUser, selectUser } from "src/services/users";
 import { expireUserSession, insertUserSession, selectUserSession } from "src/services/userSessions";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
-import handleMiddleware from "src/utility/handleMiddleware";
+import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 
 const authRouter = Router();
 const ENV = parseEnv(process.env.NODE_ENV ?? "development");
@@ -29,7 +29,7 @@ function getCallbackUrl(originalUrl: string = "/api/v1/auth/google/callback") {
 
 authRouter.get(
   "/google",
-  handleMiddleware<ParamsDictionary, unknown, unknown, { redirect: string }>(
+  handleEndpointMiddleware<ParamsDictionary, unknown, unknown, { redirect: string }>(
     async (request, response) => {
       const callbackUrl = getCallbackUrl();
       const config = await getGoogleConfig();
@@ -84,7 +84,7 @@ authRouter.get(
 
 authRouter.get(
   "/google/callback",
-  handleMiddleware<
+  handleEndpointMiddleware<
     ParamsDictionary,
     unknown,
     unknown,
@@ -175,7 +175,7 @@ authRouter.get(
 
 authRouter.get(
   "/current-user",
-  handleMiddleware(async (request, response) => {
+  handleEndpointMiddleware(async (request, response) => {
     const connection = getConnection();
     const sessionId = request.cookies.session;
 
@@ -197,7 +197,7 @@ authRouter.get(
 
 authRouter.post(
   "/logout",
-  handleMiddleware(async (request, response) => {
+  handleEndpointMiddleware(async (request, response) => {
     const connection = getConnection();
     const sessionId = request.cookies.session;
 
