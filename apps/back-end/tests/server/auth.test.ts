@@ -1,9 +1,12 @@
+import { addDaysToDate } from "@alextheman/utility";
 import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 // eslint-disable-next-line @alextheman/no-namespace-imports
 import * as OpenIDClient from "openid-client";
 import request from "supertest";
 import { describe, expect, test, vi } from "vitest";
+
+import { randomUUID } from "node:crypto";
 
 import getTestFixtures from "tests/fixtures";
 
@@ -114,6 +117,49 @@ describe("GET", () => {
         .where(eq(usersTable.email, factoryUser.email));
 
       expect(users.length).toBe(1);
+    });
+  });
+  describe("/api/v1/auth/current-user", () => {
+    test("Get the currently signed in user", async () => {
+      const { factory } = getTestFixtures();
+      const user = await factory.users.insert();
+      const userSession = await factory.userSessions.insert({ user });
+
+      const { body } = await request(app)
+        .get("/api/v1/auth/current-user")
+        .set("Cookie", [`session=${userSession.id}`])
+        .expect(200);
+      const signedInUser = parseUser(body.user);
+
+      expect(signedInUser).toMatchObject(user);
+    });
+    test("If there is currently no session, return a null user", async () => {
+      const { body } = await request(app).get("/api/v1/auth/current-user").expect(200);
+      expect(body.user).toBeNull();
+    });
+    test("If session is expired, return null user", async () => {
+      const { factory } = getTestFixtures();
+
+      const user = await factory.users.insert();
+
+      const session = await factory.userSessions.insert({
+        user,
+        expiresAt: addDaysToDate(new Date(), -1),
+      });
+
+      const { body } = await request(app)
+        .get("/api/v1/auth/current-user")
+        .set("Cookie", [`session=${session.id}`])
+        .expect(200);
+      expect(body.user).toBeNull();
+    });
+    test("If session does not exist, return null user", async () => {
+      const { body } = await request(app)
+        .get("/api/v1/auth/current-user")
+        .set("Cookie", [`session=${randomUUID()}`])
+        .expect(200);
+
+      expect(body.user).toBeNull();
     });
   });
 });
