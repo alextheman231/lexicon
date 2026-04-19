@@ -1,0 +1,61 @@
+import type { ContextHookOptions } from "@alextheman/components";
+import type { OptionalOnCondition } from "@alextheman/utility";
+import type { User } from "@lexicon/models";
+import type { ReactNode } from "react";
+
+import { DataError } from "@alextheman/utility";
+import { useQueryClient } from "@tanstack/react-query";
+import { createContext, useCallback, useContext, useMemo } from "react";
+
+import { useCurrentUserQuery } from "src/resources/Users/queries";
+import queryKeys from "src/utility/queryKeys";
+
+export interface AuthContextValue {
+  authenticate: () => Promise<void>;
+  signedInUser: User | null | undefined;
+  unauthenticate: () => void;
+}
+
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
+export function useAuth<Strict extends boolean = true>({
+  strict = true as Strict,
+}: ContextHookOptions<Strict> = {}): OptionalOnCondition<Strict, AuthContextValue> {
+  const context = useContext(AuthContext);
+  if (strict && !context) {
+    throw new DataError(
+      { strict, context },
+      "AUTH_CONTEXT_NOT_FOUND",
+      "Could not find the AuthContext. Please double-check that it is present.",
+    );
+  }
+  return context as OptionalOnCondition<Strict, AuthContextValue>;
+}
+
+export interface AuthContextProviderProps {
+  children: ReactNode;
+}
+
+function AuthContextProvider({ children }: AuthContextProviderProps) {
+  const queryClient = useQueryClient();
+  const { data: currentUser, isPending } = useCurrentUserQuery();
+
+  const signedInUser: User | null | undefined = isPending ? undefined : currentUser;
+
+  const unauthenticate = useCallback(() => {
+    queryClient.setQueryData(queryKeys.auth(), null);
+    queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
+  }, [queryClient]);
+
+  const authenticate = useCallback(async () => {
+    await queryClient.refetchQueries({ queryKey: queryKeys.auth() });
+  }, [queryClient]);
+
+  const value = useMemo(() => {
+    return { authenticate, signedInUser, unauthenticate };
+  }, [authenticate, signedInUser, unauthenticate]);
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export default AuthContextProvider;
