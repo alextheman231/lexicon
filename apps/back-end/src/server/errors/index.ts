@@ -47,6 +47,16 @@ export function handleErrors(app: Express) {
   );
 
   app.use(
+    handleErrorMiddleware((error, _request, response, next) => {
+      if (DataError.check(error) && error.code === "AUTH_REQUIRED") {
+        response.status(401).send({ error });
+        return;
+      }
+      next(error);
+    }),
+  );
+
+  app.use(
     handleErrorMiddleware((error, _request, response) => {
       console.error(error);
       response.status(500).send({
