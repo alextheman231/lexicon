@@ -4,7 +4,7 @@ import { getConnection } from "src/database/connection";
 import { selectUser } from "src/services/users";
 import handleMiddleware from "src/utility/handleMiddleware";
 import resourceNotFoundError from "src/utility/resourceNotFoundError";
-import validateUUID from "src/utility/validateUUID";
+import validateUUID from "src/utility/validators/validateUUID";
 
 const usersRouter = Router();
 
