@@ -5,16 +5,14 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import TestFactory from "tests/factory";
+import getTestFixtures from "tests/fixtures";
 
-import { getConnection } from "src/database/connection";
 import app from "src/server/app";
 
 describe("GET", () => {
   describe("/api/v1/users/:userId", () => {
     test("Should get the user with the given ID", async () => {
-      const connection = getConnection();
-      const factory = TestFactory.create(connection);
+      const { factory } = getTestFixtures();
       const factoryUser = await factory.users.insert();
 
       const { body } = await request(app).get(`/api/v1/users/${factoryUser.id}`).expect(200);
