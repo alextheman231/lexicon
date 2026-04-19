@@ -15,6 +15,7 @@ export function parseUserSession(input: unknown): UserSession {
 
 const userSessionInsertSchema = z.object({
   userId: z.uuid(),
+  expiresAt: z.coerce.date().optional(),
 });
 
 export type UserSessionData = z.infer<typeof userSessionInsertSchema>;
