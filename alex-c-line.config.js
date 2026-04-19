@@ -7,11 +7,6 @@ const alexCLineConfig = {
       ["build", { arguments: ["--ui=stream"] }],
       ["format", { arguments: ["--ui=stream"] }],
       ["lint", { arguments: ["--ui=stream"] }],
-      async (stepRunner) => {
-        await stepRunner({
-          cwd: path.join(process.cwd(), "apps", "back-end"),
-        })`pnpm run recreate-test-db`;
-      },
       ["test", { arguments: ["--ui=stream"] }],
     ],
   },
