@@ -49,7 +49,9 @@ export function handleErrors(app: Express) {
   app.use(
     handleErrorMiddleware((error, _request, response) => {
       console.error(error);
-      response.status(500).send({ error });
+      response.status(500).send({
+        error: { code: "INTERNAL_SERVER_ERROR", message: "An internal error has occurred." },
+      });
     }),
   );
 }
