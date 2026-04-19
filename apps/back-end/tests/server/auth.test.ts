@@ -5,9 +5,8 @@ import * as OpenIDClient from "openid-client";
 import request from "supertest";
 import { describe, expect, test, vi } from "vitest";
 
-import TestFactory from "tests/factory";
+import getTestFixtures from "tests/fixtures";
 
-import { getConnection } from "src/database/connection";
 import { usersTable } from "src/database/schema";
 import app from "src/server/app";
 import { selectUser } from "src/services/users";
@@ -36,7 +35,7 @@ function getSetCookies(headers: any): Array<string> {
 describe("GET", () => {
   describe("/api/v1/auth/google/callback", () => {
     test("On successful response from Google, create the user and insert into the database", async () => {
-      const connection = getConnection();
+      const { connection } = getTestFixtures();
       const initialUser = await connection
         .select()
         .from(usersTable)
@@ -77,8 +76,7 @@ describe("GET", () => {
     });
 
     test("If auth provider and user already exists in database, use the existing details", async () => {
-      const connection = getConnection();
-      const factory = TestFactory.create(connection);
+      const { connection, factory } = getTestFixtures();
 
       const factoryUser = await factory.users.insert();
       const factoryAuthProvider = await factory.authProviders.insert({ user: factoryUser });
