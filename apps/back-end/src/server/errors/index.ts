@@ -21,7 +21,6 @@ export function handleErrors(app: Express) {
     handleErrorMiddleware((error, _request, _response, next) => {
       if (ENV !== "test" || (ENV === "test" && DEBUG)) {
         console.error(error);
-        return;
       }
       next(error);
     }),
