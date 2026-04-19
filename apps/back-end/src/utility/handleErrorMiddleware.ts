@@ -12,7 +12,6 @@ function handleErrorMiddleware<
 ): ErrorRequestHandler<ParameterType, ResBody, ReqBody, ReqQuery, Locals> {
   return (error, request, response, next) => {
     Promise.resolve(middleware(error, request, response, next)).catch(next);
-    next(error);
   };
 }
 
