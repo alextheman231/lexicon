@@ -25,7 +25,11 @@ vi.mock("openid-client", async () => {
   };
 });
 
-const COOKIES = ["oauth_state=valid-state", "oauth_pkce_verifier=test-verifier"];
+const COOKIES = [
+  "oauth_state=valid-state",
+  "oauth_pkce_verifier=test-verifier",
+  "oauth_redirect=http://localhost:5173",
+];
 
 function getSetCookies(headers: any): Array<string> {
   const raw = headers["set-cookie"];
