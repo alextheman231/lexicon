@@ -9,6 +9,15 @@ const DEBUG = parseBoolean(process.env.DEBUG ?? "false");
 
 export function handleErrors(app: Express) {
   app.use(
+    handleErrorMiddleware((error, _request, response, next) => {
+      response.clearCookie("oauth_redirect");
+      response.clearCookie("oauth_state");
+      response.clearCookie("oauth_pkce_verifier");
+      next(error);
+    }),
+  );
+
+  app.use(
     handleErrorMiddleware((error, _request, _response, next) => {
       if (ENV !== "test" || (ENV === "test" && DEBUG)) {
         console.error(error);
