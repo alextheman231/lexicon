@@ -28,3 +28,13 @@ export function useLogoutMutation() {
     },
   });
 }
+
+export function useUserQuery(userId: string) {
+  return useQuery<User>({
+    queryKey: queryKeys.users(),
+    queryFn: async () => {
+      const { data } = await lexiconAuthenticatedClient.get(`/api/v1/users/${userId}`);
+      return parseUser(data.user);
+    },
+  });
+}
