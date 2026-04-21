@@ -4,6 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuProvider,
   DropdownMenuTrigger,
+  InternalLink,
 } from "@alextheman/components/v7";
 import Button from "@mui/material/Button";
 
@@ -30,6 +31,9 @@ function UserDropdown() {
           <DropdownMenuProvider>
             <DropdownMenuTrigger>{user.displayName}</DropdownMenuTrigger>
             <DropdownMenu>
+              <DropdownMenuItem component={InternalLink} to={`/users/${user.id}`}>
+                View Profile
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
             </DropdownMenu>
           </DropdownMenuProvider>

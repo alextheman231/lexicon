@@ -4,6 +4,7 @@ import { Route } from "wouter";
 import Editor from "src/components/Editor";
 import PageWrapper from "src/components/PageWrapper";
 import AuthCallback from "src/pages/AuthCallback";
+import UsersRouter from "src/resources/Users/Router";
 
 function Router() {
   return (
@@ -15,6 +16,9 @@ function Router() {
           </Route>
           <Route path="/auth/callback">
             <AuthCallback />
+          </Route>
+          <Route path="/users" nest>
+            <UsersRouter />
           </Route>
         </Switch>
       </PageWrapper>
