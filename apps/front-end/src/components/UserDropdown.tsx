@@ -1,4 +1,4 @@
-import { ExternalLink, Loader } from "@alextheman/components";
+import { ExternalLink, QueryBoundary } from "@alextheman/components";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -13,7 +13,7 @@ function UserDropdown() {
   const { signedInUser, signedInUserLoading, unauthenticate } = useAuth();
 
   return (
-    <Loader
+    <QueryBoundary
       isLoading={signedInUserLoading}
       data={signedInUser}
       nullComponent={
@@ -35,7 +35,7 @@ function UserDropdown() {
           </DropdownMenuProvider>
         );
       }}
-    </Loader>
+    </QueryBoundary>
   );
 }
 
