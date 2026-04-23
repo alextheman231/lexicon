@@ -1,6 +1,7 @@
 import type { ParamsDictionary } from "express-serve-static-core";
 
-import { DataError, parseEnv } from "@alextheman/utility";
+import { parseEnv } from "@alextheman/utility";
+import { CodeError, DataError } from "@alextheman/utility/v6";
 import { parseUser } from "@lexicon/models";
 import { Router } from "express";
 import {
@@ -41,7 +42,7 @@ authRouter.get(
       const { redirect } = request.query;
 
       if (typeof redirect !== "string") {
-        throw new DataError({}, "INVALID_REDIRECT", "Missing redirect parameter");
+        throw new CodeError("INVALID_REDIRECT", "Missing redirect parameter");
       }
 
       if (!ALLOWED_ORIGINS.includes(redirect)) {
@@ -96,16 +97,13 @@ authRouter.get(
     const pkceCodeVerifier = request.cookies.oauth_pkce_verifier;
 
     if (!pkceCodeVerifier || !cookieState) {
-      throw new DataError({}, "MISSING_OAUTH_DATA", "Missing OAuth cookies");
+      throw new CodeError("MISSING_OAUTH_DATA", "Missing OAuth cookies");
     }
 
     const callbackUrl = new URL(getCallbackUrl(request.originalUrl));
 
     if (request.query.state !== cookieState) {
-      // TODO: Create a BaseError class.
-      // I want the error code and error message, however given the sensitivity of the data I do not feel comfortable including it in the error data.
-      // As such, we should not be providing data here, but BaseError has not been created yet so DataError with an empty payload is sufficient for now.
-      throw new DataError({}, "INVALID_STATE", "The state provided is invalid.");
+      throw new CodeError("INVALID_STATE", "The state provided is invalid.");
     }
 
     const tokens = await authorizationCodeGrant(config, callbackUrl, {
@@ -121,7 +119,7 @@ authRouter.get(
     const { user, session } = await connection.transaction(async (transaction) => {
       const claims = tokens.claims();
       if (!claims?.sub || !claims?.email) {
-        throw new DataError({}, "INVALID_GOOGLE_RESPONSE", "Missing required Google claims");
+        throw new CodeError("INVALID_GOOGLE_RESPONSE", "Missing required Google claims");
       }
       const existingProvider = await selectAuthProvider(transaction, claims);
 
@@ -160,7 +158,7 @@ authRouter.get(
     const redirect = request.cookies.oauth_redirect;
 
     if (typeof redirect !== "string") {
-      throw new DataError({}, "INVALID_REDIRECT", "Missing redirect parameter");
+      throw new CodeError("INVALID_REDIRECT", "Missing redirect parameter");
     }
 
     response.clearCookie("oauth_redirect");
