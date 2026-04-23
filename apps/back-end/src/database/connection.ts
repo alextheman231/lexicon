@@ -1,7 +1,8 @@
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { PoolClient } from "pg";
 
-import { DataError, parseEnv } from "@alextheman/utility";
+import { parseEnv } from "@alextheman/utility";
+import { DataError } from "@alextheman/utility/v6";
 import dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";

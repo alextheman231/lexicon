@@ -3,7 +3,7 @@ import type { OptionalOnCondition } from "@alextheman/utility";
 import type { User } from "@lexicon/models";
 import type { ReactNode } from "react";
 
-import { DataError } from "@alextheman/utility";
+import { DataError } from "@alextheman/utility/v6";
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useCallback, useContext, useMemo } from "react";
 

@@ -1,4 +1,4 @@
-import { DataError } from "@alextheman/utility";
+import { DataError } from "@alextheman/utility/v6";
 import { parseUser } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
