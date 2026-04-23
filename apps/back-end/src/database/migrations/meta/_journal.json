@@ -22,6 +22,13 @@
       "when": 1776296221834,
       "tag": "0002_productive_veda",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1776980678713,
+      "tag": "0003_striped_purifiers",
+      "breakpoints": true
     }
   ]
 }

@@ -11,7 +11,7 @@ export const userSchema = z.object({
   updatedAt: z.coerce.date().nullable(),
 });
 export const userInsertSchema = z.object({
-  username: z.string().max(50),
+  username: z.string().max(100),
   displayName: z.string().max(50).optional(),
   email: z.email(),
   dateOfBirth: z.coerce.date().optional(),
