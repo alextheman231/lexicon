@@ -1,4 +1,4 @@
-import { parseZodSchema } from "@alextheman/utility";
+import { az } from "@alextheman/utility";
 import z from "zod";
 
 export const userSchema = z.object({
@@ -21,13 +21,13 @@ export type User = z.infer<typeof userSchema>;
 export type UserData = z.infer<typeof userInsertSchema>;
 
 export function parseUser(input: unknown): User {
-  return parseZodSchema(userSchema, input);
+  return az.with(userSchema).parse(input);
 }
 
 export function parseUsers(input: unknown): Array<User> {
-  return parseZodSchema(z.array(userSchema), input);
+  return az.with(z.array(userSchema)).parse(input);
 }
 
 export function parseUserPayload(input: unknown): UserData {
-  return parseZodSchema(userInsertSchema, input);
+  return az.with(userInsertSchema).parse(input);
 }

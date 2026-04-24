@@ -1,6 +1,6 @@
 import type { CreateEnumType } from "@alextheman/utility";
 
-import { parseZodSchema } from "@alextheman/utility";
+import { az } from "@alextheman/utility";
 import z from "zod";
 
 export const BlogState = {
@@ -21,10 +21,10 @@ export const blogSchema = z.object({
 export type Blog = z.infer<typeof blogSchema>;
 
 export function parseBlog(input: unknown): Blog {
-  return parseZodSchema(blogSchema, input);
+  return az.with(blogSchema).parse(input);
 }
 export function parseBlogs(input: unknown): Array<Blog> {
-  return parseZodSchema(z.array(blogSchema), input);
+  return az.with(z.array(blogSchema)).parse(input);
 }
 
 export const blogRevisionSchema = z.object({
@@ -40,10 +40,10 @@ export const blogRevisionSchema = z.object({
 export type BlogRevision = z.infer<typeof blogRevisionSchema>;
 
 export function parseBlogRevision(input: unknown): BlogRevision {
-  return parseZodSchema(blogRevisionSchema, input);
+  return az.with(blogRevisionSchema).parse(input);
 }
 export function parseBlogRevisionHistory(input: unknown): Array<BlogRevision> {
-  return parseZodSchema(z.array(blogRevisionSchema), input);
+  return az.with(z.array(blogRevisionSchema)).parse(input);
 }
 
 export const blogStateHistorySchema = z.object({
@@ -58,8 +58,8 @@ export type BlogStateHistoryRow = z.infer<typeof blogStateHistorySchema>;
 export type BlogStateHistory = Array<BlogStateHistoryRow>;
 
 export function parseBlogStateHistoryRow(input: unknown): BlogStateHistoryRow {
-  return parseZodSchema(blogStateHistorySchema, input);
+  return az.with(blogStateHistorySchema).parse(input);
 }
 export function parseBlogStateHistory(input: unknown): Array<BlogStateHistoryRow> {
-  return parseZodSchema(z.array(blogStateHistorySchema), input);
+  return az.with(z.array(blogStateHistorySchema)).parse(input);
 }
