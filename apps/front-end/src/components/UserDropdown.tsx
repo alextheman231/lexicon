@@ -34,6 +34,9 @@ function UserDropdown() {
               <DropdownMenuItem component={InternalLink} to={`/users/${user.id}`}>
                 View Profile
               </DropdownMenuItem>
+              <DropdownMenuItem component={InternalLink} to="/account/edit">
+                Edit Profile
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
             </DropdownMenu>
           </DropdownMenuProvider>
