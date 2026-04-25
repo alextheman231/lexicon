@@ -123,14 +123,14 @@ describe("GET", () => {
       expect(users.length).toBe(1);
     });
   });
-  describe("/api/v1/auth/current-user", () => {
+  describe("/api/v1/current-user", () => {
     test("Get the currently signed in user", async () => {
       const { factory } = getTestFixtures();
       const user = await factory.users.insert();
       const userSession = await factory.userSessions.insert({ user });
 
       const { body } = await request(app)
-        .get("/api/v1/auth/current-user")
+        .get("/api/v1/current-user")
         .set("Cookie", [`session=${userSession.id}`])
         .expect(200);
       const signedInUser = parseUser(body.user);
@@ -138,7 +138,7 @@ describe("GET", () => {
       expect(signedInUser).toMatchObject(user);
     });
     test("If there is currently no session, return a null user", async () => {
-      const { body } = await request(app).get("/api/v1/auth/current-user").expect(200);
+      const { body } = await request(app).get("/api/v1/current-user").expect(200);
       expect(body.user).toBeNull();
     });
     test("If session is expired, return null user", async () => {
@@ -152,14 +152,14 @@ describe("GET", () => {
       });
 
       const { body } = await request(app)
-        .get("/api/v1/auth/current-user")
+        .get("/api/v1/current-user")
         .set("Cookie", [`session=${session.id}`])
         .expect(200);
       expect(body.user).toBeNull();
     });
     test("If session does not exist, return null user", async () => {
       const { body } = await request(app)
-        .get("/api/v1/auth/current-user")
+        .get("/api/v1/current-user")
         .set("Cookie", [`session=${randomUUID()}`])
         .expect(200);
 
@@ -181,7 +181,7 @@ describe("POST", () => {
         .expect(204);
 
       const { body } = await request(app)
-        .get("/api/v1/auth/current-user")
+        .get("/api/v1/current-user")
         .set("Cookie", [`session=${userSession.id}`])
         .expect(200);
       expect(body.user).toBeNull();

@@ -11,7 +11,7 @@ export function useCurrentUserQuery() {
   return useQuery<User | null>({
     queryKey: queryKeys.auth(),
     queryFn: async () => {
-      const { data } = await lexiconAuthenticatedClient.get("/api/v1/auth/current-user");
+      const { data } = await lexiconAuthenticatedClient.get("/api/v1/current-user");
       return data.user === null ? null : parseUser(data.user);
     },
   });
