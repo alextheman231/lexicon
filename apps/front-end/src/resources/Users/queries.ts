@@ -1,4 +1,4 @@
-import type { User } from "@lexicon/models";
+import type { User, UserProfileFormOutputData } from "@lexicon/models";
 
 import { parseUser } from "@lexicon/models";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -39,6 +39,18 @@ export function useUserQuery(userId: string) {
     queryFn: async () => {
       const { data } = await lexiconAuthenticatedClient.get(`/api/v1/users/${userId}`);
       return parseUser(data.user);
+    },
+  });
+}
+
+export function useUpdateUserProfileMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: UserProfileFormOutputData) => {
+      await lexiconAuthenticatedClient.put("/api/v1/current-user/profile", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
     },
   });
 }

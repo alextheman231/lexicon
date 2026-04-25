@@ -4,7 +4,7 @@ import z from "zod";
 export const userSchema = z.object({
   id: z.uuid(),
   username: z.string().max(100),
-  description: z.string().optional(),
+  description: z.string().nullable().optional(),
   displayName: z.string().max(50).nullable(),
   email: z.email(),
   dateOfBirth: z.coerce.date(),
@@ -15,10 +15,18 @@ export const userProfileInsertSchema = z.object({
   username: z.string().max(100),
   displayName: z.string().max(50).optional(),
   description: z.string().optional(),
-  dateOfBirth: z.coerce.date()
+});
+
+export const userInsertSchema = z.object({
+  username: z.string().max(50),
+  displayName: z.string().max(50).optional(),
+  description: z.string().optional(),
+  email: z.email(),
+  dateOfBirth: z.coerce.date().optional(),
 });
 
 export type User = z.infer<typeof userSchema>;
+export type UserInsertData = z.infer<typeof userInsertSchema>;
 export type UserProfileData = z.infer<typeof userProfileInsertSchema>;
 
 export const userProfileFormSchema = z.object({
@@ -37,6 +45,10 @@ export function parseUsers(input: unknown): Array<User> {
   return az.with(z.array(userSchema)).parse(input);
 }
 
-export function parseUserPayload(input: unknown): UserProfileData {
+export function parseUserInsertData(input: unknown): UserInsertData {
+  return az.with(userInsertSchema).parse(input);
+}
+
+export function parseUserProfileData(input: unknown): UserProfileData {
   return az.with(userProfileInsertSchema).parse(input);
 }
