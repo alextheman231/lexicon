@@ -13,12 +13,12 @@ describe("GET", () => {
   describe("/api/v1/users/:userId", () => {
     test("Should get the user with the given ID", async () => {
       const { factory } = getTestFixtures();
-      const factoryUser = await factory.users.insert();
+      const user = await factory.users.insert();
 
-      const { body } = await request(app).get(`/api/v1/users/${factoryUser.id}`).expect(200);
-      const user = parseUser(body.user);
+      const { body } = await request(app).get(`/api/v1/users/${user.id}`).expect(200);
+      const userPayload = parseUser(body.user);
 
-      expect(user).toMatchObject(factoryUser);
+      expect(userPayload).toMatchObject(user);
     });
     test("Should fail with 404 if the ID is not found", async () => {
       const missingId = randomUUID();

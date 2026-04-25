@@ -1,6 +1,6 @@
-import type { User, UserProfileData } from "@lexicon/models";
+import type { User, UserProfileFormOutputData } from "@lexicon/models";
 
-import { userProfileFormSchema, userProfileInsertSchema } from "@lexicon/models";
+import { userProfileFormSchema } from "@lexicon/models";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
 import Stack from "@mui/material/Stack";
@@ -9,7 +9,7 @@ import useAppForm from "src/hooks/useAppForm";
 
 interface UserProfileFormProps {
   user: User;
-  onSubmit: (data: UserProfileData) => Promise<void>;
+  onSubmit: (data: UserProfileFormOutputData) => Promise<void>;
 }
 
 function UserProfileForm({ user, onSubmit }: UserProfileFormProps) {
@@ -20,7 +20,7 @@ function UserProfileForm({ user, onSubmit }: UserProfileFormProps) {
       description: user.description ?? "",
     },
     onSubmit: async ({ value }) => {
-      await onSubmit(userProfileInsertSchema.parse(value));
+      await onSubmit(userProfileFormSchema.parse(value));
     },
     validators: {
       onChange: userProfileFormSchema,

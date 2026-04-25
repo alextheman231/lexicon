@@ -1,4 +1,4 @@
-import type { User, UserData } from "@lexicon/models";
+import type { User, UserInsertData } from "@lexicon/models";
 
 import type FactoryContext from "tests/factory/context";
 
@@ -16,10 +16,11 @@ class UserFactory {
     this.records = {};
   }
 
-  public async insert(data?: Partial<UserData>): Promise<User> {
-    const userTemplate: UserData = {
+  public async insert(data?: Partial<UserInsertData>): Promise<User> {
+    const userTemplate: UserInsertData = {
       username: faker.internet.username(),
       displayName: faker.internet.displayName(),
+      description: faker.lorem.paragraph(),
       email: faker.internet.email(),
       dateOfBirth: faker.date.birthdate(),
       ...data,
