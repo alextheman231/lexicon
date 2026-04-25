@@ -8,19 +8,19 @@ import UserProfileForm from "src/components/UserProfileForm";
 import { useUpdateUserProfileMutation } from "src/resources/Users/queries";
 
 function EditUserProfile() {
-  const { signedInUser, signedInUserLoading } = useAuth();
+  const { currentUser, currentUserLoading } = useAuth();
   const { mutateAsync: updateUserProfile } = useUpdateUserProfileMutation();
   const [_, setLocation] = useLocation();
 
   async function onSubmit(data: UserProfileFormOutputData) {
     await updateUserProfile(data);
-    setLocation(`/users/${signedInUser?.id}`);
+    setLocation(`/users/${currentUser?.id}`);
     // TODO: Implement error handling pattern
   }
 
   return (
     <Page title="Edit Profile">
-      <QueryBoundary isLoading={signedInUserLoading} data={signedInUser}>
+      <QueryBoundary isLoading={currentUserLoading} data={currentUser}>
         {(user) => {
           return <UserProfileForm user={user} onSubmit={onSubmit} />;
         }}

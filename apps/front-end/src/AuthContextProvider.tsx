@@ -12,8 +12,8 @@ import queryKeys from "src/utility/queryKeys";
 
 export interface AuthContextValue {
   authenticate: () => void;
-  signedInUser: User | null | undefined;
-  signedInUserLoading: boolean;
+  currentUser: User | null | undefined;
+  currentUserLoading: boolean;
   unauthenticate: () => void;
 }
 
@@ -39,10 +39,10 @@ export interface AuthContextProviderProps {
 
 function AuthContextProvider({ children }: AuthContextProviderProps) {
   const queryClient = useQueryClient();
-  const { data: currentUser, isPending } = useCurrentUserQuery();
+  const { data: user, isPending } = useCurrentUserQuery();
   const { mutateAsync: logout } = useLogoutMutation();
 
-  const signedInUser: User | null | undefined = isPending ? undefined : currentUser;
+  const currentUser: User | null | undefined = isPending ? undefined : user;
 
   const unauthenticate = useCallback(async () => {
     await logout();
@@ -53,8 +53,8 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
   }, [queryClient]);
 
   const value = useMemo<AuthContextValue>(() => {
-    return { authenticate, signedInUser, signedInUserLoading: isPending, unauthenticate };
-  }, [authenticate, signedInUser, isPending, unauthenticate]);
+    return { authenticate, currentUser, currentUserLoading: isPending, unauthenticate };
+  }, [authenticate, currentUser, isPending, unauthenticate]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

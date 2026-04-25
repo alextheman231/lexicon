@@ -11,12 +11,12 @@ import Button from "@mui/material/Button";
 import { useAuth } from "src/AuthContextProvider";
 
 function UserDropdown() {
-  const { signedInUser, signedInUserLoading, unauthenticate } = useAuth();
+  const { currentUser, currentUserLoading, unauthenticate } = useAuth();
 
   return (
     <QueryBoundary
-      isLoading={signedInUserLoading}
-      data={signedInUser}
+      isLoading={currentUserLoading}
+      data={currentUser}
       nullComponent={
         <Button
           component={ExternalLink}
