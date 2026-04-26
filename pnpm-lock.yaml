@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@alextheman/utility':
-        specifier: 5.15.1
-        version: 5.15.1
+        specifier: 5.16.0
+        version: 5.16.0
       '@lexical/react':
         specifier: 0.43.0
         version: 0.43.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(yjs@13.6.29)
@@ -248,8 +248,8 @@ packages:
     resolution: {integrity: sha512-DCuszKzfRGy6gC5ajIpHi8b93A0lcOAfza06vEz1fH4sOd/CNAk/8O9cEtn2Sb+bjzpQrehTwRkj8wa3e4r9SA==}
     engines: {node: '>=22.3.0'}
 
-  '@alextheman/utility@5.15.1':
-    resolution: {integrity: sha512-2w4akGeIryaK5/SVrnGYxQKLcbhGQe3sWaXFtPCboqv5zrOp3gQG61Bqr8mIlqb36GTiP4WI/ungTWNy+Y+nCg==}
+  '@alextheman/utility@5.16.0':
+    resolution: {integrity: sha512-sJ2flcI4/nPuzw1nnxnEQtw6c5334Bgp6vGQ4lqz2czJyxlWwNoMQIipgndFGcjoODB9e2JWT9BkvtIrb1/MNQ==}
     engines: {node: '>=22.3.0'}
 
   '@altano/repository-tools@2.0.3':
@@ -2052,8 +2052,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  baseline-browser-mapping@2.10.22:
-    resolution: {integrity: sha512-6qruVrb5rse6WylFkU0FhBKKGuecWseqdpQfhkawn6ztyk2QlfwSRjsDxMCLJrkfmfN21qvhl9ABgaMeRkuwww==}
+  baseline-browser-mapping@2.10.23:
+    resolution: {integrity: sha512-xwVXGqevyKPsiuQdLj+dZMVjidjJV508TBqexND5HrF89cGdCYCJFB3qhcxRHSeMctdCfbR1jrxBajhDy7o29g==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -2128,8 +2128,8 @@ packages:
     resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
     engines: {node: '>=16'}
 
-  caniuse-lite@1.0.30001790:
-    resolution: {integrity: sha512-bOoxfJPyYo+ds6W0YfptaCWbFnJYjh2Y1Eow5lRv+vI2u8ganPZqNm1JwNh0t2ELQCqIWg4B3dWEusgAmsoyOw==}
+  caniuse-lite@1.0.30001791:
+    resolution: {integrity: sha512-yk0l/YSrOnFZk3UROpDLQD9+kC1l4meK/wed583AXrzoarMGJcbRi2Q4RaUYbKxYAsZ8sWmaSa/DsLmdBeI1vQ==}
 
   canvas@3.2.3:
     resolution: {integrity: sha512-PzE5nJZPz72YUAfo8oTp0u3fqqY7IzlTubneAihqDYAUcBk7ryeCmBbdJBEdaH0bptSOe2VT2Zwcb3UaFyaSWw==}
@@ -4879,7 +4879,7 @@ snapshots:
       execa: 9.6.1
       zod: 4.3.6
 
-  '@alextheman/utility@5.15.1':
+  '@alextheman/utility@5.16.0':
     dependencies:
       dotenv: 17.4.2
       execa: 9.6.1
@@ -6579,7 +6579,7 @@ snapshots:
   base64-js@1.5.1:
     optional: true
 
-  baseline-browser-mapping@2.10.22: {}
+  baseline-browser-mapping@2.10.23: {}
 
   bidi-js@1.0.3:
     dependencies:
@@ -6637,8 +6637,8 @@ snapshots:
 
   browserslist@4.28.2:
     dependencies:
-      baseline-browser-mapping: 2.10.22
-      caniuse-lite: 1.0.30001790
+      baseline-browser-mapping: 2.10.23
+      caniuse-lite: 1.0.30001791
       electron-to-chromium: 1.5.344
       node-releases: 2.0.38
       update-browserslist-db: 1.2.3(browserslist@4.28.2)
@@ -6676,7 +6676,7 @@ snapshots:
 
   camelcase@8.0.0: {}
 
-  caniuse-lite@1.0.30001790: {}
+  caniuse-lite@1.0.30001791: {}
 
   canvas@3.2.3:
     dependencies:
