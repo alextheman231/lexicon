@@ -1,6 +1,7 @@
 import type { UserProfileData } from "@lexicon/models";
 import type { ParamsDictionary } from "express-serve-static-core";
 
+import { assertNotNull } from "@alextheman/utility";
 import { parseUser } from "@lexicon/models";
 import { Router } from "express";
 
@@ -29,7 +30,8 @@ currentUserRouter.get(
       return response.status(200).send({ user: null });
     }
 
-    const user = parseUser(await selectUser(connection, session.userId));
+    const user = await selectUser(connection, session.userId);
+    assertNotNull(user);
     return response.status(200).send({ user });
   }),
 );

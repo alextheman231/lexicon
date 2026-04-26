@@ -1,5 +1,5 @@
+import { assertNotNull } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
-import { parseUser } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import { selectUser } from "src/services/users";
@@ -26,8 +26,9 @@ const requireAuth = handleFallthroughMiddleware(async (request) => {
       "Expected to find a session but none was found.",
     );
   }
-
-  request.user = parseUser(await selectUser(connection, session.userId));
+  const currentUser = await selectUser(connection, session.userId);
+  assertNotNull(currentUser);
+  request.user = currentUser;
 });
 
 export default requireAuth;
