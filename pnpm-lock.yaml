@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@alextheman/utility':
-        specifier: 5.14.0
-        version: 5.14.0
+        specifier: 5.15.0
+        version: 5.15.0
       '@lexical/react':
         specifier: 0.43.0
         version: 0.43.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(yjs@13.6.29)
@@ -246,6 +246,10 @@ packages:
 
   '@alextheman/utility@5.14.0':
     resolution: {integrity: sha512-DCuszKzfRGy6gC5ajIpHi8b93A0lcOAfza06vEz1fH4sOd/CNAk/8O9cEtn2Sb+bjzpQrehTwRkj8wa3e4r9SA==}
+    engines: {node: '>=22.3.0'}
+
+  '@alextheman/utility@5.15.0':
+    resolution: {integrity: sha512-rMGY371tK/51b3w76BPjx1xCW0YB06Sqnk2SDQ0IlvPchd99yz34wIBL9Ba9dm9Vn2/KInM79bYiPjiM6XxKNg==}
     engines: {node: '>=22.3.0'}
 
   '@altano/repository-tools@2.0.3':
@@ -2048,8 +2052,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  baseline-browser-mapping@2.10.21:
-    resolution: {integrity: sha512-Q+rUQ7Uz8AHM7DEaNdwvfFCTq7a43lNTzuS94eiWqwyxfV/wJv+oUivef51T91mmRY4d4A1u9rcSvkeufCVXlA==}
+  baseline-browser-mapping@2.10.22:
+    resolution: {integrity: sha512-6qruVrb5rse6WylFkU0FhBKKGuecWseqdpQfhkawn6ztyk2QlfwSRjsDxMCLJrkfmfN21qvhl9ABgaMeRkuwww==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -4875,6 +4879,12 @@ snapshots:
       execa: 9.6.1
       zod: 4.3.6
 
+  '@alextheman/utility@5.15.0':
+    dependencies:
+      dotenv: 17.4.2
+      execa: 9.6.1
+      zod: 4.3.6
+
   '@altano/repository-tools@2.0.3': {}
 
   '@asamuzakjp/css-color@5.1.11':
@@ -6569,7 +6579,7 @@ snapshots:
   base64-js@1.5.1:
     optional: true
 
-  baseline-browser-mapping@2.10.21: {}
+  baseline-browser-mapping@2.10.22: {}
 
   bidi-js@1.0.3:
     dependencies:
@@ -6627,7 +6637,7 @@ snapshots:
 
   browserslist@4.28.2:
     dependencies:
-      baseline-browser-mapping: 2.10.21
+      baseline-browser-mapping: 2.10.22
       caniuse-lite: 1.0.30001790
       electron-to-chromium: 1.5.344
       node-releases: 2.0.38

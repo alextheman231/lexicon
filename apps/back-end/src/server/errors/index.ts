@@ -29,10 +29,7 @@ export function handleErrors(app: Express) {
 
   app.use(
     handleErrorMiddleware((error, _request, response, next) => {
-      if (
-        DataError.check<Record<PropertyKey, unknown>, "INVALID_UUID">(error) &&
-        error.code === "INVALID_UUID"
-      ) {
+      if (DataError.checkWithCode(error, "INVALID_UUID")) {
         response.status(400).send({ error: { id: error.data.input } });
         return;
       }
@@ -42,10 +39,7 @@ export function handleErrors(app: Express) {
 
   app.use(
     handleErrorMiddleware((error, _request, response, next) => {
-      if (
-        DataError.check<Record<PropertyKey, unknown>, "RESOURCE_NOT_FOUND">(error) &&
-        error.code === "RESOURCE_NOT_FOUND"
-      ) {
+      if (DataError.checkWithCode(error, "RESOURCE_NOT_FOUND")) {
         response.status(parseIntStrict(`${error.data.statusCode}`)).send({ error });
         return;
       }
@@ -55,10 +49,7 @@ export function handleErrors(app: Express) {
 
   app.use(
     handleErrorMiddleware((error, _request, response, next) => {
-      if (
-        DataError.check<Record<PropertyKey, unknown>, "AUTH_REQUIRED">(error) &&
-        error.code === "AUTH_REQUIRED"
-      ) {
+      if (DataError.checkWithCode(error, "AUTH_REQUIRED")) {
         response.status(401).send({ error });
         return;
       }
