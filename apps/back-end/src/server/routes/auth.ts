@@ -1,7 +1,7 @@
 import type { ParamsDictionary } from "express-serve-static-core";
 
 import { assertNotNull, parseEnv } from "@alextheman/utility";
-import { CodeError, DataError } from "@alextheman/utility/v6";
+import { APIError } from "@alextheman/utility/v6";
 import { Router } from "express";
 import {
   authorizationCodeGrant,
@@ -41,14 +41,15 @@ authRouter.get(
       const { redirect } = request.query;
 
       if (typeof redirect !== "string") {
-        throw new CodeError("INVALID_REDIRECT", "Missing redirect parameter");
+        throw new APIError(400, "INVALID_REDIRECT", "Missing redirect parameter");
       }
 
       if (!ALLOWED_ORIGINS.includes(redirect)) {
-        throw new DataError(
-          { redirect },
-          "INVALID_REDIRECT",
-          "The provided redirect origin is not allowed by CORS policy.",
+        throw new APIError(
+          403,
+          "DISALLOWED_ORIGIN",
+          "The provided redirect origin is not allowed.",
+          { origin: redirect },
         );
       }
 
@@ -96,13 +97,13 @@ authRouter.get(
     const pkceCodeVerifier = request.cookies.oauth_pkce_verifier;
 
     if (!pkceCodeVerifier || !cookieState) {
-      throw new CodeError("MISSING_OAUTH_DATA", "Missing OAuth cookies");
+      throw new APIError(400, "MISSING_OAUTH_DATA", "Missing OAuth cookies");
     }
 
     const callbackUrl = new URL(getCallbackUrl(request.originalUrl));
 
     if (request.query.state !== cookieState) {
-      throw new CodeError("INVALID_STATE", "The state provided is invalid.");
+      throw new APIError(400, "INVALID_STATE", "The state provided is invalid.");
     }
 
     const tokens = await authorizationCodeGrant(config, callbackUrl, {
@@ -118,7 +119,7 @@ authRouter.get(
     const { user, session } = await connection.transaction(async (transaction) => {
       const claims = tokens.claims();
       if (!claims?.sub || !claims?.email) {
-        throw new CodeError("INVALID_GOOGLE_RESPONSE", "Missing required Google claims");
+        throw new APIError(400, "INVALID_GOOGLE_RESPONSE", "Missing required Google claims");
       }
       const existingProvider = await selectAuthProvider(transaction, claims);
 
@@ -158,7 +159,7 @@ authRouter.get(
     const redirect = request.cookies.oauth_redirect;
 
     if (typeof redirect !== "string") {
-      throw new CodeError("INVALID_REDIRECT", "Missing redirect parameter");
+      throw new APIError(400, "INVALID_REDIRECT", "Missing redirect parameter");
     }
 
     response.clearCookie("oauth_redirect");
