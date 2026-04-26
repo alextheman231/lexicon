@@ -1,7 +1,6 @@
-import { DataError } from "@alextheman/utility/v6";
+import { APIError } from "@alextheman/utility/v6";
 
 export interface ResourceNotFoundErrorPayload {
-  statusCode: 404;
   resourceType: string;
   resourceId: string;
 }
@@ -9,11 +8,12 @@ export interface ResourceNotFoundErrorPayload {
 function resourceNotFoundError(
   resourceType: string,
   resourceId: string,
-): DataError<ResourceNotFoundErrorPayload, "RESOURCE_NOT_FOUND"> {
-  return new DataError<ResourceNotFoundErrorPayload, "RESOURCE_NOT_FOUND">(
-    { statusCode: 404, resourceType, resourceId },
+): APIError<ResourceNotFoundErrorPayload, "RESOURCE_NOT_FOUND"> {
+  return new APIError<ResourceNotFoundErrorPayload, "RESOURCE_NOT_FOUND">(
+    404,
     "RESOURCE_NOT_FOUND",
     `Could not find ${resourceType.toLowerCase()} in database.`,
+    { resourceType, resourceId },
   );
 }
 

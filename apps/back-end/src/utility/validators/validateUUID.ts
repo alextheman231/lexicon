@@ -1,6 +1,7 @@
 import type { RequestParamHandler } from "express";
 
 import { parseUUID } from "@alextheman/utility";
+import { APIError, DataError } from "@alextheman/utility/v6";
 
 // eslint-disable-next-line func-style
 const validateUUID: RequestParamHandler = (_request, _response, next, id) => {
@@ -8,7 +9,11 @@ const validateUUID: RequestParamHandler = (_request, _response, next, id) => {
     parseUUID(id);
     next();
   } catch (error) {
-    next(error);
+    if (DataError.check(error)) {
+      next(new APIError(400, "INVALID_UUID", error.message, error.data));
+    } else {
+      next(error);
+    }
   }
 };
 

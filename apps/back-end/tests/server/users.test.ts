@@ -30,13 +30,15 @@ describe("GET", () => {
       });
 
       expect(error.code).toBe("RESOURCE_NOT_FOUND");
-      expect(error.data.statusCode).toBe(404);
       expect(error.data.resourceType).toBe("user");
       expect(error.data.resourceId).toBe(missingId);
     });
     test("Should fail with 400 if not a valid UUID", async () => {
       const { body } = await request(app).get(`/api/v1/users/hello`).expect(400);
-      expect(body.error.id).toBe("hello");
+      const error = DataError.expectError(() => {
+        throw body.error;
+      });
+      expect(error.data.input).toBe("hello");
     });
   });
 });

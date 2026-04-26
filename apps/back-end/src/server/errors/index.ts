@@ -1,7 +1,7 @@
 import type { Express } from "express";
 
-import { parseBoolean, parseEnv, parseIntStrict } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
+import { parseBoolean, parseEnv } from "@alextheman/utility";
+import { APIError, CodeError, DataError } from "@alextheman/utility/v6";
 
 import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
 
@@ -29,28 +29,14 @@ export function handleErrors(app: Express) {
 
   app.use(
     handleErrorMiddleware((error, _request, response, next) => {
-      if (DataError.checkWithCode(error, "INVALID_UUID")) {
-        response.status(400).send({ error: { id: error.data.input } });
-        return;
-      }
-      next(error);
-    }),
-  );
-
-  app.use(
-    handleErrorMiddleware((error, _request, response, next) => {
-      if (DataError.checkWithCode(error, "RESOURCE_NOT_FOUND")) {
-        response.status(parseIntStrict(`${error.data.statusCode}`)).send({ error });
-        return;
-      }
-      next(error);
-    }),
-  );
-
-  app.use(
-    handleErrorMiddleware((error, _request, response, next) => {
-      if (DataError.checkWithCode(error, "AUTH_REQUIRED")) {
-        response.status(401).send({ error });
+      if (APIError.check(error)) {
+        if (error.data !== undefined && error.data !== null) {
+          const serialisedError = new DataError(error.data, error.code, error.message).toJSON();
+          response.status(error.status).send({ error: serialisedError });
+        } else {
+          const serialisedError = new CodeError(error.code, error.message).toJSON();
+          response.status(error.status).send({ error: serialisedError });
+        }
         return;
       }
       next(error);

@@ -1,4 +1,4 @@
-import { APIError } from "@alextheman/utility";
+import { DataError } from "@alextheman/utility/v6";
 import cors from "cors";
 
 function setupCors(allowedOrigins: Array<string>) {
@@ -10,7 +10,10 @@ function setupCors(allowedOrigins: Array<string>) {
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-      return callback(new APIError(403, "CORS_ERROR"), false);
+      return callback(
+        new DataError({ origin }, "CORS_ERROR", "This URL is not supported by CORS policy."),
+        false,
+      );
     },
     credentials: true,
   });
