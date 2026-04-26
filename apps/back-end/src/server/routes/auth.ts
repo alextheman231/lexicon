@@ -1,8 +1,7 @@
 import type { ParamsDictionary } from "express-serve-static-core";
 
-import { parseEnv } from "@alextheman/utility";
+import { assertNotNull, parseEnv } from "@alextheman/utility";
 import { CodeError, DataError } from "@alextheman/utility/v6";
-import { parseUser } from "@lexicon/models";
 import { Router } from "express";
 import {
   authorizationCodeGrant,
@@ -124,7 +123,8 @@ authRouter.get(
       const existingProvider = await selectAuthProvider(transaction, claims);
 
       if (existingProvider) {
-        const user = parseUser(await selectUser(transaction, existingProvider.userId));
+        const user = await selectUser(transaction, existingProvider.userId);
+        assertNotNull(user);
         const session = await insertUserSession(transaction, { userId: user.id });
         return { user, session };
       }

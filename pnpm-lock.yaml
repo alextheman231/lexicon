@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@alextheman/utility':
-        specifier: 5.15.0
-        version: 5.15.0
+        specifier: 5.15.1
+        version: 5.15.1
       '@lexical/react':
         specifier: 0.43.0
         version: 0.43.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(yjs@13.6.29)
@@ -248,8 +248,8 @@ packages:
     resolution: {integrity: sha512-DCuszKzfRGy6gC5ajIpHi8b93A0lcOAfza06vEz1fH4sOd/CNAk/8O9cEtn2Sb+bjzpQrehTwRkj8wa3e4r9SA==}
     engines: {node: '>=22.3.0'}
 
-  '@alextheman/utility@5.15.0':
-    resolution: {integrity: sha512-rMGY371tK/51b3w76BPjx1xCW0YB06Sqnk2SDQ0IlvPchd99yz34wIBL9Ba9dm9Vn2/KInM79bYiPjiM6XxKNg==}
+  '@alextheman/utility@5.15.1':
+    resolution: {integrity: sha512-2w4akGeIryaK5/SVrnGYxQKLcbhGQe3sWaXFtPCboqv5zrOp3gQG61Bqr8mIlqb36GTiP4WI/ungTWNy+Y+nCg==}
     engines: {node: '>=22.3.0'}
 
   '@altano/repository-tools@2.0.3':
@@ -4879,7 +4879,7 @@ snapshots:
       execa: 9.6.1
       zod: 4.3.6
 
-  '@alextheman/utility@5.15.0':
+  '@alextheman/utility@5.15.1':
     dependencies:
       dotenv: 17.4.2
       execa: 9.6.1

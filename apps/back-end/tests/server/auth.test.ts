@@ -1,4 +1,4 @@
-import { addDaysToDate } from "@alextheman/utility";
+import { addDaysToDate, assertNotNull } from "@alextheman/utility";
 import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 // eslint-disable-next-line @alextheman/no-namespace-imports
@@ -78,7 +78,8 @@ describe("GET", () => {
       expect(user.username).toContain("test");
       expect(user.username).not.toContain("@example.com");
 
-      const databaseUser = parseUser(await selectUser(connection, user.id));
+      const databaseUser = await selectUser(connection, user.id);
+      assertNotNull(databaseUser);
       expect(user).toMatchObject(databaseUser);
     });
 
