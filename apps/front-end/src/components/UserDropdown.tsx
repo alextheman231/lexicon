@@ -1,4 +1,4 @@
-import { ExternalLink, QueryBoundary } from "@alextheman/components";
+import { ExternalLink } from "@alextheman/components";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -9,6 +9,7 @@ import {
 import Button from "@mui/material/Button";
 
 import { useAuth } from "src/AuthContextProvider";
+import QueryBoundary from "src/components/QueryBoundary";
 
 function UserDropdown() {
   const { currentUser, currentUserLoading, unauthenticate } = useAuth();

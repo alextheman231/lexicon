@@ -1,9 +1,10 @@
-import { Page, QueryBoundary } from "@alextheman/components";
+import { Page } from "@alextheman/components";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Divider from "@mui/material/Divider";
 
+import QueryBoundary from "src/components/QueryBoundary";
 import { useUserQuery } from "src/resources/Users/queries";
 
 interface UserProfileProps {
