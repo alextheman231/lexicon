@@ -12,7 +12,7 @@ import app from "src/server/app";
 describe("GET", () => {
   describe("/api/v1/users/:userId", () => {
     test("Should get the user with the given ID", async () => {
-      const { factory } = getTestFixtures();
+      const { factory } = await getTestFixtures();
       const user = await factory.users.insert();
 
       const { body } = await request(app).get(`/api/v1/users/${user.id}`).expect(200);

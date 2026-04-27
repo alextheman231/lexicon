@@ -12,7 +12,7 @@ describe("requireAuth", () => {
     expect(body.error.code).toBe("AUTH_REQUIRED");
   });
   test("Allows the endpoint logic to run if auth present", async () => {
-    const { factory } = getTestFixtures();
+    const { factory } = await getTestFixtures();
 
     const user = await factory.users.insert();
     const session = await factory.userSessions.insert({ user });
