@@ -5,7 +5,7 @@ import FactoryContext from "tests/factory/context";
 import UserFactory from "tests/factory/users";
 import UserSessionFactory from "tests/factory/userSessions";
 
-class TestFactory {
+class DataFactory {
   private context: FactoryContext;
 
   public authProviders: AuthProviderFactory;
@@ -20,10 +20,10 @@ class TestFactory {
     this.userSessions = new UserSessionFactory(this.context, this.users);
   }
 
-  public static create(connection: Connection): TestFactory {
+  public static create(connection: Connection): DataFactory {
     const context = new FactoryContext(connection);
-    return new TestFactory(context);
+    return new DataFactory(context);
   }
 }
 
-export default TestFactory;
+export default DataFactory;
