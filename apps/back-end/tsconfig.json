@@ -12,7 +12,9 @@
     "skipLibCheck": true,
     "paths": {
       "src/*": ["./src/*"],
-      "tests/*": ["./tests/*"]
+      "tests/*": ["./tests/*"],
+      "factory/*": ["./factory/*"],
+      "factory": ["./factory"]
     },
     "esModuleInterop": true,
 
@@ -27,6 +29,6 @@
     "noFallthroughCasesInSwitch": true,
     "declaration": true
   },
-  "include": ["src", "tests", "drizzle.config.ts", "vitest.config.ts"],
+  "include": ["src", "tests", "drizzle.config.ts", "vitest.config.ts", "factory"],
   "exclude": ["dist"]
 }

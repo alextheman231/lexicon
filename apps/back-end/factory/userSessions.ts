@@ -1,7 +1,7 @@
 import type { User, UserSession, UserSessionData } from "@lexicon/models";
 
-import type FactoryContext from "tests/factory/context";
-import type UserFactory from "tests/factory/users";
+import type FactoryContext from "factory/context";
+import type UserFactory from "factory/users";
 
 import { omitProperties } from "@alextheman/utility";
 
