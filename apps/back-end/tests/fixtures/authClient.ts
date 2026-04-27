@@ -1,4 +1,4 @@
-import type DataFactory from "tests/factory";
+import type DataFactory from "factory";
 
 import request from "supertest";
 

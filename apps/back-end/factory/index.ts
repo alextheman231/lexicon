@@ -1,9 +1,9 @@
 import type { Connection } from "src/database/connection";
 
-import AuthProviderFactory from "tests/factory/authProviders";
-import FactoryContext from "tests/factory/context";
-import UserFactory from "tests/factory/users";
-import UserSessionFactory from "tests/factory/userSessions";
+import AuthProviderFactory from "factory/authProviders";
+import FactoryContext from "factory/context";
+import UserFactory from "factory/users";
+import UserSessionFactory from "factory/userSessions";
 
 class DataFactory {
   private context: FactoryContext;

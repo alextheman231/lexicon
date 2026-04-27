@@ -1,4 +1,4 @@
-import DataFactory from "tests/factory";
+import DataFactory from "factory";
 
 import { getConnection } from "src/database/connection";
 
