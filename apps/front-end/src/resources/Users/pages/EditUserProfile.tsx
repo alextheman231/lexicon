@@ -1,9 +1,10 @@
 import type { UserProfileFormOutputData } from "@lexicon/models";
 
-import { Page, QueryBoundary } from "@alextheman/components";
+import { Page } from "@alextheman/components";
 import { useLocation } from "wouter";
 
 import { useAuth } from "src/AuthContextProvider";
+import QueryBoundary from "src/components/QueryBoundary";
 import UserProfileForm from "src/components/UserProfileForm";
 import { useUpdateUserProfileMutation } from "src/resources/Users/queries";
 
