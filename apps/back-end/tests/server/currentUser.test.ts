@@ -12,24 +12,18 @@ import app from "src/server/app";
 describe("PUT", () => {
   describe("/api/v1/current-user/profile", () => {
     test("Update the current user's profile details", async () => {
-      const { factory } = getTestFixtures();
-      const user = await factory.users.insert();
-      const userSession = await factory.userSessions.insert({ user });
+      const { authenticatedClient } = await getTestFixtures();
 
-      await request(app)
+      await authenticatedClient
         .put("/api/v1/current-user/profile")
         .send({
           username: "alex_man",
           displayName: "Alex Man",
           description: "I am a user on Lexicon",
         })
-        .set("Cookie", [`session=${userSession.id}`])
         .expect(200);
 
-      const { body } = await request(app)
-        .get("/api/v1/current-user")
-        .set("Cookie", [`session=${userSession.id}`])
-        .expect(200);
+      const { body } = await authenticatedClient.get("/api/v1/current-user").expect(200);
 
       const currentUser = parseUser(body.user);
 
@@ -43,27 +37,21 @@ describe("PUT", () => {
 describe("GET", () => {
   describe("/api/v1/current-user", () => {
     test("Get the currently signed in user", async () => {
-      const { factory } = getTestFixtures();
-      const user = await factory.users.insert();
-      const userSession = await factory.userSessions.insert({ user });
+      const { authenticatedClient, authenticatedUser } = await getTestFixtures();
 
-      const { body } = await request(app)
-        .get("/api/v1/current-user")
-        .set("Cookie", [`session=${userSession.id}`])
-        .expect(200);
+      const { body } = await authenticatedClient.get("/api/v1/current-user").expect(200);
       const signedInUser = parseUser(body.user);
 
-      expect(signedInUser).toMatchObject(user);
+      expect(signedInUser).toMatchObject(authenticatedUser);
     });
     test("If there is currently no session, return a null user", async () => {
       const { body } = await request(app).get("/api/v1/current-user").expect(200);
       expect(body.user).toBeNull();
     });
     test("If session is expired, return null user", async () => {
-      const { factory } = getTestFixtures();
+      const { factory } = await getTestFixtures();
 
       const user = await factory.users.insert();
-
       const session = await factory.userSessions.insert({
         user,
         expiresAt: addDaysToDate(new Date(), -1),
