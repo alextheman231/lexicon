@@ -71,13 +71,13 @@ jobs:
           NODE_ENV: test
 
       - name: Build packages
-        run: pnpm run build --ui=stream
+        run: pnpm run build
 
       - name: Run linting checks
-        run: pnpm run lint --ui=stream
+        run: pnpm run lint
 
       - name: Run tests
-        run: pnpm test --ui=stream
+        run: pnpm test
 
   actions-ci:
     uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@2e41fee3271c96b410b398994b6df72997e18c02 # v11.2.1
