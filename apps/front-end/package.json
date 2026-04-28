@@ -22,7 +22,7 @@
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "dependencies": {
-    "@alextheman/components": "6.15.7",
+    "@alextheman/components": "6.15.8",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@lexicon/models": "workspace:*",
