@@ -1,5 +1,4 @@
 import type { User, UserInsertData } from "@lexicon/models";
-
 import type FactoryContext from "factory/context";
 
 import { faker } from "@faker-js/faker";
