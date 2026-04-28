@@ -18,6 +18,7 @@ const envFilePath = path.resolve(process.cwd(), `.env.${ENV}`);
 
 dotenv.config({
   path: envFilePath,
+  quiet: ENV === "test",
 });
 
 const { DATABASE_URL } = process.env;
