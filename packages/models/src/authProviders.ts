@@ -28,6 +28,7 @@ export function parseAuthProviderSchema(input: unknown): AuthProviderSchema {
 }
 
 const authProviderInsertSchema = z.object({
+  id: z.uuid().optional(),
   userId: z.uuid(),
   provider: z.enum(AuthProvider),
   providerUserId: z.string(),

@@ -18,6 +18,7 @@ export const userProfileInsertSchema = z.object({
 });
 
 export const userInsertSchema = z.object({
+  id: z.uuid().optional(), // Needed for factory
   username: z.string().max(50),
   displayName: z.string().max(50).optional(),
   description: z.string().optional(),

@@ -1,5 +1,4 @@
 import type { User, UserSession, UserSessionData } from "@lexicon/models";
-
 import type FactoryContext from "factory/context";
 import type UserFactory from "factory/users";
 

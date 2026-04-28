@@ -1,0 +1,16 @@
+[
+  {
+    "id": "10e1996c-d3a2-4320-bbd2-c0614f7b839f",
+    "username": "alex_man",
+    "displayName": "Alex Man",
+    "description": "I am the owner of Lexicon",
+    "email": "alex.man03888@gmail.com",
+    "dateOfBirth": "2003-07-16T00:00:00.000Z",
+    "authProviders": [
+      {
+        "provider": "google",
+        "providerUserId": "110146671422678973171"
+      }
+    ]
+  }
+]
