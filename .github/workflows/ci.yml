@@ -19,7 +19,7 @@ jobs:
         image: postgres:17
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: prisma
+          POSTGRES_PASSWORD: lexicon
           POSTGRES_DB: tests
         options: >-
           --health-cmd pg_isready
@@ -29,7 +29,7 @@ jobs:
         ports:
           - 5432:5432
     env:
-      DATABASE_URL: postgresql://postgres:prisma@localhost:5432/tests?schema=public
+      DATABASE_URL: postgresql://postgres:lexicon@localhost:5432/tests?schema=public
 
     steps:
       - name: Checkout the repository
@@ -62,7 +62,7 @@ jobs:
       - name: Initialise environment variables
         run: |
           touch apps/back-end/.env.test
-          echo DATABASE_URL="postgresql://postgres:prisma@localhost:5432/tests?schema=public" >> apps/back-end/.env.test
+          echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/tests?schema=public" >> apps/back-end/.env.test
           echo API_BASE_URL="http://localhost:5432" >> apps/back-end/.env.test
 
       - name: Install dependencies
