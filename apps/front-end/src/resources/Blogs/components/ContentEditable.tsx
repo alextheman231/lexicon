@@ -1,5 +1,4 @@
 import type { ContentEditableProps } from "@lexical/react/LexicalContentEditable";
-import type { ForwardRefExoticComponent, RefAttributes } from "react";
 
 import { ContentEditable as LexicalContentEditable } from "@lexical/react/LexicalContentEditable";
 import Card from "@mui/material/Card";
@@ -8,12 +7,7 @@ import Divider from "@mui/material/Divider";
 
 import EditorToolbar from "src/resources/Blogs/components/EditorToolbar";
 
-function ContentEditable(
-  props?: Omit<
-    ForwardRefExoticComponent<ContentEditableProps & RefAttributes<HTMLDivElement>>,
-    "$$typeof"
-  >,
-) {
+function ContentEditable(props?: ContentEditableProps) {
   return (
     <Card sx={{ minWidth: 0 }}>
       <EditorToolbar />
