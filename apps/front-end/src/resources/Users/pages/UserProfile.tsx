@@ -1,4 +1,5 @@
 import { Page } from "@alextheman/components";
+import { DropdownMenuItem, DropdownMenuWrapper, InternalLink } from "@alextheman/components/v7";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
@@ -18,7 +19,17 @@ function UserProfile({ userId }: UserProfileProps) {
     <QueryBoundary data={user} isLoading={isPending} error={error}>
       {(user) => {
         return (
-          <Page title={user.displayName ?? user.username} subtitle={user.username}>
+          <Page
+            title={user.displayName ?? user.username}
+            subtitle={user.username}
+            action={
+              <DropdownMenuWrapper>
+                <DropdownMenuItem component={InternalLink} to="/blogs/new">
+                  Create Blog
+                </DropdownMenuItem>
+              </DropdownMenuWrapper>
+            }
+          >
             <Card>
               <CardHeader title="Description" />
               <Divider />

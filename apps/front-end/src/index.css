@@ -1,0 +1,15 @@
+.editor-input {
+  width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.editor-input p {
+  margin: 0;
+}
+
+.editor-input * {
+  white-space: inherit;
+  word-break: inherit;
+}
