@@ -6,10 +6,10 @@ import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import Box from "@mui/material/Box";
 import { useState } from "react";
 
 import ContentEditable from "src/resources/Blogs/components/ContentEditable";
+import DebugEditorState from "src/resources/Blogs/components/DebugEditorState";
 
 interface EditorProps {
   initialContent?: SerializedEditorState;
@@ -46,17 +46,7 @@ function BlogEditor({ initialContent }: EditorProps) {
           }}
         />
       </LexicalComposer>
-      <Box
-        sx={{
-          marginTop: 2,
-          padding: 1,
-          fontFamily: "monospace",
-          whiteSpace: "pre-wrap",
-          wordBreak: "break-word",
-        }}
-      >
-        {JSON.stringify(editorState, null, 2)}
-      </Box>
+      <DebugEditorState editorState={editorState} />
     </>
   );
 }

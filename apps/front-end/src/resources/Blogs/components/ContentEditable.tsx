@@ -2,8 +2,11 @@ import type { ContentEditableProps } from "@lexical/react/LexicalContentEditable
 import type { ForwardRefExoticComponent, RefAttributes } from "react";
 
 import { ContentEditable as LexicalContentEditable } from "@lexical/react/LexicalContentEditable";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Divider from "@mui/material/Divider";
+
+import EditorToolbar from "src/resources/Blogs/components/EditorToolbar";
 
 function ContentEditable(
   props?: Omit<
@@ -13,7 +16,9 @@ function ContentEditable(
 ) {
   return (
     <Card sx={{ minWidth: 0 }}>
-      <Box
+      <EditorToolbar />
+      <Divider />
+      <CardContent
         component={LexicalContentEditable}
         className="editor-input"
         sx={{
