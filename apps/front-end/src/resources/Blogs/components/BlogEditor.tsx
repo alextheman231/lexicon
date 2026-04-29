@@ -2,18 +2,20 @@ import type { SerializedEditorState } from "lexical";
 
 import { DataError } from "@alextheman/utility/v6";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import Box from "@mui/material/Box";
 import { useState } from "react";
+
+import ContentEditable from "src/resources/Blogs/components/ContentEditable";
 
 interface EditorProps {
   initialContent?: SerializedEditorState;
 }
 
-function Editor({ initialContent }: EditorProps) {
+function BlogEditor({ initialContent }: EditorProps) {
   const [editorState, setEditorState] = useState<SerializedEditorState>();
 
   return (
@@ -44,9 +46,19 @@ function Editor({ initialContent }: EditorProps) {
           }}
         />
       </LexicalComposer>
-      <pre>{JSON.stringify(editorState, null, 2)}</pre>
+      <Box
+        sx={{
+          marginTop: 2,
+          padding: 1,
+          fontFamily: "monospace",
+          whiteSpace: "pre-wrap",
+          wordBreak: "break-word",
+        }}
+      >
+        {JSON.stringify(editorState, null, 2)}
+      </Box>
     </>
   );
 }
 
-export default Editor;
+export default BlogEditor;
