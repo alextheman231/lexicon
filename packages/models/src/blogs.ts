@@ -34,7 +34,7 @@ export const blogRevisionSchema = z.object({
   title: z.string().max(100),
   content: z.record(z.string(), z.any()),
   revision: z.int().positive(),
-  revisionMessage: z.string(),
+  revisionMessage: z.string().nullable().optional(),
   createdAt: z.coerce.date(),
 });
 export type BlogRevision = z.infer<typeof blogRevisionSchema>;
@@ -62,4 +62,32 @@ export function parseBlogStateHistoryRow(input: unknown): BlogStateHistoryRow {
 }
 export function parseBlogStateHistory(input: unknown): Array<BlogStateHistoryRow> {
   return az.with(z.array(blogStateHistorySchema)).parse(input);
+}
+
+export const blogInsertSchema = z.object({
+  id: z.uuid().optional(),
+  authorId: z.uuid(),
+  title: z.string(),
+  content: z.record(z.string(), z.any()),
+});
+
+export type BlogInsertData = z.infer<typeof blogInsertSchema>;
+
+export function parseBlogInsertData(input: unknown): BlogInsertData {
+  return az.with(blogInsertSchema).parse(input);
+}
+
+export const blogViewSchema = z.object({
+  id: z.uuid(),
+  authorId: z.uuid(),
+  updatedAt: z.coerce.date().nullable(),
+  publishedAt: z.coerce.date().nullable(),
+  title: z.string(),
+  content: z.record(z.string(), z.any()),
+});
+
+export type BlogView = z.infer<typeof blogViewSchema>;
+
+export function parseBlogView(input: unknown): BlogView {
+  return az.with(blogViewSchema).parse(input);
 }

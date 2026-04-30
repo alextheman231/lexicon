@@ -1,5 +1,3 @@
-import type { SerializedEditorState } from "lexical";
-
 import { BlogState } from "@lexicon/models";
 import {
   bigint,
@@ -48,7 +46,7 @@ export const blogRevisionsTable = pgTable(
         return blogsTable.id;
       }),
     title: varchar("title", { length: 100 }).notNull(),
-    content: jsonb("content").$type<SerializedEditorState>().notNull(),
+    content: jsonb("content").notNull(),
     revision: integer("revision").notNull(),
     revisionMessage: text("revision_message"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),

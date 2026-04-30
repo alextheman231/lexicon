@@ -1,6 +1,7 @@
 import type { Express } from "express";
 
 import authRouter from "src/server/routes/auth";
+import blogsRouter from "src/server/routes/blogs";
 import currentUserRouter from "src/server/routes/currentUser";
 import usersRouter from "src/server/routes/users";
 import defineEndpoint from "src/utility/defineEndpoint";
@@ -27,6 +28,7 @@ function createEndpoints(app: Express) {
   app.use(defineEndpoint("current-user"), currentUserRouter);
   app.use(defineEndpoint("users"), usersRouter);
   app.use(defineEndpoint("auth"), authRouter);
+  app.use(defineEndpoint("blogs"), blogsRouter);
 }
 
 export default createEndpoints;
