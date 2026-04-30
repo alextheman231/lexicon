@@ -1,52 +1,50 @@
 {
-  "name": "front-end",
-  "description": "The front-end for the new blog-site",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@lexicon/configs",
+  "version": "1.0.0",
+  "description": "Shared configs throughout Lexicon",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "type": "module",
-  "files": ["dist"],
-      "repository": {
+  "files": [
+    "dist"
+  ],
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/alextheman231/lexicon.git"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc -b && vite build",
-    "dev": "vite",
+    "build": "tsdown",
     "format": "pnpm run format-prettier && pnpm run format-eslint",
     "format-eslint": "eslint --fix --suppress-all \"src/**/*.{ts,tsx}\" && rm -f eslint-suppressions.json",
     "format-prettier": "pnpm run format-prettier-typescript && pnpm run format-prettier-javascript",
-    "format-prettier-javascript": "prettier --write \"./**/*.js\"",
+    "format-prettier-javascript": "prettier --write \"./**/*.{js,json}\"",
     "format-prettier-typescript": "prettier --write --parser typescript \"./**/*.{ts,tsx}\"",
     "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-prettier",
     "lint-eslint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint-prettier": "pnpm run lint-prettier-typescript && pnpm run lint-prettier-javascript",
-    "lint-prettier-javascript": "prettier --check \"./**/*.js\"",
+    "lint-prettier-javascript": "prettier --check \"./**/*.{js,json}\"",
     "lint-prettier-typescript": "prettier --check --parser typescript \"./**/*.{ts,tsx}\"",
     "lint-tsc": "tsc --noEmit",
-    "preview": "vite preview",
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
-  "dependencies": {
-    "@alextheman/components": "6.15.8",
-    "@emotion/react": "11.14.0",
-    "@emotion/styled": "11.14.1",
-    "@lexicon/models": "workspace:*",
-    "@mui/material": "9.0.0",
-    "@tanstack/react-query": "5.100.1",
-    "axios": "1.15.2",
-    "react": "19.2.5",
-    "react-dom": "19.2.5",
-    "react-icons": "5.6.0",
-    "wouter": "3.9.0"
-  },
+  "author": "alextheman",
+  "license": "ISC",
   "devDependencies": {
-    "@lexicon/configs": "workspace:*",
+    "@alextheman/eslint-plugin": "5.14.0",
     "@types/node": "25.6.0",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "6.0.1",
-    "typescript": "6.0.3",
-    "vite": "8.0.10"
+    "eslint": "10.2.1",
+    "eslint-plugin-perfectionist": "5.9.0",
+    "tsdown": "0.21.10"
+  },
+  "peerDependencies": {
+    "@alextheman/eslint-plugin": ">=5.14.0",
+    "eslint": ">=10.2.1",
+    "eslint-plugin-perfectionist": "5.9.0"
   }
 }

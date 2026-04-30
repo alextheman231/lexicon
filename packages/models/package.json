@@ -2,6 +2,12 @@
   "name": "@lexicon/models",
   "version": "1.0.0",
   "description": "Models to be used in all areas of Lexicon.",
+  "files": ["dist"],
+    "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextheman231/lexicon.git"
+  },
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
