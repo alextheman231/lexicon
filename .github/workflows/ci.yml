@@ -54,6 +54,7 @@ jobs:
             apps/back-end/.turbo
             apps/front-end/.turbo
             packages/models/.turbo
+            packages/configs/.turbo
           key: turbo-${{ hashFiles('{apps,packages}/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'turbo.json') }}
           restore-keys: turbo-
 
