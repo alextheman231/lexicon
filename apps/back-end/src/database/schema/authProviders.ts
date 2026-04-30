@@ -8,7 +8,10 @@ export const authProviderEnum = pgEnum<typeof AuthProvider>("AUTH_PROVIDER_T", A
 export const authProvidersTable = pgTable(
   "auth_providers",
   {
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     id: uuid("id").primaryKey().defaultRandom(),
+    provider: authProviderEnum("provider").notNull(),
+    providerUserId: text("provider_user_id").notNull(),
     userId: uuid("user_id")
       .notNull()
       .references(
@@ -17,9 +20,6 @@ export const authProvidersTable = pgTable(
         },
         { onDelete: "cascade" },
       ),
-    provider: authProviderEnum("provider").notNull(),
-    providerUserId: text("provider_user_id").notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => {
     return [

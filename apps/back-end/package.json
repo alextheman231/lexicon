@@ -4,6 +4,14 @@
   "description": "The back-end server for Lexicon",
   "main": "index.js",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextheman231/lexicon.git"
+  },
+  "sideEffects": true,
   "scripts": {
     "build": "tsdown",
     "dev": "nodemon src/server/index.ts",
@@ -38,6 +46,7 @@
   "license": "ISC",
   "devDependencies": {
     "@faker-js/faker": "10.4.0",
+    "@lexicon/configs": "workspace:*",
     "@types/cookie-parser": "1.4.10",
     "@types/cors": "2.8.19",
     "@types/express": "5.0.6",

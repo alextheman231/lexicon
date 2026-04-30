@@ -5,6 +5,8 @@ import { usersTable } from "src/database/schema/users";
 export const userSessionsTable = pgTable(
   "user_sessions",
   {
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
     id: uuid("id").primaryKey().defaultRandom(),
     userId: uuid("user_id")
       .notNull()
@@ -14,8 +16,6 @@ export const userSessionsTable = pgTable(
         },
         { onDelete: "cascade" },
       ),
-    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => {
     return [

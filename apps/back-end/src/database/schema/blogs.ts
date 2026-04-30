@@ -19,37 +19,37 @@ import { usersTable } from "src/database/schema/users";
 export const blogStateEnum = pgEnum<typeof BlogState>("BLOG_STATE_T", BlogState);
 
 export const blogsTable = pgTable("blogs", {
-  id: uuid("id").primaryKey().defaultRandom(),
   authorId: uuid("author_id")
     .notNull()
     .references(() => {
       return usersTable.id;
     }),
-  currentRevisionId: bigint("current_revision_id", { mode: "number" }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }),
+  currentRevisionId: bigint("current_revision_id", { mode: "number" }),
+  id: uuid("id").primaryKey().defaultRandom(),
   publishedAt: timestamp("published_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }),
 });
 
 export const blogRevisionsTable = pgTable(
   "blog_revisions",
   {
-    id: bigserial("id", { mode: "number" }).primaryKey(),
-    editorId: uuid("editor_id")
-      .notNull()
-      .references(() => {
-        return usersTable.id;
-      }),
     blogId: uuid("blog_id")
       .notNull()
       .references(() => {
         return blogsTable.id;
       }),
-    title: varchar("title", { length: 100 }).notNull(),
     content: jsonb("content").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    editorId: uuid("editor_id")
+      .notNull()
+      .references(() => {
+        return usersTable.id;
+      }),
+    id: bigserial("id", { mode: "number" }).primaryKey(),
     revision: integer("revision").notNull(),
     revisionMessage: text("revision_message"),
-    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    title: varchar("title", { length: 100 }).notNull(),
   },
   (table) => {
     return [
@@ -62,24 +62,24 @@ export const blogRevisionsTable = pgTable(
 export const blogStateHistoryTable = pgTable(
   "blog_state_history",
   {
-    id: bigserial("id", { mode: "number" }).primaryKey(),
-    updatedById: uuid("updated_by_id")
-      .notNull()
-      .references(() => {
-        return usersTable.id;
-      }),
     blogId: uuid("blog_id")
       .notNull()
       .references(() => {
         return blogsTable.id;
       }),
-    state: blogStateEnum("state").notNull(),
+    id: bigserial("id", { mode: "number" }).primaryKey(),
     revisionId: bigint("revision_id", { mode: "number" })
       .notNull()
       .references(() => {
         return blogRevisionsTable.id;
       }),
+    state: blogStateEnum("state").notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedById: uuid("updated_by_id")
+      .notNull()
+      .references(() => {
+        return usersTable.id;
+      }),
   },
   (table) => {
     return [index("blog_state_history_blog_id_idx").on(table.blogId)];
