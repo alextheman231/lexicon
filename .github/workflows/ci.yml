@@ -28,8 +28,6 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-    env:
-      DATABASE_URL: postgresql://postgres:lexicon@localhost:5432/tests?schema=public
 
     steps:
       - name: Checkout the repository
