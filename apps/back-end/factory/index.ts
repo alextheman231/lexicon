@@ -1,6 +1,7 @@
 import type { Connection } from "src/database/connection";
 
 import AuthProviderFactory from "factory/authProviders";
+import BlogFactory from "factory/blogs";
 import FactoryContext from "factory/context";
 import UserFactory from "factory/users";
 import UserSessionFactory from "factory/userSessions";
@@ -9,6 +10,7 @@ class DataFactory {
   private context: FactoryContext;
 
   public authProviders: AuthProviderFactory;
+  public blogs: BlogFactory;
   public users: UserFactory;
   public userSessions: UserSessionFactory;
 
@@ -16,6 +18,7 @@ class DataFactory {
     this.context = context;
 
     this.users = new UserFactory(this.context);
+    this.blogs = new BlogFactory(this.context, this.users);
     this.authProviders = new AuthProviderFactory(this.context, this.users);
     this.userSessions = new UserSessionFactory(this.context, this.users);
   }
