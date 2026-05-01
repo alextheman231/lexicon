@@ -70,7 +70,7 @@
     "dotenv": "17.4.2",
     "drizzle-orm": "0.45.2",
     "express": "5.2.1",
-    "openid-client": "6.8.3",
+    "openid-client": "6.8.4",
     "pg": "8.20.0"
   }
 }
