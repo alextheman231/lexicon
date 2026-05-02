@@ -6,7 +6,12 @@ import { assertNotNull } from "@alextheman/utility";
 import { BlogState, parseBlog, parseBlogSummaries, parseBlogView } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
-import { blogRevisionsTable, blogsTable, blogStateHistoryTable } from "src/database/schema";
+import {
+  blogRevisionsTable,
+  blogsTable,
+  blogStateHistoryTable,
+  usersTable,
+} from "src/database/schema";
 
 // TODO: Pagination
 export async function selectBlogSummaries(connection: Connection): Promise<Array<BlogSummary>> {
@@ -14,13 +19,16 @@ export async function selectBlogSummaries(connection: Connection): Promise<Array
     .select({
       id: blogsTable.id,
       authorId: blogsTable.authorId,
+      authorUsername: usersTable.username,
+      authorDisplayName: usersTable.displayName,
       updatedAt: blogsTable.updatedAt,
       state: blogsTable.state,
       publishedAt: blogsTable.publishedAt,
       title: blogRevisionsTable.title,
     })
     .from(blogsTable)
-    .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.id, blogsTable.currentRevisionId));
+    .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.id, blogsTable.currentRevisionId))
+    .innerJoin(usersTable, eq(blogsTable.authorId, usersTable.id));
 
   return parseBlogSummaries(blogs);
 }
@@ -33,6 +41,8 @@ export async function selectBlogView(
     .select({
       id: blogsTable.id,
       authorId: blogsTable.authorId,
+      authorUsername: usersTable.username,
+      authorDisplayName: usersTable.displayName,
       updatedAt: blogsTable.updatedAt,
       state: blogsTable.state,
       publishedAt: blogsTable.publishedAt,
@@ -41,6 +51,7 @@ export async function selectBlogView(
     })
     .from(blogsTable)
     .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.id, blogsTable.currentRevisionId))
+    .innerJoin(usersTable, eq(blogsTable.authorId, usersTable.id))
     .where(eq(blogsTable.id, blogId));
 
   return blog ? parseBlogView(blog) : null;

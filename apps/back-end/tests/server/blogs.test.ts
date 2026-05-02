@@ -20,6 +20,7 @@ import getTestFixtures from "tests/fixtures";
 
 import { blogRevisionsTable } from "src/database/schema";
 import app from "src/server/app";
+import { selectUser } from "src/services/users";
 
 describe("GET", () => {
   describe("/api/v1/blogs", () => {
@@ -49,7 +50,14 @@ describe("GET", () => {
           });
 
           assertNotUndefined(blog);
-          expect(blogSummary).toMatchObject(omitProperties(blog, "currentRevisionId"));
+          expect(
+            omitProperties(blogSummary, ["authorDisplayName", "authorUsername"]),
+          ).toMatchObject(omitProperties(blog, "currentRevisionId"));
+
+          const user = await selectUser(connection, blogSummary.authorId);
+          assertNotNull(user);
+          expect(blogSummary.authorDisplayName).toBe(user.displayName);
+          expect(blogSummary.authorUsername).toBe(user.username);
 
           const [revision] = await connection
             .select({
@@ -83,6 +91,11 @@ describe("GET", () => {
 
       const blogView = parseBlogView(body.blog);
       expect(blogView).toMatchObject(omitProperties(blog, "currentRevisionId"));
+
+      const user = await selectUser(connection, blogView.authorId);
+      assertNotNull(user);
+      expect(blogView.authorDisplayName).toBe(user.displayName);
+      expect(blogView.authorUsername).toBe(user.username);
 
       const [revision] = await connection
         .select({
