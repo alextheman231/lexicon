@@ -50,6 +50,13 @@
       "when": 1777725205692,
       "tag": "0006_plain_chameleon",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1777736719761,
+      "tag": "0007_chunky_ultron",
+      "breakpoints": true
     }
   ]
 }
