@@ -1,6 +1,7 @@
 import type { CreateEnumType } from "@alextheman/utility";
 
-import { az } from "@alextheman/utility";
+import { az, omitProperties } from "@alextheman/utility";
+import { APIError } from "@alextheman/utility/v6";
 import z from "zod";
 
 export const BlogState = {
@@ -64,10 +65,8 @@ export function parseBlogStateHistory(input: unknown): Array<BlogStateHistoryRow
   return az.with(z.array(blogStateHistorySchema)).parse(input);
 }
 
-export const blogInsertSchema = z.object({
-  id: z.uuid().optional(),
-  authorId: z.uuid(),
-  state: z.enum(BlogState),
+export const blogInsertSchema = z.strictObject({
+  state: z.enum(omitProperties(BlogState, "ARCHIVED")),
   title: z.string(),
   content: z.record(z.string(), z.any()),
 });
@@ -75,7 +74,12 @@ export const blogInsertSchema = z.object({
 export type BlogInsertData = z.infer<typeof blogInsertSchema>;
 
 export function parseBlogInsertData(input: unknown): BlogInsertData {
-  return az.with(blogInsertSchema).parse(input);
+  return az.with(blogInsertSchema).parse(
+    input,
+    new APIError(400, "INVALID_INSERT_DATA", "The provided blog data to create is invalid", {
+      input,
+    }),
+  );
 }
 
 export const blogSummarySchema = z.object({

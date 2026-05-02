@@ -22,7 +22,7 @@ class BlogFactory {
     this.users = users;
   }
 
-  private static generateEditorContent(text: string) {
+  public static generateEditorContent(text: string) {
     return {
       root: {
         children: [
