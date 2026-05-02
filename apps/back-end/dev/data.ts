@@ -1,11 +1,13 @@
 import { az, omitProperties } from "@alextheman/utility";
 import { AuthProvider } from "@lexicon/models";
 import DataFactory from "factory";
+import BlogFactory from "factory/blogs";
 import { Pool } from "pg";
 import z from "zod";
 
 import { getConnection } from "src/database/connection";
 
+import blogs from "dev/fixtures/blogs.json" with { type: "json" };
 import users from "dev/fixtures/users.json" with { type: "json" };
 
 (async () => {
@@ -25,6 +27,14 @@ import users from "dev/fixtures/users.json" with { type: "json" };
           providerUserId: authProvider.providerUserId,
         });
       }
+    }
+
+    for (const blog of blogs) {
+      await factory.blogs.insert({
+        ...omitProperties(blog, ["authorId", "content"]),
+        author: blog.authorId,
+        content: BlogFactory.generateEditorContent(blog.content),
+      });
     }
 
     console.info("Data loaded successfully!");
