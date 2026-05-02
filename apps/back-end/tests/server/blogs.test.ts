@@ -20,7 +20,7 @@ describe("GET", () => {
       const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
 
       const blogView = parseBlogView(body.blog);
-      expect(blogView).toMatchObject(omitProperties(blog, ["createdAt", "currentRevisionId"]));
+      expect(blogView).toMatchObject(omitProperties(blog, "currentRevisionId"));
 
       const [revision] = await connection
         .select({
