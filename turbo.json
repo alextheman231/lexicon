@@ -21,6 +21,7 @@
       "persistent": true
     },
     "update-dependencies": {
+      "cache": false,
       "dependsOn": ["^update-dependencies"]
     }
   }
