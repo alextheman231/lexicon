@@ -1,20 +1,37 @@
+import { assertNotUndefined } from "@alextheman/utility";
+import { parseBlogInsertData } from "@lexicon/models";
 import { Router } from "express";
 
 import { getConnection } from "src/database/connection";
-import { selectBlogSummaries, selectBlogView } from "src/services/blogs";
+import { insertBlog, selectBlogSummaries, selectBlogView } from "src/services/blogs";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import resourceNotFoundError from "src/utility/resourceNotFoundError";
+import requireAuth from "src/utility/validators/requireAuth";
 import validateUUID from "src/utility/validators/validateUUID";
 
 const blogsRouter = Router();
 
-blogsRouter.route("/").get(
-  handleEndpointMiddleware(async (_request, response) => {
-    const connection = getConnection();
-    const blogs = await selectBlogSummaries(connection);
-    response.status(200).send({ blogs });
-  }),
-);
+blogsRouter
+  .route("/")
+  .get(
+    handleEndpointMiddleware(async (_request, response) => {
+      const connection = getConnection();
+      const blogs = await selectBlogSummaries(connection);
+      response.status(200).send({ blogs });
+    }),
+  )
+  .post(
+    requireAuth,
+    handleEndpointMiddleware(async (request, response) => {
+      const connection = getConnection();
+      const data = parseBlogInsertData(request.body);
+
+      assertNotUndefined(request.user);
+
+      const { id } = await insertBlog(connection, { ...data, authorId: request.user.id });
+      response.status(201).send({ id });
+    }),
+  );
 
 blogsRouter
   .param("blogId", validateUUID)

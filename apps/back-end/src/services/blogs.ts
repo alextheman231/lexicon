@@ -3,7 +3,7 @@ import type { Blog, BlogInsertData, BlogSummary, BlogView } from "@lexicon/model
 import type { Connection } from "src/database/connection";
 
 import { assertNotNull } from "@alextheman/utility";
-import { parseBlog, parseBlogInsertData, parseBlogSummaries, parseBlogView } from "@lexicon/models";
+import { BlogState, parseBlog, parseBlogSummaries, parseBlogView } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
 import { blogRevisionsTable, blogsTable, blogStateHistoryTable } from "src/database/schema";
@@ -46,16 +46,22 @@ export async function selectBlogView(
   return blog ? parseBlogView(blog) : null;
 }
 
-export async function insertBlog(connection: Connection, data: BlogInsertData): Promise<Blog> {
-  const parsedData = parseBlogInsertData(data);
-
+export async function insertBlog(
+  connection: Connection,
+  data: BlogInsertData & { id?: string; authorId: string },
+): Promise<Blog> {
   return await connection.transaction(async (transaction) => {
+    const today = new Date();
+
+    const isPublished = data.state === BlogState.PUBLISHED;
     const [initialBlog] = await transaction
       .insert(blogsTable)
       .values({
-        id: parsedData.id,
-        authorId: parsedData.authorId,
-        state: parsedData.state,
+        id: data.id,
+        authorId: data.authorId,
+        state: data.state,
+        publishedAt: isPublished ? today : null,
+        updatedAt: today,
       })
       .returning();
 
@@ -64,10 +70,10 @@ export async function insertBlog(connection: Connection, data: BlogInsertData): 
     const [revision] = await transaction
       .insert(blogRevisionsTable)
       .values({
-        editorId: parsedData.authorId,
+        editorId: data.authorId,
         blogId: initialBlog.id,
-        title: parsedData.title,
-        content: parsedData.content,
+        title: data.title,
+        content: data.content,
         revision: 1,
       })
       .returning();

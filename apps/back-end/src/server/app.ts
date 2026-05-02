@@ -8,6 +8,8 @@ import setupCors from "src/utility/setupCors";
 
 const app = express();
 
+app.use(express.json());
+
 app.use(setupCors(ALLOWED_ORIGINS));
 app.use(express.json());
 app.use(cookieParser());
