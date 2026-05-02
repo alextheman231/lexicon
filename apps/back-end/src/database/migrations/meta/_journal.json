@@ -57,6 +57,13 @@
       "when": 1777736719761,
       "tag": "0007_chunky_ultron",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1777759594697,
+      "tag": "0008_fantastic_puppet_master",
+      "breakpoints": true
     }
   ]
 }
