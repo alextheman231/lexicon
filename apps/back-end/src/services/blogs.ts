@@ -1,12 +1,34 @@
-import type { Blog, BlogInsertData, BlogView } from "@lexicon/models";
+import type { Blog, BlogInsertData, BlogSummary, BlogView } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 
 import { assertNotNull } from "@alextheman/utility";
-import { BlogState, parseBlog, parseBlogInsertData, parseBlogView } from "@lexicon/models";
+import {
+  parseBlog,
+  parseBlogInsertData,
+  parseBlogSummaries,
+  parseBlogView,
+} from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
 import { blogRevisionsTable, blogsTable, blogStateHistoryTable } from "src/database/schema";
+
+// TODO: Pagination
+export async function selectBlogSummaries(connection: Connection): Promise<Array<BlogSummary>> {
+  const blogs = await connection
+    .select({
+      id: blogsTable.id,
+      authorId: blogsTable.authorId,
+      updatedAt: blogsTable.updatedAt,
+      state: blogsTable.state,
+      publishedAt: blogsTable.publishedAt,
+      title: blogRevisionsTable.title,
+    })
+    .from(blogsTable)
+    .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.id, blogsTable.currentRevisionId));
+
+  return parseBlogSummaries(blogs);
+}
 
 export async function selectBlogView(
   connection: Connection,
@@ -23,7 +45,7 @@ export async function selectBlogView(
       content: blogRevisionsTable.content,
     })
     .from(blogsTable)
-    .leftJoin(blogRevisionsTable, eq(blogRevisionsTable.id, blogsTable.currentRevisionId))
+    .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.id, blogsTable.currentRevisionId))
     .where(eq(blogsTable.id, blogId));
 
   return blog ? parseBlogView(blog) : null;
@@ -38,7 +60,7 @@ export async function insertBlog(connection: Connection, data: BlogInsertData): 
       .values({
         id: parsedData.id,
         authorId: parsedData.authorId,
-        state: BlogState.CREATED,
+        state: parsedData.state
       })
       .returning();
 
