@@ -3,12 +3,7 @@ import type { Blog, BlogInsertData, BlogSummary, BlogView } from "@lexicon/model
 import type { Connection } from "src/database/connection";
 
 import { assertNotNull } from "@alextheman/utility";
-import {
-  parseBlog,
-  parseBlogInsertData,
-  parseBlogSummaries,
-  parseBlogView,
-} from "@lexicon/models";
+import { parseBlog, parseBlogInsertData, parseBlogSummaries, parseBlogView } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
 import { blogRevisionsTable, blogsTable, blogStateHistoryTable } from "src/database/schema";
@@ -60,7 +55,7 @@ export async function insertBlog(connection: Connection, data: BlogInsertData): 
       .values({
         id: parsedData.id,
         authorId: parsedData.authorId,
-        state: parsedData.state
+        state: parsedData.state,
       })
       .returning();
 
