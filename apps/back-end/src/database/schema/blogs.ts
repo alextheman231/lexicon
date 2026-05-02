@@ -1,7 +1,9 @@
 import { BlogState } from "@lexicon/models";
+import { sql } from "drizzle-orm";
 import {
   bigint,
   bigserial,
+  check,
   index,
   integer,
   jsonb,
@@ -18,18 +20,35 @@ import { usersTable } from "src/database/schema/users";
 
 export const blogStateEnum = pgEnum<typeof BlogState>("BLOG_STATE_T", BlogState);
 
-export const blogsTable = pgTable("blogs", {
-  authorId: uuid("author_id")
-    .notNull()
-    .references(() => {
-      return usersTable.id;
-    }),
-  currentRevisionId: bigint("current_revision_id", { mode: "number" }),
-  id: uuid("id").primaryKey().defaultRandom(),
-  publishedAt: timestamp("published_at", { withTimezone: true }),
-  state: blogStateEnum("state").notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
-});
+export const blogsTable = pgTable(
+  "blogs",
+  {
+    authorId: uuid("author_id")
+      .notNull()
+      .references(() => {
+        return usersTable.id;
+      }),
+    currentRevisionId: bigint("current_revision_id", { mode: "number" }),
+    id: uuid("id").primaryKey().defaultRandom(),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    state: blogStateEnum("state").notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => {
+    return [
+      check(
+        "published_requires_timestamp",
+        sql`
+          (
+            ${table.state} = ${BlogState.PUBLISHED}
+          ) = (
+            ${table.publishedAt} IS NOT NULL
+          )
+        `,
+      ),
+    ];
+  },
+);
 
 export const blogRevisionsTable = pgTable(
   "blog_revisions",
