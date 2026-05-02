@@ -4,6 +4,7 @@ import type UserFactory from "factory/users";
 
 import { getRandomNumber, omitProperties } from "@alextheman/utility";
 import { faker } from "@faker-js/faker";
+import { BlogState } from "@lexicon/models";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
@@ -64,6 +65,7 @@ class BlogFactory {
       authorId,
       title: faker.music.songName(),
       content: BlogFactory.generateEditorContent(faker.lorem.sentences(getRandomNumber(0, 5))),
+      state: BlogState.CREATED,
       ...omitProperties(data, "author"),
     });
 
