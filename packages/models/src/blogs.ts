@@ -14,7 +14,6 @@ export const blogSchema = z.object({
   id: z.uuid(),
   authorId: z.uuid(),
   currentRevisionId: z.int().positive(),
-  createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().nullable(),
   publishedAt: z.coerce.date().nullable(),
 });

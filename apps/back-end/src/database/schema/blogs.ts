@@ -24,11 +24,10 @@ export const blogsTable = pgTable("blogs", {
     .references(() => {
       return usersTable.id;
     }),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   currentRevisionId: bigint("current_revision_id", { mode: "number" }),
   id: uuid("id").primaryKey().defaultRandom(),
   publishedAt: timestamp("published_at", { withTimezone: true }),
-  updatedAt: timestamp("updated_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const blogRevisionsTable = pgTable(
