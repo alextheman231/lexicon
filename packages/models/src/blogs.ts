@@ -4,6 +4,7 @@ import { az } from "@alextheman/utility";
 import z from "zod";
 
 export const BlogState = {
+  CREATED: "created",
   DRAFT: "draft",
   PUBLISHED: "published",
   ARCHIVED: "archived",
@@ -13,6 +14,7 @@ export type BlogState = CreateEnumType<typeof BlogState>;
 export const blogSchema = z.object({
   id: z.uuid(),
   authorId: z.uuid(),
+  state: z.enum(BlogState),
   currentRevisionId: z.int().positive(),
   updatedAt: z.coerce.date().nullable(),
   publishedAt: z.coerce.date().nullable(),
@@ -66,6 +68,7 @@ export function parseBlogStateHistory(input: unknown): Array<BlogStateHistoryRow
 export const blogInsertSchema = z.object({
   id: z.uuid().optional(),
   authorId: z.uuid(),
+  state: z.enum(BlogState),
   title: z.string(),
   content: z.record(z.string(), z.any()),
 });
@@ -81,6 +84,7 @@ export const blogViewSchema = z.object({
   authorId: z.uuid(),
   updatedAt: z.coerce.date().nullable(),
   publishedAt: z.coerce.date().nullable(),
+  state: z.enum(BlogState),
   title: z.string(),
   content: z.record(z.string(), z.any()),
 });

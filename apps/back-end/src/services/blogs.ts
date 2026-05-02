@@ -3,10 +3,10 @@ import type { Blog, BlogInsertData, BlogView } from "@lexicon/models";
 import type { Connection } from "src/database/connection";
 
 import { assertNotNull } from "@alextheman/utility";
-import { parseBlog, parseBlogInsertData, parseBlogView } from "@lexicon/models";
+import { BlogState, parseBlog, parseBlogInsertData, parseBlogView } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
-import { blogRevisionsTable, blogsTable } from "src/database/schema";
+import { blogRevisionsTable, blogsTable, blogStateHistoryTable } from "src/database/schema";
 
 export async function selectBlogView(
   connection: Connection,
@@ -17,6 +17,7 @@ export async function selectBlogView(
       id: blogsTable.id,
       authorId: blogsTable.authorId,
       updatedAt: blogsTable.updatedAt,
+      state: blogsTable.state,
       publishedAt: blogsTable.publishedAt,
       title: blogRevisionsTable.title,
       content: blogRevisionsTable.content,
@@ -37,6 +38,7 @@ export async function insertBlog(connection: Connection, data: BlogInsertData): 
       .values({
         id: parsedData.id,
         authorId: parsedData.authorId,
+        state: BlogState.CREATED,
       })
       .returning();
 
@@ -59,6 +61,13 @@ export async function insertBlog(connection: Connection, data: BlogInsertData): 
       .update(blogsTable)
       .set({ currentRevisionId: revision.id })
       .where(eq(blogsTable.id, initialBlog.id));
+
+    await transaction.insert(blogStateHistoryTable).values({
+      state: initialBlog.state,
+      blogId: initialBlog.id,
+      revisionId: revision.id,
+      updatedById: initialBlog.authorId,
+    });
 
     const [blog] = await transaction
       .select()
