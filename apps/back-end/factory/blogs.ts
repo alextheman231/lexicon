@@ -65,7 +65,7 @@ class BlogFactory {
       authorId,
       title: faker.music.songName(),
       content: BlogFactory.generateEditorContent(faker.lorem.sentences(getRandomNumber(0, 5))),
-      state: BlogState.CREATED,
+      state: BlogState.DRAFT,
       ...omitProperties(data, "author"),
     });
 

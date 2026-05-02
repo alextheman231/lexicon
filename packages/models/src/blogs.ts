@@ -4,7 +4,6 @@ import { az } from "@alextheman/utility";
 import z from "zod";
 
 export const BlogState = {
-  CREATED: "created",
   DRAFT: "draft",
   PUBLISHED: "published",
   ARCHIVED: "archived",
@@ -79,18 +78,25 @@ export function parseBlogInsertData(input: unknown): BlogInsertData {
   return az.with(blogInsertSchema).parse(input);
 }
 
-export const blogViewSchema = z.object({
+export const blogSummarySchema = z.object({
   id: z.uuid(),
   authorId: z.uuid(),
   updatedAt: z.coerce.date().nullable(),
   publishedAt: z.coerce.date().nullable(),
   state: z.enum(BlogState),
   title: z.string(),
+});
+
+export const blogViewSchema = blogSummarySchema.extend({
   content: z.record(z.string(), z.any()),
 });
 
 export type BlogView = z.infer<typeof blogViewSchema>;
+export type BlogSummary = z.infer<typeof blogSummarySchema>;
 
 export function parseBlogView(input: unknown): BlogView {
   return az.with(blogViewSchema).parse(input);
+}
+export function parseBlogSummaries(input: unknown): Array<BlogSummary> {
+  return az.with(z.array(blogSummarySchema)).parse(input);
 }
