@@ -1,11 +1,11 @@
-import type { BlogInsertData } from "@lexicon/models";
+import type { Blog, BlogInsertData } from "@lexicon/models";
 
 import {
   assertNotNull,
   assertNotUndefined,
-  fillArray,
   isSameDate,
   omitProperties,
+  range,
 } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogSummaries, parseBlogView } from "@lexicon/models";
@@ -26,9 +26,13 @@ describe("GET", () => {
     test("Returns all the blogs from all users", async () => {
       const { connection, factory, authenticatedClient } = await getTestFixtures();
 
-      const blogs = await fillArray(async () => {
-        return await factory.blogs.insert();
-      }, 10);
+      const blogs: Array<Blog> = [];
+
+      // TODO: Allow fillArray to take a sequential option to address the warning about calling client.query() when it is already executing a query.
+      for (const _ of range(0, 10)) {
+        blogs.push(await factory.blogs.insert());
+      }
+
       const blogIds = blogs.map((blog) => {
         return blog.id;
       });
