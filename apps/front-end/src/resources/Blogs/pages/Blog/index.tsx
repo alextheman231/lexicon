@@ -1,5 +1,7 @@
 import { Page, QueryBoundary } from "@alextheman/components";
+import { InternalLink } from "@alextheman/components/v7";
 import { formatDateAndTime } from "@alextheman/utility";
+import Typography from "@mui/material/Typography";
 
 import BlogContent from "src/resources/Blogs/pages/Blog/BlogContent";
 import { useBlogQuery } from "src/resources/Blogs/queries";
@@ -18,9 +20,19 @@ function Blog({ blogId }: BlogPageProps) {
           <Page
             title={blog.title}
             subtitle={
-              blog.publishedAt
-                ? `Published by ${blog.authorDisplayName} (${blog.authorUsername}) on ${formatDateAndTime(blog.publishedAt)}`
-                : `Created by ${blog.authorDisplayName} (${blog.authorUsername}) • Unpublished`
+              blog.publishedAt ? (
+                <Typography variant="subtitle2">
+                  Published by {blog.authorDisplayName} (
+                  <InternalLink to={`/users/${blog.authorId}`}>{blog.authorUsername}</InternalLink>)
+                  on {formatDateAndTime(blog.publishedAt)}`
+                </Typography>
+              ) : (
+                <Typography variant="subtitle2">
+                  Created by {blog.authorDisplayName} (
+                  <InternalLink to={`/users/${blog.authorId}`}>{blog.authorUsername}</InternalLink>)
+                  • Unpublished
+                </Typography>
+              )
             }
           >
             <BlogContent content={blog.content} />
