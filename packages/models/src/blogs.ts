@@ -16,7 +16,7 @@ export const blogSchema = z.object({
   authorId: z.uuid(),
   state: z.enum(BlogState),
   currentRevisionId: z.int().positive(),
-  updatedAt: z.coerce.date().nullable(),
+  updatedAt: z.coerce.date(),
   publishedAt: z.coerce.date().nullable(),
 });
 export type Blog = z.infer<typeof blogSchema>;
@@ -87,7 +87,7 @@ export const blogSummarySchema = z.object({
   authorId: z.uuid(),
   authorUsername: z.string(),
   authorDisplayName: z.string(),
-  updatedAt: z.coerce.date().nullable(),
+  updatedAt: z.coerce.date(),
   publishedAt: z.coerce.date().nullable(),
   state: z.enum(BlogState),
   title: z.string(),
