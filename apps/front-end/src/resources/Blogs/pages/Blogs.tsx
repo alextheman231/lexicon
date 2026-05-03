@@ -42,7 +42,11 @@ function Blogs() {
                             <InternalLink to={`/blogs/${blog.id}`}>{blog.title}</InternalLink>
                           </TableCell>
                           <TableCell>
-                            {blog.authorDisplayName} ({blog.authorUsername})
+                            {blog.authorDisplayName} (
+                            <InternalLink to={`/users/${blog.authorId}`}>
+                              {blog.authorUsername}
+                            </InternalLink>
+                            )
                           </TableCell>
                           <TableCell>
                             {blog.publishedAt
