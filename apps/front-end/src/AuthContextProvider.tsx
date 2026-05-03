@@ -14,6 +14,7 @@ export interface AuthContextValue {
   authenticate: () => void;
   currentUser: User | null | undefined;
   currentUserLoading: boolean;
+  currentUserError: unknown;
   unauthenticate: () => void;
 }
 
@@ -39,7 +40,7 @@ export interface AuthContextProviderProps {
 
 function AuthContextProvider({ children }: AuthContextProviderProps) {
   const queryClient = useQueryClient();
-  const { data: user, isPending } = useCurrentUserQuery();
+  const { data: user, isPending, error } = useCurrentUserQuery();
   const { mutateAsync: logout } = useLogoutMutation();
 
   const currentUser: User | null | undefined = isPending ? undefined : user;
@@ -53,7 +54,13 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
   }, [queryClient]);
 
   const value = useMemo<AuthContextValue>(() => {
-    return { authenticate, currentUser, currentUserLoading: isPending, unauthenticate };
+    return {
+      authenticate,
+      currentUser,
+      currentUserLoading: isPending,
+      currentUserError: error,
+      unauthenticate,
+    };
   }, [authenticate, currentUser, isPending, unauthenticate]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
