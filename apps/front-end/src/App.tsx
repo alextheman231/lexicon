@@ -1,4 +1,4 @@
-import { ModeProvider } from "@alextheman/components";
+import { ModeProvider, SnackbarProvider } from "@alextheman/components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import AuthContextProvider from "src/AuthContextProvider";
@@ -11,7 +11,9 @@ function App() {
     <ModeProvider>
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
-          <Router />
+          <SnackbarProvider>
+            <Router />
+          </SnackbarProvider>
         </AuthContextProvider>
       </QueryClientProvider>
     </ModeProvider>
