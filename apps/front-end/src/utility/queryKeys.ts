@@ -5,11 +5,15 @@ const queryKeys = {
   users: (...args: Array<unknown>) => {
     return ["user", ...args];
   },
+  blogs: (...args: Array<unknown>) => {
+    return ["blogs", ...args];
+  },
 };
 
 export const relatedQueryKeys: Record<keyof typeof queryKeys, Array<unknown>> = {
   auth: [...queryKeys.auth(), ...queryKeys.users()],
   users: [...queryKeys.users()],
+  blogs: [...queryKeys.blogs()],
 };
 
 export default queryKeys;

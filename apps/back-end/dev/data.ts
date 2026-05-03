@@ -1,5 +1,5 @@
 import { az, omitProperties } from "@alextheman/utility";
-import { AuthProvider } from "@lexicon/models";
+import { AuthProvider, BlogState } from "@lexicon/models";
 import DataFactory from "factory";
 import BlogFactory from "factory/blogs";
 import { Pool } from "pg";
@@ -31,8 +31,11 @@ import users from "dev/fixtures/users.json" with { type: "json" };
 
     for (const blog of blogs) {
       await factory.blogs.insert({
-        ...omitProperties(blog, ["authorId", "content"]),
+        ...omitProperties(blog, ["authorId", "content", "state"]),
         author: blog.authorId,
+        state: az
+          .with(z.enum(omitProperties(BlogState, "ARCHIVED")))
+          .parse(blog.state.toLowerCase()),
         content: BlogFactory.generateEditorContent(blog.content),
       });
     }
