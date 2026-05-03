@@ -5,7 +5,7 @@ import { useLocation } from "wouter";
 
 import { useAuth } from "src/AuthContextProvider";
 import QueryBoundary from "src/components/QueryBoundary";
-import UserProfileForm from "src/components/UserProfileForm";
+import UserProfileForm from "src/resources/Users/components/UserProfileForm";
 import { useUpdateUserProfileMutation } from "src/resources/Users/queries";
 import formatError from "src/utility/errors/formatError";
 
