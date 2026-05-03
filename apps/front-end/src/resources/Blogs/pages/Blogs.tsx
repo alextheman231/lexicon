@@ -1,4 +1,4 @@
-import { Page, QueryBoundaryError, SkeletonRow } from "@alextheman/components";
+import { Page, QueryBoundaryError } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/v7";
 import { formatDateAndTime } from "@alextheman/utility";
 import { parseBlogSummary } from "@lexicon/models";
@@ -10,7 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import QueryBoundaryDataMap from "src/components/QueryBoundaryDataMap";
+import QueryBoundaryDataRowsMap from "src/components/QueryBoundaryDataRowsMap";
 import QueryBoundaryProvider from "src/components/QueryBoundaryProvider";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
 
@@ -32,10 +32,7 @@ function Blogs() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <QueryBoundaryDataMap
-                  itemParser={parseBlogSummary}
-                  loadingComponent={<SkeletonRow columns={3} />}
-                >
+                <QueryBoundaryDataRowsMap itemParser={parseBlogSummary} columns={3}>
                   {(blog) => {
                     return (
                       <TableRow>
@@ -53,7 +50,7 @@ function Blogs() {
                       </TableRow>
                     );
                   }}
-                </QueryBoundaryDataMap>
+                </QueryBoundaryDataRowsMap>
               </TableBody>
             </Table>
           </TableContainer>
