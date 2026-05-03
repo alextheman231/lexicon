@@ -28,7 +28,7 @@ function EditUserProfile() {
     <Page title="Edit Profile" disablePadding>
       <QueryBoundary isLoading={currentUserLoading} data={currentUser}>
         {(user) => {
-          return <UserProfileForm user={user} onSubmit={onSubmit} />;
+          return <UserProfileForm user={user} onSubmit={onSubmit} back={`/users/${user.id}`} />;
         }}
       </QueryBoundary>
     </Page>

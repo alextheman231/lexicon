@@ -10,9 +10,10 @@ import useAppForm from "src/hooks/useAppForm";
 interface UserProfileFormProps {
   user: User;
   onSubmit: (data: UserProfileFormOutputData) => Promise<void>;
+  back: string;
 }
 
-function UserProfileForm({ user, onSubmit }: UserProfileFormProps) {
+function UserProfileForm({ user, onSubmit, back }: UserProfileFormProps) {
   const form = useAppForm({
     defaultValues: {
       displayName: user.displayName ?? "",
@@ -54,7 +55,10 @@ function UserProfileForm({ user, onSubmit }: UserProfileFormProps) {
         </Stack>
         <form.AppForm>
           <Box sx={{ paddingTop: 2 }}>
-            <form.SubmitButton>Submit</form.SubmitButton>
+            <Stack direction="row" spacing={2}>
+              <form.SubmitButton />
+              <form.BackButton to={back} />
+            </Stack>
           </Box>
         </form.AppForm>
       </CardContent>
