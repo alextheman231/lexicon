@@ -3,7 +3,7 @@ import { Route } from "wouter";
 
 import PageWrapper from "src/components/PageWrapper";
 import AuthCallback from "src/pages/AuthCallback";
-import BlogEditor from "src/resources/Blogs/components/BlogEditor";
+import Blogs from "src/resources/Blogs/pages/Blogs";
 import BlogsRouter from "src/resources/Blogs/Router";
 import EditUserProfile from "src/resources/Users/pages/EditUserProfile";
 import UsersRouter from "src/resources/Users/Router";
@@ -14,7 +14,7 @@ function Router() {
       <PageWrapper>
         <Switch>
           <Route path="/">
-            <BlogEditor />
+            <Blogs />
           </Route>
           <Route path="/auth/callback">
             <AuthCallback />
