@@ -3,6 +3,7 @@ import { InternalLink } from "@alextheman/components/v7";
 import { formatDateAndTime } from "@alextheman/utility";
 import { parseBlogSummary } from "@lexicon/models";
 import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -20,41 +21,43 @@ function Blogs() {
   return (
     <QueryBoundaryProvider data={blogs} isLoading={isPending} error={error}>
       <Page title="Welcome to Lexicon!" subtitle="Take a look at some of our blogs.">
-        <QueryBoundaryError />
-        <Card>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Author</TableCell>
-                  <TableCell>Published at</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <QueryBoundaryDataRowsMap itemParser={parseBlogSummary} columns={3}>
-                  {(blog) => {
-                    return (
-                      <TableRow>
-                        <TableCell>
-                          <InternalLink to={`/blogs/${blog.id}`}>{blog.title}</InternalLink>
-                        </TableCell>
-                        <TableCell>
-                          {blog.authorDisplayName} ({blog.authorUsername})
-                        </TableCell>
-                        <TableCell>
-                          {blog.publishedAt
-                            ? formatDateAndTime(blog.publishedAt)
-                            : "Not published yet"}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  }}
-                </QueryBoundaryDataRowsMap>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Card>
+        <Stack spacing={1}>
+          <QueryBoundaryError />
+          <Card>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Title</TableCell>
+                    <TableCell>Author</TableCell>
+                    <TableCell>Published at</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <QueryBoundaryDataRowsMap itemParser={parseBlogSummary} columns={3}>
+                    {(blog) => {
+                      return (
+                        <TableRow>
+                          <TableCell>
+                            <InternalLink to={`/blogs/${blog.id}`}>{blog.title}</InternalLink>
+                          </TableCell>
+                          <TableCell>
+                            {blog.authorDisplayName} ({blog.authorUsername})
+                          </TableCell>
+                          <TableCell>
+                            {blog.publishedAt
+                              ? formatDateAndTime(blog.publishedAt)
+                              : "Not published yet"}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    }}
+                  </QueryBoundaryDataRowsMap>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Card>
+        </Stack>
       </Page>
     </QueryBoundaryProvider>
   );
