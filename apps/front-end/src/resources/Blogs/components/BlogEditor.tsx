@@ -8,8 +8,8 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { useState } from "react";
 
+import Debug from "src/components/Debug";
 import ContentEditable from "src/resources/Blogs/components/ContentEditable";
-import DebugEditorState from "src/resources/Blogs/components/DebugEditorState";
 
 interface EditorProps {
   initialContent?: SerializedEditorState;
@@ -46,7 +46,7 @@ function BlogEditor({ initialContent }: EditorProps) {
           }}
         />
       </LexicalComposer>
-      <DebugEditorState editorState={editorState} />
+      <Debug content={editorState} />
     </>
   );
 }

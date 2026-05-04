@@ -1,7 +1,9 @@
 import { ModeProvider, SnackbarProvider } from "@alextheman/components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
 
 import AuthContextProvider from "src/AuthContextProvider";
+import ErrorPage from "src/pages/ErrorPage";
 import Router from "src/Router";
 
 const queryClient = new QueryClient();
@@ -9,13 +11,15 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <ModeProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthContextProvider>
-          <SnackbarProvider>
-            <Router />
-          </SnackbarProvider>
-        </AuthContextProvider>
-      </QueryClientProvider>
+      <ErrorBoundary FallbackComponent={ErrorPage}>
+        <QueryClientProvider client={queryClient}>
+          <AuthContextProvider>
+            <SnackbarProvider>
+              <Router />
+            </SnackbarProvider>
+          </AuthContextProvider>
+        </QueryClientProvider>
+      </ErrorBoundary>
     </ModeProvider>
   );
 }
