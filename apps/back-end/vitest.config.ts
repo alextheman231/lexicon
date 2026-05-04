@@ -7,7 +7,7 @@ const vitestConfig: UserProjectConfigExport = {
   test: {
     environment: "node",
     include: ["**/tests/**/*.test.ts"],
-    setupFiles: ["tests/transaction.ts"],
+    setupFiles: ["tests/isolation.ts"],
     globalSetup: ["tests/setup.ts"],
   },
 };
