@@ -1,27 +1,31 @@
 import type { PoolClient } from "pg";
 
+import type { getConnection } from "src/database/connection";
+
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { afterEach, beforeEach } from "vitest";
+import { afterEach, beforeEach, vi } from "vitest";
 
-import { getConnection, pool, setConnection } from "src/database/connection";
+import { pool } from "src/database/connection";
+// eslint-disable-next-line @alextheman/no-namespace-imports
+import * as dbModule from "src/database/connection";
 // eslint-disable-next-line @alextheman/no-namespace-imports
 import * as schema from "src/database/schema";
 
 let client: PoolClient;
+let testConnection: ReturnType<typeof getConnection>;
 
 beforeEach(async () => {
   client = await pool.connect();
 
-  const testConnection = drizzle(client, { schema });
-  setConnection(testConnection);
+  testConnection = drizzle(client, { schema });
 
-  const connection = getConnection();
-  await connection.execute(sql`BEGIN`);
+  vi.spyOn(dbModule, "getConnection").mockReturnValue(testConnection);
+  await testConnection.execute(sql`BEGIN`);
 });
 
 afterEach(async () => {
-  const connection = getConnection();
-  await connection.execute(sql`ROLLBACK`);
+  await testConnection.execute(sql`ROLLBACK`);
+  vi.restoreAllMocks();
   client.release();
 });

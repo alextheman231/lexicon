@@ -38,14 +38,10 @@ export type Connection = NodePgDatabase<typeof schema> & {
   $client?: Pool | PoolClient;
 };
 
-let connection: Connection = drizzle(pool, { schema });
+const connection: Connection = drizzle(pool, { schema });
 
 export function getConnection(): Connection {
   return connection;
-}
-
-export function setConnection(newConnection: Connection): void {
-  connection = newConnection;
 }
 
 export { pool };
