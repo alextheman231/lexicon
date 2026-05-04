@@ -1,0 +1,47 @@
+import type { User } from "@lexicon/models";
+import type { ReactNode } from "react";
+
+import { ErrorPage } from "@alextheman/components/v7";
+import axios from "axios";
+
+import { useAuth } from "src/AuthContextProvider";
+import QueryBoundary from "src/components/QueryBoundary";
+import { DEFAULT_ERROR_MESSAGE } from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
+import defaultErrorFormatters from "src/utility/errors/errorFormatters";
+
+export interface AuthRequiredProps {
+  unauthorisedMessage?: string;
+  children: ReactNode | ((currentUser: User) => ReactNode);
+}
+
+function AuthRequired({
+  children,
+  unauthorisedMessage = "You do not have permission to access this page.",
+}: AuthRequiredProps) {
+  const { currentUser, currentUserLoading, currentUserError } = useAuth();
+
+  return (
+    <QueryBoundary
+      data={currentUser}
+      isLoading={currentUserLoading}
+      error={currentUserError}
+      nullComponent={<ErrorPage title="Unauthorised">{unauthorisedMessage}</ErrorPage>}
+      codeErrorMap={{ ...defaultErrorFormatters, AUTH_REQUIRED: unauthorisedMessage }}
+      errorFunction={(error) => {
+        if (
+          axios.isAxiosError(error) &&
+          (error.response?.status === 401 || error.response?.status === 403)
+        ) {
+          return unauthorisedMessage;
+        }
+        return DEFAULT_ERROR_MESSAGE;
+      }}
+    >
+      {(user) => {
+        return typeof children === "function" ? children(user) : children;
+      }}
+    </QueryBoundary>
+  );
+}
+
+export default AuthRequired;
