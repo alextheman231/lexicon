@@ -40,7 +40,7 @@ export const blogsTable = pgTable(
         "published_requires_timestamp",
         sql`
           (
-            ${table.state} = ${BlogState.PUBLISHED}
+            ${table.state} = ${sql.raw(`'${BlogState.PUBLISHED}'`)}
           ) = (
             ${table.publishedAt} IS NOT NULL
           )
