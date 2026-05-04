@@ -3,9 +3,8 @@ import type { CodeErrorMap } from "src/utility/errors/errorFormatters";
 import { CodeError } from "@alextheman/utility/v6";
 import axios from "axios";
 
+import { DEFAULT_ERROR_MESSAGE } from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 import defaultErrorFormatters from "src/utility/errors/errorFormatters";
-
-const DEFAULT_MESSAGE = "Something went wrong. Please try again later.";
 
 function resolveErrorFromCode(error: CodeError, errorFormatters: CodeErrorMap, status?: number) {
   if (error.code in errorFormatters) {
@@ -15,7 +14,7 @@ function resolveErrorFromCode(error: CodeError, errorFormatters: CodeErrorMap, s
     }
     return defaultMessageForCode;
   }
-  return error.message ?? DEFAULT_MESSAGE;
+  return error.message ?? DEFAULT_ERROR_MESSAGE;
 }
 
 function resolveError(
@@ -31,7 +30,7 @@ function resolveError(
     return errorFunction(error);
   }
 
-  return DEFAULT_MESSAGE;
+  return DEFAULT_ERROR_MESSAGE;
 }
 
 function formatError(
