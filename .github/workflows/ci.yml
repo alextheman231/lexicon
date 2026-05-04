@@ -96,14 +96,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build packages
+        run: pnpm run build
+
       - name: Apply migrations
         run: pnpm run migrate-db
         working-directory: apps/back-end
         env:
           NODE_ENV: test
-
-      - name: Build packages
-        run: pnpm run build
 
       - name: Run tests
         run: pnpm test
