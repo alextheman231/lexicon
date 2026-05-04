@@ -30,7 +30,7 @@
     "lint-prettier-sql": "prettier --check \"**/*.sql\"",
     "lint-prettier-typescript": "prettier --check --parser typescript \"**/*.ts\"",
     "lint-tsc": "tsc --noEmit",
-    "migrate-db": "drizzle-kit migrate",
+    "migrate-db": "tsx src/database/migrate.ts",
     "recreate-db": "pnpm run reset-db && pnpm run migrate-db && pnpm run seed-db",
     "recreate-docker-test-db": "docker compose -f docker-compose.test.yml down && pnpm run start-test-db",
     "recreate-test-db": "pnpm run reset-test-db && cross-env NODE_ENV=test pnpm run migrate-db",

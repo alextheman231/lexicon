@@ -5,64 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1773104884598,
-      "tag": "0000_mean_morph",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1776295486828,
-      "tag": "0001_familiar_redwing",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1776296221834,
-      "tag": "0002_productive_veda",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1776980678713,
-      "tag": "0003_striped_purifiers",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1777723815591,
-      "tag": "0004_bored_toad_men",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1777724662543,
-      "tag": "0005_plain_greymalkin",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1777725205692,
-      "tag": "0006_plain_chameleon",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1777736719761,
-      "tag": "0007_chunky_ultron",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "7",
-      "when": 1777759594697,
-      "tag": "0008_fantastic_puppet_master",
+      "when": 1777932070773,
+      "tag": "0000_unusual_risque",
       "breakpoints": true
     }
   ]

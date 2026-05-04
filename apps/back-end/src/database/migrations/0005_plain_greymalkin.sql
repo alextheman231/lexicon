@@ -1,2 +1,0 @@
-ALTER TABLE "blogs"
-ADD COLUMN "state" "BLOG_STATE_T" NOT NULL;
