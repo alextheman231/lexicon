@@ -1,4 +1,4 @@
-import type { BlogInsertData } from "@lexicon/models";
+import type { BlogFilter, BlogInsertData } from "@lexicon/models";
 
 import {
   assertNotNull,
@@ -6,10 +6,16 @@ import {
   fillArray,
   isSameDate,
   omitProperties,
+  paralleliseArrays,
 } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
-import { BlogState, parseBlogSummaries, parseBlogView } from "@lexicon/models";
-import { eq } from "drizzle-orm";
+import {
+  BlogState,
+  parseBlogSummaries,
+  parseBlogSummariesResponse,
+  parseBlogView,
+} from "@lexicon/models";
+import { eq, sql } from "drizzle-orm";
 import BlogFactory from "factory/blogs";
 import request from "supertest";
 import { describe, expect, test } from "vitest";
@@ -79,6 +85,107 @@ describe("GET", () => {
           );
         }
       }
+    });
+    test("Takes pagination/filtering data through the query string", async () => {
+      const { connection, factory, authenticatedClient } = await getTestFixtures();
+      // TODO: Revisit our testing strategy so we don't have to do this
+      await connection.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
+
+      const author = await factory.users.insert();
+
+      const blogs = (
+        await fillArray(
+          async () => {
+            return await factory.blogs.insert({ author, state: BlogState.PUBLISHED });
+          },
+          10,
+          { sequential: true },
+        )
+      ).toSorted((first, second) => {
+        assertNotNull(first.publishedAt);
+        assertNotNull(second.publishedAt);
+
+        return second.publishedAt.getTime() - first.publishedAt.getTime();
+      });
+
+      const secondPageBlogs = blogs.slice(5, 10);
+
+      const filters: BlogFilter = {
+        authorId: author.id,
+        state: BlogState.PUBLISHED,
+        pageNumber: 2,
+        pageSize: 5,
+        sortColumn: "publishedAt",
+        sortDirection: "desc",
+      };
+
+      const { body } = await authenticatedClient.get("/api/v1/blogs").query(filters).expect(200);
+
+      const { blogs: blogSummaries, count } = parseBlogSummariesResponse(body);
+      expect(count).toBe(10);
+      expect(blogSummaries.length).toBe(secondPageBlogs.length);
+      expect(secondPageBlogs.length).toBe(5);
+
+      for (const [returnedBlog, factoryBlog] of paralleliseArrays(blogSummaries, secondPageBlogs)) {
+        assertNotUndefined(factoryBlog);
+
+        expect(returnedBlog.id).toBe(factoryBlog.id);
+        expect(returnedBlog.authorId).toBe(author.id);
+        expect(returnedBlog.authorDisplayName).toBe(author.displayName);
+        expect(returnedBlog.authorUsername).toBe(author.username);
+      }
+    });
+    test("Filtering by authorId works", async () => {
+      const { connection, factory, authenticatedClient } = await getTestFixtures();
+      await connection.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
+
+      const author = await factory.users.insert();
+
+      await fillArray(
+        async () => {
+          return await factory.blogs.insert({ author });
+        },
+        5,
+        { sequential: true },
+      );
+
+      await fillArray(
+        async () => {
+          await factory.blogs.insert();
+        },
+        3,
+        { sequential: true },
+      );
+
+      const filters: BlogFilter = {
+        authorId: author.id,
+        pageNumber: 1,
+        pageSize: 10,
+      };
+
+      const { body } = await authenticatedClient.get("/api/v1/blogs").query(filters).expect(200);
+
+      const { blogs: blogSummaries, count } = parseBlogSummariesResponse(body);
+
+      expect(blogSummaries.length).toBe(5);
+      expect(count).toBe(5);
+
+      for (const blogSummary of blogSummaries) {
+        expect(blogSummary.authorId).toBe(author.id);
+      }
+    });
+    test("Returns an empty array if the authorId is not found in database", async () => {
+      const { authenticatedClient } = await getTestFixtures();
+
+      const filters: BlogFilter = {
+        authorId: randomUUID(),
+      };
+
+      const { body } = await authenticatedClient.get("/api/v1/blogs").query(filters).expect(200);
+
+      const { blogs, count } = parseBlogSummariesResponse(body);
+      expect(blogs.length).toBe(0);
+      expect(count).toBe(0);
     });
   });
 
