@@ -1,9 +1,15 @@
 import { assertNotUndefined } from "@alextheman/utility";
-import { parseBlogInsertData } from "@lexicon/models";
+import { parseBlogFilter, parseBlogInsertData } from "@lexicon/models";
 import { Router } from "express";
 
 import { getConnection } from "src/database/connection";
-import { insertBlog, selectBlogSummaries, selectBlogView } from "src/services/blogs";
+import {
+  countBlogs,
+  insertBlog,
+  queryBlogIds,
+  selectBlogSummaries,
+  selectBlogView,
+} from "src/services/blogs";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import resourceNotFoundError from "src/utility/resourceNotFoundError";
 import requireAuth from "src/utility/validators/requireAuth";
@@ -14,10 +20,18 @@ const blogsRouter = Router();
 blogsRouter
   .route("/")
   .get(
-    handleEndpointMiddleware(async (_request, response) => {
+    handleEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
-      const blogs = await selectBlogSummaries(connection);
-      response.status(200).send({ blogs });
+      const filters = parseBlogFilter(request.query);
+
+      const blogIds = await queryBlogIds(connection, filters);
+      const count = await countBlogs(connection, {
+        authorId: filters.authorId,
+        state: filters.state,
+      });
+
+      const blogs = await selectBlogSummaries(connection, blogIds);
+      response.status(200).send({ blogs, count });
     }),
   )
   .post(

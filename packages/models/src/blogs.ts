@@ -4,6 +4,8 @@ import { az, omitProperties } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import z from "zod";
 
+import { SortDirection } from "src/SortDirection";
+
 export const BlogState = {
   DRAFT: "draft",
   PUBLISHED: "published",
@@ -108,4 +110,30 @@ export function parseBlogSummary(input: unknown): BlogSummary {
 }
 export function parseBlogSummaries(input: unknown): Array<BlogSummary> {
   return az.with(z.array(blogSummarySchema)).parse(input);
+}
+
+export const blogFilterSchema = z.object({
+  authorId: z.uuid().optional(),
+  state: z.enum(BlogState).optional(),
+  pageNumber: az.fieldNumber().int().optional(),
+  pageSize: az.fieldNumber().int().optional(),
+  sortColumn: z.enum(["updatedAt", "publishedAt", "state", "title"]).optional(),
+  sortDirection: z.enum(SortDirection).optional(),
+});
+
+export type BlogFilter = z.infer<typeof blogFilterSchema>;
+
+export function parseBlogFilter(input: unknown): BlogFilter {
+  return az.with(blogFilterSchema).parse(input);
+}
+
+export const blogSummariesResponseSchema = z.object({
+  blogs: z.array(blogSummarySchema),
+  count: z.int(),
+});
+
+export type BlogSummariesResponse = z.infer<typeof blogSummariesResponseSchema>;
+
+export function parseBlogSummariesResponse(input: unknown): BlogSummariesResponse {
+  return az.with(blogSummariesResponseSchema).parse(input);
 }
