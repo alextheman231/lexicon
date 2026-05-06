@@ -1,19 +1,22 @@
-import { Page } from "@alextheman/components";
+import { Page, useHash } from "@alextheman/components";
 import { DropdownMenuItem, DropdownMenuWrapper, InternalLink } from "@alextheman/components/v7";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import Divider from "@mui/material/Divider";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 
 import QueryBoundary from "src/components/QueryBoundary";
+import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
+import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import { useUserQuery } from "src/resources/Users/queries";
 
 interface UserProfileProps {
   userId: string;
 }
 
+type TabState = "blogs" | "about";
+
 function UserProfile({ userId }: UserProfileProps) {
   const { data: user, isPending, error } = useUserQuery(userId);
+  const [tab, setTab] = useHash<TabState>("blogs");
 
   return (
     <QueryBoundary data={user} isLoading={isPending} error={error}>
@@ -29,12 +32,19 @@ function UserProfile({ userId }: UserProfileProps) {
                 </DropdownMenuItem>
               </DropdownMenuWrapper>
             }
+            tabs={
+              <Tabs
+                value={tab}
+                onChange={(_, value: TabState) => {
+                  setTab(value);
+                }}
+              >
+                <Tab label="Blogs" value="blogs" />
+                <Tab label="About" value="about" />
+              </Tabs>
+            }
           >
-            <Card>
-              <CardHeader title="Description" />
-              <Divider />
-              <CardContent>{user.description}</CardContent>
-            </Card>
+            {{ blogs: <UserBlogs user={user} />, about: <AboutUser user={user} /> }[tab]}
           </Page>
         );
       }}
