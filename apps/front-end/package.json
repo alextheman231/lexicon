@@ -30,7 +30,7 @@
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "dependencies": {
-    "@alextheman/components": "6.16.1",
+    "@alextheman/components": "6.17.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@lexicon/models": "workspace:*",
