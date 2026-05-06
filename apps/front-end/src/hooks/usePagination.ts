@@ -117,7 +117,7 @@ function usePagination<DataType extends object = Record<PropertyKey, unknown>>(
     PaginationState<DataType>,
     [action: Action<DataType>]
   >(createReducer(initialState), {
-    pageNumber: initialState.pageNumber ?? 1,
+    pageNumber: initialState.pageNumber ?? 0,
     pageSize: initialState.pageSize ?? 100,
     rawSearch,
     sortColumn,

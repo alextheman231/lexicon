@@ -1,3 +1,5 @@
+import type { BlogSummary } from "@lexicon/models";
+
 import { Page, QueryBoundaryError } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/v7";
 import { formatDateAndTime } from "@alextheman/utility";
@@ -8,15 +10,27 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
+import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import QueryBoundaryDataRowsMap from "src/components/QueryBoundaryDataRowsMap";
 import QueryBoundaryProvider from "src/components/QueryBoundaryProvider";
+import TablePagination from "src/components/TablePagination";
+import TableSortLabel from "src/components/TableSortLabel";
+import usePagination from "src/hooks/usePagination";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
 
 function Blogs() {
-  const { data: blogs, isPending, error } = useBlogsQuery();
+  const [{ paginationSettings }, { applySort, setPageNumber, setPageSize }] =
+    usePagination<BlogSummary>({
+      pageNumber: 0,
+      pageSize: 100,
+      sortColumn: "publishedAt",
+      sortDirection: "desc",
+    });
+  const { data, isPending, error } = useBlogsQuery(paginationSettings);
+  const { rows: blogs, totalRecordCount } = data ?? {};
 
   return (
     <QueryBoundaryProvider data={blogs} isLoading={isPending} error={error}>
@@ -28,9 +42,25 @@ function Blogs() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Title</TableCell>
+                    <TableCell>
+                      <TableSortLabel<BlogSummary>
+                        columnName="title"
+                        applySort={applySort}
+                        paginationSettings={paginationSettings}
+                      >
+                        Title
+                      </TableSortLabel>
+                    </TableCell>
                     <TableCell>Author</TableCell>
-                    <TableCell>Published at</TableCell>
+                    <TableCell>
+                      <TableSortLabel<BlogSummary>
+                        columnName="publishedAt"
+                        applySort={applySort}
+                        paginationSettings={paginationSettings}
+                      >
+                        Published at
+                      </TableSortLabel>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -58,6 +88,16 @@ function Blogs() {
                     }}
                   </QueryBoundaryDataRowsMap>
                 </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination<BlogSummary>
+                      recordCount={totalRecordCount}
+                      paginationSettings={paginationSettings}
+                      setPageNumber={setPageNumber}
+                      setPageSize={setPageSize}
+                    />
+                  </TableRow>
+                </TableFooter>
               </Table>
             </TableContainer>
           </Card>
