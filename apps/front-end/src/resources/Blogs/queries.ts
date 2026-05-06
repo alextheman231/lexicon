@@ -1,5 +1,7 @@
 import type { BlogInsertData, BlogSummary, BlogView } from "@lexicon/models";
 
+import type { PaginatedResult, PaginationSettings } from "src/hooks/usePagination";
+
 import { az } from "@alextheman/utility";
 import { parseBlogSummaries, parseBlogView } from "@lexicon/models";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -8,12 +10,17 @@ import z from "zod";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
 import queryKeys from "src/utility/queryKeys";
 
-export function useBlogsQuery() {
-  return useQuery<Array<BlogSummary>>({
-    queryKey: queryKeys.blogs(),
+export function useBlogsQuery(
+  params?: Partial<PaginationSettings<BlogSummary> & { authorId: string }>,
+) {
+  return useQuery<PaginatedResult<BlogSummary>>({
+    queryKey: queryKeys.blogs(params),
     queryFn: async () => {
-      const { data } = await lexiconAuthenticatedClient.get("/api/v1/blogs");
-      return parseBlogSummaries(data.blogs);
+      const { data } = await lexiconAuthenticatedClient.get("/api/v1/blogs", { params });
+      return {
+        rows: parseBlogSummaries(data.blogs),
+        totalRecordCount: az.with(z.int()).parse(data.count),
+      };
     },
   });
 }
