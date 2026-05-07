@@ -3,8 +3,11 @@ import type { ChangeEvent, MouseEvent } from "react";
 
 import type { PaginationSettings } from "src/hooks/usePagination";
 
-import { parseIntStrict } from "@alextheman/utility";
+import { assertNotUndefined, parseIntStrict } from "@alextheman/utility";
+import { DataError } from "@alextheman/utility/v6";
 import MUITablePagination from "@mui/material/TablePagination";
+
+import { usePaginationContext } from "src/components/PaginationProvider";
 
 export interface TablePaginationProps<
   DataType extends object = Record<PropertyKey, unknown>,
@@ -12,25 +15,44 @@ export interface TablePaginationProps<
   TablePaginationOwnProps,
   "count" | "onPageChange" | "onRowsPerPageChange" | "page" | "rowsPerPage"
 > {
-  paginationSettings: PaginationSettings<DataType>;
+  paginationSettings?: PaginationSettings<DataType>;
   recordCount?: number;
-  setPageNumber: (pageNumber: number) => void;
-  setPageSize: (pageSize: number) => void;
+  setPageNumber?: (pageNumber: number) => void;
+  setPageSize?: (pageSize: number) => void;
 }
 
 function TablePagination<DataType extends object = Record<PropertyKey, unknown>>({
-  paginationSettings,
   recordCount,
-  setPageNumber,
-  setPageSize,
   rowsPerPageOptions = [100, 500, 750, 1000],
   ...props
 }: TablePaginationProps<DataType>) {
+  const context = usePaginationContext<DataType, false>({ strict: false });
+  const {
+    pagination: [
+      { paginationSettings: contextPaginationSettings },
+      { setPageNumber: contextSetPageNumber, setPageSize: contextSetPageSize },
+    ],
+  } = context ?? { pagination: [{}, {}] };
+
+  const paginationSettings = props.paginationSettings ?? contextPaginationSettings;
+  const setPageNumber = props.setPageNumber ?? contextSetPageNumber;
+  const setPageSize = props.setPageSize ?? contextSetPageSize;
+
+  if (!paginationSettings || !setPageNumber || !setPageSize) {
+    throw new DataError(
+      { paginationSettings, setPageNumber, setPageSize },
+      "PAGINATION_DATA_NOT_FOUND",
+      "Could not retrieve pagination data from either props or context.",
+    );
+  }
+
   function handlePageChange(_event: MouseEvent<HTMLButtonElement> | null, newPage: number) {
+    assertNotUndefined(setPageNumber);
     setPageNumber(newPage);
   }
 
   function handleRowsPerPageChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    assertNotUndefined(setPageSize);
     setPageSize(parseIntStrict(event.target.value));
   }
 

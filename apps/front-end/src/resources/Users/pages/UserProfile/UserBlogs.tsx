@@ -13,6 +13,7 @@ import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+import PaginationProvider from "src/components/PaginationProvider";
 import QueryBoundaryDataRowsMap from "src/components/QueryBoundaryDataRowsMap";
 import QueryBoundaryProvider from "src/components/QueryBoundaryProvider";
 import TablePagination from "src/components/TablePagination";
@@ -25,76 +26,64 @@ interface UserBlogsProps {
 }
 
 function UserBlogs({ user }: UserBlogsProps) {
-  const [{ paginationSettings }, { applySort, setPageNumber, setPageSize }] =
-    usePagination<BlogSummary>({
-      pageNumber: 0,
-      pageSize: 100,
-      sortColumn: "publishedAt",
-      sortDirection: "desc",
-    });
+  const pagination = usePagination<BlogSummary>({
+    pageNumber: 0,
+    pageSize: 100,
+    sortColumn: "publishedAt",
+    sortDirection: "desc",
+  });
+  const [{ paginationSettings }] = pagination;
+
   const { data, isPending, error } = useBlogsQuery({ ...paginationSettings, authorId: user.id });
   const { rows: blogs, totalRecordCount } = data ?? {};
 
   return (
-    <QueryBoundaryProvider data={blogs} isLoading={isPending} error={error}>
-      <QueryBoundaryError />
-      <Card>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <TableSortLabel<BlogSummary>
-                    columnName="title"
-                    applySort={applySort}
-                    paginationSettings={paginationSettings}
-                  >
-                    Title
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell>
-                  <TableSortLabel<BlogSummary>
-                    columnName="publishedAt"
-                    applySort={applySort}
-                    paginationSettings={paginationSettings}
-                  >
-                    Published at
-                  </TableSortLabel>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <QueryBoundaryDataRowsMap itemParser={parseBlogSummary} columns={2}>
-                {(blog) => {
-                  return (
-                    <TableRow>
-                      <TableCell>
-                        <InternalLink to={`/blogs/${blog.id}`}>{blog.title}</InternalLink>
-                      </TableCell>
-                      <TableCell>
-                        {blog.publishedAt
-                          ? formatDateAndTime(blog.publishedAt)
-                          : "Not published yet"}
-                      </TableCell>
-                    </TableRow>
-                  );
-                }}
-              </QueryBoundaryDataRowsMap>
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination<BlogSummary>
-                  recordCount={totalRecordCount}
-                  paginationSettings={paginationSettings}
-                  setPageNumber={setPageNumber}
-                  setPageSize={setPageSize}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
-      </Card>
-    </QueryBoundaryProvider>
+    <PaginationProvider pagination={pagination}>
+      <QueryBoundaryProvider data={blogs} isLoading={isPending} error={error}>
+        <QueryBoundaryError />
+        <Card>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <TableSortLabel<BlogSummary> columnName="title">Title</TableSortLabel>
+                  </TableCell>
+                  <TableCell>
+                    <TableSortLabel<BlogSummary> columnName="publishedAt">
+                      Published at
+                    </TableSortLabel>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <QueryBoundaryDataRowsMap itemParser={parseBlogSummary} columns={2}>
+                  {(blog) => {
+                    return (
+                      <TableRow>
+                        <TableCell>
+                          <InternalLink to={`/blogs/${blog.id}`}>{blog.title}</InternalLink>
+                        </TableCell>
+                        <TableCell>
+                          {blog.publishedAt
+                            ? formatDateAndTime(blog.publishedAt)
+                            : "Not published yet"}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  }}
+                </QueryBoundaryDataRowsMap>
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination<BlogSummary> recordCount={totalRecordCount} />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </Card>
+      </QueryBoundaryProvider>
+    </PaginationProvider>
   );
 }
 
