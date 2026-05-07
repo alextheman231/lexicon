@@ -26,17 +26,11 @@ function TablePagination<DataType extends object = Record<PropertyKey, unknown>>
   rowsPerPageOptions = [100, 500, 750, 1000],
   ...props
 }: TablePaginationProps<DataType>) {
-  const context = usePaginationContext<DataType, false>({ strict: false });
-  const {
-    pagination: [
-      { paginationSettings: contextPaginationSettings },
-      { setPageNumber: contextSetPageNumber, setPageSize: contextSetPageSize },
-    ],
-  } = context ?? { pagination: [{}, {}] };
+  const { pagination } = usePaginationContext<DataType, false>({ strict: false }) ?? {};
 
-  const paginationSettings = props.paginationSettings ?? contextPaginationSettings;
-  const setPageNumber = props.setPageNumber ?? contextSetPageNumber;
-  const setPageSize = props.setPageSize ?? contextSetPageSize;
+  const paginationSettings = props.paginationSettings ?? pagination?.state.paginationSettings;
+  const setPageNumber = props.setPageNumber ?? pagination?.actions.setPageNumber;
+  const setPageSize = props.setPageSize ?? pagination?.actions.setPageSize;
 
   if (!paginationSettings || !setPageNumber || !setPageSize) {
     throw new DataError(

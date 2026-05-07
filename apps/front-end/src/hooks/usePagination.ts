@@ -163,10 +163,10 @@ function usePagination<DataType extends object = Record<PropertyKey, unknown>>(
     [dispatch],
   );
 
-  return [
-    { paginationSettings: state, rawSearch: internalState.rawSearch },
-    { applySort, setPageNumber, setPageSize, setRawSearch },
-  ] as const;
+  return {
+    state: { paginationSettings: state, rawSearch: internalState.rawSearch },
+    actions: { applySort, setPageNumber, setPageSize, setRawSearch },
+  } as const;
 }
 
 export default usePagination;

@@ -29,9 +29,8 @@ function Blogs() {
     sortColumn: "publishedAt",
     sortDirection: "desc",
   });
-  const [{ paginationSettings }] = pagination;
 
-  const { data, isPending, error } = useBlogsQuery(paginationSettings);
+  const { data, isPending, error } = useBlogsQuery(pagination.state.paginationSettings);
   const { rows: blogs, totalRecordCount } = data ?? {};
 
   return (
