@@ -32,9 +32,11 @@ function UserBlogs({ user }: UserBlogsProps) {
     sortColumn: "publishedAt",
     sortDirection: "desc",
   });
-  const [{ paginationSettings }] = pagination;
 
-  const { data, isPending, error } = useBlogsQuery({ ...paginationSettings, authorId: user.id });
+  const { data, isPending, error } = useBlogsQuery({
+    ...pagination.state.paginationSettings,
+    authorId: user.id,
+  });
   const { rows: blogs, totalRecordCount } = data ?? {};
 
   return (

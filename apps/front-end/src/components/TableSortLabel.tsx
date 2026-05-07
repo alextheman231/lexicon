@@ -20,16 +20,10 @@ function TableSortLabel<DataType extends object = Record<PropertyKey, unknown>>(
   children,
   ...props
 }: TableSortLabelProps<DataType>) {
-  const context = usePaginationContext<DataType, false>({ strict: false });
-  const {
-    pagination: [
-      { paginationSettings: contextPaginationSettings },
-      { applySort: contextApplySort },
-    ],
-  } = context ?? { pagination: [{}, {}] };
+  const { pagination } = usePaginationContext<DataType, false>({ strict: false }) ?? {};
 
-  const applySort = props.applySort ?? contextApplySort;
-  const paginationSettings = props.paginationSettings ?? contextPaginationSettings;
+  const applySort = props.applySort ?? pagination?.actions.applySort;
+  const paginationSettings = props.paginationSettings ?? pagination?.state.paginationSettings;
 
   if (!applySort || !paginationSettings) {
     throw new DataError(
