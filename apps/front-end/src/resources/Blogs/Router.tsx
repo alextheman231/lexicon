@@ -14,7 +14,11 @@ function BlogsRouter() {
         }}
       </Route>
       <Route path="/new">
-        <CreateBlog />
+        <AuthRequired>
+          {(currentUser) => {
+            return <CreateBlog currentUser={currentUser} />;
+          }}
+        </AuthRequired>
       </Route>
     </Switch>
   );

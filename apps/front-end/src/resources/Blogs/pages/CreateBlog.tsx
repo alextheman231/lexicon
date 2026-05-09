@@ -1,4 +1,4 @@
-import type { BlogInsertData } from "@lexicon/models";
+import type { BlogInsertData, User } from "@lexicon/models";
 import type { SerializedEditorState } from "lexical";
 
 import { Page, useSnackbar } from "@alextheman/components";
@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import z from "zod";
 
-import AuthRequired from "src/components/AuthRequired";
 import useAppForm from "src/hooks/useAppForm";
 import BlogEditor from "src/resources/Blogs/components/BlogEditor";
 import { useCreateBlogMutation } from "src/resources/Blogs/queries";
@@ -22,7 +21,11 @@ const blogCreationSchema = z.object({
   title: az.field(z.string()),
 });
 
-function CreateBlog() {
+interface CreateBlogProps {
+  currentUser: User;
+}
+
+function CreateBlog({ currentUser }: CreateBlogProps) {
   const [editorState, setEditorState] = useState<SerializedEditorState | undefined>();
   const { mutateAsync: uploadBlog, isPending } = useCreateBlogMutation();
   const [_, setLocation] = useLocation();
@@ -59,42 +62,36 @@ function CreateBlog() {
   });
 
   return (
-    <AuthRequired unauthorisedMessage="You must be signed in to create a blog.">
-      {(currentUser) => {
-        return (
-          <form
-            onSubmit={async (event) => {
-              event.preventDefault();
-              await form.handleSubmit();
-            }}
-          >
-            <Page
-              title={
-                <form.AppField name="title">
-                  {(field) => {
-                    return <field.TextField label="Title" fullWidth />;
-                  }}
-                </form.AppField>
-              }
-              disablePadding
-            >
-              <CardContent>
-                <BlogEditor setEditorState={setEditorState} />
-              </CardContent>
-              <Divider />
-              <CardActions>
-                <Stack direction="row" spacing={2}>
-                  <form.AppForm>
-                    <form.BackButton to={`/users/${currentUser.id}`} />
-                    <form.SubmitButton disabled={editorState === undefined} loading={isPending} />
-                  </form.AppForm>
-                </Stack>
-              </CardActions>
-            </Page>
-          </form>
-        );
+    <form
+      onSubmit={async (event) => {
+        event.preventDefault();
+        await form.handleSubmit();
       }}
-    </AuthRequired>
+    >
+      <Page
+        title={
+          <form.AppField name="title">
+            {(field) => {
+              return <field.TextField label="Title" fullWidth />;
+            }}
+          </form.AppField>
+        }
+        disablePadding
+      >
+        <CardContent>
+          <BlogEditor setEditorState={setEditorState} />
+        </CardContent>
+        <Divider />
+        <CardActions>
+          <Stack direction="row" spacing={2}>
+            <form.AppForm>
+              <form.BackButton to={`/users/${currentUser.id}`} />
+              <form.SubmitButton disabled={editorState === undefined} loading={isPending} />
+            </form.AppForm>
+          </Stack>
+        </CardActions>
+      </Page>
+    </form>
   );
 }
 
