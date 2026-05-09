@@ -11,7 +11,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import ContentEditable from "src/resources/Blogs/components/ContentEditable";
 
 interface EditorProps {
-  initialContent?: SerializedEditorState;
+  initialContent?: SerializedEditorState | string;
   setEditorState: Dispatch<SetStateAction<SerializedEditorState | undefined>>;
 }
 

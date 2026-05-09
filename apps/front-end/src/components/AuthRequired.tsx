@@ -1,11 +1,11 @@
 import type { User } from "@lexicon/models";
 import type { ReactNode } from "react";
 
-import { ErrorPage } from "@alextheman/components/v7";
 import axios from "axios";
 
 import { useAuth } from "src/AuthContextProvider";
 import QueryBoundary from "src/components/QueryBoundary";
+import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import { DEFAULT_ERROR_MESSAGE } from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 import defaultErrorFormatters from "src/utility/errors/errorFormatters";
 
@@ -25,7 +25,7 @@ function AuthRequired({
       data={currentUser}
       isLoading={currentUserLoading}
       error={currentUserError}
-      nullComponent={<ErrorPage title="Unauthorised">{unauthorisedMessage}</ErrorPage>}
+      nullComponent={<UnauthorisedPage unauthorisedMessage={unauthorisedMessage} />}
       codeErrorMap={{ ...defaultErrorFormatters, AUTH_REQUIRED: unauthorisedMessage }}
       errorFunction={(error) => {
         if (
