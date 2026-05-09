@@ -3,7 +3,7 @@ const queryKeys = {
     return ["auth", ...args];
   },
   users: (...args: Array<unknown>) => {
-    return ["user", ...args];
+    return ["users", ...args];
   },
   blogs: (...args: Array<unknown>) => {
     return ["blogs", ...args];
