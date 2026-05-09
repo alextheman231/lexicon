@@ -68,13 +68,25 @@ export function parseBlogStateHistory(input: unknown): Array<BlogStateHistoryRow
 }
 
 export const blogInsertSchema = z.strictObject({
-  state: z.enum(omitProperties(BlogState, "ARCHIVED")),
   title: z.string(),
   content: z.record(z.string(), z.any()),
+  state: z.enum(omitProperties(BlogState, "ARCHIVED")),
 });
 
-export type BlogInsertData = z.infer<typeof blogInsertSchema>;
+export const blogUpdateSchema = blogInsertSchema
+  .omit({
+    state: true,
+  })
+  .extend({
+    state: z.enum(BlogState),
+  });
 
+export type BlogUpdateData = z.infer<typeof blogUpdateSchema>;
+export function parseBlogUpdateData(input: unknown): BlogUpdateData {
+  return az.with(blogUpdateSchema).parse(input);
+}
+
+export type BlogInsertData = z.infer<typeof blogInsertSchema>;
 export function parseBlogInsertData(input: unknown): BlogInsertData {
   return az.with(blogInsertSchema).parse(
     input,
