@@ -7,3 +7,6 @@ allowBuilds:
 patchedDependencies:
   eslint-plugin-react: patches/eslint-plugin-react.patch
 savePrefix: ""
+minimumReleaseAgeExclude:
+  - "@alextheman/*"
+  - alex-c-line
