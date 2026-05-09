@@ -1,17 +1,14 @@
-import type { BlogUpdateData, User } from "@lexicon/models";
-import type { SerializedEditorState } from "lexical";
+import type { User } from "@lexicon/models";
 
-import { Page, useSnackbar } from "@alextheman/components";
-import { az } from "@alextheman/utility";
+import type { BlogFormSubmitData } from "src/resources/Blogs/components/BlogForm";
+
+import { useSnackbar } from "@alextheman/components";
 import { BlogState } from "@lexicon/models";
-import { useState } from "react";
 import { useLocation } from "wouter";
-import z from "zod";
 
 import QueryBoundary from "src/components/QueryBoundary";
-import useAppForm from "src/hooks/useAppForm";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
-import BlogEditor from "src/resources/Blogs/components/BlogEditor";
+import BlogForm from "src/resources/Blogs/components/BlogForm";
 import { useBlogQuery, useEditBlogMutation } from "src/resources/Blogs/queries";
 import formatError from "src/utility/errors/formatError";
 
@@ -20,46 +17,21 @@ interface EditBlogProps {
   currentUser: User;
 }
 
-const blogUpdateSchema = z.object({
-  title: az.field(z.string()),
-});
-
 function EditBlog({ blogId, currentUser }: EditBlogProps) {
   const { data: blog, isPending, error } = useBlogQuery(blogId);
-  const [editorState, setEditorState] = useState<SerializedEditorState | undefined>();
   const { addSnackbar } = useSnackbar();
-  const { mutateAsync: updateBlog } = useEditBlogMutation(blogId);
+  const { mutateAsync: updateBlog, isPending: isFormPending } = useEditBlogMutation(blogId);
   const [_, setLocation] = useLocation();
 
-  async function onSubmit(data: BlogUpdateData) {
+  async function onSubmit(data: BlogFormSubmitData) {
     try {
-      const id = await updateBlog(data);
-      addSnackbar("Blog created successfully", "success");
-      setLocation(`/blogs/${id}`);
+      await updateBlog({ ...data, state: BlogState.PUBLISHED });
+      addSnackbar("Blog edited successfully", "success");
+      setLocation(`/blogs/${blog?.id}`);
     } catch (error) {
       addSnackbar(formatError(error), "error");
     }
   }
-
-  const form = useAppForm({
-    defaultValues: {
-      title: blog?.title ?? "",
-    },
-    onSubmit: async ({ value }) => {
-      if (editorState === undefined) {
-        addSnackbar("Content is required", "error");
-        return;
-      }
-      await onSubmit({
-        ...blogUpdateSchema.parse(value),
-        state: BlogState.PUBLISHED,
-        content: editorState,
-      });
-    },
-    validators: {
-      onSubmit: blogUpdateSchema,
-    },
-  });
 
   return (
     <QueryBoundary data={blog} isLoading={isPending} error={error}>
@@ -69,27 +41,12 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
         }
 
         return (
-          <form
-            onSubmit={async (event) => {
-              event.preventDefault();
-              await form.handleSubmit();
-            }}
-          >
-            <Page
-              title={
-                <form.AppField name="title">
-                  {(field) => {
-                    return <field.TextField label="Title" fullWidth />;
-                  }}
-                </form.AppField>
-              }
-            >
-              <BlogEditor
-                initialContent={JSON.stringify(blog.content)}
-                setEditorState={setEditorState}
-              />
-            </Page>
-          </form>
+          <BlogForm
+            defaultValues={{ title: blog.title, content: JSON.stringify(blog.content) }}
+            onSubmit={onSubmit}
+            back={`/blogs/${blog.id}`}
+            loading={isFormPending}
+          />
         );
       }}
     </QueryBoundary>
