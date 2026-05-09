@@ -1,4 +1,4 @@
-import type { BlogInsertData, BlogSummary, BlogView } from "@lexicon/models";
+import type { BlogInsertData, BlogSummary, BlogUpdateData, BlogView } from "@lexicon/models";
 
 import type { PaginatedResult, PaginationSettings } from "src/hooks/usePagination";
 
@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import z from "zod";
 
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
-import queryKeys from "src/utility/queryKeys";
+import queryKeys, { relatedQueryKeys } from "src/utility/queryKeys";
 
 export function useBlogsQuery(
   params?: Partial<PaginationSettings<BlogSummary> & { authorId: string }>,
@@ -45,6 +45,19 @@ export function useCreateBlogMutation() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.blogs() });
+    },
+  });
+}
+
+export function useEditBlogMutation(blogId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (blog: BlogUpdateData) => {
+      await lexiconAuthenticatedClient.put(`/api/v1/blogs/${blogId}`, blog);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: relatedQueryKeys.blogs });
     },
   });
 }
