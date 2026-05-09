@@ -1,4 +1,4 @@
-import type { BlogFilter, BlogInsertData } from "@lexicon/models";
+import type { BlogFilter, BlogInsertData, BlogUpdateData } from "@lexicon/models";
 
 import {
   assertNotNull,
@@ -15,7 +15,7 @@ import {
   parseBlogSummariesResponse,
   parseBlogView,
 } from "@lexicon/models";
-import { eq, sql } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import BlogFactory from "factory/blogs";
 import request from "supertest";
 import { describe, expect, test } from "vitest";
@@ -24,8 +24,9 @@ import { randomUUID } from "node:crypto";
 
 import getTestFixtures from "tests/fixtures";
 
-import { blogRevisionsTable } from "src/database/schema";
+import { blogRevisionsTable, blogStateHistoryTable } from "src/database/schema";
 import app from "src/server/app";
+import { getLatestBlogRevision } from "src/services/blogs";
 import { selectUser } from "src/services/users";
 
 describe("GET", () => {
@@ -332,6 +333,89 @@ describe("POST", () => {
 
       expect(error.data.input).toEqual(data);
       expect(error.code).toBe("INVALID_INSERT_DATA");
+    });
+  });
+});
+
+describe("PUT", () => {
+  describe("/api/v1/blogs/:blogId", () => {
+    test("Updates the current blog and creates a new revision", async () => {
+      const { connection, factory, authenticatedClient } = await getTestFixtures();
+
+      const blog = await factory.blogs.insert();
+      const oldRevisionNumber = await getLatestBlogRevision(connection, blog.id);
+      assertNotNull(oldRevisionNumber);
+
+      const data: BlogUpdateData = {
+        state: BlogState.DRAFT,
+        title: "My edited blog",
+        content: BlogFactory.generateEditorContent("This blog has been edited"),
+      };
+
+      await authenticatedClient.put(`/api/v1/blogs/${blog.id}`).send(data).expect(200);
+      const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
+
+      const blogView = parseBlogView(body.blog);
+      expect(blogView.id).toBe(blog.id);
+      expect(blogView.state).toBe(blog.state);
+      expect(blogView.authorId).toBe(blog.authorId);
+      expect(isSameDate(blogView.updatedAt, new Date())).toBe(true);
+
+      expect(blogView.title).toBe(data.title);
+      expect(blogView.content).toEqual(data.content);
+
+      const newRevisionNumber = await getLatestBlogRevision(connection, blogView.id);
+      expect(newRevisionNumber).toBe(oldRevisionNumber + 1);
+    });
+    test("Responds with a 404 error if the blog does not exist", async () => {
+      const { authenticatedClient } = await getTestFixtures();
+
+      const data: BlogUpdateData = {
+        state: BlogState.DRAFT,
+        title: "My edited blog",
+        content: BlogFactory.generateEditorContent("This blog has been edited"),
+      };
+
+      const missingId = randomUUID();
+
+      const { body } = await authenticatedClient
+        .put(`/api/v1/blogs/${missingId}`)
+        .send(data)
+        .expect(404);
+
+      const error = DataError.expectError(() => {
+        throw body.error;
+      });
+
+      expect(error.code).toBe("RESOURCE_NOT_FOUND");
+      expect(error.data.resourceType).toBe("blog");
+      expect(error.data.resourceId).toBe(missingId);
+    });
+    test("If the blog state changed, insert a new state history record", async () => {
+      const { connection, factory, authenticatedClient } = await getTestFixtures();
+
+      const blog = await factory.blogs.insert({ state: BlogState.DRAFT });
+
+      const data: BlogUpdateData = {
+        state: BlogState.PUBLISHED,
+        title: "My edited blog",
+        content: BlogFactory.generateEditorContent("This blog has been edited"),
+      };
+
+      await authenticatedClient.put(`/api/v1/blogs/${blog.id}`).send(data).expect(200);
+      const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
+
+      const blogView = parseBlogView(body.blog);
+      expect(blogView.state).toBe(data.state);
+
+      const history = await connection
+        .select()
+        .from(blogStateHistoryTable)
+        .where(eq(blogStateHistoryTable.blogId, blogView.id))
+        .orderBy(desc(blogStateHistoryTable.id));
+
+      expect(history[0].state).toBe(data.state);
+      expect(history[1].state).toBe(blog.state);
     });
   });
 });
