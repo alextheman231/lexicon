@@ -16,7 +16,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install Render CLI
+        run: curl -fsSL https://raw.githubusercontent.com/render-oss/cli/refs/heads/main/bin/install.sh | sh
+
       - name: Deploy back-end server to Render
         env:
           RENDER_DEPLOY_KEY: ${{ secrets.RENDER_DEPLOY_KEY }}
-        run: curl "$RENDER_DEPLOY_KEY"
+          RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}
+        run: render deploys create $RENDER_SERVICE_ID --wait
