@@ -18,6 +18,7 @@
     "lint-yml": "prettier --check \"**/*.{yml,yaml}\"",
     "pre-commit": "alex-c-line pre-commit",
     "prepare": "husky",
+    "start": "turbo run start",
     "test": "turbo run test",
     "update-dependencies": "turbo run update-dependencies && pnpm update --latest && pnpm update"
   },

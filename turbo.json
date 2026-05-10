@@ -20,6 +20,10 @@
       "cache": false,
       "persistent": true
     },
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
     "update-dependencies": {
       "cache": false,
       "dependsOn": ["^update-dependencies"]
