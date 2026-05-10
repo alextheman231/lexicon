@@ -1,4 +1,4 @@
-import type { QueryBoundaryDataProps, QueryBoundaryErrorProps } from "@alextheman/components";
+import type { QueryBoundaryDataProps, QueryBoundaryFallbackProps } from "@alextheman/components";
 
 import type { QueryBoundaryProviderProps } from "src/components/QueryBoundaryProvider";
 
@@ -10,7 +10,7 @@ export type QueryBoundaryProps<DataType> = Omit<
   QueryBoundaryProviderProps<DataType>,
   "children" | "logError"
 > &
-  Omit<QueryBoundaryErrorProps, "children"> &
+  Omit<QueryBoundaryFallbackProps, "errorComponent"> &
   Omit<QueryBoundaryDataProps<DataType>, "showOnError">;
 
 function QueryBoundary<DataType>({
