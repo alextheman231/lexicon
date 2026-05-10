@@ -417,5 +417,40 @@ describe("PUT", () => {
       expect(history[0].state).toBe(data.state);
       expect(history[1].state).toBe(blog.state);
     });
+    test("Only updates the blog with the given ID", async () => {
+      const { connection, factory, authenticatedClient } = await getTestFixtures();
+
+      const firstBlog = await factory.blogs.insert();
+      const secondBlog = await factory.blogs.insert();
+
+      const [{ secondBlogTitle, secondBlogContent }] = await connection
+        .select({
+          secondBlogTitle: blogRevisionsTable.title,
+          secondBlogContent: blogRevisionsTable.content,
+        })
+        .from(blogRevisionsTable)
+        .where(eq(blogRevisionsTable.blogId, secondBlog.id));
+
+      const data: BlogUpdateData = {
+        state: BlogState.PUBLISHED,
+        title: "My edited blog",
+        content: BlogFactory.generateEditorContent("This blog has been edited"),
+      };
+
+      await authenticatedClient.put(`/api/v1/blogs/${firstBlog.id}`).send(data).expect(200);
+
+      const { body } = await authenticatedClient.get(`/api/v1/blogs/${firstBlog.id}`).expect(200);
+      const firstBlogView = parseBlogView(body.blog);
+
+      expect(firstBlogView.title).toBe(data.title);
+      expect(firstBlogView.content).toEqual(data.content);
+
+      const { body: secondBlogRequest } = await authenticatedClient
+        .get(`/api/v1/blogs/${secondBlog.id}`)
+        .expect(200);
+      const secondBlogView = parseBlogView(secondBlogRequest.blog);
+      expect(secondBlogView.title).toBe(secondBlogTitle);
+      expect(secondBlogView.content).toEqual(secondBlogContent);
+    });
   });
 });
