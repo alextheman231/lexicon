@@ -23,4 +23,4 @@ jobs:
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_DEPLOY_KEY }}
           RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}
-        run: render deploys create $RENDER_SERVICE_ID --wait
+        run: render deploys create $RENDER_SERVICE_ID --wait --confirm
