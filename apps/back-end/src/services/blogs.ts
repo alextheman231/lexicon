@@ -250,6 +250,7 @@ export async function updateBlog(
         currentRevisionId: newRevisionId,
         updatedAt: new Date(),
       })
+      .where(eq(blogsTable.id, ids.blogId))
       .returning();
 
     return blog ? parseBlog(blog) : null;
