@@ -37,6 +37,9 @@ jobs:
           touch apps/back-end/.env.production
           echo "DATABASE_URL=$DATABASE_URL" >> apps/back-end/.env.production
 
+      - name: Build packages
+        run: pnpm run build
+
       - name: Apply migrations
         working-directory: apps/back-end
         env:
