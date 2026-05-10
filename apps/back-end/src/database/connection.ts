@@ -16,10 +16,12 @@ const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 
 const envFilePath = path.resolve(process.cwd(), `.env.${ENV}`);
 
-dotenv.config({
-  path: envFilePath,
-  quiet: ENV === "test",
-});
+if (ENV !== "production") {
+  dotenv.config({
+    path: envFilePath,
+    quiet: ENV === "test",
+  });
+}
 
 const { DATABASE_URL } = process.env;
 if (!DATABASE_URL) {

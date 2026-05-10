@@ -5,10 +5,12 @@ import path from "node:path";
 
 const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 
-dotenv.config({
-  path: path.resolve(process.cwd(), `.env.${ENV}`),
-  quiet: ENV === "test",
-});
+if (ENV !== "production") {
+  dotenv.config({
+    path: path.resolve(process.cwd(), `.env.${ENV}`),
+    quiet: ENV === "test",
+  });
+}
 
 const config: Config = {
   schema: "./src/database/schema/index.ts",
