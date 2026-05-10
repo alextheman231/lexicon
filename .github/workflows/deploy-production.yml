@@ -30,19 +30,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Initialise environment variables
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: |
-          touch apps/back-end/.env.production
-          echo "DATABASE_URL=$DATABASE_URL" >> apps/back-end/.env.production
-
-      - name: Build packages
-        run: pnpm run build
-
       - name: Apply migrations
         working-directory: apps/back-end
         env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NODE_ENV: production
         run: pnpm run migrate-db
 
