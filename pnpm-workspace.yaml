@@ -10,3 +10,4 @@ savePrefix: ""
 minimumReleaseAgeExclude:
   - "@alextheman/*"
   - alex-c-line
+ignoreWorkspaceRootCheck: true
