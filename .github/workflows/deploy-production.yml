@@ -5,11 +5,36 @@ on:
     branches: ["main"]
 
 jobs:
+  deploy-neon:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'alextheman231/lexicon' }}
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Initialise environment variables
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          touch apps/back-end/.env.production
+          echo "DATABASE_URL=$DATABASE_URL" >> apps/back-end/.env.production
+
+      - name: Apply migrations
+        working-directory: apps/back-end
+        env:
+          NODE_ENV: production
+        run: pnpm run migrate-db
+
   deploy-render:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
       contents: read
+    needs: [deploy-neon]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
