@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: ["main"]
 
+concurrency:
+  group: vercel-preview-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy-preview:
     if: ${{ github.repository == 'alextheman231/lexicon' }}
