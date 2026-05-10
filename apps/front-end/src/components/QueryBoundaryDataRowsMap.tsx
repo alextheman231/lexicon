@@ -1,9 +1,11 @@
 import type { QueryBoundaryDataMapProps } from "@alextheman/components";
 import type { ReactNode } from "react";
 
-import { QueryBoundaryDataMap, QueryBoundaryNullable, SkeletonRow } from "@alextheman/components";
+import { QueryBoundaryNullable, SkeletonRow } from "@alextheman/components";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
+
+import QueryBoundaryDataMap from "src/components/QueryBoundaryDataMap";
 
 type FallbackComponent = ReactNode | ((columns: number) => ReactNode);
 
