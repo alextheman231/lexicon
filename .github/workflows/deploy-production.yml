@@ -1,0 +1,22 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy-render:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'alextheman231/lexicon' }}
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Deploy back-end server to Render
+        env:
+          RENDER_DEPLOY_KEY: ${{ secrets.RENDER_DEPLOY_KEY }}
+        run: curl "$RENDER_DEPLOY_KEY"
