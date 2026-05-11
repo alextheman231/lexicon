@@ -9,6 +9,9 @@ import Router from "src/Router";
 const queryClient = new QueryClient();
 
 function App() {
+  // eslint-disable-next-line no-console
+  console.log(import.meta.env.VITE_API_BASE_URL);
+
   return (
     <ModeProvider>
       <ErrorBoundary FallbackComponent={ErrorPage}>
