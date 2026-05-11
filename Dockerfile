@@ -13,5 +13,4 @@ RUN ["pnpm", "run", "build", "--ui=stream"]
 
 EXPOSE 8080
 
-# CMD ["pnpm", "run", "start", "--filter=back-end", "--ui=stream"]
-CMD ["sh", "-c", "echo NODE_ENV=$NODE_ENV && echo DATABASE_URL_EXISTS=${DATABASE_URL:+true}"]
+CMD ["pnpm", "run", "start", "--filter=back-end", "--ui=stream"]
