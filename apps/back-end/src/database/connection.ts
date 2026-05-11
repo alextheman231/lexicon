@@ -26,9 +26,9 @@ if (ENV !== "production") {
 const { DATABASE_URL } = process.env;
 if (!DATABASE_URL) {
   throw new DataError(
-    { envFilePath },
+    { envFilePath, NODE_ENV: ENV },
     "DATABASE_URL_NOT_SET",
-    "Tried to find a database URL in your .env file but could not find it.",
+    "Tried to find a database URL in your environment but could not find it.",
   );
 }
 
