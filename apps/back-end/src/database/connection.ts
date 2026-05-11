@@ -23,6 +23,11 @@ if (ENV !== "production") {
   });
 }
 
+console.info({
+  NODE_ENV: process.env.NODE_ENV,
+  DATABASE_URL_EXISTS: !!process.env.DATABASE_URL,
+});
+
 const { DATABASE_URL } = process.env;
 if (!DATABASE_URL) {
   throw new DataError(
