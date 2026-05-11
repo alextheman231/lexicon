@@ -96,14 +96,17 @@ jobs:
       - name: Pull Vercel Environment Information
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
         run: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
 
       - name: Build Project
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
         run: vercel build --prod --token=$VERCEL_TOKEN
 
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
         run: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
