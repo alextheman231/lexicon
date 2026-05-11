@@ -1,4 +1,4 @@
-import type { ParamsDictionary } from "express-serve-static-core";
+import type { CookieOptions, ParamsDictionary } from "express-serve-static-core";
 
 import { assertNotNull, parseEnv } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
@@ -27,6 +27,12 @@ function getCallbackUrl(originalUrl: string = "/api/v1/auth/google/callback") {
   return `${process.env.API_BASE_URL!}${originalUrl}`;
 }
 
+const COOKIES: CookieOptions = {
+  httpOnly: true,
+  sameSite: ENV === "production" ? "none" : "lax",
+  secure: ENV === "production",
+};
+
 authRouter.get(
   "/google",
   handleEndpointMiddleware<ParamsDictionary, unknown, unknown, { redirect: string }>(
@@ -53,16 +59,8 @@ authRouter.get(
         );
       }
 
-      response.cookie("oauth_state", state, {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: ENV === "production",
-      });
-      response.cookie("oauth_pkce_verifier", codeVerifier, {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: ENV === "production",
-      });
+      response.cookie("oauth_state", state, COOKIES);
+      response.cookie("oauth_pkce_verifier", codeVerifier, COOKIES);
 
       const url = buildAuthorizationUrl(config, {
         redirect_uri: callbackUrl,
@@ -72,11 +70,7 @@ authRouter.get(
         state,
       });
 
-      response.cookie("oauth_redirect", redirect, {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: ENV === "production",
-      });
+      response.cookie("oauth_redirect", redirect, COOKIES);
 
       response.redirect(url.toString());
     },
@@ -150,9 +144,7 @@ authRouter.get(
     });
 
     response.cookie("session", session.id, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: ENV === "production",
+      ...COOKIES,
       expires: session.expiresAt,
     });
 
