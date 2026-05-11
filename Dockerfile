@@ -13,4 +13,4 @@ RUN ["pnpm", "run", "build", "--ui=stream"]
 
 EXPOSE 8080
 
-CMD ["pnpm", "run", "start", "--filter=back-end", "--ui=stream"]
+CMD ["pnpm", "--dir", "apps/back-end", "run", "start"]
