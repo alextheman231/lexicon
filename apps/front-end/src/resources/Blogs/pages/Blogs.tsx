@@ -14,6 +14,7 @@ import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+import { useAuth } from "src/AuthContextProvider";
 import PaginationProvider from "src/components/PaginationProvider";
 import QueryBoundaryDataRowsMap from "src/components/QueryBoundaryDataRowsMap";
 import QueryBoundaryProvider from "src/components/QueryBoundaryProvider";
@@ -32,6 +33,9 @@ function Blogs() {
 
   const { data, isPending, error } = useBlogsQuery(pagination.state.paginationSettings);
   const { rows: blogs, totalRecordCount } = data ?? {};
+  const { currentUser } = useAuth();
+  // eslint-disable-next-line no-console
+  console.log(currentUser);
 
   return (
     <PaginationProvider pagination={pagination}>
