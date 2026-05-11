@@ -3,8 +3,6 @@ RUN ["pnpm", "runtime", "set", "node", "22", "-g"]
 
 WORKDIR /app
 
-ENV NODE_ENV=production
-
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.json ./
 COPY apps ./apps
 COPY packages ./packages
