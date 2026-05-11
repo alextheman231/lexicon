@@ -24,7 +24,7 @@ function UserProfileForm({ user, onSubmit, back }: UserProfileFormProps) {
       await onSubmit(userProfileFormSchema.parse(value));
     },
     validators: {
-      onChange: userProfileFormSchema,
+      onSubmit: userProfileFormSchema,
     },
   });
 
