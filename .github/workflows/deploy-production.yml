@@ -57,10 +57,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PAT }}
-        run: docker login -username "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD"
-
-      - name: Build Docker image
-        run: docker build -t lexicon .
+        run: echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
 
       - name: Push Docker image to Dockerhub
         uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
