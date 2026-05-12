@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-neon:
+  deploy-database:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
@@ -41,12 +41,40 @@ jobs:
           NODE_ENV: production
         run: pnpm run migrate-db
 
-  deploy-render:
+  deploy-image:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
       contents: read
-    needs: [deploy-neon]
+    needs: [deploy-database]
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Login to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PAT }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PAT
+
+      - name: Build Docker image
+        run: docker build -t lexicon .
+
+      - name: Push Docker image to Dockerhub
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
+        with:
+          context: .
+          push: true
+          tags: ${{ vars.DOCKER_USERNAME }}/lexicon:latest
+
+  deploy-server:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'alextheman231/lexicon' }}
+    permissions:
+      contents: read
+    needs: [deploy-image]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -62,14 +90,15 @@ jobs:
           RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}
         run: render deploys create $RENDER_SERVICE_ID --wait --confirm
 
-  deploy-vercel:
+  deploy-front-end:
     runs-on: ubuntu-latest
+    if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
       contents: read
     env:
       VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
-    needs: [deploy-render]
+    needs: [deploy-server]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
