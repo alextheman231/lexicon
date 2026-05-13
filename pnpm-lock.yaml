@@ -14,12 +14,6 @@ importers:
       '@alextheman/utility':
         specifier: 5.18.1
         version: 5.18.1(zod@4.4.3)
-      '@lexical/react':
-        specifier: 0.44.0
-        version: 0.44.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(yjs@13.6.29)
-      lexical:
-        specifier: 0.44.0
-        version: 0.44.0
       zod:
         specifier: 4.4.3
         version: 4.4.3
@@ -154,6 +148,9 @@ importers:
       '@emotion/styled':
         specifier: 11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6)
+      '@lexical/react':
+        specifier: 0.44.0
+        version: 0.44.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(yjs@13.6.30)
       '@lexicon/models':
         specifier: workspace:*
         version: link:../../packages/models
@@ -166,6 +163,9 @@ importers:
       axios:
         specifier: 1.16.0
         version: 1.16.0
+      lexical:
+        specifier: 0.44.0
+        version: 0.44.0
       react:
         specifier: 19.2.6
         version: 19.2.6
@@ -1683,8 +1683,8 @@ packages:
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
-  '@preact/signals-core@1.14.1':
-    resolution: {integrity: sha512-vxPpfXqrwUe9lpjqfYNjAF/0RF/eFGeLgdJzdmIIZjpOnTmGmAB4BjWone562mJGMRP4frU6iZ6ei3PDsu52Ng==}
+  '@preact/signals-core@1.14.2':
+    resolution: {integrity: sha512-RZHdBj9ZF4n40Rp4jS052EHHjBWf96P9oNdXPfhQTovCuWY9iQn3Gq+gOTJSgBO9A/JBuPfMOWsSX/lIU9Pc/A==}
 
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
@@ -5853,8 +5853,8 @@ packages:
   yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
 
-  yjs@13.6.29:
-    resolution: {integrity: sha512-kHqDPdltoXH+X4w1lVmMtddE3Oeqq48nM40FD5ojTd8xYhQpzIDcfE2keMSU5bAgRPJBe225WTUdyUgj1DtbiQ==}
+  yjs@13.6.30:
+    resolution: {integrity: sha512-vv/9h42eCMC81ZHDFswuu/MKzkl/vyq1BhaNGfHyOonwlG4CJbQF4oiBBJPvfdeCt/PlVDWh7Nov9D34YY09uQ==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
   yocto-queue@0.1.0:
@@ -6782,7 +6782,7 @@ snapshots:
   '@lexical/extension@0.44.0':
     dependencies:
       '@lexical/utils': 0.44.0
-      '@preact/signals-core': 1.14.1
+      '@preact/signals-core': 1.14.2
       lexical: 0.44.0
 
   '@lexical/hashtag@0.44.0':
@@ -6843,7 +6843,7 @@ snapshots:
       '@lexical/utils': 0.44.0
       lexical: 0.44.0
 
-  '@lexical/react@0.44.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(yjs@13.6.29)':
+  '@lexical/react@0.44.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(yjs@13.6.30)':
     dependencies:
       '@floating-ui/react': 0.27.19(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@lexical/devtools-core': 0.44.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -6861,13 +6861,13 @@ snapshots:
       '@lexical/table': 0.44.0
       '@lexical/text': 0.44.0
       '@lexical/utils': 0.44.0
-      '@lexical/yjs': 0.44.0(yjs@13.6.29)
+      '@lexical/yjs': 0.44.0(yjs@13.6.30)
       lexical: 0.44.0
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
       react-error-boundary: 6.1.1(react@19.2.6)
     optionalDependencies:
-      yjs: 13.6.29
+      yjs: 13.6.30
 
   '@lexical/rich-text@0.44.0':
     dependencies:
@@ -6897,11 +6897,11 @@ snapshots:
       '@lexical/selection': 0.44.0
       lexical: 0.44.0
 
-  '@lexical/yjs@0.44.0(yjs@13.6.29)':
+  '@lexical/yjs@0.44.0(yjs@13.6.30)':
     dependencies:
       '@lexical/selection': 0.44.0
       lexical: 0.44.0
-      yjs: 13.6.29
+      yjs: 13.6.30
 
   '@mapbox/node-pre-gyp@2.0.3':
     dependencies:
@@ -7104,7 +7104,7 @@ snapshots:
 
   '@popperjs/core@2.11.8': {}
 
-  '@preact/signals-core@1.14.1': {}
+  '@preact/signals-core@1.14.2': {}
 
   '@quansync/fs@1.0.0':
     dependencies:
@@ -11697,7 +11697,7 @@ snapshots:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0
 
-  yjs@13.6.29:
+  yjs@13.6.30:
     dependencies:
       lib0: 0.2.117
 

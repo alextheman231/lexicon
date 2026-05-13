@@ -46,8 +46,6 @@
   },
   "dependencies": {
     "@alextheman/utility": "5.18.1",
-    "@lexical/react": "0.44.0",
-    "lexical": "0.44.0",
     "zod": "4.4.3"
   }
 }
