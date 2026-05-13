@@ -1,6 +1,6 @@
 import { ModeProvider, SnackbarProvider } from "@alextheman/components";
+import { ErrorBoundary } from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ErrorBoundary } from "react-error-boundary";
 
 import AuthContextProvider from "src/AuthContextProvider";
 import ErrorPage from "src/pages/ErrorPage";
@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <ModeProvider>
-      <ErrorBoundary FallbackComponent={ErrorPage}>
+      <ErrorBoundary fallback={ErrorPage}>
         <QueryClientProvider client={queryClient}>
           <AuthContextProvider>
             <SnackbarProvider>

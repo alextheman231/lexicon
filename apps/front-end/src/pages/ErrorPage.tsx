@@ -1,4 +1,4 @@
-import type { FallbackProps } from "react-error-boundary";
+import type { FallbackRender } from "@sentry/react";
 
 import { ErrorPage as AlexErrorPage, InternalLink } from "@alextheman/components/v7";
 import Box from "@mui/material/Box";
@@ -8,7 +8,7 @@ import Debug from "src/components/Debug";
 import { DEFAULT_ERROR_MESSAGE } from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 import formatError from "src/utility/errors/formatError";
 
-function ErrorPage({ error }: FallbackProps) {
+function ErrorPage({ error, resetError }: Parameters<FallbackRender>[0]) {
   const message = formatError(error);
 
   return (
@@ -18,7 +18,7 @@ function ErrorPage({ error }: FallbackProps) {
         <Debug content={error.stack} disableJsonStringify />
       ) : null}
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Button component={InternalLink} to="/">
+        <Button component={InternalLink} to="/" onClick={resetError}>
           Return to homepage
         </Button>
       </Box>
