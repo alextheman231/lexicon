@@ -11,6 +11,8 @@ import ErrorPage from "src/pages/ErrorPage";
 if (import.meta.env.PROD && import.meta.env.VITE_SENTRY_DSN) {
   init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
+    release: import.meta.env.VITE_SENTRY_RELEASE,
+    environment: import.meta.env.MODE,
   });
 }
 
