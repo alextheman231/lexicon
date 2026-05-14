@@ -131,6 +131,18 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: vercel build --prod --token=$VERCEL_TOKEN
 
+      - name: Create Sentry release
+        uses: getsentry/action-release@5657c9e888b4e2cc85f4d29143ea4131fde4a73a # v3.6.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_ORGANISATION_TOKEN }}
+          SENTRY_ORG: alextheman231
+          SENTRY_PROJECT: lexicon-front-end
+        with:
+          environment: production
+          sourcemaps: apps/front-end/dist/assets
+          ignore_missing: true
+          ignore_empty: true
+
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
