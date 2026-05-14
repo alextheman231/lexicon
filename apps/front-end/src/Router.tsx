@@ -1,4 +1,5 @@
 import { Router as AlexRouter, Switch } from "@alextheman/components/v7";
+import { CodeError } from "@alextheman/utility/v6";
 import { Route } from "wouter";
 
 import PageWrapper from "src/components/PageWrapper";
@@ -27,6 +28,14 @@ function Router() {
           </Route>
           <Route path="/blogs" nest>
             <BlogsRouter />
+          </Route>
+          <Route path="/control/fe-error">
+            {() => {
+              throw new CodeError(
+                "TEST_ERROR",
+                "This is an error that should crash the page and report to Sentry.",
+              );
+            }}
           </Route>
         </Switch>
       </PageWrapper>
