@@ -29,23 +29,23 @@
   "devDependencies": {
     "@alextheman/eslint-plugin": "5.14.0",
     "@faker-js/faker": "10.4.0",
-    "@typescript-eslint/utils": "8.59.2",
+    "@typescript-eslint/utils": "8.59.3",
     "alex-c-line": "2.7.2",
     "cross-env": "10.1.0",
     "eslint": "10.3.0",
     "husky": "9.1.7",
     "prettier": "3.8.3",
-    "turbo": "2.9.10",
+    "turbo": "2.9.14",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.59.2",
-    "vercel": "53.3.1"
+    "typescript-eslint": "8.59.3",
+    "vercel": "54.0.0"
   },
   "packageManager": "pnpm@11.1.2+sha512.415a1cc25974731e75455c1468371be74c5aa5fb7621b50d4056d222451609f11412f23fd602e6169f1e060466641f798597e1be961a10688836a67b16569499",
   "engines": {
     "node": ">=22"
   },
   "dependencies": {
-    "@alextheman/utility": "5.18.1",
+    "@alextheman/utility": "5.18.2",
     "zod": "4.4.3"
   }
 }

@@ -37,8 +37,8 @@
     "@lexicon/models": "workspace:*",
     "@mui/material": "9.0.1",
     "@sentry/react": "10.53.1",
-    "@tanstack/react-query": "5.100.9",
-    "axios": "1.16.0",
+    "@tanstack/react-query": "5.100.10",
+    "axios": "1.16.1",
     "lexical": "0.44.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
@@ -48,11 +48,11 @@
   },
   "devDependencies": {
     "@lexicon/configs": "workspace:*",
-    "@types/node": "25.6.2",
+    "@types/node": "25.8.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "6.0.1",
+    "@vitejs/plugin-react": "6.0.2",
     "typescript": "6.0.3",
-    "vite": "8.0.11"
+    "vite": "8.0.13"
   }
 }
