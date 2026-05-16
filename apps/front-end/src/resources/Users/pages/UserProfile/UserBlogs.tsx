@@ -1,6 +1,5 @@
 import type { BlogSummary, User } from "@lexicon/models";
 
-import { QueryBoundaryError } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/v7";
 import { formatDateAndTime } from "@alextheman/utility";
 import { parseBlogSummary } from "@lexicon/models";
@@ -14,10 +13,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import PaginationProvider from "src/components/PaginationProvider";
-import QueryBoundaryDataRowsMap from "src/components/QueryBoundaryDataRowsMap";
-import QueryBoundaryProvider from "src/components/QueryBoundaryProvider";
 import TablePagination from "src/components/TablePagination";
 import TableSortLabel from "src/components/TableSortLabel";
+import createQueryBoundary from "src/hooks/createQueryBoundary";
 import usePagination from "src/hooks/usePagination";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
 
@@ -38,11 +36,14 @@ function UserBlogs({ user }: UserBlogsProps) {
     authorId: user.id,
   });
   const { rows: blogs, totalRecordCount } = data ?? {};
+  const QueryBoundary = createQueryBoundary({
+    query: { dataCollection: blogs, isLoading: isPending, error },
+  });
 
   return (
     <PaginationProvider pagination={pagination}>
-      <QueryBoundaryProvider data={blogs} isLoading={isPending} error={error}>
-        <QueryBoundaryError />
+      <QueryBoundary.Context>
+        <QueryBoundary.Error />
         <Card>
           <TableContainer>
             <Table>
@@ -59,7 +60,7 @@ function UserBlogs({ user }: UserBlogsProps) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <QueryBoundaryDataRowsMap itemParser={parseBlogSummary} columns={2}>
+                <QueryBoundary.DataRowsMap itemParser={parseBlogSummary} columns={2}>
                   {(blog) => {
                     return (
                       <TableRow>
@@ -74,7 +75,7 @@ function UserBlogs({ user }: UserBlogsProps) {
                       </TableRow>
                     );
                   }}
-                </QueryBoundaryDataRowsMap>
+                </QueryBoundary.DataRowsMap>
               </TableBody>
               <TableFooter>
                 <TableRow>
@@ -84,7 +85,7 @@ function UserBlogs({ user }: UserBlogsProps) {
             </Table>
           </TableContainer>
         </Card>
-      </QueryBoundaryProvider>
+      </QueryBoundary.Context>
     </PaginationProvider>
   );
 }
