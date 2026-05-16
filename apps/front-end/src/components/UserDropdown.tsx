@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { MdError } from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundary from "src/components/QueryBoundary";
+import QueryBoundaryWrapper from "src/components/QueryBoundary";
 import formatError from "src/utility/errors/formatError";
 
 function UserDropdown() {
@@ -21,7 +21,7 @@ function UserDropdown() {
   const theme = useTheme();
 
   return (
-    <QueryBoundary
+    <QueryBoundaryWrapper
       isLoading={currentUserLoading}
       data={currentUser}
       error={currentUserError}
@@ -78,7 +78,7 @@ function UserDropdown() {
           </DropdownMenuProvider>
         );
       }}
-    </QueryBoundary>
+    </QueryBoundaryWrapper>
   );
 }
 

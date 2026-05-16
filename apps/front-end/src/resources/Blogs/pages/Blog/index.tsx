@@ -1,9 +1,10 @@
-import { Page, QueryBoundary } from "@alextheman/components";
+import { Page } from "@alextheman/components";
 import { DropdownMenuItem, DropdownMenuWrapper, InternalLink } from "@alextheman/components/v7";
 import { formatDateAndTime } from "@alextheman/utility";
 import Typography from "@mui/material/Typography";
 
 import { useAuth } from "src/AuthContextProvider";
+import QueryBoundaryWrapper from "src/components/QueryBoundary";
 import BlogContent from "src/resources/Blogs/pages/Blog/BlogContent";
 import { useBlogQuery } from "src/resources/Blogs/queries";
 
@@ -16,7 +17,7 @@ function Blog({ blogId }: BlogPageProps) {
   const { currentUser } = useAuth();
 
   return (
-    <QueryBoundary data={blog} isLoading={isPending} error={error}>
+    <QueryBoundaryWrapper data={blog} isLoading={isPending} error={error}>
       {(blog) => {
         return (
           <Page
@@ -50,7 +51,7 @@ function Blog({ blogId }: BlogPageProps) {
           </Page>
         );
       }}
-    </QueryBoundary>
+    </QueryBoundaryWrapper>
   );
 }
 
