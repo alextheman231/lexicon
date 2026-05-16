@@ -3,7 +3,7 @@ import { DropdownMenuItem, DropdownMenuWrapper, InternalLink } from "@alextheman
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 
-import QueryBoundary from "src/components/QueryBoundary";
+import QueryBoundaryWrapper from "src/components/QueryBoundary";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import { useUserQuery } from "src/resources/Users/queries";
@@ -19,7 +19,7 @@ function UserProfile({ userId }: UserProfileProps) {
   const [tab, setTab] = useHash<TabState>("blogs");
 
   return (
-    <QueryBoundary data={user} isLoading={isPending} error={error}>
+    <QueryBoundaryWrapper data={user} isLoading={isPending} error={error}>
       {(user) => {
         return (
           <Page
@@ -48,7 +48,7 @@ function UserProfile({ userId }: UserProfileProps) {
           </Page>
         );
       }}
-    </QueryBoundary>
+    </QueryBoundaryWrapper>
   );
 }
 

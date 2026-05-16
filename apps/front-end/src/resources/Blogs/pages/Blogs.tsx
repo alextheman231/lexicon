@@ -1,9 +1,8 @@
 import type { BlogSummary } from "@lexicon/models";
 
-import { Page, QueryBoundaryError } from "@alextheman/components";
+import { Page } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/v7";
 import { formatDateAndTime } from "@alextheman/utility";
-import { parseBlogSummary } from "@lexicon/models";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import Table from "@mui/material/Table";
@@ -15,10 +14,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import PaginationProvider from "src/components/PaginationProvider";
-import QueryBoundaryDataRowsMap from "src/components/QueryBoundaryDataRowsMap";
-import QueryBoundaryProvider from "src/components/QueryBoundaryProvider";
 import TablePagination from "src/components/TablePagination";
 import TableSortLabel from "src/components/TableSortLabel";
+import createQueryBoundary from "src/hooks/createQueryBoundary";
 import usePagination from "src/hooks/usePagination";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
 
@@ -33,12 +31,16 @@ function Blogs() {
   const { data, isPending, error } = useBlogsQuery(pagination.state.paginationSettings);
   const { rows: blogs, totalRecordCount } = data ?? {};
 
+  const QueryBoundary = createQueryBoundary({
+    query: { dataCollection: blogs, isLoading: isPending, error },
+  });
+
   return (
     <PaginationProvider pagination={pagination}>
-      <QueryBoundaryProvider data={blogs} isLoading={isPending} error={error}>
+      <QueryBoundary.Context>
         <Page title="Welcome to Lexicon!" subtitle="Take a look at some of our blogs.">
           <Stack spacing={1}>
-            <QueryBoundaryError />
+            <QueryBoundary.Error />
             <Card>
               <TableContainer>
                 <Table>
@@ -56,7 +58,7 @@ function Blogs() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <QueryBoundaryDataRowsMap itemParser={parseBlogSummary} columns={3}>
+                    <QueryBoundary.DataRowsMap columns={3}>
                       {(blog) => {
                         return (
                           <TableRow>
@@ -78,7 +80,7 @@ function Blogs() {
                           </TableRow>
                         );
                       }}
-                    </QueryBoundaryDataRowsMap>
+                    </QueryBoundary.DataRowsMap>
                   </TableBody>
                   <TableFooter>
                     <TableRow>
@@ -90,7 +92,7 @@ function Blogs() {
             </Card>
           </Stack>
         </Page>
-      </QueryBoundaryProvider>
+      </QueryBoundary.Context>
     </PaginationProvider>
   );
 }

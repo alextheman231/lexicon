@@ -4,7 +4,7 @@ import { Page, useSnackbar } from "@alextheman/components";
 import { useLocation } from "wouter";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundary from "src/components/QueryBoundary";
+import QueryBoundaryWrapper from "src/components/QueryBoundary";
 import UserProfileForm from "src/resources/Users/components/UserProfileForm";
 import { useUpdateUserProfileMutation } from "src/resources/Users/queries";
 import formatError from "src/utility/errors/formatError";
@@ -26,11 +26,11 @@ function EditUserProfile() {
 
   return (
     <Page title="Edit Profile" disablePadding>
-      <QueryBoundary isLoading={currentUserLoading} data={currentUser}>
+      <QueryBoundaryWrapper isLoading={currentUserLoading} data={currentUser}>
         {(user) => {
           return <UserProfileForm user={user} onSubmit={onSubmit} back={`/users/${user.id}`} />;
         }}
-      </QueryBoundary>
+      </QueryBoundaryWrapper>
     </Page>
   );
 }

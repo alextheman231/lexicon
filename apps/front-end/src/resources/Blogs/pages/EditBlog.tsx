@@ -6,7 +6,7 @@ import { useSnackbar } from "@alextheman/components";
 import { BlogState } from "@lexicon/models";
 import { useLocation } from "wouter";
 
-import QueryBoundary from "src/components/QueryBoundary";
+import QueryBoundaryWrapper from "src/components/QueryBoundary";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
 import { useBlogQuery, useEditBlogMutation } from "src/resources/Blogs/queries";
@@ -34,7 +34,7 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
   }
 
   return (
-    <QueryBoundary data={blog} isLoading={isPending} error={error}>
+    <QueryBoundaryWrapper data={blog} isLoading={isPending} error={error}>
       {(blog) => {
         if (blog.authorId !== currentUser.id) {
           return <UnauthorisedPage />;
@@ -49,7 +49,7 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
           />
         );
       }}
-    </QueryBoundary>
+    </QueryBoundaryWrapper>
   );
 }
 

@@ -2,7 +2,7 @@ import type { QueryBoundaryDataProps, QueryBoundaryFallbackProps } from "@alexth
 
 import type { QueryBoundaryProviderProps } from "src/components/QueryBoundaryProvider";
 
-import { QueryBoundary as AlexQueryBoundary } from "@alextheman/components";
+import { QueryBoundaryWrapper as AlexQueryBoundaryWrapper } from "@alextheman/components";
 
 import ErrorMessage from "src/components/ErrorMessage";
 
@@ -13,14 +13,14 @@ export type QueryBoundaryProps<DataType> = Omit<
   Omit<QueryBoundaryFallbackProps, "errorComponent"> &
   Omit<QueryBoundaryDataProps<DataType>, "showOnError">;
 
-function QueryBoundary<DataType>({
+function QueryBoundaryWrapper<DataType>({
   children,
   codeErrorMap,
   errorFunction,
   ...queryBoundaryProps
 }: QueryBoundaryProps<DataType>) {
   return (
-    <AlexQueryBoundary
+    <AlexQueryBoundaryWrapper
       logError={import.meta.env.DEV}
       errorComponent={(error) => {
         return (
@@ -30,8 +30,8 @@ function QueryBoundary<DataType>({
       {...queryBoundaryProps}
     >
       {children}
-    </AlexQueryBoundary>
+    </AlexQueryBoundaryWrapper>
   );
 }
 
-export default QueryBoundary;
+export default QueryBoundaryWrapper;

@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import axios from "axios";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundary from "src/components/QueryBoundary";
+import QueryBoundaryWrapper from "src/components/QueryBoundary";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import { DEFAULT_ERROR_MESSAGE } from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 import defaultErrorFormatters from "src/utility/errors/errorFormatters";
@@ -21,7 +21,7 @@ function AuthRequired({
   const { currentUser, currentUserLoading, currentUserError } = useAuth();
 
   return (
-    <QueryBoundary
+    <QueryBoundaryWrapper
       data={currentUser}
       isLoading={currentUserLoading}
       error={currentUserError}
@@ -40,7 +40,7 @@ function AuthRequired({
       {(user) => {
         return typeof children === "function" ? children(user) : children;
       }}
-    </QueryBoundary>
+    </QueryBoundaryWrapper>
   );
 }
 
