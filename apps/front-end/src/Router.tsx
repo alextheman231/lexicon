@@ -2,6 +2,7 @@ import { Router as AlexRouter, Switch } from "@alextheman/components/v7";
 import { CodeError } from "@alextheman/utility/v6";
 import { Route } from "wouter";
 
+import BackendError from "src/components/BackendError";
 import PageWrapper from "src/components/PageWrapper";
 import AuthCallback from "src/pages/AuthCallback";
 import Blogs from "src/resources/Blogs/pages/Blogs";
@@ -36,6 +37,9 @@ function Router() {
                 "This is an error that should crash the page and report to Sentry.",
               );
             }}
+          </Route>
+          <Route path="/control/be-error">
+            <BackendError />
           </Route>
         </Switch>
       </PageWrapper>
