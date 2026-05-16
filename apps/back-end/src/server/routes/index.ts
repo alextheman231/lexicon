@@ -1,5 +1,7 @@
 import type { Express } from "express";
 
+import { CodeError } from "@alextheman/utility/v6";
+
 import authRouter from "src/server/routes/auth";
 import blogsRouter from "src/server/routes/blogs";
 import currentUserRouter from "src/server/routes/currentUser";
@@ -29,6 +31,13 @@ function createEndpoints(app: Express) {
   app.use(defineEndpoint("users"), usersRouter);
   app.use(defineEndpoint("auth"), authRouter);
   app.use(defineEndpoint("blogs"), blogsRouter);
+
+  app.get(defineEndpoint("control/be-error"), () => {
+    throw new CodeError(
+      "TEST_ERROR",
+      "This is an error that should crash the page and report to Sentry.",
+    );
+  });
 }
 
 export default createEndpoints;
