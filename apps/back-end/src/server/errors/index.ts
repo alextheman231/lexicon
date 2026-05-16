@@ -5,6 +5,7 @@ import { APIError, CodeError, DataError } from "@alextheman/utility/v6";
 import { setupExpressErrorHandler } from "@sentry/node";
 
 import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
+import internalServerError from "src/utility/internalServerError";
 
 const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 const DEBUG = parseBoolean(process.env.DEBUG ?? "false");
@@ -51,8 +52,9 @@ export function handleErrors(app: Express) {
   app.use(
     handleErrorMiddleware((error, _request, response) => {
       console.error(error);
-      response.status(500).send({
-        error: { code: "INTERNAL_SERVER_ERROR", message: "An internal error has occurred." },
+      const serverError = internalServerError();
+      response.status(serverError.status).send({
+        error: new CodeError(serverError.code, serverError.message).toJSON(),
       });
     }),
   );
