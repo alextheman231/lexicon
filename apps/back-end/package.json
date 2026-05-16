@@ -71,6 +71,7 @@
   },
   "dependencies": {
     "@lexicon/models": "workspace:*",
+    "@sentry/node": "10.53.1",
     "cookie-parser": "1.4.7",
     "cors": "2.8.6",
     "dotenv": "17.4.2",

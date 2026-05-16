@@ -5,6 +5,7 @@ import { handleErrors } from "src/server/errors";
 import createEndpoints from "src/server/routes";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
 import setupCors from "src/utility/setupCors";
+import "src/instrument";
 
 const app = express();
 
