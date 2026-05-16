@@ -38,7 +38,7 @@ jobs:
         uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: "**/.turbo"
-          key: deployment-build
+          key: deployment-build-${{ github.sha }}
 
   deploy-database:
     runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
         uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: "**/.turbo"
-          key: deployment-build
+          key: deployment-build-${{ github.sha }}
 
       - name: Install dependencies
         run: pnpm install
@@ -98,7 +98,7 @@ jobs:
         uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: "**/.turbo"
-          key: deployment-build
+          key: deployment-build-${{ github.sha }}
 
       - name: Login to Docker Hub
         env:
@@ -181,7 +181,7 @@ jobs:
         uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: "**/.turbo"
-          key: deployment-build
+          key: deployment-build-${{ github.sha }}
 
       - name: Install Vercel
         uses: alextheman231/typescript-actions/actions/safe-npm-dependency-global-install@52cf8adbb2d435944bbd882e03d0be6cdaeac243 # v1.2.1
