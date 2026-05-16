@@ -10,7 +10,6 @@ COPY patches ./patches
 
 RUN ["pnpm", "install", "--frozen-lockfile"]
 RUN ["pnpm", "run", "build", "--ui=stream"]
-RUN ["rm", "-rf", "**/.turbo"]
 
 EXPOSE 8080
 
