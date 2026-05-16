@@ -6,7 +6,7 @@ import { useSnackbar } from "@alextheman/components";
 import { BlogState } from "@lexicon/models";
 import { useLocation } from "wouter";
 
-import QueryBoundaryWrapper from "src/components/QueryBoundary";
+import QueryBoundaryWrapper from "src/components/QueryBoundaryWrapper";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
 import { useBlogQuery, useEditBlogMutation } from "src/resources/Blogs/queries";
