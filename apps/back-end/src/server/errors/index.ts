@@ -2,6 +2,7 @@ import type { Express } from "express";
 
 import { parseBoolean, parseEnv } from "@alextheman/utility";
 import { APIError, CodeError, DataError } from "@alextheman/utility/v6";
+import { setupExpressErrorHandler } from "@sentry/node";
 
 import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
 
@@ -9,6 +10,10 @@ const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 const DEBUG = parseBoolean(process.env.DEBUG ?? "false");
 
 export function handleErrors(app: Express) {
+  if (ENV === "production") {
+    setupExpressErrorHandler(app);
+  }
+
   app.use(
     handleErrorMiddleware((error, _request, response, next) => {
       response.clearCookie("oauth_redirect");

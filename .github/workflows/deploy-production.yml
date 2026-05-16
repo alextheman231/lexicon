@@ -72,11 +72,25 @@ jobs:
     permissions:
       contents: read
     needs: [deploy-image]
+    env:
+      SENTRY_RELEASE: ${{ github.sha }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@5657c9e888b4e2cc85f4d29143ea4131fde4a73a # v3.6.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_ORGANISATION_TOKEN }}
+          SENTRY_ORG: alextheman231
+          SENTRY_PROJECT: lexicon-back-end
+        with:
+          environment: production
+          release: ${{ env.SENTRY_RELEASE }}
+          ignore_missing: true
+          ignore_empty: true
 
       - name: Install Render CLI
         run: curl -fsSL https://raw.githubusercontent.com/render-oss/cli/refs/heads/main/bin/install.sh | sh
