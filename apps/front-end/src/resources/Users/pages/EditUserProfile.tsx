@@ -4,7 +4,7 @@ import { Page, useSnackbar } from "@alextheman/components";
 import { useLocation } from "wouter";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundaryWrapper from "src/components/QueryBoundary";
+import QueryBoundaryWrapper from "src/components/QueryBoundaryWrapper";
 import UserProfileForm from "src/resources/Users/components/UserProfileForm";
 import { useUpdateUserProfileMutation } from "src/resources/Users/queries";
 import formatError from "src/utility/errors/formatError";

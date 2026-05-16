@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import axios from "axios";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundaryWrapper from "src/components/QueryBoundary";
+import QueryBoundaryWrapper from "src/components/QueryBoundaryWrapper";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import { DEFAULT_ERROR_MESSAGE } from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 import defaultErrorFormatters from "src/utility/errors/errorFormatters";
