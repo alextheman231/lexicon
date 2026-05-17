@@ -23,7 +23,8 @@
     "pre-commit": "alex-c-line pre-commit",
     "prepare": "husky",
     "start": "turbo run start",
-    "test": "turbo run test",
+    "test": "turbo run test --filter=!end-to-end",
+    "test-end-to-end": "turbo run test --filter=end-to-end",
     "update-dependencies": "turbo run update-dependencies && pnpm update --latest && pnpm update"
   },
   "devDependencies": {

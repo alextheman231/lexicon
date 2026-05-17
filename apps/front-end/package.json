@@ -27,6 +27,7 @@
     "lint-prettier-typescript": "prettier --check --parser typescript \"./**/*.{ts,tsx}\"",
     "lint-tsc": "tsc --noEmit",
     "preview": "vite preview",
+    "start": "vite",
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "dependencies": {
