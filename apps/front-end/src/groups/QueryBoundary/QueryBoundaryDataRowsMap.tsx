@@ -5,7 +5,7 @@ import { QueryBoundaryNullable, SkeletonRow } from "@alextheman/components";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 
-import QueryBoundaryDataMap from "src/components/QueryBoundaryDataMap";
+import QueryBoundaryDataMap from "src/groups/QueryBoundary/QueryBoundaryDataMap";
 
 type FallbackComponent = ReactNode | ((columns: number) => ReactNode);
 

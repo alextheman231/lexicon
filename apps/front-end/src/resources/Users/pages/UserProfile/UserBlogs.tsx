@@ -12,8 +12,8 @@ import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import createPaginationGroup from "src/components/pagination";
-import createQueryBoundary from "src/hooks/createQueryBoundary";
+import createPaginationGroup from "src/groups/pagination";
+import createQueryBoundary from "src/groups/QueryBoundary";
 import usePagination from "src/hooks/usePagination";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
 

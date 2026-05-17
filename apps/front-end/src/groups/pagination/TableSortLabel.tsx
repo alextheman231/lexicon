@@ -2,7 +2,7 @@ import type { TableSortLabelOwnProps } from "@mui/material/TableSortLabel";
 
 import MUITableSortLabel from "@mui/material/TableSortLabel";
 
-import { usePaginationContext } from "src/components/pagination/PaginationProvider";
+import { usePaginationContext } from "src/groups/pagination/PaginationProvider";
 
 export interface TableSortLabelProps<
   DataType extends object = Record<PropertyKey, unknown>,

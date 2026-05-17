@@ -5,10 +5,10 @@ import type {
 
 import { createQueryBoundary as createAlexQueryBoundary } from "@alextheman/components";
 
-import QueryBoundaryDataMap from "src/components/QueryBoundaryDataMap";
-import QueryBoundaryDataRowsMap from "src/components/QueryBoundaryDataRowsMap";
-import QueryBoundaryError from "src/components/QueryBoundaryError";
-import QueryBoundaryFallback from "src/components/QueryBoundaryFallback";
+import QueryBoundaryDataMap from "src/groups/QueryBoundary/QueryBoundaryDataMap";
+import QueryBoundaryDataRowsMap from "src/groups/QueryBoundary/QueryBoundaryDataRowsMap";
+import QueryBoundaryError from "src/groups/QueryBoundary/QueryBoundaryError";
+import QueryBoundaryFallback from "src/groups/QueryBoundary/QueryBoundaryFallback";
 
 export interface LexiconQueryBoundaryComponents<DataType> extends Omit<
   DefaultQueryBoundaryComponents<DataType>,
