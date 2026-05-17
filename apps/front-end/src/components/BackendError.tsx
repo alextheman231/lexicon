@@ -1,13 +1,7 @@
-import { useEffect } from "react";
-
-import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
+import { useBackendErrorQuery } from "src/queries";
 
 function BackendError() {
-  useEffect(() => {
-    (async () => {
-      await lexiconAuthenticatedClient.get("/api/v1/control/be-error");
-    })();
-  }, []);
+  useBackendErrorQuery();
 
   return null;
 }
