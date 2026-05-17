@@ -12,9 +12,7 @@ import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import PaginationProvider from "src/components/PaginationProvider";
-import TablePagination from "src/components/TablePagination";
-import TableSortLabel from "src/components/TableSortLabel";
+import createPaginationGroup from "src/components/pagination";
 import createQueryBoundary from "src/hooks/createQueryBoundary";
 import usePagination from "src/hooks/usePagination";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
@@ -30,6 +28,7 @@ function UserBlogs({ user }: UserBlogsProps) {
     sortColumn: "publishedAt",
     sortDirection: "desc",
   });
+  const PaginationGroup = createPaginationGroup<BlogSummary>(pagination);
 
   const { data, isPending, error } = useBlogsQuery({
     ...pagination.state.paginationSettings,
@@ -41,7 +40,7 @@ function UserBlogs({ user }: UserBlogsProps) {
   });
 
   return (
-    <PaginationProvider pagination={pagination}>
+    <PaginationGroup.Context>
       <QueryBoundary.Context>
         <QueryBoundary.Error />
         <Card>
@@ -50,12 +49,14 @@ function UserBlogs({ user }: UserBlogsProps) {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <TableSortLabel<BlogSummary> columnName="title">Title</TableSortLabel>
+                    <PaginationGroup.TableSortLabel columnName="title">
+                      Title
+                    </PaginationGroup.TableSortLabel>
                   </TableCell>
                   <TableCell>
-                    <TableSortLabel<BlogSummary> columnName="publishedAt">
+                    <PaginationGroup.TableSortLabel columnName="publishedAt">
                       Published at
-                    </TableSortLabel>
+                    </PaginationGroup.TableSortLabel>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -79,14 +80,14 @@ function UserBlogs({ user }: UserBlogsProps) {
               </TableBody>
               <TableFooter>
                 <TableRow>
-                  <TablePagination<BlogSummary> recordCount={totalRecordCount} />
+                  <PaginationGroup.TablePagination recordCount={totalRecordCount} />
                 </TableRow>
               </TableFooter>
             </Table>
           </TableContainer>
         </Card>
       </QueryBoundary.Context>
-    </PaginationProvider>
+    </PaginationGroup.Context>
   );
 }
 

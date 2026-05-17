@@ -1,44 +1,28 @@
 import type { TablePaginationOwnProps } from "@mui/material/TablePagination";
 import type { ChangeEvent, MouseEvent } from "react";
 
-import type { PaginationSettings } from "src/hooks/usePagination";
-
 import { assertNotUndefined, parseIntStrict } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import MUITablePagination from "@mui/material/TablePagination";
 
-import { usePaginationContext } from "src/components/PaginationProvider";
+import { usePaginationContext } from "src/components/pagination/PaginationProvider";
 
-export interface TablePaginationProps<
-  DataType extends object = Record<PropertyKey, unknown>,
-> extends Omit<
+export interface TablePaginationProps extends Omit<
   TablePaginationOwnProps,
   "count" | "onPageChange" | "onRowsPerPageChange" | "page" | "rowsPerPage"
 > {
-  paginationSettings?: PaginationSettings<DataType>;
   recordCount?: number;
-  setPageNumber?: (pageNumber: number) => void;
-  setPageSize?: (pageSize: number) => void;
 }
 
 function TablePagination<DataType extends object = Record<PropertyKey, unknown>>({
   recordCount,
   rowsPerPageOptions = [100, 500, 750, 1000],
   ...props
-}: TablePaginationProps<DataType>) {
-  const { pagination } = usePaginationContext<DataType, false>({ strict: false }) ?? {};
-
-  const paginationSettings = props.paginationSettings ?? pagination?.state.paginationSettings;
-  const setPageNumber = props.setPageNumber ?? pagination?.actions.setPageNumber;
-  const setPageSize = props.setPageSize ?? pagination?.actions.setPageSize;
-
-  if (!paginationSettings || !setPageNumber || !setPageSize) {
-    throw new DataError(
-      { paginationSettings, setPageNumber, setPageSize },
-      "PAGINATION_DATA_NOT_FOUND",
-      "Could not retrieve pagination data from either props or context.",
-    );
-  }
+}: TablePaginationProps) {
+  const { pagination } = usePaginationContext<DataType>();
+  const {
+    state: { paginationSettings },
+    actions: { setPageNumber, setPageSize },
+  } = pagination;
 
   function handlePageChange(_event: MouseEvent<HTMLButtonElement> | null, newPage: number) {
     assertNotUndefined(setPageNumber);
