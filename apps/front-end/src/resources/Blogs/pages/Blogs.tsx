@@ -13,9 +13,7 @@ import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import PaginationProvider from "src/components/PaginationProvider";
-import TablePagination from "src/components/TablePagination";
-import TableSortLabel from "src/components/TableSortLabel";
+import createPaginationGroup from "src/components/pagination";
 import createQueryBoundary from "src/hooks/createQueryBoundary";
 import usePagination from "src/hooks/usePagination";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
@@ -27,6 +25,7 @@ function Blogs() {
     sortColumn: "publishedAt",
     sortDirection: "desc",
   });
+  const PaginationGroup = createPaginationGroup<BlogSummary>(pagination);
 
   const { data, isPending, error } = useBlogsQuery(pagination.state.paginationSettings);
   const { rows: blogs, totalRecordCount } = data ?? {};
@@ -36,7 +35,7 @@ function Blogs() {
   });
 
   return (
-    <PaginationProvider pagination={pagination}>
+    <PaginationGroup.Context>
       <QueryBoundary.Context>
         <Page title="Welcome to Lexicon!" subtitle="Take a look at some of our blogs.">
           <Stack spacing={1}>
@@ -47,13 +46,15 @@ function Blogs() {
                   <TableHead>
                     <TableRow>
                       <TableCell>
-                        <TableSortLabel<BlogSummary> columnName="title">Title</TableSortLabel>
+                        <PaginationGroup.TableSortLabel columnName="title">
+                          Title
+                        </PaginationGroup.TableSortLabel>
                       </TableCell>
                       <TableCell>Author</TableCell>
                       <TableCell>
-                        <TableSortLabel<BlogSummary> columnName="publishedAt">
+                        <PaginationGroup.TableSortLabel columnName="publishedAt">
                           Published at
-                        </TableSortLabel>
+                        </PaginationGroup.TableSortLabel>
                       </TableCell>
                     </TableRow>
                   </TableHead>
@@ -84,7 +85,7 @@ function Blogs() {
                   </TableBody>
                   <TableFooter>
                     <TableRow>
-                      <TablePagination<BlogSummary> recordCount={totalRecordCount} />
+                      <PaginationGroup.TablePagination recordCount={totalRecordCount} />
                     </TableRow>
                   </TableFooter>
                 </Table>
@@ -93,7 +94,7 @@ function Blogs() {
           </Stack>
         </Page>
       </QueryBoundary.Context>
-    </PaginationProvider>
+    </PaginationGroup.Context>
   );
 }
 
