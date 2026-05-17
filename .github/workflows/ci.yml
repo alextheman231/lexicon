@@ -108,5 +108,96 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+  end-to-end-ci:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: lexicon
+          POSTGRES_DB: development
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Use PNPM
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+        with:
+          run_install: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Cache Turborepo cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: "**/.turbo"
+          key: turbo-end-to-end-${{ hashFiles('{apps,packages}/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'turbo.json') }}
+          restore-keys: turbo-end-to-end-
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml', 'apps/end-to-end/playwright.config.ts') }}
+          restore-keys: ${{ runner.os }}-playwright-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright Browsers
+        working-directory: apps/end-to-end
+        run: pnpm exec playwright install --with-deps
+
+      - name: Initialise environment variables
+        run: |
+          touch apps/back-end/.env.development
+          echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/development?schema=public" >> apps/back-end/.env.development
+          echo API_BASE_URL="http://localhost:8080" >> apps/back-end/.env.development
+          echo ALLOWED_ORIGINS="http://localhost:5173" >> apps/back-end/.env.development
+
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Apply migrations
+        run: pnpm run migrate-db
+        working-directory: apps/back-end
+        env:
+          NODE_ENV: development
+
+      - name: Run Playwright tests
+        working-directory: apps/end-to-end
+        run: pnpm test
+
+      - name: Upload Playwright reports to workflow output
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: apps/end-to-end/playwright-report/
+          retention-days: 30
+
+      - name: Upload test results to workflow output
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results
+          path: apps/end-to-end/test-results/
+          retention-days: 30
+
   actions-ci:
     uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@c4545878d40d8cd0b3b08c8f693c27980b5f3e16 # v11.2.2
