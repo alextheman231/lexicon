@@ -1,9 +1,8 @@
 import { Page, useHash } from "@alextheman/components";
 import { DropdownMenuItem, DropdownMenuWrapper, InternalLink } from "@alextheman/components/v7";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 
 import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import createTabGroup from "src/groups/Tab";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import { useUserQuery } from "src/resources/Users/queries";
@@ -17,38 +16,41 @@ type TabState = "blogs" | "about";
 function UserProfile({ userId }: UserProfileProps) {
   const { data: user, isPending, error } = useUserQuery(userId);
   const [tab, setTab] = useHash<TabState>("blogs");
+  const Tab = createTabGroup<TabState>({ tab, setTab });
 
   return (
-    <QueryBoundaryWrapper data={user} isLoading={isPending} error={error}>
-      {(user) => {
-        return (
-          <Page
-            title={user.displayName ?? user.username}
-            subtitle={user.username}
-            action={
-              <DropdownMenuWrapper>
-                <DropdownMenuItem component={InternalLink} to="/blogs/new">
-                  Create Blog
-                </DropdownMenuItem>
-              </DropdownMenuWrapper>
-            }
-            tabs={
-              <Tabs
-                value={tab}
-                onChange={(_, value: TabState) => {
-                  setTab(value);
-                }}
-              >
-                <Tab label="Blogs" value="blogs" />
-                <Tab label="About" value="about" />
-              </Tabs>
-            }
-          >
-            {{ blogs: <UserBlogs user={user} />, about: <AboutUser user={user} /> }[tab]}
-          </Page>
-        );
-      }}
-    </QueryBoundaryWrapper>
+    <Tab.Context>
+      <QueryBoundaryWrapper data={user} isLoading={isPending} error={error}>
+        {(user) => {
+          return (
+            <Page
+              title={user.displayName ?? user.username}
+              subtitle={user.username}
+              action={
+                <DropdownMenuWrapper>
+                  <DropdownMenuItem component={InternalLink} to="/blogs/new">
+                    Create Blog
+                  </DropdownMenuItem>
+                </DropdownMenuWrapper>
+              }
+              tabs={
+                <Tab.List>
+                  <Tab.Item label="Blogs" value="blogs" />
+                  <Tab.Item label="About" value="about" />
+                </Tab.List>
+              }
+            >
+              <Tab.Panel value="about">
+                <AboutUser user={user} />
+              </Tab.Panel>
+              <Tab.Panel value="blogs">
+                <UserBlogs user={user} />
+              </Tab.Panel>
+            </Page>
+          );
+        }}
+      </QueryBoundaryWrapper>
+    </Tab.Context>
   );
 }
 
