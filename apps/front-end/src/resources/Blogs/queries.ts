@@ -4,9 +4,11 @@ import type { PaginatedResult, PaginationSettings } from "src/hooks/usePaginatio
 
 import { az } from "@alextheman/utility";
 import { parseBlogSummaries, parseBlogView } from "@lexicon/models";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import z from "zod";
 
+import useMutation from "src/hooks/query/useMutation";
+import useQuery from "src/hooks/query/useQuery";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
 import queryKeys, { relatedQueryKeys } from "src/utility/queryKeys";
 

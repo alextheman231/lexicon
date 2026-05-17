@@ -1,9 +1,11 @@
 import type { User, UserProfileFormOutputData } from "@lexicon/models";
 
 import { parseUser } from "@lexicon/models";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 
+import useMutation from "src/hooks/query/useMutation";
+import useQuery from "src/hooks/query/useQuery";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
 import queryKeys from "src/utility/queryKeys";
 

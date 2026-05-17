@@ -22,6 +22,13 @@ const frontendMain: Array<Linter.Config> = [
                 };
               },
             ),
+            ...["useQuery", "useMutation"].map((importName) => {
+              return {
+                importNames: [importName],
+                name: "@tanstack/react-query",
+                message: `Please use the internal \`${importName}\` from \`src/hooks/query/${importName}\` instead.`,
+              };
+            }),
           ],
         }),
       ],
