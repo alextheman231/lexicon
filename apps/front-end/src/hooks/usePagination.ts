@@ -1,9 +1,8 @@
 import type { SortDirection } from "@lexicon/models";
 
+import { useDebounce } from "@alextheman/components";
 import { omitProperties } from "@alextheman/utility";
 import { useCallback, useMemo, useReducer } from "react";
-
-import useDebounce from "src/hooks/useDebounce";
 
 interface PaginationState<DataType extends object = Record<PropertyKey, unknown>> {
   pageNumber: number;
