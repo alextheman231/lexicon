@@ -5,7 +5,7 @@ import type { CodeErrorMap } from "src/utility/errors/errorFormatters";
 
 import { QueryBoundaryNullable } from "@alextheman/components";
 
-import QueryBoundaryError from "src/components/QueryBoundaryError";
+import QueryBoundaryError from "src/groups/QueryBoundary/QueryBoundaryError";
 
 export type QueryBoundaryFallbackErrorPropsBase = Omit<QueryBoundaryErrorProps, "children">;
 

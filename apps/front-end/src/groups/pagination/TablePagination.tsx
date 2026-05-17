@@ -4,7 +4,7 @@ import type { ChangeEvent, MouseEvent } from "react";
 import { assertNotUndefined, parseIntStrict } from "@alextheman/utility";
 import MUITablePagination from "@mui/material/TablePagination";
 
-import { usePaginationContext } from "src/components/pagination/PaginationProvider";
+import { usePaginationContext } from "src/groups/pagination/PaginationProvider";
 
 export interface TablePaginationProps extends Omit<
   TablePaginationOwnProps,

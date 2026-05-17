@@ -3,7 +3,7 @@ import { DropdownMenuItem, DropdownMenuWrapper, InternalLink } from "@alextheman
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 
-import QueryBoundaryWrapper from "src/components/QueryBoundaryWrapper";
+import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import { useUserQuery } from "src/resources/Users/queries";

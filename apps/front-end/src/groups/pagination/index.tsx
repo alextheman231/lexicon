@@ -2,9 +2,9 @@ import type { JSX, ReactNode } from "react";
 
 import type usePagination from "src/hooks/usePagination";
 
-import PaginationProvider from "src/components/pagination/PaginationProvider";
-import TablePagination from "src/components/pagination/TablePagination";
-import TableSortLabel from "src/components/pagination/TableSortLabel";
+import PaginationProvider from "src/groups/pagination/PaginationProvider";
+import TablePagination from "src/groups/pagination/TablePagination";
+import TableSortLabel from "src/groups/pagination/TableSortLabel";
 
 export interface PaginationComponents<DataType extends object = Record<PropertyKey, unknown>> {
   Context: (props: { children: ReactNode }) => JSX.Element;

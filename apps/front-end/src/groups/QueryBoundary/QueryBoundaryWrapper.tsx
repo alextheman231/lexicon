@@ -1,6 +1,6 @@
 import type { QueryBoundaryDataProps, QueryBoundaryProviderProps } from "@alextheman/components";
 
-import type { QueryBoundaryFallbackProps } from "src/components/QueryBoundaryFallback";
+import type { QueryBoundaryFallbackProps } from "src/groups/QueryBoundary/QueryBoundaryFallback";
 
 import { QueryBoundaryWrapper as AlexQueryBoundaryWrapper } from "@alextheman/components";
 

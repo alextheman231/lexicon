@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { MdError } from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundaryWrapper from "src/components/QueryBoundaryWrapper";
+import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import formatError from "src/utility/errors/formatError";
 
 function UserDropdown() {
