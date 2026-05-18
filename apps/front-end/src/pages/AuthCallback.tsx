@@ -1,9 +1,9 @@
 import { Page } from "@alextheman/components";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect } from "react";
-import { useLocation } from "wouter";
 
 import { useAuth } from "src/AuthContextProvider";
+import useLocation from "src/hooks/useLocation";
 
 function AuthCallback() {
   const { authenticate } = useAuth();

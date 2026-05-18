@@ -29,6 +29,11 @@ const frontendMain: Array<Linter.Config> = [
                 message: `Please use the internal \`${importName}\` from \`src/hooks/query/${importName}\` instead.`,
               };
             }),
+            {
+              importNames: ["useLocation"],
+              name: "wouter",
+              message: "Please use `useLocation` from `src/hooks/useLocation` instead.",
+            },
           ],
         }),
       ],

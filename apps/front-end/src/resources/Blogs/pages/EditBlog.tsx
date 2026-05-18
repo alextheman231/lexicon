@@ -4,9 +4,9 @@ import type { BlogFormSubmitData } from "src/resources/Blogs/components/BlogForm
 
 import { useSnackbar } from "@alextheman/components";
 import { BlogState } from "@lexicon/models";
-import { useLocation } from "wouter";
 
 import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import useLocation from "src/hooks/useLocation";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
 import { useBlogQuery, useEditBlogMutation } from "src/resources/Blogs/queries";
