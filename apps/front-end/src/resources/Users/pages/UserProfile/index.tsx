@@ -1,6 +1,7 @@
-import { Page, useHash } from "@alextheman/components";
+import { Page, useHash, useScreenSize } from "@alextheman/components";
 import { DropdownMenuItem, DropdownMenuWrapper, InternalLink } from "@alextheman/components/v7";
 
+import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import createTabGroup from "src/groups/Tab";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
@@ -17,6 +18,8 @@ function UserProfile({ userId }: UserProfileProps) {
   const { data: user, isPending, error } = useUserQuery(userId);
   const [tab, setTab] = useHash<TabState>("blogs");
   const Tab = createTabGroup<TabState>({ tab, setTab });
+  const { isLargeScreen } = useScreenSize();
+  const { currentUser, unauthenticate } = useAuth();
 
   return (
     <Tab.Context>
@@ -31,6 +34,9 @@ function UserProfile({ userId }: UserProfileProps) {
                   <DropdownMenuItem component={InternalLink} to="/blogs/new">
                     Create Blog
                   </DropdownMenuItem>
+                  {!isLargeScreen && user.id === currentUser?.id ? (
+                    <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
+                  ) : null}
                 </DropdownMenuWrapper>
               }
               tabs={

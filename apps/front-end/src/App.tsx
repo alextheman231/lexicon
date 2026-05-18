@@ -1,4 +1,4 @@
-import { ModeProvider, SnackbarProvider } from "@alextheman/components";
+import { ModeProvider, ScreenSizeProvider, SnackbarProvider } from "@alextheman/components";
 import { ErrorBoundary } from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -12,13 +12,15 @@ function App() {
   return (
     <ModeProvider>
       <ErrorBoundary fallback={ErrorPage}>
-        <QueryClientProvider client={queryClient}>
-          <AuthContextProvider>
-            <SnackbarProvider>
-              <Router />
-            </SnackbarProvider>
-          </AuthContextProvider>
-        </QueryClientProvider>
+        <ScreenSizeProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthContextProvider>
+              <SnackbarProvider>
+                <Router />
+              </SnackbarProvider>
+            </AuthContextProvider>
+          </QueryClientProvider>
+        </ScreenSizeProvider>
       </ErrorBoundary>
     </ModeProvider>
   );
