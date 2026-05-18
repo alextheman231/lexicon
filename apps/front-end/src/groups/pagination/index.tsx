@@ -2,6 +2,7 @@ import type { JSX, ReactNode } from "react";
 
 import type usePagination from "src/hooks/usePagination";
 
+import ListPagination from "src/groups/pagination/ListPagination";
 import PaginationProvider from "src/groups/pagination/PaginationProvider";
 import TablePagination from "src/groups/pagination/TablePagination";
 import TableSortLabel from "src/groups/pagination/TableSortLabel";
@@ -10,6 +11,7 @@ export interface PaginationComponents<DataType extends object = Record<PropertyK
   Context: (props: { children: ReactNode }) => JSX.Element;
   TablePagination: typeof TablePagination;
   TableSortLabel: typeof TableSortLabel<DataType>;
+  ListPagination: typeof ListPagination;
 }
 
 function createPaginationGroup<DataType extends object = Record<PropertyKey, unknown>>(
@@ -21,6 +23,7 @@ function createPaginationGroup<DataType extends object = Record<PropertyKey, unk
     },
     TablePagination,
     TableSortLabel,
+    ListPagination,
   };
 }
 
