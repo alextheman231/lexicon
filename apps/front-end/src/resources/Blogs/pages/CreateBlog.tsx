@@ -4,8 +4,8 @@ import type { BlogFormSubmitData } from "src/resources/Blogs/components/BlogForm
 
 import { useSnackbar } from "@alextheman/components";
 import { BlogState } from "@lexicon/models";
-import { useLocation } from "wouter";
 
+import useLocation from "src/hooks/useLocation";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
 import { useCreateBlogMutation } from "src/resources/Blogs/queries";
 import formatError from "src/utility/errors/formatError";

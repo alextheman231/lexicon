@@ -1,10 +1,10 @@
 import type { UserProfileFormOutputData } from "@lexicon/models";
 
 import { Page, useSnackbar } from "@alextheman/components";
-import { useLocation } from "wouter";
 
 import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import useLocation from "src/hooks/useLocation";
 import UserProfileForm from "src/resources/Users/components/UserProfileForm";
 import { useUpdateUserProfileMutation } from "src/resources/Users/queries";
 import formatError from "src/utility/errors/formatError";
