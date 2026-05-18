@@ -158,8 +158,8 @@ importers:
   apps/front-end:
     dependencies:
       '@alextheman/components':
-        specifier: 6.20.1
-        version: 6.20.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6))(@mui/material@9.0.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@tanstack/react-form@1.32.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react-hook-form@7.75.0(react@19.2.6))(react-router-dom@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(wouter@3.9.0(react@19.2.6))
+        specifier: 6.22.0
+        version: 6.22.0(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6))(@mui/material@9.0.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@tanstack/react-form@1.32.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react-hook-form@7.75.0(react@19.2.6))(react-router-dom@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(wouter@3.9.0(react@19.2.6))
       '@emotion/react':
         specifier: 11.14.0
         version: 11.14.0(@types/react@19.2.14)(react@19.2.6)
@@ -258,8 +258,8 @@ importers:
 
 packages:
 
-  '@alextheman/components@6.20.1':
-    resolution: {integrity: sha512-SvVf6uYilZtg4IPLRlgiIDT32K8+SVqQk1IJMjbLwx28F/G5TJZNi2DhluRfqkWR+lVjD/zA9Zd93GFb6qpzgw==}
+  '@alextheman/components@6.22.0':
+    resolution: {integrity: sha512-293+I7rZ7GvTrprqEHH7SGn7lVVqIfnoqwYxjzkDdCBR1P3sU/zav/hrmZ03p4CeN9lU43yc8otZGbsIzsggvQ==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       '@emotion/react': '>=11.0.0'
@@ -6116,7 +6116,7 @@ packages:
 
 snapshots:
 
-  '@alextheman/components@6.20.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6))(@mui/material@9.0.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@tanstack/react-form@1.32.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react-hook-form@7.75.0(react@19.2.6))(react-router-dom@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(wouter@3.9.0(react@19.2.6))':
+  '@alextheman/components@6.22.0(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6))(@mui/material@9.0.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react@19.2.6))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@tanstack/react-form@1.32.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react-hook-form@7.75.0(react@19.2.6))(react-router-dom@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(wouter@3.9.0(react@19.2.6))':
     dependencies:
       '@alextheman/utility': 5.18.2(zod@4.4.3)
       '@emotion/react': 11.14.0(@types/react@19.2.14)(react@19.2.6)

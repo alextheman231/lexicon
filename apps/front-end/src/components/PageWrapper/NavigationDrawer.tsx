@@ -1,18 +1,18 @@
 import type { ReactNode } from "react";
 
 import { ModeToggle } from "@alextheman/components";
-import { NavigationDrawer } from "@alextheman/components/v7";
+import { NavigationDrawer as AlexNavigationDrawer } from "@alextheman/components/v7";
 import Stack from "@mui/material/Stack";
 
 import UserDropdown from "src/components/UserDropdown";
 
-interface PageWrapperProps {
+interface NavigationDrawerProps {
   children: ReactNode;
 }
 
-function PageWrapper({ children }: PageWrapperProps) {
+function NavigationDrawer({ children }: NavigationDrawerProps) {
   return (
-    <NavigationDrawer
+    <AlexNavigationDrawer
       title="Lexicon"
       headerElements={
         <Stack direction="row" spacing={2}>
@@ -33,8 +33,8 @@ function PageWrapper({ children }: PageWrapperProps) {
       ]}
     >
       {children}
-    </NavigationDrawer>
+    </AlexNavigationDrawer>
   );
 }
 
-export default PageWrapper;
+export default NavigationDrawer;
