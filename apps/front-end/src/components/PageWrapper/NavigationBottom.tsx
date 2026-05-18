@@ -24,13 +24,11 @@ function NavigationBottom({ children }: NavigationBottomProps) {
       <AlexNavigationBottom
         navItems={[
           {
-            value: "homepage",
             label: "Homepage",
             icon: <MdHome />,
             to: "/",
           },
           {
-            value: "currentUser",
             label: "Profile",
             icon: <MdPerson />,
             to: currentUser === null ? "/sign-in" : `/users/${currentUser?.id}`,
