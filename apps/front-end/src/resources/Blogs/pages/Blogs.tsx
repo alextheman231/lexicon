@@ -1,24 +1,18 @@
 import type { BlogSummary } from "@lexicon/models";
 
-import { Page } from "@alextheman/components";
-import { InternalLink } from "@alextheman/components/v7";
-import { formatDateAndTime } from "@alextheman/utility";
-import Card from "@mui/material/Card";
+import { Page, useScreenSize } from "@alextheman/components";
 import Stack from "@mui/material/Stack";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableFooter from "@mui/material/TableFooter";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 
 import createPaginationGroup from "src/groups/pagination";
 import createQueryBoundary from "src/groups/QueryBoundary";
 import usePagination from "src/hooks/usePagination";
+import BlogsList from "src/resources/Blogs/components/BlogsList";
+import BlogsTable from "src/resources/Blogs/components/BlogsTable";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
 
 function Blogs() {
+  const { isLargeScreen } = useScreenSize();
+
   const pagination = usePagination<BlogSummary>({
     pageNumber: 0,
     pageSize: 100,
@@ -40,57 +34,21 @@ function Blogs() {
         <Page title="Welcome to Lexicon!" subtitle="Take a look at some of our blogs.">
           <Stack spacing={1}>
             <QueryBoundary.Error />
-            <Card>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <PaginationGroup.TableSortLabel columnName="title">
-                          Title
-                        </PaginationGroup.TableSortLabel>
-                      </TableCell>
-                      <TableCell>Author</TableCell>
-                      <TableCell>
-                        <PaginationGroup.TableSortLabel columnName="publishedAt">
-                          Published at
-                        </PaginationGroup.TableSortLabel>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <QueryBoundary.DataRowsMap columns={3}>
-                      {(blog) => {
-                        return (
-                          <TableRow>
-                            <TableCell>
-                              <InternalLink to={`/blogs/${blog.id}`}>{blog.title}</InternalLink>
-                            </TableCell>
-                            <TableCell>
-                              {blog.authorDisplayName} (
-                              <InternalLink to={`/users/${blog.authorId}`}>
-                                {blog.authorUsername}
-                              </InternalLink>
-                              )
-                            </TableCell>
-                            <TableCell>
-                              {blog.publishedAt
-                                ? formatDateAndTime(blog.publishedAt)
-                                : "Not published yet"}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      }}
-                    </QueryBoundary.DataRowsMap>
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <PaginationGroup.TablePagination recordCount={totalRecordCount} />
-                    </TableRow>
-                  </TableFooter>
-                </Table>
-              </TableContainer>
-            </Card>
+            {isLargeScreen ? (
+              <BlogsTable
+                PaginationGroup={PaginationGroup}
+                QueryBoundary={QueryBoundary}
+                totalRecordCount={totalRecordCount}
+                includeAuthor
+              />
+            ) : (
+              <BlogsList
+                PaginationGroup={PaginationGroup}
+                QueryBoundary={QueryBoundary}
+                totalRecordCount={totalRecordCount}
+                includeAuthor
+              />
+            )}
           </Stack>
         </Page>
       </QueryBoundary.Context>
