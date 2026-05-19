@@ -53,7 +53,7 @@ function UserDropdown() {
           </Box>
         );
       }}
-      nullComponent={
+      nullableComponent={
         <Button
           component={ExternalLink}
           href={`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/google?redirect=${encodeURIComponent(window.location.origin)}`}
