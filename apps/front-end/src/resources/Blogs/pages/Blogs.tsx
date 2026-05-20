@@ -4,7 +4,7 @@ import { Page, useScreenSize } from "@alextheman/components";
 import Stack from "@mui/material/Stack";
 
 import createPaginationGroup from "src/groups/pagination";
-import createQueryBoundary from "src/groups/QueryBoundary";
+import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
 import usePagination from "src/hooks/usePagination";
 import BlogsList from "src/resources/Blogs/components/BlogsList";
 import BlogsTable from "src/resources/Blogs/components/BlogsTable";
@@ -24,8 +24,8 @@ function Blogs() {
   const { data, isPending, error } = useBlogsQuery(pagination.state.paginationSettings);
   const { rows: blogs, totalRecordCount } = data ?? {};
 
-  const QueryBoundary = createQueryBoundary({
-    query: { dataCollection: blogs, isLoading: isPending, error },
+  const QueryBoundary = createListQueryBoundary({
+    query: { data: blogs, isLoading: isPending, error },
   });
 
   return (
