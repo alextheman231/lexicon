@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 
 import { ModeToggle } from "@alextheman/components";
-import { NavigationBottom as AlexNavigationBottom } from "@alextheman/components/v7";
+import { NavigationBottom as AlexNavigationBottom, InternalLink } from "@alextheman/components/v7";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import Stack from "@mui/material/Stack";
@@ -19,7 +20,14 @@ function NavigationBottom({ children }: NavigationBottomProps) {
   return (
     <Stack spacing={1}>
       <Card>
-        <CardHeader title="Lexicon" action={<ModeToggle />} />
+        <CardHeader
+          title={
+            <Button component={InternalLink} to="/">
+              Lexicon
+            </Button>
+          }
+          action={<ModeToggle />}
+        />
       </Card>
       <AlexNavigationBottom
         navItems={[
