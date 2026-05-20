@@ -1,7 +1,7 @@
 import type { BlogSummary } from "@lexicon/models";
 
 import type { PaginationComponents } from "src/groups/pagination";
-import type { LexiconQueryBoundaryComponents } from "src/groups/QueryBoundary";
+import type { LexiconQueryBoundaryComponentsList } from "src/groups/QueryBoundary/creators/createListQueryBoundary";
 
 import { InternalLink } from "@alextheman/components/v7";
 import { formatDateAndTime } from "@alextheman/utility";
@@ -16,7 +16,7 @@ import TableRow from "@mui/material/TableRow";
 
 interface BlogsTableProps {
   PaginationGroup: PaginationComponents<BlogSummary>;
-  QueryBoundary: LexiconQueryBoundaryComponents<BlogSummary>;
+  QueryBoundary: LexiconQueryBoundaryComponentsList<BlogSummary>;
   totalRecordCount?: number;
   includeAuthor?: boolean;
 }
