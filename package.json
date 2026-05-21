@@ -28,7 +28,7 @@
     "update-dependencies": "turbo run update-dependencies && pnpm update --latest && pnpm update"
   },
   "devDependencies": {
-    "@alextheman/eslint-plugin": "5.14.0",
+    "@alextheman/eslint-plugin": "5.15.0",
     "@faker-js/faker": "10.4.0",
     "@typescript-eslint/utils": "8.59.3",
     "alex-c-line": "2.7.2",
