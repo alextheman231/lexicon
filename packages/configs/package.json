@@ -36,15 +36,13 @@
   "author": "alextheman",
   "license": "ISC",
   "devDependencies": {
-    "@alextheman/eslint-plugin": "5.14.0",
     "@types/node": "25.8.0",
-    "eslint": "10.3.0",
     "eslint-plugin-perfectionist": "5.9.0",
     "tsdown": "0.22.0"
   },
   "peerDependencies": {
-    "@alextheman/eslint-plugin": ">=5.14.0",
+    "@alextheman/eslint-plugin": ">=5.15.0",
     "eslint": ">=10.2.1",
-    "eslint-plugin-perfectionist": "5.9.0"
+    "eslint-plugin-perfectionist": ">=5.9.0"
   }
 }
