@@ -3,7 +3,7 @@ import type FactoryContext from "factory/context";
 
 import { faker } from "@faker-js/faker";
 
-import { insertUser } from "src/services/users";
+import { insertUser } from "src/models/users";
 
 class UserFactory {
   private context: FactoryContext;

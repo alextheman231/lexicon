@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { getConnection } from "src/database/connection";
-import { selectUser } from "src/services/users";
+import { selectUser } from "src/models/users";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import resourceNotFoundError from "src/utility/resourceNotFoundError";
 import validateUUID from "src/utility/validators/validateUUID";

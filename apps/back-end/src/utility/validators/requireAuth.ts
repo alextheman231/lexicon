@@ -1,8 +1,8 @@
 import { assertNotNull } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
-import { selectUser } from "src/services/users";
-import { selectUserSession } from "src/services/userSessions";
+import { selectUser } from "src/models/users";
+import { selectUserSession } from "src/models/userSessions";
 import authRequiredError from "src/utility/authRequiredError";
 import handleFallthroughMiddleware from "src/utility/handleFallthroughMiddleware";
 

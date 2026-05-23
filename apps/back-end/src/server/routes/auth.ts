@@ -15,9 +15,10 @@ import { randomBytes } from "node:crypto";
 
 import { getGoogleConfig } from "src/auth/google";
 import { getConnection } from "src/database/connection";
-import { insertAuthProvider, selectAuthProvider } from "src/services/auth";
-import { insertUser, selectUser } from "src/services/users";
-import { expireUserSession, insertUserSession } from "src/services/userSessions";
+import { selectUser } from "src/models/users";
+import { createAuthProvider, getGoogleAuthUser } from "src/services/auth";
+import { createUser } from "src/services/users";
+import { createUserSession, expireUserSession } from "src/services/userSessions";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 
@@ -115,31 +116,31 @@ authRouter.get(
       if (!claims?.sub || !claims?.email) {
         throw new APIError(400, "INVALID_GOOGLE_RESPONSE", "Missing required Google claims");
       }
-      const existingProvider = await selectAuthProvider(transaction, claims);
+      const existingProvider = await getGoogleAuthUser(transaction, claims);
 
       if (existingProvider) {
         const user = await selectUser(transaction, existingProvider.userId);
         assertNotNull(user);
-        const session = await insertUserSession(transaction, { userId: user.id });
+        const session = await createUserSession(transaction, { userId: user.id });
         return { user, session };
       }
 
       const [baseUsername] = claims.email.toString().split("@");
       const username = `${baseUsername}_${randomBytes(3).toString("hex")}`;
 
-      const user = await insertUser(transaction, {
+      const user = await createUser(transaction, {
         email: claims.email.toString(),
         username,
         displayName: claims.name?.toString() ?? username,
       });
 
-      await insertAuthProvider(transaction, {
+      await createAuthProvider(transaction, {
         userId: user.id,
         provider: "google",
         providerUserId: claims.sub,
       });
 
-      const session = await insertUserSession(transaction, { userId: user.id });
+      const session = await createUserSession(transaction, { userId: user.id });
       return { user, session };
     });
 

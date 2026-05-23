@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 
 import { userSessionsTable } from "src/database/schema";
 
-export async function insertUserSession(
+export async function createUserSession(
   connection: Connection,
   data: UserSessionData,
 ): Promise<UserSession> {
@@ -23,17 +23,6 @@ export async function insertUserSession(
     })
     .returning();
   return parseUserSession(session);
-}
-
-export async function selectUserSession(
-  connection: Connection,
-  sessionId: string,
-): Promise<UserSession | null> {
-  const [session] = await connection
-    .select()
-    .from(userSessionsTable)
-    .where(eq(userSessionsTable.id, sessionId));
-  return session ? parseUserSession(session) : null;
 }
 
 export async function expireUserSession(

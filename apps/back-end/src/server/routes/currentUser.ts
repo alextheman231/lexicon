@@ -6,8 +6,9 @@ import { parseUser } from "@lexicon/models";
 import { Router } from "express";
 
 import { getConnection } from "src/database/connection";
-import { selectUser, updateUserProfile } from "src/services/users";
-import { selectUserSession } from "src/services/userSessions";
+import { selectUser } from "src/models/users";
+import { selectUserSession } from "src/models/userSessions";
+import { editUserProfile } from "src/services/users";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import requireAuth from "src/utility/validators/requireAuth";
 
@@ -43,7 +44,7 @@ currentUserRouter.put(
     async (request, response) => {
       const connection = getConnection();
       const user = parseUser(request.user);
-      await updateUserProfile(connection, user.id, request.body);
+      await editUserProfile(connection, user.id, request.body);
       response.status(200).send({});
     },
   ),
