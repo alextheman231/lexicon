@@ -7,7 +7,7 @@ import { faker } from "@faker-js/faker";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
-import { insertAuthProvider } from "src/services/auth";
+import { createAuthProvider } from "src/services/auth";
 
 export type AuthProviderFactoryData = Partial<
   Omit<AuthProviderSchemaData, "userId"> & { user?: string | User }
@@ -28,7 +28,7 @@ class AuthProviderFactory {
   public async insert(data?: AuthProviderFactoryData): Promise<AuthProviderSchema> {
     const userId = await getIdFromFactoryResource<string>(data?.user, this.users);
 
-    const authProvider = await insertAuthProvider(this.context.connection, {
+    const authProvider = await createAuthProvider(this.context.connection, {
       provider: "google",
       providerUserId: faker.string.alpha(10),
       ...omitProperties(data ?? {}, "user"),

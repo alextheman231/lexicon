@@ -9,8 +9,8 @@ import { describe, expect, test, vi } from "vitest";
 import getTestFixtures from "tests/fixtures";
 
 import { usersTable } from "src/database/schema";
+import { selectUser } from "src/models/users";
 import app from "src/server/app";
-import { selectUser } from "src/services/users";
 
 vi.mock("openid-client", async () => {
   return {
