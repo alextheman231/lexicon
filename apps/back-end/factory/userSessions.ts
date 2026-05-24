@@ -1,4 +1,4 @@
-import type { User, UserSession, UserSessionData } from "@lexicon/models";
+import type { CreateUserSessionData, User, UserSession } from "@lexicon/models";
 import type FactoryContext from "factory/context";
 import type UserFactory from "factory/users";
 
@@ -9,7 +9,7 @@ import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 import { createUserSession } from "src/services/userSessions";
 
 export type UserSessionFactoryData = Partial<
-  Omit<UserSessionData, "userId"> & { user?: string | User }
+  Omit<CreateUserSessionData, "userId"> & { user?: string | User }
 >;
 
 class UserSessionFactory {

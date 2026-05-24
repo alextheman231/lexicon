@@ -13,12 +13,12 @@ export function parseUserSession(input: unknown): UserSession {
   return az.with(userSessionSchema).parse(input);
 }
 
-const userSessionInsertSchema = z.object({
+const createUserSessionSchema = z.object({
   userId: z.uuid(),
   expiresAt: z.coerce.date().optional(),
 });
 
-export type UserSessionData = z.infer<typeof userSessionInsertSchema>;
-export function parseUserSessionData(input: unknown): UserSessionData {
-  return az.with(userSessionInsertSchema).parse(input);
+export type CreateUserSessionData = z.infer<typeof createUserSessionSchema>;
+export function parseCreateUserSessionData(input: unknown): CreateUserSessionData {
+  return az.with(createUserSessionSchema).parse(input);
 }
