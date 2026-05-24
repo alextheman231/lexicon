@@ -1,12 +1,9 @@
-import type { UserSession } from "@lexicon/models";
-
 import type { Connection } from "src/database/connection";
-import type { UserSessionInsert, UserSessionUpdate } from "src/database/schema";
+import type { UserSession, UserSessionInsert, UserSessionUpdate } from "src/database/schema";
 
-import { parseUserSession } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
-import { userSessionsTable } from "src/database/schema";
+import { parseUserSession, userSessionsTable } from "src/database/schema";
 
 export async function selectUserSession(
   connection: Connection,

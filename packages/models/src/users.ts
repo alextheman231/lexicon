@@ -7,7 +7,7 @@ export const userSchema = z.object({
   description: z.string().nullable().optional(),
   displayName: z.string().max(50).nullable(),
   email: z.email(),
-  dateOfBirth: z.coerce.date(),
+  dateOfBirth: z.coerce.date().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().nullable(),
 });

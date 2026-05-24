@@ -1,12 +1,9 @@
-import type { User } from "@lexicon/models";
-
 import type { Connection } from "src/database/connection";
-import type { UserInsert, UserUpdate } from "src/database/schema";
+import type { User, UserInsert, UserUpdate } from "src/database/schema";
 
-import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
-import { usersTable } from "src/database/schema";
+import { parseUser, usersTable } from "src/database/schema";
 
 export async function insertUser(connection: Connection, data: UserInsert): Promise<User> {
   const [user] = await connection.insert(usersTable).values(data).returning();

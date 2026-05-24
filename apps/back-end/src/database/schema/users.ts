@@ -1,4 +1,8 @@
+import type z from "zod";
+
+import { az } from "@alextheman/utility";
 import { date, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { createSelectSchema } from "drizzle-zod";
 
 export const usersTable = pgTable("users", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -11,6 +15,11 @@ export const usersTable = pgTable("users", {
   username: varchar("username", { length: 100 }).notNull().unique(),
 });
 
-export type User = typeof usersTable.$inferSelect;
+export const userSchema = createSelectSchema(usersTable);
+export type User = z.infer<typeof userSchema>;
+export function parseUser(input: unknown): User {
+  return az.with(userSchema).parse(input);
+}
+
 export type UserInsert = typeof usersTable.$inferInsert;
 export type UserUpdate = Partial<UserInsert>;

@@ -1,4 +1,5 @@
 import { assertNotNull } from "@alextheman/utility";
+import { parseUser } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import { selectUser } from "src/models/users";
@@ -20,7 +21,7 @@ const requireAuth = handleFallthroughMiddleware(async (request) => {
   }
   const currentUser = await selectUser(connection, session.userId);
   assertNotNull(currentUser);
-  request.user = currentUser;
+  request.user = parseUser(currentUser);
 });
 
 export default requireAuth;

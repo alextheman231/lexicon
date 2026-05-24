@@ -1,6 +1,8 @@
-import type { AuthProviderSchema, AuthProviderSchemaData, User } from "@lexicon/models";
+import type { AuthProviderSchemaData, User } from "@lexicon/models";
 import type FactoryContext from "factory/context";
 import type UserFactory from "factory/users";
+
+import type { AuthProviderSchema } from "src/database/schema";
 
 import { omitProperties } from "@alextheman/utility";
 import { faker } from "@faker-js/faker";

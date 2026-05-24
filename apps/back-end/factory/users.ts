@@ -2,6 +2,7 @@ import type { CreateUserData, User } from "@lexicon/models";
 import type FactoryContext from "factory/context";
 
 import { faker } from "@faker-js/faker";
+import { parseUser } from "@lexicon/models";
 
 import { insertUser } from "src/models/users";
 
@@ -25,13 +26,14 @@ class UserFactory {
       ...data,
     };
 
-    const user = await insertUser(this.context.connection, {
+    const insertedUser = await insertUser(this.context.connection, {
       ...userTemplate,
       dateOfBirth: userTemplate.dateOfBirth?.toISOString(),
     });
 
-    this.records[user.id] = user;
+    const user = parseUser(insertedUser);
 
+    this.records[user.id] = user;
     return user;
   }
 }

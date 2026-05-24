@@ -1,4 +1,8 @@
+import type z from "zod";
+
+import { az } from "@alextheman/utility";
 import { index, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
+import { createSelectSchema } from "drizzle-zod";
 
 import { usersTable } from "src/database/schema/users";
 
@@ -24,6 +28,12 @@ export const userSessionsTable = pgTable(
     ];
   },
 );
+
+const userSessionSchema = createSelectSchema(userSessionsTable);
+export type UserSession = z.infer<typeof userSessionSchema>;
+export function parseUserSession(input: unknown): UserSession {
+  return az.with(userSessionSchema).parse(input);
+}
 
 export type UserSessionInsert = typeof userSessionsTable.$inferInsert;
 export type UserSessionUpdate = Partial<UserSessionInsert>;
