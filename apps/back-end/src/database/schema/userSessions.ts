@@ -24,3 +24,5 @@ export const userSessionsTable = pgTable(
     ];
   },
 );
+
+export type UserSessionInsert = typeof userSessionsTable.$inferInsert;
