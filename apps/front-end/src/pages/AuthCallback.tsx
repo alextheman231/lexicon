@@ -12,7 +12,7 @@ function AuthCallback() {
   useEffect(() => {
     authenticate();
     setLocation("/");
-  }, []);
+  }, [authenticate, setLocation]);
 
   return (
     <Page title="Authenticating...">
