@@ -252,13 +252,15 @@ export async function changeBlogState(
       publishedAt: newState === BlogState.PUBLISHED ? new Date() : null,
     });
     assertNotNull(blog);
+    const { currentRevisionId } = blog;
+    assertNotNull(currentRevisionId);
 
     await insertBlogStateHistory(transaction, {
       state: newState,
       updatedById: ids.editorId,
       updatedAt: today,
       blogId: ids.blogId,
-      revisionId: blog.currentRevisionId,
+      revisionId: currentRevisionId,
     });
 
     return blog ? parseBlog(blog) : null;

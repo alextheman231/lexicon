@@ -3,6 +3,7 @@ import type { CreateUserSessionData, UserSession } from "@lexicon/models";
 import type { Connection } from "src/database/connection";
 
 import { addDaysToDate } from "@alextheman/utility";
+import { parseUserSession } from "@lexicon/models";
 
 import { insertUserSession, updateUserSession } from "src/models/userSessions";
 
@@ -16,7 +17,7 @@ export async function createUserSession(
     createdAt: today,
     expiresAt: data.expiresAt ?? addDaysToDate(today, 7),
   });
-  return userSession;
+  return parseUserSession(userSession);
 }
 
 export async function expireUserSession(
@@ -24,5 +25,5 @@ export async function expireUserSession(
   sessionId: string,
 ): Promise<UserSession | null> {
   const userSession = await updateUserSession(connection, sessionId, { expiresAt: new Date() });
-  return userSession;
+  return parseUserSession(userSession);
 }

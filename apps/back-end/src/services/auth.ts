@@ -4,6 +4,8 @@ import type { IDToken } from "openid-client";
 import type { Connection } from "src/database/connection";
 import type { AuthProviderSchema } from "src/database/schema";
 
+import { parseAuthProviderSchema } from "@lexicon/models";
+
 import { insertAuthProvider, selectAuthProvider } from "src/models/auth";
 
 export async function getGoogleAuthUser(
@@ -14,12 +16,12 @@ export async function getGoogleAuthUser(
     provider: "google",
     providerUserId: claims.sub,
   });
-  return authProvider === null ? null : authProvider;
+  return authProvider === null ? null : parseAuthProviderSchema(authProvider);
 }
 
 export async function createAuthProvider(
   connection: Connection,
   data: AuthProviderSchemaData,
 ): Promise<AuthProviderSchema> {
-  return await insertAuthProvider(connection, data);
+  return parseAuthProviderSchema(await insertAuthProvider(connection, data));
 }

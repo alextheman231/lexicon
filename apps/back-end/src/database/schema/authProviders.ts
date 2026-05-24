@@ -1,5 +1,9 @@
+import type z from "zod";
+
+import { az } from "@alextheman/utility";
 import { AuthProvider } from "@lexicon/models";
 import { index, pgEnum, pgTable, text, timestamp, unique, uuid } from "drizzle-orm/pg-core";
+import { createSelectSchema } from "drizzle-zod";
 
 import { usersTable } from "src/database/schema/users";
 
@@ -29,7 +33,11 @@ export const authProvidersTable = pgTable(
     ];
   },
 );
+export const authProviderSchema = createSelectSchema(authProvidersTable);
+export type AuthProviderSchema = z.infer<typeof authProviderSchema>;
+export function parseAuthProviderSchema(input: unknown): AuthProviderSchema {
+  return az.with(authProviderSchema).parse(input);
+}
 
-export type AuthProviderSchema = typeof authProvidersTable.$inferSelect;
 export type AuthProviderInsert = typeof authProvidersTable.$inferInsert;
 export type AuthProviderUpdate = Partial<AuthProviderInsert>;

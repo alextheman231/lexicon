@@ -1,19 +1,24 @@
-import type { BlogRevision } from "@lexicon/models";
-
 import type { Connection } from "src/database/connection";
 import type {
   Blog,
   BlogInsert,
+  BlogRevision,
   BlogRevisionInsert,
   BlogStateHistoryInsert,
   BlogStateHistoryRow,
   BlogUpdate,
 } from "src/database/schema";
 
-import { parseBlog, parseBlogRevision, parseBlogStateHistoryRow } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
-import { blogRevisionsTable, blogsTable, blogStateHistoryTable } from "src/database/schema";
+import {
+  blogRevisionsTable,
+  blogsTable,
+  blogStateHistoryTable,
+  parseBlog,
+  parseBlogRevision,
+  parseBlogStateHistoryRow,
+} from "src/database/schema";
 
 export async function selectBlog(connection: Connection, blogId: string): Promise<Blog | null> {
   const [blog] = await connection.select().from(blogsTable).where(eq(blogsTable.id, blogId));
@@ -22,8 +27,7 @@ export async function selectBlog(connection: Connection, blogId: string): Promis
 
 export async function insertBlog(connection: Connection, data: BlogInsert): Promise<Blog> {
   const [blog] = await connection.insert(blogsTable).values(data).returning();
-  // TODO: Separate model parsing
-  return blog;
+  return parseBlog(blog);
 }
 
 export async function updateBlog(connection: Connection, blogId: string, data: BlogUpdate) {

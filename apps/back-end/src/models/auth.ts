@@ -3,10 +3,9 @@ import type { AuthProvider } from "@lexicon/models";
 import type { Connection } from "src/database/connection";
 import type { AuthProviderInsert, AuthProviderSchema } from "src/database/schema";
 
-import { parseAuthProviderSchema } from "@lexicon/models";
 import { and, eq } from "drizzle-orm";
 
-import { authProvidersTable } from "src/database/schema";
+import { authProvidersTable, parseAuthProviderSchema } from "src/database/schema";
 
 export interface SelectAuthProviderQuery {
   provider?: AuthProvider;

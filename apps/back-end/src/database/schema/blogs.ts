@@ -1,3 +1,4 @@
+import { az } from "@alextheman/utility";
 import { BlogState } from "@lexicon/models";
 import { sql } from "drizzle-orm";
 import {
@@ -15,6 +16,8 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
+import { createSelectSchema } from "drizzle-zod";
+import z from "zod";
 
 import { usersTable } from "src/database/schema/users";
 
@@ -105,14 +108,28 @@ export const blogStateHistoryTable = pgTable(
   },
 );
 
-export type Blog = typeof blogsTable.$inferSelect;
+const blogSchema = createSelectSchema(blogsTable, { state: z.enum(BlogState) });
+export type Blog = z.infer<typeof blogSchema>;
+export function parseBlog(input: unknown): Blog {
+  return az.with(blogSchema).parse(input);
+}
 export type BlogInsert = typeof blogsTable.$inferInsert;
 export type BlogUpdate = Partial<BlogInsert>;
 
-export type BlogRevision = typeof blogRevisionsTable.$inferSelect;
+const blogRevisionSchema = createSelectSchema(blogRevisionsTable);
+export type BlogRevision = z.infer<typeof blogRevisionSchema>;
+export function parseBlogRevision(input: unknown): BlogRevision {
+  return az.with(blogRevisionSchema).parse(input);
+}
 export type BlogRevisionInsert = typeof blogRevisionsTable.$inferInsert;
 export type BlogRevisionUpdate = Partial<BlogRevisionInsert>;
 
-export type BlogStateHistoryRow = typeof blogStateHistoryTable.$inferSelect;
+const blogStateHistorySchema = createSelectSchema(blogStateHistoryTable, {
+  state: z.enum(BlogState),
+});
+export type BlogStateHistoryRow = z.infer<typeof blogStateHistorySchema>;
+export function parseBlogStateHistoryRow(input: unknown): BlogStateHistoryRow {
+  return az.with(blogStateHistorySchema).parse(input);
+}
 export type BlogStateHistoryInsert = typeof blogStateHistoryTable.$inferInsert;
 export type BlogStateHistoryUpdate = Partial<BlogStateHistoryInsert>;
