@@ -5,7 +5,7 @@ import { personalRestrictedImports } from "@alextheman/eslint-plugin/internal";
 import { combineRestrictedImports } from "@alextheman/eslint-plugin/utility";
 
 const frontendMain: Array<Linter.Config> = [
-  ...alexPlugin.configs["combined/typescript"],
+  ...alexPlugin.configs["combined/typescript-react"],
   {
     files: ["**/*.ts"],
     rules: {

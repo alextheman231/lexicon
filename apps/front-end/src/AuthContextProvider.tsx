@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 
 import { DataError } from "@alextheman/utility/v6";
 import { useQueryClient } from "@tanstack/react-query";
-import { createContext, useCallback, useContext, useMemo } from "react";
+import { createContext, use, useCallback, useMemo } from "react";
 
 import { useCurrentUserQuery, useLogoutMutation } from "src/resources/Users/queries";
 import queryKeys from "src/utility/queryKeys";
@@ -23,7 +23,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export function useAuth<Strict extends boolean = true>({
   strict = true as Strict,
 }: ContextHookOptions<Strict> = {}): OptionalOnCondition<Strict, AuthContextValue> {
-  const context = useContext(AuthContext);
+  const context = use(AuthContext);
   if (strict && !context) {
     throw new DataError(
       { strict, context },
@@ -61,9 +61,9 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
       currentUserError: error,
       unauthenticate,
     };
-  }, [authenticate, currentUser, isPending, unauthenticate]);
+  }, [authenticate, currentUser, isPending, unauthenticate, error]);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext value={value}>{children}</AuthContext>;
 }
 
 export default AuthContextProvider;

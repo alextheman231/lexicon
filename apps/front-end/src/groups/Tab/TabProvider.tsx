@@ -3,7 +3,7 @@ import type { OptionalOnCondition } from "@alextheman/utility";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { DataError } from "@alextheman/utility/v6";
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 
 export interface TabContextValue<TabState extends string = string> {
   tab: TabState;
@@ -20,7 +20,7 @@ export const TabContext = createContext<TabContextValue<any> | undefined>(undefi
 export function useTabContext<TabState extends string = string, Strict extends boolean = true>({
   strict = true as Strict,
 }: ContextHookOptions<Strict> = {}): OptionalOnCondition<Strict, TabProviderProps<TabState>> {
-  const context = useContext(TabContext);
+  const context = use(TabContext);
   if (strict && !context) {
     throw new DataError(
       { strict, context },
@@ -36,7 +36,7 @@ function TabProvider<TabState extends string = string>({
   tab,
   setTab,
 }: TabProviderProps<TabState>) {
-  return <TabContext.Provider value={{ tab, setTab }}>{children}</TabContext.Provider>;
+  return <TabContext value={{ tab, setTab }}>{children}</TabContext>;
 }
 
 export default TabProvider;

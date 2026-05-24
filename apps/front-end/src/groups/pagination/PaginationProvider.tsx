@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import type usePagination from "src/hooks/usePagination";
 
 import { DataError } from "@alextheman/utility/v6";
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 
 export interface PaginationContextValue<DataType extends object = Record<PropertyKey, unknown>> {
   pagination: ReturnType<typeof usePagination<DataType>>;
@@ -26,7 +26,7 @@ export function usePaginationContext<
   Strict,
   PaginationContextValue<DataType>
 > {
-  const context = useContext(PaginationContext);
+  const context = use(PaginationContext);
 
   if (strict && !context) {
     throw new DataError(
@@ -45,7 +45,7 @@ function PaginationProvider<DataType extends object = Record<PropertyKey, unknow
 }: PaginationProviderProps<DataType>) {
   const value: PaginationContextValue<DataType> = { pagination };
 
-  return <PaginationContext.Provider value={value}>{children}</PaginationContext.Provider>;
+  return <PaginationContext value={value}>{children}</PaginationContext>;
 }
 
 export default PaginationProvider;
