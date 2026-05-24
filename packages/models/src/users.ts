@@ -17,7 +17,7 @@ export const userProfileInsertSchema = z.object({
   description: z.string().optional(),
 });
 
-export const userInsertSchema = z.object({
+export const createUserSchema = z.object({
   id: z.uuid().optional(), // Needed for factory
   username: z.string().max(100),
   displayName: z.string().max(50).optional(),
@@ -27,8 +27,7 @@ export const userInsertSchema = z.object({
 });
 
 export type User = z.infer<typeof userSchema>;
-export type UserInsertData = z.infer<typeof userInsertSchema>;
-export type UserUpdateData = Partial<UserInsertData>;
+export type CreateUserData = z.infer<typeof createUserSchema>;
 export type UserProfileData = z.infer<typeof userProfileInsertSchema>;
 
 export const userProfileFormSchema = z.object({
@@ -47,8 +46,8 @@ export function parseUsers(input: unknown): Array<User> {
   return az.with(z.array(userSchema)).parse(input);
 }
 
-export function parseUserInsertData(input: unknown): UserInsertData {
-  return az.with(userInsertSchema).parse(input);
+export function parseUserInsertData(input: unknown): CreateUserData {
+  return az.with(createUserSchema).parse(input);
 }
 
 export function parseUserProfileData(input: unknown): UserProfileData {

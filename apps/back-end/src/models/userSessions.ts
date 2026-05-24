@@ -1,7 +1,7 @@
 import type { UserSession } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
-import type { UserSessionInsert } from "src/database/schema";
+import type { UserSessionInsert, UserSessionUpdate } from "src/database/schema";
 
 import { parseUserSession } from "@lexicon/models";
 import { eq } from "drizzle-orm";
@@ -30,7 +30,7 @@ export async function insertUserSession(
 export async function updateUserSession(
   connection: Connection,
   sessionId: string,
-  data: Partial<UserSessionInsert>,
+  data: UserSessionUpdate,
 ): Promise<UserSession | null> {
   const [userSession] = await connection
     .update(userSessionsTable)

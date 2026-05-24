@@ -31,3 +31,5 @@ export const authProvidersTable = pgTable(
 );
 
 export type AuthProviderSchema = typeof authProvidersTable.$inferSelect;
+export type AuthProviderInsert = typeof authProvidersTable.$inferInsert;
+export type AuthProviderUpdate = Partial<AuthProviderInsert>;

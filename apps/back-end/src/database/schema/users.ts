@@ -12,3 +12,5 @@ export const usersTable = pgTable("users", {
 });
 
 export type User = typeof usersTable.$inferSelect;
+export type UserInsert = typeof usersTable.$inferInsert;
+export type UserUpdate = Partial<UserInsert>;
