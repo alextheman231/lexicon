@@ -1,10 +1,10 @@
 import type {
   Blog,
   BlogFilter,
-  BlogInsertData,
   BlogSummary,
-  BlogUpdateData,
   BlogView,
+  CreateBlogData,
+  EditBlogData,
 } from "@lexicon/models";
 import type { SQL } from "drizzle-orm";
 
@@ -15,12 +15,14 @@ import { BlogState, parseBlog, parseBlogSummaries, parseBlogView } from "@lexico
 import { desc, eq, inArray, sql } from "drizzle-orm";
 import z from "zod";
 
+import { blogRevisionsTable, blogsTable, usersTable } from "src/database/schema";
 import {
-  blogRevisionsTable,
-  blogsTable,
-  blogStateHistoryTable,
-  usersTable,
-} from "src/database/schema";
+  insertBlog,
+  insertBlogRevision,
+  insertBlogStateHistory,
+  selectBlog,
+  updateBlog,
+} from "src/models/blogs";
 import paginate from "src/utility/paginate";
 
 const BlogSortColumn = {
@@ -156,61 +158,38 @@ export async function selectBlogView(
   return blog ? parseBlogView(blog) : null;
 }
 
-export async function selectBlog(connection: Connection, blogId: string): Promise<Blog | null> {
-  const [blog] = await connection.select().from(blogsTable).where(eq(blogsTable.id, blogId));
-  return blog ? parseBlog(blog) : null;
-}
-
-export async function insertBlog(
+export async function createBlog(
   connection: Connection,
-  data: BlogInsertData & { id?: string; authorId: string },
+  authorId: string,
+  data: CreateBlogData,
 ): Promise<Blog> {
   return await connection.transaction(async (transaction) => {
     const today = new Date();
 
     const isPublished = data.state === BlogState.PUBLISHED;
-    const [initialBlog] = await transaction
-      .insert(blogsTable)
-      .values({
-        id: data.id,
-        authorId: data.authorId,
-        state: data.state,
-        publishedAt: isPublished ? today : null,
-        updatedAt: today,
-      })
-      .returning();
-
-    assertNotNull(initialBlog);
-
-    const [revision] = await transaction
-      .insert(blogRevisionsTable)
-      .values({
-        editorId: data.authorId,
-        blogId: initialBlog.id,
-        title: data.title,
-        content: data.content,
-        revision: 1,
-      })
-      .returning();
-
-    assertNotNull(revision);
-
-    await transaction
-      .update(blogsTable)
-      .set({ currentRevisionId: revision.id })
-      .where(eq(blogsTable.id, initialBlog.id));
-
-    await transaction.insert(blogStateHistoryTable).values({
+    const initialBlog = await insertBlog(transaction, {
+      ...data,
+      authorId,
+      publishedAt: isPublished ? today : null,
+      updatedAt: today,
+    });
+    const revision = await insertBlogRevision(transaction, {
+      editorId: authorId,
+      blogId: initialBlog.id,
+      title: data.title,
+      content: data.content,
+      revision: 1,
+    });
+    await updateBlog(transaction, initialBlog.id, { currentRevisionId: revision.id });
+    await insertBlogStateHistory(transaction, {
       state: initialBlog.state,
       blogId: initialBlog.id,
       revisionId: revision.id,
       updatedById: initialBlog.authorId,
     });
 
-    const [blog] = await transaction
-      .select()
-      .from(blogsTable)
-      .where(eq(blogsTable.id, initialBlog.id));
+    const blog = await selectBlog(transaction, initialBlog.id);
+    assertNotNull(blog);
 
     return parseBlog(blog);
   });
@@ -221,10 +200,10 @@ interface Ids {
   editorId: string;
 }
 
-export async function updateBlog(
+export async function editBlog(
   connection: Connection,
   ids: Ids,
-  data: Omit<BlogUpdateData, "state">,
+  data: Omit<EditBlogData, "state">,
 ): Promise<Blog | null> {
   return await connection.transaction(async (transaction) => {
     const oldRevisionNumber = await getLatestBlogRevision(transaction, ids.blogId);
@@ -233,31 +212,24 @@ export async function updateBlog(
       return null;
     }
 
-    const [{ newRevisionId }] = await transaction
-      .insert(blogRevisionsTable)
-      .values({
-        title: data.title,
-        content: data.content,
-        blogId: ids.blogId,
-        editorId: ids.editorId,
-        revision: oldRevisionNumber + 1,
-      })
-      .returning({ newRevisionId: blogRevisionsTable.id });
+    const { revision: newRevisionId } = await insertBlogRevision(transaction, {
+      title: data.title,
+      content: data.content,
+      blogId: ids.blogId,
+      editorId: ids.editorId,
+      revision: oldRevisionNumber + 1,
+    });
 
-    const [blog] = await transaction
-      .update(blogsTable)
-      .set({
-        currentRevisionId: newRevisionId,
-        updatedAt: new Date(),
-      })
-      .where(eq(blogsTable.id, ids.blogId))
-      .returning();
+    const blog = await updateBlog(transaction, ids.blogId, {
+      currentRevisionId: newRevisionId,
+      updatedAt: new Date(),
+    });
 
     return blog ? parseBlog(blog) : null;
   });
 }
 
-export async function updateBlogState(
+export async function changeBlogState(
   connection: Connection,
   ids: Ids,
   newState: BlogState,
@@ -274,17 +246,14 @@ export async function updateBlogState(
       return parseBlog(currentBlog);
     }
 
-    const [blog] = await transaction
-      .update(blogsTable)
-      .set({
-        state: newState,
-        updatedAt: today,
-        publishedAt: newState === BlogState.PUBLISHED ? new Date() : null,
-      })
-      .where(eq(blogsTable.id, ids.blogId))
-      .returning();
-    assertNotNull(blog.currentRevisionId);
-    await transaction.insert(blogStateHistoryTable).values({
+    const blog = await updateBlog(transaction, ids.blogId, {
+      state: newState,
+      updatedAt: today,
+      publishedAt: newState === BlogState.PUBLISHED ? new Date() : null,
+    });
+    assertNotNull(blog);
+
+    await insertBlogStateHistory(transaction, {
       state: newState,
       updatedById: ids.editorId,
       updatedAt: today,

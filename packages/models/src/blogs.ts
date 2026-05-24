@@ -67,13 +67,13 @@ export function parseBlogStateHistory(input: unknown): Array<BlogStateHistoryRow
   return az.with(z.array(blogStateHistorySchema)).parse(input);
 }
 
-export const blogInsertSchema = z.strictObject({
+export const createBlogSchema = z.strictObject({
   title: z.string(),
   content: z.record(z.string(), z.any()),
   state: z.enum(omitProperties(BlogState, "ARCHIVED")),
 });
 
-export const blogUpdateSchema = blogInsertSchema
+export const blogUpdateSchema = createBlogSchema
   .omit({
     state: true,
   })
@@ -81,16 +81,16 @@ export const blogUpdateSchema = blogInsertSchema
     state: z.enum(BlogState),
   });
 
-export type BlogUpdateData = z.infer<typeof blogUpdateSchema>;
-export function parseBlogUpdateData(input: unknown): BlogUpdateData {
+export type EditBlogData = z.infer<typeof blogUpdateSchema>;
+export function parseEditBlogData(input: unknown): EditBlogData {
   return az.with(blogUpdateSchema).parse(input);
 }
 
-export type BlogInsertData = z.infer<typeof blogInsertSchema>;
-export function parseBlogInsertData(input: unknown): BlogInsertData {
-  return az.with(blogInsertSchema).parse(
+export type CreateBlogData = z.infer<typeof createBlogSchema>;
+export function parseCreateBlogData(input: unknown): CreateBlogData {
+  return az.with(createBlogSchema).parse(
     input,
-    new APIError(400, "INVALID_INSERT_DATA", "The provided blog data to create is invalid", {
+    new APIError(400, "INVALID_BLOG_DATA", "The provided blog data to create is invalid", {
       input,
     }),
   );
