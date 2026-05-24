@@ -1,16 +1,16 @@
 import { assertNotUndefined } from "@alextheman/utility";
-import { parseBlogFilter, parseBlogInsertData, parseBlogUpdateData } from "@lexicon/models";
+import { parseBlogFilter, parseCreateBlogData, parseEditBlogData } from "@lexicon/models";
 import { Router } from "express";
 
 import { getConnection } from "src/database/connection";
 import {
+  changeBlogState,
   countBlogs,
-  insertBlog,
+  createBlog,
+  editBlog,
   queryBlogIds,
   selectBlogSummaries,
   selectBlogView,
-  updateBlog,
-  updateBlogState,
 } from "src/services/blogs";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import resourceNotFoundError from "src/utility/resourceNotFoundError";
@@ -40,11 +40,11 @@ blogsRouter
     requireAuth,
     handleEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
-      const data = parseBlogInsertData(request.body);
+      const data = parseCreateBlogData(request.body);
 
       assertNotUndefined(request.user);
 
-      const { id } = await insertBlog(connection, { ...data, authorId: request.user.id });
+      const { id } = await createBlog(connection, request.user.id, data);
       response.status(201).send({ id });
     }),
   );
@@ -75,14 +75,14 @@ blogsRouter
           throw resourceNotFoundError("blog", request.params.blogId);
         }
 
-        const data = parseBlogUpdateData(request.body);
+        const data = parseEditBlogData(request.body);
 
         assertNotUndefined(request.user);
 
         const ids = { blogId: request.params.blogId, editorId: request.user.id };
 
-        await updateBlog(transaction, ids, data);
-        await updateBlogState(transaction, ids, data.state);
+        await editBlog(transaction, ids, data);
+        await changeBlogState(transaction, ids, data.state);
 
         response.status(200).send({});
       });

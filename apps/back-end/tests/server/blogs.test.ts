@@ -1,4 +1,4 @@
-import type { BlogFilter, BlogInsertData, BlogUpdateData } from "@lexicon/models";
+import type { BlogFilter, CreateBlogData, EditBlogData } from "@lexicon/models";
 
 import {
   assertNotNull,
@@ -240,7 +240,7 @@ describe("POST", () => {
     test("Inserts a blog into the database", async () => {
       const { authenticatedClient } = await getTestFixtures();
 
-      const data: BlogInsertData = {
+      const data: CreateBlogData = {
         state: BlogState.DRAFT,
         title: "Test blog",
         content: BlogFactory.generateEditorContent("Test blog"),
@@ -261,7 +261,7 @@ describe("POST", () => {
       expect(blogView.publishedAt).toBeNull();
     });
     test("Does not allow a non-authenticated user to post a blog", async () => {
-      const data: BlogInsertData = {
+      const data: CreateBlogData = {
         state: BlogState.DRAFT,
         title: "Test blog",
         content: BlogFactory.generateEditorContent("Test blog"),
@@ -292,7 +292,7 @@ describe("POST", () => {
       });
 
       expect(error.data.input).toEqual(data);
-      expect(error.code).toBe("INVALID_INSERT_DATA");
+      expect(error.code).toBe("INVALID_BLOG_DATA");
     });
     test("If state is published, also set publishedAt", async () => {
       const { authenticatedClient } = await getTestFixtures();
@@ -332,7 +332,7 @@ describe("POST", () => {
       });
 
       expect(error.data.input).toEqual(data);
-      expect(error.code).toBe("INVALID_INSERT_DATA");
+      expect(error.code).toBe("INVALID_BLOG_DATA");
     });
   });
 });
@@ -341,12 +341,15 @@ describe("PUT", () => {
   describe("/api/v1/blogs/:blogId", () => {
     test("Updates the current blog and creates a new revision", async () => {
       const { connection, factory, authenticatedClient } = await getTestFixtures();
+      await connection.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
+      await connection.execute(sql`TRUNCATE TABLE blog_revisions RESTART IDENTITY CASCADE`);
+      await connection.execute(sql`TRUNCATE TABLE blog_state_history RESTART IDENTITY CASCADE`);
 
       const blog = await factory.blogs.insert();
       const oldRevisionNumber = await getLatestBlogRevision(connection, blog.id);
       assertNotNull(oldRevisionNumber);
 
-      const data: BlogUpdateData = {
+      const data: EditBlogData = {
         state: BlogState.DRAFT,
         title: "My edited blog",
         content: BlogFactory.generateEditorContent("This blog has been edited"),
@@ -370,7 +373,7 @@ describe("PUT", () => {
     test("Responds with a 404 error if the blog does not exist", async () => {
       const { authenticatedClient } = await getTestFixtures();
 
-      const data: BlogUpdateData = {
+      const data: EditBlogData = {
         state: BlogState.DRAFT,
         title: "My edited blog",
         content: BlogFactory.generateEditorContent("This blog has been edited"),
@@ -396,7 +399,7 @@ describe("PUT", () => {
 
       const blog = await factory.blogs.insert({ state: BlogState.DRAFT });
 
-      const data: BlogUpdateData = {
+      const data: EditBlogData = {
         state: BlogState.PUBLISHED,
         title: "My edited blog",
         content: BlogFactory.generateEditorContent("This blog has been edited"),
@@ -431,7 +434,7 @@ describe("PUT", () => {
         .from(blogRevisionsTable)
         .where(eq(blogRevisionsTable.blogId, secondBlog.id));
 
-      const data: BlogUpdateData = {
+      const data: EditBlogData = {
         state: BlogState.PUBLISHED,
         title: "My edited blog",
         content: BlogFactory.generateEditorContent("This blog has been edited"),

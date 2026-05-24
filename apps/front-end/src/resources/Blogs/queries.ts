@@ -1,4 +1,4 @@
-import type { BlogInsertData, BlogSummary, BlogUpdateData, BlogView } from "@lexicon/models";
+import type { BlogSummary, BlogView, CreateBlogData, EditBlogData } from "@lexicon/models";
 
 import type { PaginatedResult, PaginationSettings } from "src/hooks/usePagination";
 
@@ -41,7 +41,7 @@ export function useCreateBlogMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (blog: BlogInsertData) => {
+    mutationFn: async (blog: CreateBlogData) => {
       const { data } = await lexiconAuthenticatedClient.post("/api/v1/blogs", blog);
       return az.with(z.uuid()).parse(data.id);
     },
@@ -55,7 +55,7 @@ export function useEditBlogMutation(blogId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (blog: BlogUpdateData) => {
+    mutationFn: async (blog: EditBlogData) => {
       await lexiconAuthenticatedClient.put(`/api/v1/blogs/${blogId}`, blog);
     },
     onSuccess: async () => {

@@ -106,5 +106,13 @@ export const blogStateHistoryTable = pgTable(
 );
 
 export type Blog = typeof blogsTable.$inferSelect;
+export type BlogInsert = typeof blogsTable.$inferInsert;
+export type BlogUpdate = Partial<BlogInsert>;
+
 export type BlogRevision = typeof blogRevisionsTable.$inferSelect;
+export type BlogRevisionInsert = typeof blogRevisionsTable.$inferInsert;
+export type BlogRevisionUpdate = Partial<BlogRevisionInsert>;
+
 export type BlogStateHistoryRow = typeof blogStateHistoryTable.$inferSelect;
+export type BlogStateHistoryInsert = typeof blogStateHistoryTable.$inferInsert;
+export type BlogStateHistoryUpdate = Partial<BlogStateHistoryInsert>;
