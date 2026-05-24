@@ -1,4 +1,4 @@
-import type { User, UserInsertData } from "@lexicon/models";
+import type { CreateUserData, User } from "@lexicon/models";
 import type FactoryContext from "factory/context";
 
 import { faker } from "@faker-js/faker";
@@ -15,8 +15,8 @@ class UserFactory {
     this.records = {};
   }
 
-  public async insert(data?: Partial<UserInsertData>): Promise<User> {
-    const userTemplate: UserInsertData = {
+  public async insert(data?: Partial<CreateUserData>): Promise<User> {
+    const userTemplate: CreateUserData = {
       username: faker.internet.username(),
       displayName: faker.internet.displayName(),
       description: faker.lorem.paragraph(),
@@ -25,7 +25,10 @@ class UserFactory {
       ...data,
     };
 
-    const user = await insertUser(this.context.connection, userTemplate);
+    const user = await insertUser(this.context.connection, {
+      ...userTemplate,
+      dateOfBirth: userTemplate.dateOfBirth?.toISOString(),
+    });
 
     this.records[user.id] = user;
 

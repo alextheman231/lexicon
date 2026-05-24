@@ -26,3 +26,4 @@ export const userSessionsTable = pgTable(
 );
 
 export type UserSessionInsert = typeof userSessionsTable.$inferInsert;
+export type UserSessionUpdate = Partial<UserSessionInsert>;

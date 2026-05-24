@@ -1,36 +1,33 @@
-import type { User, UserInsertData, UserUpdateData } from "@lexicon/models";
+import type { User } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
+import type { UserInsert, UserUpdate } from "src/database/schema";
 
 import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 
 import { usersTable } from "src/database/schema";
 
-export async function insertUser(connection: Connection, data: UserInsertData): Promise<User> {
-  const [user] = await connection
-    .insert(usersTable)
-    .values({ ...data, dateOfBirth: data.dateOfBirth?.toISOString() })
-    .returning();
+export async function insertUser(connection: Connection, data: UserInsert): Promise<User> {
+  const [user] = await connection.insert(usersTable).values(data).returning();
   return parseUser(user);
 }
 
 export async function selectUser(connection: Connection, userId: string): Promise<User | null> {
   const [user] = await connection.select().from(usersTable).where(eq(usersTable.id, userId));
-
   return user ? parseUser(user) : null;
 }
 
 export async function updateUser(
   connection: Connection,
   userId: string,
-  data: UserUpdateData,
+  data: UserUpdate,
 ): Promise<User | null> {
   const [user] = await connection
     .update(usersTable)
-    .set({ ...data, dateOfBirth: data.dateOfBirth?.toISOString() })
+    .set(data)
     .where(eq(usersTable.id, userId))
     .returning();
 
-  return parseUser(user);
+  return user ? parseUser(user) : null;
 }
