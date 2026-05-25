@@ -31,14 +31,14 @@
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "dependencies": {
-    "@alextheman/components": "6.25.3",
+    "@alextheman/components": "7.0.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@lexical/react": "0.44.0",
     "@lexicon/models": "workspace:*",
     "@mui/material": "9.0.1",
     "@sentry/react": "10.53.1",
-    "@tanstack/react-query": "5.100.11",
+    "@tanstack/react-query": "5.100.14",
     "axios": "1.16.1",
     "lexical": "0.44.0",
     "react": "19.2.6",
