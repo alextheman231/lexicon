@@ -23,7 +23,8 @@
     "lint-prettier-javascript": "prettier --check \"**/*.{js,json}\"",
     "lint-prettier-typescript": "prettier --check --parser typescript \"**/*.{ts,tsx}\"",
     "lint-tsc": "tsc --noEmit",
-    "test": "playwright test"
+    "test": "playwright test",
+    "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "author": "alextheman",
   "license": "ISC",
