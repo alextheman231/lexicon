@@ -2,10 +2,10 @@ import type { User } from "@lexicon/models";
 
 import type { BlogFormSubmitData } from "src/resources/Blogs/components/BlogForm";
 
-import { useSnackbar } from "@alextheman/components";
+import { useSnackbarContext } from "@alextheman/components/snackbar";
 import { BlogState } from "@lexicon/models";
 
-import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import useLocation from "src/hooks/useLocation";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
@@ -19,22 +19,22 @@ interface EditBlogProps {
 
 function EditBlog({ blogId, currentUser }: EditBlogProps) {
   const { data: blog, isPending, error } = useBlogQuery(blogId);
-  const { addSnackbar } = useSnackbar();
+  const { addSnackbar } = useSnackbarContext();
   const { mutateAsync: updateBlog, isPending: isFormPending } = useEditBlogMutation(blogId);
   const [_, setLocation] = useLocation();
 
   async function onSubmit(data: BlogFormSubmitData) {
     try {
       await updateBlog({ ...data, state: BlogState.PUBLISHED });
-      addSnackbar("Blog edited successfully", "success");
+      addSnackbar("Blog edited successfully", { severity: "success" });
       setLocation(`/blogs/${blog?.id}`);
     } catch (error) {
-      addSnackbar(formatError(error), "error");
+      addSnackbar(formatError(error), { severity: "error" });
     }
   }
 
   return (
-    <QueryBoundaryWrapper data={blog} isLoading={isPending} error={error}>
+    <QueryBoundaryItemWrapper data={blog} isLoading={isPending} error={error}>
       {(blog) => {
         if (blog.authorId !== currentUser.id) {
           return <UnauthorisedPage />;
@@ -49,7 +49,7 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
           />
         );
       }}
-    </QueryBoundaryWrapper>
+    </QueryBoundaryItemWrapper>
   );
 }
 

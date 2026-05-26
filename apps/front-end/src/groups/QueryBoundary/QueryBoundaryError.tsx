@@ -1,9 +1,9 @@
-import type { QueryBoundaryErrorProps as AlexQueryBoundaryErrorProps } from "@alextheman/components";
+import type { QueryBoundaryErrorProps as AlexQueryBoundaryErrorProps } from "@alextheman/components/QueryBoundary";
 import type { ReactNode } from "react";
 
 import type { CodeErrorMap } from "src/utility/errors/errorFormatters";
 
-import { QueryBoundaryError as AlexQueryBoundaryError } from "@alextheman/components";
+import { QueryBoundaryError as AlexQueryBoundaryError } from "@alextheman/components/QueryBoundary";
 
 import ErrorMessage from "src/components/ErrorMessage";
 

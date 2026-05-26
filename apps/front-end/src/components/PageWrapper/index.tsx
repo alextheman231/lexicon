@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { useScreenSize } from "@alextheman/components";
+import { useIsLargeScreen } from "@alextheman/components";
 
 import NavigationBottom from "src/components/PageWrapper/NavigationBottom";
 import NavigationDrawer from "src/components/PageWrapper/NavigationDrawer";
@@ -10,7 +10,7 @@ interface PageWrapperProps {
 }
 
 function PageWrapper({ children }: PageWrapperProps) {
-  const { isLargeScreen } = useScreenSize();
+  const isLargeScreen = useIsLargeScreen();
 
   return isLargeScreen ? (
     <NavigationDrawer>{children}</NavigationDrawer>

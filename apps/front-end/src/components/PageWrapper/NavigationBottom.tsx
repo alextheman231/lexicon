@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
 
-import { ModeToggle } from "@alextheman/components";
-import { NavigationBottom as AlexNavigationBottom, InternalLink } from "@alextheman/components/v7";
+import {
+  NavigationBottom as AlexNavigationBottom,
+  InternalLink,
+} from "@alextheman/components/routing";
+import { ThemeToggle } from "@alextheman/components/theme";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -26,7 +29,7 @@ function NavigationBottom({ children }: NavigationBottomProps) {
               Lexicon
             </Button>
           }
-          action={<ModeToggle />}
+          action={<ThemeToggle />}
         />
       </Card>
       <AlexNavigationBottom

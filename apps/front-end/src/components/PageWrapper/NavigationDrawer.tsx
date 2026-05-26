@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
-import { ModeToggle } from "@alextheman/components";
-import { NavigationDrawer as AlexNavigationDrawer } from "@alextheman/components/v7";
+import { NavigationDrawer as AlexNavigationDrawer } from "@alextheman/components/routing";
+import { ThemeToggle } from "@alextheman/components/theme";
 import Stack from "@mui/material/Stack";
 
 import UserDropdown from "src/components/UserDropdown";
@@ -16,7 +16,7 @@ function NavigationDrawer({ children }: NavigationDrawerProps) {
       title="Lexicon"
       headerElements={
         <Stack direction="row" spacing={2}>
-          <ModeToggle />
+          <ThemeToggle />
           <UserDropdown />
         </Stack>
       }

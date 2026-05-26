@@ -1,8 +1,8 @@
-import type { CreateItemQueryBoundaryParameters } from "@alextheman/components";
+import type { CreateItemQueryBoundaryParameters } from "@alextheman/components/QueryBoundary";
 
 import type { LexiconQueryBoundaryComponentsBase } from "src/groups/QueryBoundary/creators/createBaseQueryBoundary";
 
-import { QueryBoundaryData } from "@alextheman/components";
+import { QueryBoundaryData } from "@alextheman/components/QueryBoundary";
 
 import createBaseQueryBoundary from "src/groups/QueryBoundary/creators/createBaseQueryBoundary";
 

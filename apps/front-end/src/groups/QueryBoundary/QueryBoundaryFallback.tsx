@@ -1,22 +1,25 @@
-import type { QueryBoundaryErrorProps, QueryBoundaryNullableProps } from "@alextheman/components";
+import type {
+  QueryBoundaryErrorProps,
+  QueryBoundaryNullableProps,
+} from "@alextheman/components/QueryBoundary";
 import type { ReactNode } from "react";
 
 import type { CodeErrorMap } from "src/utility/errors/errorFormatters";
 
-import { QueryBoundaryNullable } from "@alextheman/components";
+import { QueryBoundaryNullable } from "@alextheman/components/QueryBoundary";
 
 import QueryBoundaryError from "src/groups/QueryBoundary/QueryBoundaryError";
 
 export type QueryBoundaryFallbackErrorPropsBase = Omit<QueryBoundaryErrorProps, "children">;
 
 export interface QueryBoundaryFallbackErrorPropsCodeError extends QueryBoundaryFallbackErrorPropsBase {
-  errorComponent?: never;
+  errorFallback?: never;
   codeErrorMap?: CodeErrorMap;
   errorFunction?: (error: unknown) => string;
 }
 
 export interface QueryBoundaryFallbackErrorPropsDefault extends QueryBoundaryFallbackErrorPropsBase {
-  errorComponent: ReactNode | ((error: unknown) => ReactNode);
+  errorFallback: ReactNode | ((error: unknown) => ReactNode);
   codeErrorMap?: never;
   errorFunction?: never;
 }
@@ -29,7 +32,7 @@ export type QueryBoundaryFallbackProps = QueryBoundaryFallbackErrorProps &
   QueryBoundaryNullableProps;
 
 function QueryBoundaryFallback({
-  errorComponent,
+  errorFallback,
   codeErrorMap,
   errorFunction,
   logError,
@@ -37,9 +40,9 @@ function QueryBoundaryFallback({
 }: QueryBoundaryFallbackProps) {
   let queryBoundaryError = <QueryBoundaryError logError={logError} />;
 
-  if (errorComponent) {
+  if (errorFallback) {
     queryBoundaryError = (
-      <QueryBoundaryError logError={logError}>{errorComponent}</QueryBoundaryError>
+      <QueryBoundaryError logError={logError}>{errorFallback}</QueryBoundaryError>
     );
   }
 

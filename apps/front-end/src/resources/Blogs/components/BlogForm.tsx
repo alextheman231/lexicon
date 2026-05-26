@@ -1,6 +1,7 @@
 import type { SerializedEditorState } from "lexical";
 
-import { Page, useSnackbar } from "@alextheman/components";
+import { Page } from "@alextheman/components";
+import { useSnackbarContext } from "@alextheman/components/snackbar";
 import { az } from "@alextheman/utility";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -30,13 +31,13 @@ interface BlogFormProps {
 
 function BlogForm({ back, defaultValues, onSubmit, loading }: BlogFormProps) {
   const [editorState, setEditorState] = useState<SerializedEditorState | undefined>();
-  const { addSnackbar } = useSnackbar();
+  const { addSnackbar } = useSnackbarContext();
 
   const form = useAppForm({
     defaultValues: { title: defaultValues.title },
     onSubmit: async ({ value }) => {
       if (editorState === undefined) {
-        addSnackbar("Content is required", "error");
+        addSnackbar("Content is required", { severity: "error" });
         return;
       }
       await onSubmit({

@@ -1,6 +1,6 @@
 import type { BlogSummary } from "@lexicon/models";
 
-import { Page, useScreenSize } from "@alextheman/components";
+import { Page, useIsLargeScreen } from "@alextheman/components";
 import Stack from "@mui/material/Stack";
 
 import createPaginationGroup from "src/groups/pagination";
@@ -11,7 +11,7 @@ import BlogsTable from "src/resources/Blogs/components/BlogsTable";
 import { useBlogsQuery } from "src/resources/Blogs/queries";
 
 function Blogs() {
-  const { isLargeScreen } = useScreenSize();
+  const isLargeScreen = useIsLargeScreen();
 
   const pagination = usePagination<BlogSummary>({
     pageNumber: 0,
