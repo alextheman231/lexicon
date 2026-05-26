@@ -1,8 +1,9 @@
-import { Page, useHash, useScreenSize } from "@alextheman/components";
-import { DropdownMenuItem, DropdownMenuWrapper, InternalLink } from "@alextheman/components/v7";
+import { Page, useHash, useIsLargeScreen } from "@alextheman/components";
+import { DropdownMenuItem, DropdownMenuWrapper } from "@alextheman/components/DropdownMenu";
+import { InternalLink } from "@alextheman/components/routing";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import createTabGroup from "src/groups/Tab";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
@@ -18,12 +19,12 @@ function UserProfile({ userId }: UserProfileProps) {
   const { data: user, isPending, error } = useUserQuery(userId);
   const [tab, setTab] = useHash<TabState>("blogs");
   const Tab = createTabGroup<TabState>({ tab, setTab });
-  const { isLargeScreen } = useScreenSize();
+  const isLargeScreen = useIsLargeScreen();
   const { currentUser, unauthenticate } = useAuth();
 
   return (
     <Tab.Context>
-      <QueryBoundaryWrapper data={user} isLoading={isPending} error={error}>
+      <QueryBoundaryItemWrapper data={user} isLoading={isPending} error={error}>
         {(user) => {
           return (
             <Page
@@ -55,7 +56,7 @@ function UserProfile({ userId }: UserProfileProps) {
             </Page>
           );
         }}
-      </QueryBoundaryWrapper>
+      </QueryBoundaryItemWrapper>
     </Tab.Context>
   );
 }

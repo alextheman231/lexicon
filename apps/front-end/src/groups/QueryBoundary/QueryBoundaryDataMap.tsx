@@ -1,6 +1,6 @@
-import type { QueryBoundaryDataMapProps } from "@alextheman/components";
+import type { QueryBoundaryDataMapProps } from "@alextheman/components/QueryBoundary";
 
-import { QueryBoundaryDataMap as AlexQueryBoundaryDataMap } from "@alextheman/components";
+import { QueryBoundaryDataMap as AlexQueryBoundaryDataMap } from "@alextheman/components/QueryBoundary";
 
 function QueryBoundaryDataMap<ItemType>({
   itemKey,

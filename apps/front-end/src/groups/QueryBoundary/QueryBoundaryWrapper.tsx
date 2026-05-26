@@ -1,28 +1,28 @@
-import type { QueryBoundaryDataProps, QueryBoundaryProviderProps } from "@alextheman/components";
+import type {
+  QueryBoundaryContextValue,
+  QueryBoundaryDataProps,
+} from "@alextheman/components/QueryBoundary";
 
 import type { QueryBoundaryFallbackProps } from "src/groups/QueryBoundary/QueryBoundaryFallback";
 
-import { QueryBoundaryWrapper as AlexQueryBoundaryWrapper } from "@alextheman/components";
+import { QueryBoundaryItemWrapper as AlexQueryBoundaryItemWrapper } from "@alextheman/components/QueryBoundary";
 
 import ErrorMessage from "src/components/ErrorMessage";
 
-export type QueryBoundaryProps<DataType> = Omit<
-  QueryBoundaryProviderProps<DataType>,
-  "children" | "logError"
-> &
-  Omit<QueryBoundaryFallbackProps, "errorComponent"> &
-  Omit<QueryBoundaryDataProps<DataType>, "showOnError">;
+export type QueryBoundaryItemWrapperProps<DataType> = QueryBoundaryContextValue<DataType> &
+  QueryBoundaryFallbackProps &
+  QueryBoundaryDataProps<DataType>;
 
-function QueryBoundaryWrapper<DataType>({
+function QueryBoundaryItemWrapper<DataType>({
   children,
   codeErrorMap,
   errorFunction,
   ...queryBoundaryProps
-}: QueryBoundaryProps<DataType>) {
+}: QueryBoundaryItemWrapperProps<DataType>) {
   return (
-    <AlexQueryBoundaryWrapper
+    <AlexQueryBoundaryItemWrapper
       logError={import.meta.env.DEV}
-      errorComponent={(error) => {
+      errorFallback={(error) => {
         return (
           <ErrorMessage error={error} codeErrorMap={codeErrorMap} errorFunction={errorFunction} />
         );
@@ -30,8 +30,8 @@ function QueryBoundaryWrapper<DataType>({
       {...queryBoundaryProps}
     >
       {children}
-    </AlexQueryBoundaryWrapper>
+    </AlexQueryBoundaryItemWrapper>
   );
 }
 
-export default QueryBoundaryWrapper;
+export default QueryBoundaryItemWrapper;

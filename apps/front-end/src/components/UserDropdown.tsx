@@ -4,8 +4,8 @@ import {
   DropdownMenuItem,
   DropdownMenuProvider,
   DropdownMenuTrigger,
-  InternalLink,
-} from "@alextheman/components/v7";
+} from "@alextheman/components/DropdownMenu";
+import { InternalLink } from "@alextheman/components/routing";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { MdError } from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import formatError from "src/utility/errors/formatError";
 
 function UserDropdown() {
@@ -21,11 +21,11 @@ function UserDropdown() {
   const theme = useTheme();
 
   return (
-    <QueryBoundaryWrapper
+    <QueryBoundaryItemWrapper
       isLoading={currentUserLoading}
       data={currentUser}
       error={currentUserError}
-      errorComponent={(error) => {
+      errorFallback={(error) => {
         const errorMessage = formatError(error);
 
         return (
@@ -53,7 +53,7 @@ function UserDropdown() {
           </Box>
         );
       }}
-      nullComponent={
+      nullFallback={
         <Button
           component={ExternalLink}
           href={`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/google?redirect=${encodeURIComponent(window.location.origin)}`}
@@ -78,7 +78,7 @@ function UserDropdown() {
           </DropdownMenuProvider>
         );
       }}
-    </QueryBoundaryWrapper>
+    </QueryBoundaryItemWrapper>
   );
 }
 

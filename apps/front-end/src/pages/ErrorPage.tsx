@@ -1,6 +1,6 @@
 import type { FallbackRender } from "@sentry/react";
 
-import { ErrorPage as AlexErrorPage, InternalLink } from "@alextheman/components/v7";
+import { ErrorPage as AlexErrorPage, InternalLink } from "@alextheman/components/routing";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 

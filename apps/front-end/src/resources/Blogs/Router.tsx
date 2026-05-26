@@ -1,4 +1,4 @@
-import { Switch } from "@alextheman/components/v7";
+import { Switch } from "@alextheman/components/routing";
 import { UUID_PATTERN } from "@alextheman/utility";
 import { Route } from "wouter";
 

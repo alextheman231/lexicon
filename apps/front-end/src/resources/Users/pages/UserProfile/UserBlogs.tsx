@@ -1,6 +1,6 @@
 import type { BlogSummary, User } from "@lexicon/models";
 
-import { useScreenSize } from "@alextheman/components";
+import { useIsLargeScreen } from "@alextheman/components";
 
 import createPaginationGroup from "src/groups/pagination";
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
@@ -14,7 +14,7 @@ interface UserBlogsProps {
 }
 
 function UserBlogs({ user }: UserBlogsProps) {
-  const { isLargeScreen } = useScreenSize();
+  const isLargeScreen = useIsLargeScreen();
 
   const pagination = usePagination<BlogSummary>({
     pageNumber: 0,

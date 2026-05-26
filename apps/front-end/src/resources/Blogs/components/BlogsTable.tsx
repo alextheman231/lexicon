@@ -3,7 +3,7 @@ import type { BlogSummary } from "@lexicon/models";
 import type { PaginationComponents } from "src/groups/pagination";
 import type { LexiconQueryBoundaryComponentsList } from "src/groups/QueryBoundary/creators/createListQueryBoundary";
 
-import { InternalLink } from "@alextheman/components/v7";
+import { InternalLink } from "@alextheman/components/routing";
 import { formatDateAndTime } from "@alextheman/utility";
 import Card from "@mui/material/Card";
 import Table from "@mui/material/Table";

@@ -2,7 +2,7 @@ import type { User } from "@lexicon/models";
 
 import type { BlogFormSubmitData } from "src/resources/Blogs/components/BlogForm";
 
-import { useSnackbar } from "@alextheman/components";
+import { useSnackbarContext } from "@alextheman/components/snackbar";
 import { BlogState } from "@lexicon/models";
 
 import useLocation from "src/hooks/useLocation";
@@ -17,15 +17,15 @@ interface CreateBlogProps {
 function CreateBlog({ currentUser }: CreateBlogProps) {
   const { mutateAsync: uploadBlog, isPending } = useCreateBlogMutation();
   const [_, setLocation] = useLocation();
-  const { addSnackbar } = useSnackbar();
+  const { addSnackbar } = useSnackbarContext();
 
   async function onSubmit(data: BlogFormSubmitData) {
     try {
       const id = await uploadBlog({ ...data, state: BlogState.PUBLISHED });
-      addSnackbar("Blog created successfully", "success");
+      addSnackbar("Blog created successfully", { severity: "success" });
       setLocation(`/blogs/${id}`);
     } catch (error) {
-      addSnackbar(formatError(error), "error");
+      addSnackbar(formatError(error), { severity: "error" });
     }
   }
 

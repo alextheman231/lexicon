@@ -1,7 +1,8 @@
-import type { QueryBoundaryDataMapProps } from "@alextheman/components";
+import type { QueryBoundaryDataMapProps } from "@alextheman/components/QueryBoundary";
 import type { ReactNode } from "react";
 
-import { QueryBoundaryNullable, SkeletonRow } from "@alextheman/components";
+import { SkeletonRow } from "@alextheman/components";
+import { QueryBoundaryNullable } from "@alextheman/components/QueryBoundary";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 
@@ -11,42 +12,42 @@ type FallbackComponent = ReactNode | ((columns: number) => ReactNode);
 
 export interface QueryBoundaryDataRowsMapBaseProps {
   columns: number;
-  emptyComponent?: FallbackComponent;
-  loadingComponent?: ReactNode | ((columns: number) => ReactNode);
+  emptyFallback?: FallbackComponent;
+  loadingFallback?: ReactNode | ((columns: number) => ReactNode);
 }
 export interface QueryBoundaryDataRowsPropsNullable extends QueryBoundaryDataRowsMapBaseProps {
-  nullableComponent?: FallbackComponent;
-  undefinedComponent?: never;
-  nullComponent?: never;
+  nullableFallback?: FallbackComponent;
+  undefinedFallback?: never;
+  nullFallback?: never;
 }
 
 export interface QueryBoundaryDataRowsPropsUndefinedOrNull extends QueryBoundaryDataRowsMapBaseProps {
-  nullableComponent?: never;
-  undefinedComponent?: FallbackComponent;
-  nullComponent?: FallbackComponent;
+  nullableFallback?: never;
+  undefinedFallback?: FallbackComponent;
+  nullFallback?: FallbackComponent;
 }
 
 export type QueryBoundaryDataRowsMapProps<ItemType> = Omit<
   QueryBoundaryDataMapProps<ItemType>,
-  "emptyComponent" | "loadingComponent"
+  "emptyFallback" | "loadingFallback"
 > &
   (QueryBoundaryDataRowsPropsNullable | QueryBoundaryDataRowsPropsUndefinedOrNull);
 
 function QueryBoundaryDataRowsMap<ItemType>({
   columns,
-  loadingComponent = (columns) => {
+  loadingFallback = (columns) => {
     return <SkeletonRow columns={columns} />;
   },
-  emptyComponent = (columns) => {
+  emptyFallback = (columns) => {
     return (
       <TableRow>
         <TableCell colSpan={columns}>No data found.</TableCell>
       </TableRow>
     );
   },
-  undefinedComponent,
-  nullComponent,
-  nullableComponent = (columns) => {
+  undefinedFallback,
+  nullFallback,
+  nullableFallback = (columns) => {
     return (
       <TableRow>
         <TableCell colSpan={columns}>No data available.</TableCell>
@@ -58,15 +59,15 @@ function QueryBoundaryDataRowsMap<ItemType>({
   dataParser,
   ...props
 }: QueryBoundaryDataRowsMapProps<ItemType>) {
-  const resolvedLoadingComponent =
-    typeof loadingComponent === "function" ? loadingComponent(columns) : loadingComponent;
-  const resolvedEmptyComponent =
-    typeof emptyComponent === "function" ? emptyComponent(columns) : emptyComponent;
+  const resolvedLoadingFallback =
+    typeof loadingFallback === "function" ? loadingFallback(columns) : loadingFallback;
+  const resolvedEmptyFallback =
+    typeof emptyFallback === "function" ? emptyFallback(columns) : emptyFallback;
 
   let boundaryData = (
     <QueryBoundaryDataMap
-      emptyComponent={resolvedEmptyComponent}
-      loadingComponent={resolvedLoadingComponent}
+      emptyFallback={resolvedEmptyFallback}
+      loadingFallback={resolvedLoadingFallback}
       {...props}
     >
       {children}
@@ -76,8 +77,8 @@ function QueryBoundaryDataRowsMap<ItemType>({
   if (dataParser) {
     boundaryData = (
       <QueryBoundaryDataMap
-        emptyComponent={resolvedEmptyComponent}
-        loadingComponent={resolvedLoadingComponent}
+        emptyFallback={resolvedEmptyFallback}
+        loadingFallback={resolvedLoadingFallback}
         dataParser={dataParser}
         {...props}
       >
@@ -89,8 +90,8 @@ function QueryBoundaryDataRowsMap<ItemType>({
   if (itemParser) {
     boundaryData = (
       <QueryBoundaryDataMap
-        emptyComponent={resolvedEmptyComponent}
-        loadingComponent={resolvedLoadingComponent}
+        emptyFallback={resolvedEmptyFallback}
+        loadingFallback={resolvedLoadingFallback}
         itemParser={itemParser}
         {...props}
       >
@@ -101,25 +102,23 @@ function QueryBoundaryDataRowsMap<ItemType>({
 
   let boundaryNullable = <QueryBoundaryNullable />;
 
-  if (nullableComponent) {
+  if (nullableFallback) {
     boundaryNullable = (
       <QueryBoundaryNullable
-        nullableComponent={
-          typeof nullableComponent === "function" ? nullableComponent(columns) : nullableComponent
+        nullableFallback={
+          typeof nullableFallback === "function" ? nullableFallback(columns) : nullableFallback
         }
       />
     );
   }
 
-  if (undefinedComponent || nullComponent) {
+  if (undefinedFallback || nullFallback) {
     boundaryNullable = (
       <QueryBoundaryNullable
-        undefinedComponent={
-          typeof undefinedComponent === "function"
-            ? undefinedComponent(columns)
-            : undefinedComponent
+        undefinedFallback={
+          typeof undefinedFallback === "function" ? undefinedFallback(columns) : undefinedFallback
         }
-        nullComponent={typeof nullComponent === "function" ? nullComponent(columns) : nullComponent}
+        nullFallback={typeof nullFallback === "function" ? nullFallback(columns) : nullFallback}
       />
     );
   }

@@ -1,4 +1,4 @@
-import type { CreateListQueryBoundaryParameters } from "@alextheman/components";
+import type { CreateListQueryBoundaryParameters } from "@alextheman/components/QueryBoundary";
 
 import type { LexiconQueryBoundaryComponentsBase } from "src/groups/QueryBoundary/creators/createBaseQueryBoundary";
 

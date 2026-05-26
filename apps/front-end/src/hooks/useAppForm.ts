@@ -1,4 +1,4 @@
-import { createFormHook } from "@alextheman/components/v7";
+import { createFormHook } from "@alextheman/components/form";
 
 import BackButton from "src/components/BackButton";
 

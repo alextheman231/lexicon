@@ -1,9 +1,9 @@
 import type {
   CreateBaseQueryBoundaryParameters,
   DefaultQueryBoundaryComponentsBase,
-} from "@alextheman/components";
+} from "@alextheman/components/QueryBoundary";
 
-import { createBaseQueryBoundary as createAlexBaseQueryBoundary } from "@alextheman/components";
+import { createBaseQueryBoundary as createAlexBaseQueryBoundary } from "@alextheman/components/QueryBoundary";
 
 import QueryBoundaryError from "src/groups/QueryBoundary/QueryBoundaryError";
 import QueryBoundaryFallback from "src/groups/QueryBoundary/QueryBoundaryFallback";

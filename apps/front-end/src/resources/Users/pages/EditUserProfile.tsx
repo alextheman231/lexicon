@@ -1,36 +1,41 @@
 import type { UserProfileFormOutputData } from "@lexicon/models";
 
-import { Page, useSnackbar } from "@alextheman/components";
+import { Page } from "@alextheman/components";
+import { useSnackbarContext } from "@alextheman/components/snackbar";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundaryWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import useLocation from "src/hooks/useLocation";
 import UserProfileForm from "src/resources/Users/components/UserProfileForm";
 import { useUpdateUserProfileMutation } from "src/resources/Users/queries";
 import formatError from "src/utility/errors/formatError";
 
 function EditUserProfile() {
-  const { currentUser, currentUserLoading } = useAuth();
+  const { currentUser, currentUserLoading, currentUserError } = useAuth();
   const { mutateAsync: updateUserProfile } = useUpdateUserProfileMutation();
   const [_, setLocation] = useLocation();
-  const { addSnackbar } = useSnackbar();
+  const { addSnackbar } = useSnackbarContext();
 
   async function onSubmit(data: UserProfileFormOutputData) {
     try {
       await updateUserProfile(data);
       setLocation(`/users/${currentUser?.id}`);
     } catch (error) {
-      addSnackbar(formatError(error), "error");
+      addSnackbar(formatError(error), { severity: "error" });
     }
   }
 
   return (
     <Page title="Edit Profile" disablePadding>
-      <QueryBoundaryWrapper isLoading={currentUserLoading} data={currentUser}>
+      <QueryBoundaryItemWrapper
+        isLoading={currentUserLoading}
+        data={currentUser}
+        error={currentUserError}
+      >
         {(user) => {
           return <UserProfileForm user={user} onSubmit={onSubmit} back={`/users/${user.id}`} />;
         }}
-      </QueryBoundaryWrapper>
+      </QueryBoundaryItemWrapper>
     </Page>
   );
 }

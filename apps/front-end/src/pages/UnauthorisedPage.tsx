@@ -1,4 +1,4 @@
-import { ErrorPage } from "@alextheman/components/v7";
+import { ErrorPage } from "@alextheman/components/routing";
 
 interface UnauthorisedPageProps {
   unauthorisedMessage?: string;

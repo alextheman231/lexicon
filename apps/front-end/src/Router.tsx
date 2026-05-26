@@ -1,4 +1,4 @@
-import { Router as AlexRouter, Switch } from "@alextheman/components/v7";
+import { Router as AlexRouter, Switch } from "@alextheman/components/routing";
 import { CodeError } from "@alextheman/utility/v6";
 import { Route } from "wouter";
 

@@ -1,4 +1,4 @@
-import { useAbsoluteLocation } from "@alextheman/components/v7";
+import { useAbsoluteLocation } from "@alextheman/components/routing";
 
 const useLocation = useAbsoluteLocation;
 
