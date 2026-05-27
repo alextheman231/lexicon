@@ -1,10 +1,10 @@
 import { Page, useHash, useIsLargeScreen } from "@alextheman/components";
 import { DropdownMenuItem, DropdownMenuWrapper } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
+import { createTabGroup } from "@alextheman/components/Tab";
 
 import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
-import createTabGroup from "src/groups/Tab";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import { useUserQuery } from "src/resources/Users/queries";
