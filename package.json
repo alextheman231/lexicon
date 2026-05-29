@@ -30,16 +30,16 @@
   "devDependencies": {
     "@alextheman/eslint-plugin": "5.16.1",
     "@faker-js/faker": "10.4.0",
-    "@typescript-eslint/utils": "8.59.4",
+    "@typescript-eslint/utils": "8.60.0",
     "alex-c-line": "2.8.1",
     "cross-env": "10.1.0",
     "eslint": "10.4.0",
     "husky": "9.1.7",
     "prettier": "3.8.3",
-    "turbo": "2.9.14",
+    "turbo": "2.9.16",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.59.4",
-    "vercel": "54.4.1"
+    "typescript-eslint": "8.60.0",
+    "vercel": "54.6.0"
   },
   "packageManager": "pnpm@11.5.0+sha512.dbfcc4f81cf48597afd4bc391ffdf12c11f1a9fb83a395bfa6b0a2d9cc2fd8ffebafdb1ccbd529632153f793904c2615b7f09fe1a345473fd1c35845172a8eb1",
   "engines": {
