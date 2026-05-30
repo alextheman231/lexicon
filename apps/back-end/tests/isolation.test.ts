@@ -4,7 +4,7 @@ import { describe, expect, test } from "vitest";
 
 import getTestFixtures from "tests/fixtures";
 
-describe.skip("Isolated test setup", () => {
+describe("Isolated test setup", () => {
   test("Generates 10 blogs", async () => {
     const { factory, authenticatedClient } = await getTestFixtures();
 
