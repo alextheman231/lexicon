@@ -15,6 +15,13 @@
       "when": 1780149171663,
       "tag": "0001_serious_hawkeye",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1780150909264,
+      "tag": "0002_green_harry_osborn",
+      "breakpoints": true
     }
   ]
 }

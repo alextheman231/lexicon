@@ -36,7 +36,7 @@ export const blogRevisionSchema = z.object({
   blogId: z.uuid("blog_id"),
   title: z.string().max(100),
   content: z.record(z.string(), z.any()),
-  revision: z.int().positive(),
+  version: z.int().positive(),
   revisionMessage: z.string().nullable().optional(),
   createdAt: z.coerce.date(),
 });

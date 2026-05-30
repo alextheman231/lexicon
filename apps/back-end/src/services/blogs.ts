@@ -66,18 +66,16 @@ function buildQuery(select: SQL, filters: BlogFilter): SQL {
   return query;
 }
 
-export async function getLatestBlogRevision(
+export async function getLatestBlogVersion(
   connection: Connection,
   blogId: string,
 ): Promise<number | null> {
-  const [{ revisionNumber }] = await connection
-    .select({ revisionNumber: blogRevisionsTable.revision })
+  const [{ version }] = await connection
+    .select({ version: blogRevisionsTable.version })
     .from(blogRevisionsTable)
     .where(eq(blogRevisionsTable.blogId, blogId))
-    .orderBy(desc(blogRevisionsTable.revision));
-  return revisionNumber === undefined || revisionNumber === null
-    ? null
-    : az.with(z.int()).parse(revisionNumber);
+    .orderBy(desc(blogRevisionsTable.version));
+  return version === undefined || version === null ? null : az.with(z.int()).parse(version);
 }
 
 export async function queryBlogIds(
@@ -178,7 +176,7 @@ export async function createBlog(
       blogId: initialBlog.id,
       title: data.title,
       content: data.content,
-      revision: 1,
+      version: 1,
     });
     await updateBlog(transaction, initialBlog.id, { currentRevisionId: revision.id });
     await insertBlogStateHistory(transaction, {
@@ -206,9 +204,9 @@ export async function editBlog(
   data: Omit<EditBlogData, "state">,
 ): Promise<Blog | null> {
   return await connection.transaction(async (transaction) => {
-    const oldRevisionNumber = await getLatestBlogRevision(transaction, ids.blogId);
+    const oldVersionNumber = await getLatestBlogVersion(transaction, ids.blogId);
 
-    if (oldRevisionNumber === null) {
+    if (oldVersionNumber === null) {
       return null;
     }
 
@@ -217,7 +215,7 @@ export async function editBlog(
       content: data.content,
       blogId: ids.blogId,
       editorId: ids.editorId,
-      revision: oldRevisionNumber + 1,
+      version: oldVersionNumber + 1,
     });
 
     const blog = await updateBlog(transaction, ids.blogId, {
