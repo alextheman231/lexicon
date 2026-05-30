@@ -1,11 +1,11 @@
 import { Page } from "@alextheman/components";
-import { DropdownMenuItem, DropdownMenuWrapper } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
 import { formatDateAndTime } from "@alextheman/utility";
 import Typography from "@mui/material/Typography";
 
 import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import BlogDropdown from "src/resources/Blogs/components/BlogDropdown";
 import BlogContent from "src/resources/Blogs/pages/Blog/BlogContent";
 import { useBlogQuery } from "src/resources/Blogs/queries";
 
@@ -38,15 +38,7 @@ function Blog({ blogId }: BlogPageProps) {
                 </Typography>
               )
             }
-            action={
-              currentUser?.id === blog.authorId ? (
-                <DropdownMenuWrapper>
-                  <DropdownMenuItem component={InternalLink} to={`/blogs/${blog.id}/edit`}>
-                    Edit
-                  </DropdownMenuItem>
-                </DropdownMenuWrapper>
-              ) : null
-            }
+            action={currentUser?.id === blog.authorId ? <BlogDropdown blog={blog} /> : null}
           >
             <BlogContent content={blog.content} />
           </Page>

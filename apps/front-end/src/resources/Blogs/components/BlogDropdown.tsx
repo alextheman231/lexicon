@@ -1,0 +1,46 @@
+import type { Blog, BlogSummary, BlogView } from "@lexicon/models";
+import type { ReactNode } from "react";
+
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuProvider,
+  DropdownMenuTrigger,
+} from "@alextheman/components/DropdownMenu";
+import { InternalLink } from "@alextheman/components/routing";
+import IconButton from "@mui/material/IconButton";
+import { MdMoreVert } from "react-icons/md";
+
+import { useAuth } from "src/AuthContextProvider";
+
+interface BlogDropdownProps {
+  blog: Blog | BlogView | BlogSummary;
+  extraItems?: {
+    insertLocation: "top" | "bottom";
+    items: ReactNode;
+  };
+}
+
+function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
+  const { currentUser } = useAuth();
+
+  return (
+    <DropdownMenuProvider>
+      <DropdownMenuTrigger component={IconButton}>
+        <MdMoreVert />
+      </DropdownMenuTrigger>
+      <DropdownMenu>
+        {extraItems && extraItems.insertLocation === "top" ? extraItems.items : null}
+        {currentUser?.id === blog.authorId ? (
+          <DropdownMenuItem component={InternalLink} to={`/blogs/${blog.id}/edit`}>
+            Edit
+          </DropdownMenuItem>
+        ) : null}
+        <DropdownMenuItem>Add to collection (implementation coming soon)</DropdownMenuItem>
+        {extraItems && extraItems.insertLocation === "bottom" ? extraItems.items : null}
+      </DropdownMenu>
+    </DropdownMenuProvider>
+  );
+}
+
+export default BlogDropdown;
