@@ -212,7 +212,7 @@ export async function editBlog(
       return null;
     }
 
-    const { revision: newRevisionId } = await insertBlogRevision(transaction, {
+    const { id: newRevisionId } = await insertBlogRevision(transaction, {
       title: data.title,
       content: data.content,
       blogId: ids.blogId,
