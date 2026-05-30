@@ -15,7 +15,7 @@ import {
   parseBlogSummariesResponse,
   parseBlogView,
 } from "@lexicon/models";
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import BlogFactory from "factory/blogs";
 import request from "supertest";
 import { describe, expect, test } from "vitest";
@@ -88,9 +88,7 @@ describe("GET", () => {
       }
     });
     test("Takes pagination/filtering data through the query string", async () => {
-      const { connection, factory, authenticatedClient } = await getTestFixtures();
-      // TODO: Revisit our testing strategy so we don't have to do this
-      await connection.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
+      const { factory, authenticatedClient } = await getTestFixtures();
 
       const author = await factory.users.insert();
 
@@ -137,8 +135,7 @@ describe("GET", () => {
       }
     });
     test("Filtering by authorId works", async () => {
-      const { connection, factory, authenticatedClient } = await getTestFixtures();
-      await connection.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
+      const { factory, authenticatedClient } = await getTestFixtures();
 
       const author = await factory.users.insert();
 
@@ -341,9 +338,6 @@ describe("PUT", () => {
   describe("/api/v1/blogs/:blogId", () => {
     test("Updates the current blog and creates a new revision", async () => {
       const { connection, factory, authenticatedClient } = await getTestFixtures();
-      await connection.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
-      await connection.execute(sql`TRUNCATE TABLE blog_revisions RESTART IDENTITY CASCADE`);
-      await connection.execute(sql`TRUNCATE TABLE blog_state_history RESTART IDENTITY CASCADE`);
 
       const blog = await factory.blogs.insert();
       const oldRevisionNumber = await getLatestBlogVersion(connection, blog.id);
@@ -422,9 +416,6 @@ describe("PUT", () => {
     });
     test("Only updates the blog with the given ID", async () => {
       const { connection, factory, authenticatedClient } = await getTestFixtures();
-      await connection.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
-      await connection.execute(sql`TRUNCATE TABLE blog_revisions RESTART IDENTITY CASCADE`);
-      await connection.execute(sql`TRUNCATE TABLE blog_state_history RESTART IDENTITY CASCADE`);
 
       const firstBlog = await factory.blogs.insert();
       const secondBlog = await factory.blogs.insert();
