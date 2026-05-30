@@ -19,7 +19,7 @@ function CreateBlog({ currentUser }: CreateBlogProps) {
   const [_, setLocation] = useLocation();
   const { addSnackbar } = useSnackbarContext();
 
-  async function onSubmit(data: BlogFormSubmitData) {
+  async function onPublishSubmit(data: BlogFormSubmitData) {
     try {
       const id = await uploadBlog({ ...data, state: BlogState.PUBLISHED });
       addSnackbar("Blog created successfully", { severity: "success" });
@@ -29,10 +29,21 @@ function CreateBlog({ currentUser }: CreateBlogProps) {
     }
   }
 
+  async function onDraftSubmit(data: BlogFormSubmitData) {
+    try {
+      await uploadBlog({ ...data, state: BlogState.DRAFT });
+      addSnackbar("Blog saved as draft", { severity: "success" });
+      setLocation(`/users/${currentUser.id}`);
+    } catch (error) {
+      addSnackbar(formatError(error), { severity: "error" });
+    }
+  }
+
   return (
     <BlogForm
       defaultValues={{ title: "", content: "" }}
-      onSubmit={onSubmit}
+      onPublishSubmit={onPublishSubmit}
+      onDraftSubmit={onDraftSubmit}
       back={`/users/${currentUser.id}`}
       loading={isPending}
     />
