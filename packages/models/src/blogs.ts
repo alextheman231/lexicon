@@ -17,7 +17,7 @@ export const blogSchema = z.object({
   id: z.uuid(),
   authorId: z.uuid(),
   state: z.enum(BlogState),
-  currentRevisionId: z.int().positive(),
+  currentRevisionId: z.uuid(),
   updatedAt: z.coerce.date(),
   publishedAt: z.coerce.date().nullable(),
 });
@@ -31,7 +31,7 @@ export function parseBlogs(input: unknown): Array<Blog> {
 }
 
 export const blogRevisionSchema = z.object({
-  id: z.int().positive(),
+  id: z.uuid(),
   editorId: z.uuid(),
   blogId: z.uuid("blog_id"),
   title: z.string().max(100),
@@ -54,7 +54,7 @@ export const blogStateHistorySchema = z.object({
   updatedById: z.uuid(),
   blogId: z.uuid(),
   state: z.enum(BlogState),
-  revisionId: z.int().positive(),
+  revisionId: z.uuid(),
   updatedAt: z.coerce.date(),
 });
 export type BlogStateHistoryRow = z.infer<typeof blogStateHistorySchema>;

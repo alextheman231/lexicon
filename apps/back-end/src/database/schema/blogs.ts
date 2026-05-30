@@ -2,7 +2,6 @@ import { az } from "@alextheman/utility";
 import { BlogState } from "@lexicon/models";
 import { sql } from "drizzle-orm";
 import {
-  bigint,
   bigserial,
   check,
   index,
@@ -31,7 +30,7 @@ export const blogsTable = pgTable(
       .references(() => {
         return usersTable.id;
       }),
-    currentRevisionId: bigint("current_revision_id", { mode: "number" }),
+    currentRevisionId: uuid("current_revision_id"),
     id: uuid("id").primaryKey().defaultRandom(),
     publishedAt: timestamp("published_at", { withTimezone: true }),
     state: blogStateEnum("state").notNull(),
@@ -68,7 +67,7 @@ export const blogRevisionsTable = pgTable(
       .references(() => {
         return usersTable.id;
       }),
-    id: bigserial("id", { mode: "number" }).primaryKey(),
+    id: uuid("id").primaryKey().defaultRandom(),
     revision: integer("revision").notNull(),
     revisionMessage: text("revision_message"),
     title: varchar("title", { length: 100 }).notNull(),
@@ -90,7 +89,7 @@ export const blogStateHistoryTable = pgTable(
         return blogsTable.id;
       }),
     id: bigserial("id", { mode: "number" }).primaryKey(),
-    revisionId: bigint("revision_id", { mode: "number" })
+    revisionId: uuid("revision_id")
       .notNull()
       .references(() => {
         return blogRevisionsTable.id;
