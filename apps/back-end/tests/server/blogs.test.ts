@@ -349,8 +349,8 @@ describe("PUT", () => {
       const oldRevisionNumber = await getLatestBlogRevision(connection, blog.id);
       assertNotNull(oldRevisionNumber);
 
-      const data: EditBlogData = {
-        state: BlogState.DRAFT,
+      const data: Partial<EditBlogData> = {
+        state: blog.state,
         title: "My edited blog",
         content: BlogFactory.generateEditorContent("This blog has been edited"),
       };
@@ -422,6 +422,9 @@ describe("PUT", () => {
     });
     test("Only updates the blog with the given ID", async () => {
       const { connection, factory, authenticatedClient } = await getTestFixtures();
+      await connection.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
+      await connection.execute(sql`TRUNCATE TABLE blog_revisions RESTART IDENTITY CASCADE`);
+      await connection.execute(sql`TRUNCATE TABLE blog_state_history RESTART IDENTITY CASCADE`);
 
       const firstBlog = await factory.blogs.insert();
       const secondBlog = await factory.blogs.insert();
