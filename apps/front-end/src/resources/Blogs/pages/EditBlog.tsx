@@ -23,11 +23,21 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
   const { mutateAsync: updateBlog, isPending: isFormPending } = useEditBlogMutation(blogId);
   const [_, setLocation] = useLocation();
 
-  async function onSubmit(data: BlogFormSubmitData) {
+  async function onPublishSubmit(data: BlogFormSubmitData) {
     try {
       await updateBlog({ ...data, state: BlogState.PUBLISHED });
       addSnackbar("Blog edited successfully", { severity: "success" });
       setLocation(`/blogs/${blog?.id}`);
+    } catch (error) {
+      addSnackbar(formatError(error), { severity: "error" });
+    }
+  }
+
+  async function onDraftSubmit(data: BlogFormSubmitData) {
+    try {
+      await updateBlog({ ...data, state: BlogState.DRAFT });
+      addSnackbar("Blog saved as draft", { severity: "success" });
+      setLocation(`/users/${currentUser.id}`);
     } catch (error) {
       addSnackbar(formatError(error), { severity: "error" });
     }
@@ -43,7 +53,8 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
         return (
           <BlogForm
             defaultValues={{ title: blog.title, content: JSON.stringify(blog.content) }}
-            onSubmit={onSubmit}
+            onPublishSubmit={onPublishSubmit}
+            onDraftSubmit={onDraftSubmit}
             back={`/blogs/${blog.id}`}
             loading={isFormPending}
           />

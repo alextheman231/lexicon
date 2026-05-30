@@ -3,6 +3,7 @@ import type { SerializedEditorState } from "lexical";
 import { Page } from "@alextheman/components";
 import { useSnackbarContext } from "@alextheman/components/snackbar";
 import { az } from "@alextheman/utility";
+import { BlogState } from "@lexicon/models";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
@@ -22,28 +23,56 @@ export type BlogFormValidatedType = z.output<typeof blogCreationSchema>;
 
 export type BlogFormSubmitData = BlogFormValidatedType & { content: SerializedEditorState };
 
+interface BlogFormMeta {
+  blogState: BlogState;
+}
+
 interface BlogFormProps {
   defaultValues: BlogFormType & { content: SerializedEditorState | string };
-  onSubmit: (data: BlogFormSubmitData) => void | Promise<void>;
+  onPublishSubmit: (data: BlogFormSubmitData) => void | Promise<void>;
+  onDraftSubmit: (data: BlogFormSubmitData) => void | Promise<void>;
   back: string;
   loading?: boolean;
 }
 
-function BlogForm({ back, defaultValues, onSubmit, loading }: BlogFormProps) {
+function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading }: BlogFormProps) {
   const [editorState, setEditorState] = useState<SerializedEditorState | undefined>();
   const { addSnackbar } = useSnackbarContext();
 
+  const onSubmitMeta: BlogFormMeta = { blogState: BlogState.PUBLISHED };
+
   const form = useAppForm({
     defaultValues: { title: defaultValues.title },
-    onSubmit: async ({ value }) => {
+    onSubmitMeta,
+    onSubmit: async ({ value, meta }) => {
       if (editorState === undefined) {
         addSnackbar("Content is required", { severity: "error" });
         return;
       }
-      await onSubmit({
-        ...blogCreationSchema.parse(value),
-        content: editorState,
-      });
+
+      switch (meta.blogState) {
+        case BlogState.PUBLISHED: {
+          await onPublishSubmit({
+            ...blogCreationSchema.parse(value),
+            content: editorState,
+          });
+          break;
+        }
+        case BlogState.DRAFT: {
+          await onDraftSubmit({
+            ...blogCreationSchema.parse(value),
+            content: editorState,
+          });
+          break;
+        }
+        case BlogState.ARCHIVED: {
+          // Will be implemented later - should only do something if editing a blog.
+          break;
+        }
+        default: {
+          throw meta.blogState satisfies never;
+        }
+      }
     },
     validators: {
       onSubmit: blogCreationSchema,
@@ -54,7 +83,7 @@ function BlogForm({ back, defaultValues, onSubmit, loading }: BlogFormProps) {
     <form
       onSubmit={async (event) => {
         event.preventDefault();
-        await form.handleSubmit();
+        event.stopPropagation();
       }}
     >
       <Page
@@ -75,7 +104,21 @@ function BlogForm({ back, defaultValues, onSubmit, loading }: BlogFormProps) {
           <Stack direction="row" spacing={2}>
             <form.AppForm>
               <form.BackButton to={back} />
-              <form.SubmitButton disabled={editorState === undefined} loading={loading} />
+              <form.SubmitButton
+                disabled={editorState === undefined}
+                label="Save as Draft"
+                variant="outlined"
+                onClick={() => {
+                  form.handleSubmit({ blogState: BlogState.DRAFT });
+                }}
+              />
+              <form.SubmitButton
+                disabled={editorState === undefined}
+                loading={loading}
+                onClick={() => {
+                  form.handleSubmit({ blogState: BlogState.PUBLISHED });
+                }}
+              />
             </form.AppForm>
           </Stack>
         </CardActions>
