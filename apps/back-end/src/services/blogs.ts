@@ -161,36 +161,34 @@ export async function createBlog(
   authorId: string,
   data: CreateBlogData,
 ): Promise<Blog> {
-  return await connection.transaction(async (transaction) => {
-    const today = new Date();
+  const today = new Date();
 
-    const isPublished = data.state === BlogState.PUBLISHED;
-    const initialBlog = await insertBlog(transaction, {
-      ...data,
-      authorId,
-      publishedAt: isPublished ? today : null,
-      updatedAt: today,
-    });
-    const revision = await insertBlogRevision(transaction, {
-      editorId: authorId,
-      blogId: initialBlog.id,
-      title: data.title,
-      content: data.content,
-      version: 1,
-    });
-    await updateBlog(transaction, initialBlog.id, { currentRevisionId: revision.id });
-    await insertBlogStateHistory(transaction, {
-      state: initialBlog.state,
-      blogId: initialBlog.id,
-      revisionId: revision.id,
-      updatedById: initialBlog.authorId,
-    });
-
-    const blog = await selectBlog(transaction, initialBlog.id);
-    assertNotNull(blog);
-
-    return parseBlog(blog);
+  const isPublished = data.state === BlogState.PUBLISHED;
+  const initialBlog = await insertBlog(connection, {
+    ...data,
+    authorId,
+    publishedAt: isPublished ? today : null,
+    updatedAt: today,
   });
+  const revision = await insertBlogRevision(connection, {
+    editorId: authorId,
+    blogId: initialBlog.id,
+    title: data.title,
+    content: data.content,
+    version: 1,
+  });
+  await updateBlog(connection, initialBlog.id, { currentRevisionId: revision.id });
+  await insertBlogStateHistory(connection, {
+    state: initialBlog.state,
+    blogId: initialBlog.id,
+    revisionId: revision.id,
+    updatedById: initialBlog.authorId,
+  });
+
+  const blog = await selectBlog(connection, initialBlog.id);
+  assertNotNull(blog);
+
+  return parseBlog(blog);
 }
 
 interface Ids {
@@ -203,28 +201,26 @@ export async function editBlog(
   ids: Ids,
   data: Omit<EditBlogData, "state">,
 ): Promise<Blog | null> {
-  return await connection.transaction(async (transaction) => {
-    const oldVersionNumber = await getLatestBlogVersion(transaction, ids.blogId);
+  const oldVersionNumber = await getLatestBlogVersion(connection, ids.blogId);
 
-    if (oldVersionNumber === null) {
-      return null;
-    }
+  if (oldVersionNumber === null) {
+    return null;
+  }
 
-    const { id: newRevisionId } = await insertBlogRevision(transaction, {
-      title: data.title,
-      content: data.content,
-      blogId: ids.blogId,
-      editorId: ids.editorId,
-      version: oldVersionNumber + 1,
-    });
-
-    const blog = await updateBlog(transaction, ids.blogId, {
-      currentRevisionId: newRevisionId,
-      updatedAt: new Date(),
-    });
-
-    return blog ? parseBlog(blog) : null;
+  const { id: newRevisionId } = await insertBlogRevision(connection, {
+    title: data.title,
+    content: data.content,
+    blogId: ids.blogId,
+    editorId: ids.editorId,
+    version: oldVersionNumber + 1,
   });
+
+  const blog = await updateBlog(connection, ids.blogId, {
+    currentRevisionId: newRevisionId,
+    updatedAt: new Date(),
+  });
+
+  return blog ? parseBlog(blog) : null;
 }
 
 export async function changeBlogState(
@@ -232,35 +228,33 @@ export async function changeBlogState(
   ids: Ids,
   newState: BlogState,
 ): Promise<Blog | null> {
-  return await connection.transaction(async (transaction) => {
-    const currentBlog = await selectBlog(transaction, ids.blogId);
-    const today = new Date();
+  const currentBlog = await selectBlog(connection, ids.blogId);
+  const today = new Date();
 
-    if (currentBlog === null) {
-      return null;
-    }
+  if (currentBlog === null) {
+    return null;
+  }
 
-    if (currentBlog.state === newState) {
-      return parseBlog(currentBlog);
-    }
+  if (currentBlog.state === newState) {
+    return parseBlog(currentBlog);
+  }
 
-    const blog = await updateBlog(transaction, ids.blogId, {
-      state: newState,
-      updatedAt: today,
-      publishedAt: newState === BlogState.PUBLISHED ? new Date() : null,
-    });
-    assertNotNull(blog);
-    const { currentRevisionId } = blog;
-    assertNotNull(currentRevisionId);
-
-    await insertBlogStateHistory(transaction, {
-      state: newState,
-      updatedById: ids.editorId,
-      updatedAt: today,
-      blogId: ids.blogId,
-      revisionId: currentRevisionId,
-    });
-
-    return blog ? parseBlog(blog) : null;
+  const blog = await updateBlog(connection, ids.blogId, {
+    state: newState,
+    updatedAt: today,
+    publishedAt: newState === BlogState.PUBLISHED ? new Date() : null,
   });
+  assertNotNull(blog);
+  const { currentRevisionId } = blog;
+  assertNotNull(currentRevisionId);
+
+  await insertBlogStateHistory(connection, {
+    state: newState,
+    updatedById: ids.editorId,
+    updatedAt: today,
+    blogId: ids.blogId,
+    revisionId: currentRevisionId,
+  });
+
+  return blog ? parseBlog(blog) : null;
 }
