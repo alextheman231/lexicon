@@ -51,7 +51,13 @@ export function handleErrors(app: Express) {
 
   app.use(
     handleErrorMiddleware((error, _request, response) => {
-      console.error(error);
+      if (
+        ENV !== "test" ||
+        (ENV === "test" &&
+          (!CodeError.check(error) || (CodeError.check(error) && error.code !== "TEST_ERROR")))
+      ) {
+        console.error(error);
+      }
       const serverError = internalServerError();
       response.status(serverError.status).send({
         error: new CodeError(serverError.code, serverError.message).toJSON(),
