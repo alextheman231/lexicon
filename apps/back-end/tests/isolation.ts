@@ -20,6 +20,15 @@ beforeEach(async () => {
 
   testConnection = drizzle(client, { schema });
 
+  vi.spyOn(testConnection, "transaction").mockImplementation(async (callback) => {
+    // @ts-expect-error: The testConnection is not typed in exactly the same way as
+    // actual transactions, so this gives a type error.
+    // However this is needed for testing purposes as the tests already run in a transaction, and
+    // nested transactions confuse CI.
+    // This is fine for most use cases as we generally treat the transaction and connection the same and query them the same way.
+    // In the future, I will revisit this to get nested transaction to actually work.
+    return await callback(testConnection);
+  });
   vi.spyOn(dbModule, "getConnection").mockReturnValue(testConnection);
   await testConnection.execute(sql`BEGIN`);
 });
