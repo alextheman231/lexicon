@@ -1,6 +1,7 @@
 import type { BlogSummary } from "@lexicon/models";
 
 import { Page, useIsLargeScreen } from "@alextheman/components";
+import { BlogState } from "@lexicon/models";
 import Stack from "@mui/material/Stack";
 
 import createPaginationGroup from "src/groups/pagination";
@@ -21,7 +22,10 @@ function Blogs() {
   });
   const PaginationGroup = createPaginationGroup<BlogSummary>(pagination);
 
-  const { data, isPending, error } = useBlogsQuery(pagination.state.paginationSettings);
+  const { data, isPending, error } = useBlogsQuery({
+    ...pagination.state.paginationSettings,
+    state: BlogState.PUBLISHED,
+  });
   const { rows: blogs, totalRecordCount } = data ?? {};
 
   const QueryBoundary = createListQueryBoundary({

@@ -1,7 +1,9 @@
 import type { BlogSummary, User } from "@lexicon/models";
 
 import { useIsLargeScreen } from "@alextheman/components";
+import { BlogState } from "@lexicon/models";
 
+import { useAuth } from "src/AuthContextProvider";
 import createPaginationGroup from "src/groups/pagination";
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
 import usePagination from "src/hooks/usePagination";
@@ -15,6 +17,7 @@ interface UserBlogsProps {
 
 function UserBlogs({ user }: UserBlogsProps) {
   const isLargeScreen = useIsLargeScreen();
+  const { currentUser } = useAuth();
 
   const pagination = usePagination<BlogSummary>({
     pageNumber: 0,
@@ -27,6 +30,7 @@ function UserBlogs({ user }: UserBlogsProps) {
   const { data, isPending, error } = useBlogsQuery({
     ...pagination.state.paginationSettings,
     authorId: user.id,
+    state: user.id === currentUser?.id ? undefined : BlogState.PUBLISHED,
   });
   const { rows: blogs, totalRecordCount } = data ?? {};
   const QueryBoundary = createListQueryBoundary({

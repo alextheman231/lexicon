@@ -1,4 +1,10 @@
-import type { BlogSummary, BlogView, CreateBlogData, EditBlogData } from "@lexicon/models";
+import type {
+  BlogState,
+  BlogSummary,
+  BlogView,
+  CreateBlogData,
+  EditBlogData,
+} from "@lexicon/models";
 
 import type { PaginatedResult, PaginationSettings } from "src/hooks/usePagination";
 
@@ -13,7 +19,7 @@ import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
 import queryKeys, { relatedQueryKeys } from "src/utility/queryKeys";
 
 export function useBlogsQuery(
-  params?: Partial<PaginationSettings<BlogSummary> & { authorId: string }>,
+  params?: Partial<PaginationSettings<BlogSummary> & { authorId: string; state: BlogState }>,
 ) {
   return useQuery<PaginatedResult<BlogSummary>>({
     queryKey: queryKeys.blogs(params),
