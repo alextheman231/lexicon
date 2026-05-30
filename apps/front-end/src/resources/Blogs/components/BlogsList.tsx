@@ -1,4 +1,5 @@
 import type { BlogSummary } from "@lexicon/models";
+import type { ReactNode } from "react";
 
 import type { PaginationComponents } from "src/groups/pagination";
 import type { LexiconQueryBoundaryComponentsList } from "src/groups/QueryBoundary/creators/createListQueryBoundary";
@@ -17,6 +18,7 @@ interface BlogsListProps {
   QueryBoundary: LexiconQueryBoundaryComponentsList<BlogSummary>;
   totalRecordCount?: number;
   includeAuthor?: boolean;
+  cardContent?: ReactNode;
 }
 
 function BlogsList({
@@ -24,9 +26,11 @@ function BlogsList({
   QueryBoundary,
   totalRecordCount,
   includeAuthor,
+  cardContent,
 }: BlogsListProps) {
   return (
     <List>
+      {cardContent ? <CardContent>{cardContent}</CardContent> : null}
       <QueryBoundary.DataMap>
         {(blog) => {
           return (

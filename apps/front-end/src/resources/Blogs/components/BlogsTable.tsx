@@ -1,4 +1,5 @@
 import type { BlogSummary } from "@lexicon/models";
+import type { ReactNode } from "react";
 
 import type { PaginationComponents } from "src/groups/pagination";
 import type { LexiconQueryBoundaryComponentsList } from "src/groups/QueryBoundary/creators/createListQueryBoundary";
@@ -6,6 +7,8 @@ import type { LexiconQueryBoundaryComponentsList } from "src/groups/QueryBoundar
 import { InternalLink } from "@alextheman/components/routing";
 import { formatDateAndTime } from "@alextheman/utility";
 import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Divider from "@mui/material/Divider";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,6 +22,7 @@ interface BlogsTableProps {
   QueryBoundary: LexiconQueryBoundaryComponentsList<BlogSummary>;
   totalRecordCount?: number;
   includeAuthor?: boolean;
+  cardContent?: ReactNode;
 }
 
 function BlogsTable({
@@ -26,9 +30,16 @@ function BlogsTable({
   QueryBoundary,
   totalRecordCount,
   includeAuthor,
+  cardContent,
 }: BlogsTableProps) {
   return (
     <Card>
+      {cardContent ? (
+        <>
+          <CardContent>{cardContent}</CardContent>
+          <Divider />
+        </>
+      ) : null}
       <TableContainer>
         <Table>
           <TableHead>
