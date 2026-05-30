@@ -68,14 +68,14 @@ export const blogRevisionsTable = pgTable(
         return usersTable.id;
       }),
     id: uuid("id").primaryKey().defaultRandom(),
-    revision: integer("revision").notNull(),
     revisionMessage: text("revision_message"),
     title: varchar("title", { length: 100 }).notNull(),
+    version: integer("version").notNull(),
   },
   (table) => {
     return [
-      uniqueIndex("blog_revision_per_blog_unique").on(table.blogId, table.revision),
-      index("blog_revisions_blog_id_revision_idx").on(table.blogId, table.revision),
+      uniqueIndex("blog_revision_per_blog_unique").on(table.blogId, table.version),
+      index("blog_revisions_blog_id_revision_idx").on(table.blogId, table.version),
     ];
   },
 );

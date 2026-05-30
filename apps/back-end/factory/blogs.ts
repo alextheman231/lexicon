@@ -85,7 +85,7 @@ class BlogFactory {
       blogId: initialBlog.id,
       title: blogTemplate.title,
       content: blogTemplate.content,
-      revision: 1,
+      version: 1,
     });
     await updateBlog(this.context.connection, initialBlog.id, { currentRevisionId: revision.id });
     await insertBlogStateHistory(this.context.connection, {
