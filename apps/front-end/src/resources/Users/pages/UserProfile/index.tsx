@@ -1,9 +1,14 @@
 import { Page, useHash, useIsLargeScreen } from "@alextheman/components";
-import { DropdownMenuItem, DropdownMenuWrapper } from "@alextheman/components/DropdownMenu";
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuProvider,
+} from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
 import { createTabGroup } from "@alextheman/components/Tab";
 
 import { useAuth } from "src/AuthContextProvider";
+import DropdownMenuIconButton from "src/components/DropdownIconButton";
 import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
@@ -31,14 +36,17 @@ function UserProfile({ userId }: UserProfileProps) {
               title={user.displayName ?? user.username}
               subtitle={user.username}
               action={
-                <DropdownMenuWrapper>
-                  <DropdownMenuItem component={InternalLink} to="/blogs/new">
-                    Create Blog
-                  </DropdownMenuItem>
-                  {!isLargeScreen && user.id === currentUser?.id ? (
-                    <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
-                  ) : null}
-                </DropdownMenuWrapper>
+                <DropdownMenuProvider>
+                  <DropdownMenuIconButton />
+                  <DropdownMenu>
+                    <DropdownMenuItem component={InternalLink} to="/blogs/new">
+                      Create Blog
+                    </DropdownMenuItem>
+                    {!isLargeScreen && user.id === currentUser?.id ? (
+                      <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
+                    ) : null}
+                  </DropdownMenu>
+                </DropdownMenuProvider>
               }
               tabs={
                 <Tab.List>

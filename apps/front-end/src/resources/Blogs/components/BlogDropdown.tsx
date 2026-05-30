@@ -5,13 +5,11 @@ import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuProvider,
-  DropdownMenuTrigger,
 } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
-import IconButton from "@mui/material/IconButton";
-import { MdMoreVert } from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
+import DropdownMenuIconButton from "src/components/DropdownIconButton";
 
 interface BlogDropdownProps {
   blog: Blog | BlogView | BlogSummary;
@@ -26,9 +24,7 @@ function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
 
   return (
     <DropdownMenuProvider>
-      <DropdownMenuTrigger component={IconButton}>
-        <MdMoreVert />
-      </DropdownMenuTrigger>
+      <DropdownMenuIconButton />
       <DropdownMenu>
         {extraItems && extraItems.insertLocation === "top" ? extraItems.items : null}
         {currentUser?.id === blog.authorId ? (
