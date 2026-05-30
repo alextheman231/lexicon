@@ -40,12 +40,14 @@ blogsRouter
     requireAuth,
     handleEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
-      const data = parseCreateBlogData(request.body);
 
-      assertNotUndefined(request.user);
+      await connection.transaction(async (transaction) => {
+        const data = parseCreateBlogData(request.body);
+        assertNotUndefined(request.user);
 
-      const { id } = await createBlog(connection, request.user.id, data);
-      response.status(201).send({ id });
+        const { id } = await createBlog(transaction, request.user.id, data);
+        response.status(201).send({ id });
+      });
     }),
   );
 
