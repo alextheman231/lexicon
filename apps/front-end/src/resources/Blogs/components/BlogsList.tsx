@@ -13,6 +13,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 
+import BlogDropdown from "src/resources/Blogs/components/BlogDropdown";
+
 interface BlogsListProps {
   PaginationGroup: PaginationComponents<BlogSummary>;
   QueryBoundary: LexiconQueryBoundaryComponentsList<BlogSummary>;
@@ -38,6 +40,7 @@ function BlogsList({
               <Card sx={{ width: "100%" }}>
                 <CardHeader
                   title={<InternalLink to={`/blogs/${blog.id}`}>{blog.title}</InternalLink>}
+                  action={<BlogDropdown blog={blog} />}
                 />
                 <CardContent>
                   {includeAuthor ? (
