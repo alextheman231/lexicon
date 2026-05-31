@@ -12,6 +12,7 @@ import Stack from "@mui/material/Stack";
 import { MdHome, MdPerson } from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
+import UserDropdown from "src/components/UserDropdown";
 
 interface NavigationBottomProps {
   children: ReactNode;
@@ -29,7 +30,12 @@ function NavigationBottom({ children }: NavigationBottomProps) {
               Lexicon
             </Button>
           }
-          action={<ThemeToggle />}
+          action={
+            <Stack direction="row" spacing={2}>
+              <ThemeToggle />
+              <UserDropdown />
+            </Stack>
+          }
         />
       </Card>
       <AlexNavigationBottom
