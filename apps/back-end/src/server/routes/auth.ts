@@ -1,6 +1,6 @@
 import type { CookieOptions, ParamsDictionary } from "express-serve-static-core";
 
-import { assertNotNull, parseEnv } from "@alextheman/utility";
+import { assertNotNull } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { parseEndToEndAuthInsertData } from "@lexicon/models";
 import { Router } from "express";
@@ -21,11 +21,11 @@ import { createAuthProvider, getGoogleAuthUser } from "src/services/auth";
 import { createUser } from "src/services/users";
 import { createUserSession, expireUserSession } from "src/services/userSessions";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
+import ENV from "src/utility/constants/ENV";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import allowEnvironments from "src/utility/validators/allowEnvironments";
 
 const authRouter = Router();
-const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 function getCallbackUrl(originalUrl: string = "/api/v1/auth/google/callback") {
   return `${process.env.API_BASE_URL!}${originalUrl}`;
 }
