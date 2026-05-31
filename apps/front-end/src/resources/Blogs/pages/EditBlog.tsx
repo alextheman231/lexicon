@@ -10,12 +10,15 @@ import useLocation from "src/hooks/useLocation";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
 import { useBlogQuery, useEditBlogMutation } from "src/resources/Blogs/queries";
+import defaultErrorFormatters from "src/utility/errors/errorFormatters";
 import formatError from "src/utility/errors/formatError";
 
 interface EditBlogProps {
   blogId: string;
   currentUser: User;
 }
+
+const forbiddenMessage = "You cannot edit a blog that is not yours.";
 
 function EditBlog({ blogId, currentUser }: EditBlogProps) {
   const { data: blog, isPending, error } = useBlogQuery(blogId);
@@ -39,7 +42,13 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
       addSnackbar("Blog saved as draft", { severity: "success" });
       setLocation(`/users/${currentUser.id}`);
     } catch (error) {
-      addSnackbar(formatError(error), { severity: "error" });
+      addSnackbar(
+        formatError(error, {
+          ...defaultErrorFormatters,
+          FORBIDDEN_ACCESS: forbiddenMessage,
+        }),
+        { severity: "error" },
+      );
     }
   }
 
@@ -47,7 +56,7 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
     <QueryBoundaryItemWrapper data={blog} isLoading={isPending} error={error}>
       {(blog) => {
         if (blog.authorId !== currentUser.id) {
-          return <UnauthorisedPage />;
+          return <UnauthorisedPage unauthorisedMessage={forbiddenMessage} />;
         }
 
         return (

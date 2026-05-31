@@ -8,7 +8,7 @@ import {
   omitProperties,
   paralleliseArrays,
 } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
+import { CodeError, DataError } from "@alextheman/utility/v6";
 import {
   BlogState,
   parseBlogSummaries,
@@ -337,9 +337,10 @@ describe("POST", () => {
 describe("PUT", () => {
   describe("/api/v1/blogs/:blogId", () => {
     test("Updates the current blog and creates a new revision", async () => {
-      const { connection, factory, authenticatedClient } = await getTestFixtures();
+      const { connection, factory, authenticatedClient, authenticatedUser } =
+        await getTestFixtures();
 
-      const blog = await factory.blogs.insert();
+      const blog = await factory.blogs.insert({ author: authenticatedUser });
       const oldRevisionNumber = await getLatestBlogVersion(connection, blog.id);
       assertNotNull(oldRevisionNumber);
 
@@ -389,9 +390,13 @@ describe("PUT", () => {
       expect(error.data.resourceId).toBe(missingId);
     });
     test("If the blog state changed, insert a new state history record", async () => {
-      const { connection, factory, authenticatedClient } = await getTestFixtures();
+      const { connection, factory, authenticatedClient, authenticatedUser } =
+        await getTestFixtures();
 
-      const blog = await factory.blogs.insert({ state: BlogState.DRAFT });
+      const blog = await factory.blogs.insert({
+        state: BlogState.DRAFT,
+        author: authenticatedUser,
+      });
 
       const data: EditBlogData = {
         state: BlogState.PUBLISHED,
@@ -415,10 +420,11 @@ describe("PUT", () => {
       expect(history[1].state).toBe(blog.state);
     });
     test("Only updates the blog with the given ID", async () => {
-      const { connection, factory, authenticatedClient } = await getTestFixtures();
+      const { connection, factory, authenticatedClient, authenticatedUser } =
+        await getTestFixtures();
 
-      const firstBlog = await factory.blogs.insert();
-      const secondBlog = await factory.blogs.insert();
+      const firstBlog = await factory.blogs.insert({ author: authenticatedUser });
+      const secondBlog = await factory.blogs.insert({ author: authenticatedUser });
 
       const [{ secondBlogTitle, secondBlogContent }] = await connection
         .select({
@@ -448,6 +454,28 @@ describe("PUT", () => {
       const secondBlogView = parseBlogView(secondBlogRequest.blog);
       expect(secondBlogView.title).toBe(secondBlogTitle);
       expect(secondBlogView.content).toEqual(secondBlogContent);
+    });
+    test("Does not allow editing of a blog that does not belong to the current user", async () => {
+      const { factory, authenticatedClient } = await getTestFixtures();
+
+      const blog = await factory.blogs.insert();
+
+      const data: EditBlogData = {
+        state: BlogState.PUBLISHED,
+        title: "My edited blog",
+        content: BlogFactory.generateEditorContent("This blog has been edited"),
+      };
+
+      const { body } = await authenticatedClient
+        .put(`/api/v1/blogs/${blog.id}`)
+        .send(data)
+        .expect(403);
+
+      const error = CodeError.expectError(() => {
+        throw body.error;
+      });
+
+      expect(error.code).toBe("FORBIDDEN_ACCESS");
     });
   });
 });

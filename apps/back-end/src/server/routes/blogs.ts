@@ -1,4 +1,5 @@
 import { assertNotUndefined } from "@alextheman/utility";
+import { APIError } from "@alextheman/utility/v6";
 import { parseBlogFilter, parseCreateBlogData, parseEditBlogData } from "@lexicon/models";
 import { Router } from "express";
 
@@ -77,9 +78,17 @@ blogsRouter
           throw resourceNotFoundError("blog", request.params.blogId);
         }
 
-        const data = parseEditBlogData(request.body);
-
         assertNotUndefined(request.user);
+
+        if (oldBlog.authorId !== request.user.id) {
+          throw new APIError(
+            403,
+            "FORBIDDEN_ACCESS",
+            "You do not have permission to edit this blog.",
+          );
+        }
+
+        const data = parseEditBlogData(request.body);
 
         const ids = { blogId: request.params.blogId, editorId: request.user.id };
 
