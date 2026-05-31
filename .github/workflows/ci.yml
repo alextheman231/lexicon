@@ -163,18 +163,34 @@ jobs:
         working-directory: apps/end-to-end
         run: pnpm exec playwright install --with-deps
 
-      - name: Initialise environment variables
+      - name: Initialise back-end environment variables
         run: |
           touch apps/back-end/.env.development
           echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/development?schema=public" >> apps/back-end/.env.development
           echo API_BASE_URL="http://localhost:8080" >> apps/back-end/.env.development
           echo ALLOWED_ORIGINS="http://localhost:5173" >> apps/back-end/.env.development
 
+      - name: Initialise front-end environment variables
+        run: |
+          touch apps/front-end/.env
+          echo VITE_API_BASE_URL="http://localhost:8080" >> apps/front-end/.env
+
+      - name: Initialise end-to-end environment variables
+        run: |
+          touch apps/end-to-end/.env
+          echo API_BASE_URL="http://localhost:8080" >> apps/end-to-end/.env
+
       - name: Build packages
         run: pnpm run build
 
       - name: Apply migrations
         run: pnpm run migrate-db
+        working-directory: apps/back-end
+        env:
+          NODE_ENV: development
+
+      - name: Load the dev data
+        run: pnpm run seed-db
         working-directory: apps/back-end
         env:
           NODE_ENV: development
