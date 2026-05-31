@@ -19,7 +19,7 @@ const requireAuth = handleFallthroughMiddleware(async (request) => {
   if (session === null || session.expiresAt < new Date()) {
     throw authRequiredError(sessionId);
   }
-  const currentUser = await selectUser(connection, session.userId);
+  const currentUser = await selectUser(connection, session);
   assertNotNull(currentUser);
   request.user = parseUser(currentUser);
 });

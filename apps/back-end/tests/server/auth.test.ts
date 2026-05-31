@@ -76,7 +76,7 @@ describe("GET", () => {
       expect(user.username).toContain("test");
       expect(user.username).not.toContain("@example.com");
 
-      const databaseUser = await selectUser(connection, user.id);
+      const databaseUser = await selectUser(connection, { userId: user.id });
       assertNotNull(databaseUser);
       expect(user).toMatchObject(databaseUser);
     });

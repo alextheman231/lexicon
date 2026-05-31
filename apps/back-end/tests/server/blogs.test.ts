@@ -62,7 +62,7 @@ describe("GET", () => {
             omitProperties(blogSummary, ["authorDisplayName", "authorUsername"]),
           ).toMatchObject(omitProperties(blog, "currentRevisionId"));
 
-          const user = await selectUser(connection, blogSummary.authorId);
+          const user = await selectUser(connection, { userId: blogSummary.authorId });
           assertNotNull(user);
           expect(blogSummary.authorDisplayName).toBe(user.displayName);
           expect(blogSummary.authorUsername).toBe(user.username);
@@ -198,7 +198,7 @@ describe("GET", () => {
       const blogView = parseBlogView(body.blog);
       expect(blogView).toMatchObject(omitProperties(blog, "currentRevisionId"));
 
-      const user = await selectUser(connection, blogView.authorId);
+      const user = await selectUser(connection, { userId: blogView.authorId });
       assertNotNull(user);
       expect(blogView.authorDisplayName).toBe(user.displayName);
       expect(blogView.authorUsername).toBe(user.username);

@@ -10,8 +10,29 @@ export async function insertUser(connection: Connection, data: UserInsert): Prom
   return parseUser(user);
 }
 
-export async function selectUser(connection: Connection, userId: string): Promise<User | null> {
-  const [user] = await connection.select().from(usersTable).where(eq(usersTable.id, userId));
+interface SelectUserFilterUserId {
+  userId: string;
+  email?: never;
+}
+
+interface SelectUserFilterEmail {
+  email?: string;
+  userId?: never;
+}
+
+type SelectUserFilter = SelectUserFilterUserId | SelectUserFilterEmail;
+
+export async function selectUser(
+  connection: Connection,
+  filters: SelectUserFilter,
+): Promise<User | null> {
+  const query = connection.select().from(usersTable);
+
+  const [user] = filters.userId
+    ? await query.where(eq(usersTable.id, filters.userId))
+    : filters.email
+      ? await query.where(eq(usersTable.email, filters.email))
+      : [];
   return user ? parseUser(user) : null;
 }
 

@@ -13,7 +13,7 @@ usersRouter
   .route("/:userId")
   .get(
     handleEndpointMiddleware<{ userId: string }>(async (request, response) => {
-      const user = await selectUser(getConnection(), request.params.userId);
+      const user = await selectUser(getConnection(), request.params);
 
       if (user === null) {
         throw resourceNotFoundError("user", request.params.userId);

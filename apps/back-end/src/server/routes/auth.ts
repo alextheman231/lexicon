@@ -2,6 +2,7 @@ import type { CookieOptions, ParamsDictionary } from "express-serve-static-core"
 
 import { assertNotNull, parseEnv } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
+import { parseEndToEndAuthInsertData } from "@lexicon/models";
 import { Router } from "express";
 import {
   authorizationCodeGrant,
@@ -20,6 +21,7 @@ import { createAuthProvider, getGoogleAuthUser } from "src/services/auth";
 import { createUser } from "src/services/users";
 import { createUserSession, expireUserSession } from "src/services/userSessions";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
+import endpointNotFoundError from "src/utility/endpointNotFoundError";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 
 const authRouter = Router();
@@ -119,7 +121,7 @@ authRouter.get(
       const existingProvider = await getGoogleAuthUser(transaction, claims);
 
       if (existingProvider) {
-        const user = await selectUser(transaction, existingProvider.userId);
+        const user = await selectUser(transaction, existingProvider);
         assertNotNull(user);
         const session = await createUserSession(transaction, { userId: user.id });
         return { user, session };
@@ -162,6 +164,42 @@ authRouter.get(
     }
 
     response.redirect(`${redirect}/auth/callback`);
+  }),
+);
+
+authRouter.post(
+  "/end-to-end",
+  handleEndpointMiddleware(async (request, response) => {
+    if (ENV !== "development") {
+      throw endpointNotFoundError({ endpoint: "/api/v1/auth/end-to-end" });
+    }
+
+    const connection = getConnection();
+
+    const session = await connection.transaction(async (transaction) => {
+      const { email } = parseEndToEndAuthInsertData(request.body);
+
+      const user = await selectUser(transaction, { email });
+
+      if (user === null) {
+        throw new APIError(
+          404,
+          "USER_NOT_FOUND",
+          "The user could not be found in the development database. If you wish to test with the provided credentials, please add it to `dev/fixtures`.",
+        );
+      }
+
+      const session = await createUserSession(transaction, { userId: user.id });
+
+      return session;
+    });
+
+    response.cookie("session", session.id, {
+      ...COOKIES,
+      expires: session.expiresAt,
+    });
+
+    response.status(204).send({});
   }),
 );
 
