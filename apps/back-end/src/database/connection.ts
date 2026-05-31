@@ -1,7 +1,6 @@
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { PoolClient } from "pg";
 
-import { parseEnv } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
 import dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/node-postgres";
@@ -11,8 +10,7 @@ import path from "node:path";
 
 // eslint-disable-next-line @alextheman/no-namespace-imports
 import * as schema from "src/database/schema";
-
-const ENV = parseEnv(process.env.NODE_ENV ?? "development");
+import ENV from "src/utility/constants/ENV";
 
 const envFilePath = path.resolve(process.cwd(), `.env.${ENV}`);
 

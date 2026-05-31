@@ -1,13 +1,13 @@
 import type { Express } from "express";
 
-import { parseBoolean, parseEnv } from "@alextheman/utility";
+import { parseBoolean } from "@alextheman/utility";
 import { APIError, CodeError, DataError } from "@alextheman/utility/v6";
 import { setupExpressErrorHandler } from "@sentry/node";
 
+import ENV from "src/utility/constants/ENV";
 import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
 import internalServerError from "src/utility/internalServerError";
 
-const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 const DEBUG = parseBoolean(process.env.DEBUG ?? "false");
 
 export function handleErrors(app: Express) {
