@@ -21,8 +21,8 @@ import { createAuthProvider, getGoogleAuthUser } from "src/services/auth";
 import { createUser } from "src/services/users";
 import { createUserSession, expireUserSession } from "src/services/userSessions";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
-import endpointNotFoundError from "src/utility/endpointNotFoundError";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
+import allowEnvironments from "src/utility/validators/allowEnvironments";
 
 const authRouter = Router();
 const ENV = parseEnv(process.env.NODE_ENV ?? "development");
@@ -169,11 +169,8 @@ authRouter.get(
 
 authRouter.post(
   "/end-to-end",
+  allowEnvironments(["development"]),
   handleEndpointMiddleware(async (request, response) => {
-    if (ENV !== "development") {
-      throw endpointNotFoundError({ endpoint: "/api/v1/auth/end-to-end" });
-    }
-
     const connection = getConnection();
 
     const session = await connection.transaction(async (transaction) => {
