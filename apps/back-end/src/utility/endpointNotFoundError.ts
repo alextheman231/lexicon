@@ -1,6 +1,6 @@
 import { APIError } from "@alextheman/utility/v6";
 
-interface EndpointNotFoundErrorPayload {
+export interface EndpointNotFoundErrorPayload {
   endpoint: string;
 }
 
