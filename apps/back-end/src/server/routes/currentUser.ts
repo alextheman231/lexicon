@@ -31,7 +31,7 @@ currentUserRouter.get(
       return response.status(200).send({ user: null });
     }
 
-    const user = await selectUser(connection, session.userId);
+    const user = await selectUser(connection, session);
     assertNotNull(user);
     return response.status(200).send({ user });
   }),

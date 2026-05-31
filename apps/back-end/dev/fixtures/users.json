@@ -12,5 +12,19 @@
         "providerUserId": "110146671422678973171"
       }
     ]
+  },
+  {
+    "id": "0f30b34c-326e-491e-b921-fb6d4d9722d2",
+    "username": "end_to_end_user",
+    "displayName": "Test User",
+    "description": "I have standards, you'd better have some too!",
+    "email": "test@lexiconblogs.com",
+    "dateOfBirth": "2003-07-16T00:00:00.000Z",
+    "authProviders": [
+      {
+        "provider": "end-to-end",
+        "providerUserId": "f6588594-f71b-4566-89fb-7928e3bae05e"
+      }
+    ]
   }
 ]

@@ -5,6 +5,7 @@ import z from "zod";
 
 export const AuthProvider = {
   GOOGLE: "google",
+  END_TO_END: "end-to-end",
 } as const;
 
 export type AuthProvider = CreateEnumType<typeof AuthProvider>;
@@ -38,4 +39,13 @@ export type AuthProviderSchemaData = z.infer<typeof authProviderInsertSchema>;
 
 export function parseAuthProviderSchemaData(input: unknown): AuthProviderSchemaData {
   return az.with(authProviderInsertSchema).parse(input);
+}
+
+export const endToEndAuthInsertSchema = z.object({
+  email: z.email(),
+});
+
+export type EndToEndAuthInsertData = z.infer<typeof endToEndAuthInsertSchema>;
+export function parseEndToEndAuthInsertData(input: unknown): EndToEndAuthInsertData {
+  return az.with(endToEndAuthInsertSchema).parse(input);
 }
