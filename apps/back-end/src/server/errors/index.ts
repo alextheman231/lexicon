@@ -5,7 +5,9 @@ import { APIError, CodeError, DataError } from "@alextheman/utility/v6";
 import { setupExpressErrorHandler } from "@sentry/node";
 
 import ENV from "src/utility/constants/ENV";
+import endpointNotFoundError from "src/utility/endpointNotFoundError";
 import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
+import handleFallthroughMiddleware from "src/utility/handleFallthroughMiddleware";
 import internalServerError from "src/utility/internalServerError";
 
 const DEBUG = parseBoolean(process.env.DEBUG ?? "false");
@@ -14,6 +16,13 @@ export function handleErrors(app: Express) {
   if (ENV === "production") {
     setupExpressErrorHandler(app);
   }
+
+  app.use(
+    handleFallthroughMiddleware(async (request) => {
+      // If we ever get into this app.use, the endpoint does not exist
+      throw endpointNotFoundError({ endpoint: request.path });
+    }),
+  );
 
   app.use(
     handleErrorMiddleware((error, _request, response, next) => {
