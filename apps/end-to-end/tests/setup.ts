@@ -6,7 +6,7 @@ import test from "tests/fixtures";
 
 const REPOSITORY_ROOT = path.join(process.cwd(), "..", "..");
 
-test("Reset the database", async () => {
+test(process.env.CI ? "Trivial test" : "Reset the database", async () => {
   if (!process.env.CI) {
     await execa({
       cwd: path.join(REPOSITORY_ROOT, "apps", "back-end"),
