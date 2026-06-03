@@ -7,7 +7,7 @@ test.describe("Blog creation", () => {
   test("Can create a blog and publish it immediately", async ({ authenticatedPage, baseURL }) => {
     await authenticatedPage.goto("/blogs/new");
     await authenticatedPage.getByLabel("Title").fill("Standards");
-    const [_, editor] = await authenticatedPage.getByRole("textbox").all();
+    const editor = authenticatedPage.locator('[data-lexical-editor="true"]');
 
     const content = normaliseIndents`
         Think you're ready to push and show
