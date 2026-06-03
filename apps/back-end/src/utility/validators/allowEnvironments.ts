@@ -1,4 +1,4 @@
-import type { Env } from "@alextheman/utility";
+import type { Env } from "src/utility/parseEnv";
 
 import ENV from "src/utility/constants/ENV";
 import endpointNotFoundError from "src/utility/endpointNotFoundError";

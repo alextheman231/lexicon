@@ -154,6 +154,9 @@ importers:
       dotenv:
         specifier: 17.4.2
         version: 17.4.2
+      execa:
+        specifier: 9.6.1
+        version: 9.6.1
       playwright:
         specifier: 1.60.0
         version: 1.60.0
