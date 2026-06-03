@@ -38,7 +38,7 @@ const playwrightConfig: PlaywrightTestConfig = {
         use: { ...devices["Pixel 5"] },
       },
     ].map(({ name, use }) => {
-      return { name, use, dependencies: process.env.CI ? undefined : ["setup"] };
+      return { name, use, dependencies: ["setup"] };
     }),
   ],
   webServer: [
