@@ -24,7 +24,7 @@ function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
 
   return (
     <DropdownMenuProvider>
-      <DropdownMenuIconButton />
+      <DropdownMenuIconButton aria-label="Blog options" />
       <DropdownMenu>
         {extraItems && extraItems.insertLocation === "top" ? extraItems.items : null}
         {currentUser?.id === blog.authorId ? (
