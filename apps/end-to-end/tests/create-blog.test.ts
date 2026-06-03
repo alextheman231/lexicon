@@ -36,7 +36,7 @@ test.describe("Blog creation", () => {
 
     const submitButton = authenticatedPage.getByRole("button", { name: "Submit" });
     await expect(submitButton).toBeEnabled();
-    submitButton.click();
+    await submitButton.click();
 
     await authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`));
     expect(authenticatedPage.url()).toMatch(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`));
