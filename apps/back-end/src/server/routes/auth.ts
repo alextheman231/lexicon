@@ -169,7 +169,7 @@ authRouter.get(
 
 authRouter.post(
   "/end-to-end",
-  allowEnvironments(["development"]),
+  allowEnvironments(["development", "end-to-end"]),
   handleEndpointMiddleware(async (request, response) => {
     const connection = getConnection();
 

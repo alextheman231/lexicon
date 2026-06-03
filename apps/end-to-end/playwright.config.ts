@@ -13,7 +13,7 @@ const playwrightConfig: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
   reporter: [["html", { open: "never" }], ["list"]],
   use: {
-    baseURL: "http://localhost:5173",
+    baseURL: "http://localhost:5174",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -21,30 +21,38 @@ const playwrightConfig: PlaywrightTestConfig = {
   testMatch: "**/*.test.ts",
   projects: [
     {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      name: "setup",
+      testMatch: "tests/setup.ts",
     },
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
-    {
-      name: "Mobile Chrome",
-      use: { ...devices["Pixel 5"] },
-    },
+    ...[
+      {
+        name: "chromium",
+        use: { ...devices["Desktop Chrome"] },
+      },
+      {
+        name: "webkit",
+        use: { ...devices["Desktop Safari"] },
+      },
+      {
+        name: "Mobile Chrome",
+        use: { ...devices["Pixel 5"] },
+      },
+    ].map(({ name, use }) => {
+      return { name, use, dependencies: process.env.CI ? undefined : ["setup"] };
+    }),
   ],
   webServer: [
     {
-      command: "pnpm run start",
+      command: "pnpm run start-end-to-end",
       cwd: "../back-end",
-      port: 8080,
+      port: 8081,
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
     },
     {
-      command: "pnpm run start",
+      command: "pnpm run start-end-to-end",
       cwd: "../front-end",
-      port: 5173,
+      port: 5174,
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
     },
