@@ -13,7 +13,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
 
@@ -48,7 +48,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
 
@@ -90,7 +90,7 @@ jobs:
     needs: [deploy-database]
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
 
@@ -117,12 +117,12 @@ jobs:
       SENTRY_RELEASE: ${{ github.sha }}
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
 
       - name: Create Sentry release
-        uses: getsentry/action-release@f71adb49d4b2aeeda98052d3de234bbb0f3e03ab # v3.6.1
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_ORGANISATION_TOKEN }}
           SENTRY_ORG: alextheman231
@@ -156,7 +156,7 @@ jobs:
     needs: [deploy-image]
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
 
@@ -178,7 +178,7 @@ jobs:
           key: deployment-build-${{ github.sha }}
 
       - name: Install Vercel
-        uses: alextheman231/typescript-actions/actions/safe-npm-dependency-global-install@288deb0f6b3517aff5f918b9a80e132b7150c080 # v1.2.2
+        uses: alextheman231/typescript-actions/actions/safe-npm-dependency-global-install@8701899e25ea05979ebb0c89da71c4ebd6c3911d # v1.2.3
         with:
           package-name: vercel
           dependency-group: devDependencies
@@ -194,7 +194,7 @@ jobs:
         run: vercel build --prod --token=$VERCEL_TOKEN
 
       - name: Create Sentry release
-        uses: getsentry/action-release@f71adb49d4b2aeeda98052d3de234bbb0f3e03ab # v3.6.1
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_ORGANISATION_TOKEN }}
           SENTRY_ORG: alextheman231
