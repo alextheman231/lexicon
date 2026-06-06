@@ -34,7 +34,7 @@ function Blog({ blogId }: BlogPageProps) {
                 <Typography variant="subtitle2">
                   Created by {blog.authorDisplayName} (
                   <InternalLink to={`/users/${blog.authorId}`}>{blog.authorUsername}</InternalLink>)
-                  • Unpublished
+                  • Unpublished (saved as draft)
                 </Typography>
               )
             }
