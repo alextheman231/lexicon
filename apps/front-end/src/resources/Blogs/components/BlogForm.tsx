@@ -8,6 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import { useSelector } from "@tanstack/react-store";
 import { useState } from "react";
 import z from "zod";
 
@@ -79,6 +80,10 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
     },
   });
 
+  const title = useSelector(form.store, (state) => {
+    return state.values.title;
+  });
+
   return (
     <form
       onSubmit={async (event) => {
@@ -90,7 +95,7 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
         title={
           <form.AppField name="title">
             {(field) => {
-              return <field.TextField label="Title" fullWidth />;
+              return <field.TextField label="Title" fullWidth required />;
             }}
           </form.AppField>
         }
@@ -105,7 +110,8 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
             <form.AppForm>
               <form.BackButton to={back} />
               <form.SubmitButton
-                disabled={editorState === undefined}
+                loading={loading}
+                disabled={title === ""}
                 label="Save as Draft"
                 variant="outlined"
                 onClick={() => {
@@ -113,8 +119,8 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
                 }}
               />
               <form.SubmitButton
-                disabled={editorState === undefined}
                 loading={loading}
+                disabled={title === ""}
                 onClick={() => {
                   form.handleSubmit({ blogState: BlogState.PUBLISHED });
                 }}
