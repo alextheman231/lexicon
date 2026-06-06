@@ -16,7 +16,6 @@ const test = playwrightTest.extend<LexiconTestFixtures>({
 
     const page = await context.newPage();
     await use(page);
-    await context.close();
   },
 });
 
