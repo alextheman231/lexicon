@@ -1,6 +1,7 @@
 import type { QueryBoundaryDataMapProps } from "@alextheman/components/QueryBoundary";
 
 import { QueryBoundaryDataMap as AlexQueryBoundaryDataMap } from "@alextheman/components/QueryBoundary";
+import { containsKeys } from "@alextheman/utility";
 
 function QueryBoundaryDataMap<ItemType>({
   itemKey,
@@ -13,9 +14,7 @@ function QueryBoundaryDataMap<ItemType>({
       itemKey={
         itemKey ??
         ((item, index) => {
-          return typeof item === "object" &&
-            item !== null &&
-            "id" in item &&
+          return containsKeys(item, "id") &&
             (typeof item.id === "string" || typeof item.id === "number")
             ? item.id
             : index;
