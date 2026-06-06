@@ -29,15 +29,15 @@ const playwrightConfig: PlaywrightTestConfig = {
     ...[
       {
         name: "chromium",
-        use: { ...devices["Desktop Chrome"] },
+        use: devices["Desktop Chrome"],
       },
       {
         name: "webkit",
-        use: { ...devices["Desktop Safari"] },
+        use: devices["Desktop Safari"],
       },
       {
         name: "Mobile Chrome",
-        use: { ...devices["Pixel 5"] },
+        use: devices["Pixel 5"],
       },
     ].map(({ name, use }) => {
       if (process.env.CI) {
