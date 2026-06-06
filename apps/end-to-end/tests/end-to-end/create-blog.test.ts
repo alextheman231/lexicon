@@ -5,7 +5,11 @@ import test from "tests/fixtures";
 
 test.describe("Blog creation", () => {
   test("Can create a blog and publish it immediately", async ({ authenticatedPage, baseURL }) => {
-    await authenticatedPage.goto("/blogs/new");
+    await authenticatedPage.goto("/");
+    await authenticatedPage.getByLabel("User options").click();
+    const createBlogOption = authenticatedPage.getByText("Create Blog");
+    await createBlogOption.click();
+
     await authenticatedPage.getByLabel("Title").fill("Standards");
     const editor = authenticatedPage.locator('[data-lexical-editor="true"]');
 
