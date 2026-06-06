@@ -30,7 +30,7 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
     try {
       await updateBlog({ ...data, state: BlogState.PUBLISHED });
       addSnackbar("Blog edited successfully", { severity: "success" });
-      setLocation(`/blogs/${blog?.id}`);
+      setLocation(`/blogs/${blogId}`);
     } catch (error) {
       addSnackbar(formatError(error), { severity: "error" });
     }
@@ -40,7 +40,7 @@ function EditBlog({ blogId, currentUser }: EditBlogProps) {
     try {
       await updateBlog({ ...data, state: BlogState.DRAFT });
       addSnackbar("Blog saved as draft", { severity: "success" });
-      setLocation(`/users/${currentUser.id}`);
+      setLocation(`/blogs/${blogId}`);
     } catch (error) {
       addSnackbar(
         formatError(error, {

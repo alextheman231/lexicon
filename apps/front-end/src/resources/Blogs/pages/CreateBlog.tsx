@@ -31,9 +31,9 @@ function CreateBlog({ currentUser }: CreateBlogProps) {
 
   async function onDraftSubmit(data: BlogFormSubmitData) {
     try {
-      await uploadBlog({ ...data, state: BlogState.DRAFT });
+      const id = await uploadBlog({ ...data, state: BlogState.DRAFT });
       addSnackbar("Blog saved as draft", { severity: "success" });
-      setLocation(`/users/${currentUser.id}`);
+      setLocation(`/blogs/${id}`);
     } catch (error) {
       addSnackbar(formatError(error), { severity: "error" });
     }
