@@ -40,7 +40,9 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
   const [editorState, setEditorState] = useState<SerializedEditorState | undefined>(
     typeof defaultValues.content === "string" && defaultValues.content !== ""
       ? JSON.parse(defaultValues.content)
-      : defaultValues.content,
+      : defaultValues.content === ""
+        ? undefined
+        : defaultValues.content,
   );
   const { addSnackbar } = useSnackbarContext();
 
@@ -115,7 +117,7 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
               <form.BackButton to={back} />
               <form.SubmitButton
                 loading={loading}
-                disabled={title === ""}
+                disabled={title === "" && editorState === undefined}
                 label="Save as Draft"
                 variant="outlined"
                 onClick={() => {
@@ -124,7 +126,7 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
               />
               <form.SubmitButton
                 loading={loading}
-                disabled={title === ""}
+                disabled={title === "" && editorState === undefined}
                 onClick={() => {
                   form.handleSubmit({ blogState: BlogState.PUBLISHED });
                 }}
