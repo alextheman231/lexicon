@@ -46,7 +46,7 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@alextheman/utility": "5.19.2",
+    "@alextheman/utility": "5.20.0",
     "zod": "4.4.3"
   }
 }
