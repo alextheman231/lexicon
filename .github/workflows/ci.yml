@@ -167,19 +167,19 @@ jobs:
         run: |
           touch apps/back-end/.env.end-to-end
           echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/development?schema=public" >> apps/back-end/.env.end-to-end
-          echo PORT="8081" >> apps/back-end/.env.end-to-end
-          echo API_BASE_URL="http://localhost:8081" >> apps/back-end/.env.end-to-end
-          echo ALLOWED_ORIGINS="http://localhost:5174" >> apps/back-end/.env.end-to-end
+          echo PORT="9090" >> apps/back-end/.env.end-to-end
+          echo API_BASE_URL="http://localhost:9090" >> apps/back-end/.env.end-to-end
+          echo ALLOWED_ORIGINS="http://localhost:6173" >> apps/back-end/.env.end-to-end
 
       - name: Initialise front-end environment variables
         run: |
           touch apps/front-end/.env
-          echo VITE_API_BASE_URL="http://localhost:8081" >> apps/front-end/.env
+          echo VITE_API_BASE_URL="http://localhost:9090" >> apps/front-end/.env
 
       - name: Initialise end-to-end environment variables
         run: |
           touch apps/end-to-end/.env
-          echo API_BASE_URL="http://localhost:8081" >> apps/end-to-end/.env
+          echo API_BASE_URL="http://localhost:9090" >> apps/end-to-end/.env
 
       - name: Build packages
         run: pnpm run build
