@@ -8,9 +8,13 @@ import {
 import { InternalLink } from "@alextheman/components/routing";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import CardContent from "@mui/material/CardContent";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import { useTheme } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
-import { MdError } from "react-icons/md";
+import Typography from "@mui/material/Typography";
+import { MdCreate, MdError, MdLogout, MdManageAccounts, MdPerson } from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
@@ -67,13 +71,37 @@ function UserDropdown() {
           <DropdownMenuProvider>
             <DropdownMenuTrigger>{user.displayName}</DropdownMenuTrigger>
             <DropdownMenu>
+              <CardContent>
+                <Typography variant="h6">{user.displayName}</Typography>
+                <Typography variant="subtitle2">{user.username}</Typography>
+              </CardContent>
+              <Divider />
+              <DropdownMenuItem component={InternalLink} to="/blogs/new">
+                <ListItemIcon>
+                  <MdCreate />
+                </ListItemIcon>
+                <Typography>Create Blog</Typography>
+              </DropdownMenuItem>
+              <Divider />
               <DropdownMenuItem component={InternalLink} to={`/users/${user.id}`}>
-                View Profile
+                <ListItemIcon>
+                  <MdPerson />
+                </ListItemIcon>
+                <Typography>View Profile</Typography>
               </DropdownMenuItem>
               <DropdownMenuItem component={InternalLink} to="/account/edit">
-                Edit Profile
+                <ListItemIcon>
+                  <MdManageAccounts />
+                </ListItemIcon>
+                <Typography>Edit Profile</Typography>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
+              <Divider />
+              <DropdownMenuItem onClick={unauthenticate}>
+                <ListItemIcon>
+                  <MdLogout />
+                </ListItemIcon>
+                <Typography>Sign out</Typography>
+              </DropdownMenuItem>
             </DropdownMenu>
           </DropdownMenuProvider>
         );
