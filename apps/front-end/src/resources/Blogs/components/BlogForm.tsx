@@ -37,7 +37,11 @@ interface BlogFormProps {
 }
 
 function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading }: BlogFormProps) {
-  const [editorState, setEditorState] = useState<SerializedEditorState | undefined>();
+  const [editorState, setEditorState] = useState<SerializedEditorState | undefined>(
+    typeof defaultValues.content === "string" && defaultValues.content !== ""
+      ? JSON.parse(defaultValues.content)
+      : defaultValues.content,
+  );
   const { addSnackbar } = useSnackbarContext();
 
   const onSubmitMeta: BlogFormMeta = { blogState: BlogState.PUBLISHED };
