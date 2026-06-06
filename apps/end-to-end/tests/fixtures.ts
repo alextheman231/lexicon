@@ -7,10 +7,10 @@ interface LexiconTestFixtures {
 }
 
 const test = playwrightTest.extend<LexiconTestFixtures>({
-  authenticatedPage: async ({ context }, use) => {
+  authenticatedPage: async ({ context }, use, testInfo) => {
     await context.request.post(`${process.env.API_BASE_URL}/api/v1/auth/end-to-end`, {
       data: {
-        email: "test@lexiconblogs.com",
+        email: `test-${testInfo.project.name}@lexiconblogs.com`,
       },
     });
 
