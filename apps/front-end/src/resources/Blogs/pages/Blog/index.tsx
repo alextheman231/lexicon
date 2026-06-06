@@ -27,8 +27,8 @@ function Blog({ blogId }: BlogPageProps) {
               blog.publishedAt ? (
                 <Typography variant="subtitle2">
                   Published by {blog.authorDisplayName} (
-                  <InternalLink to={`/users/${blog.authorId}`}>{blog.authorUsername}</InternalLink>)
-                  on {formatDateAndTime(blog.publishedAt)}
+                  <InternalLink to={`/users/${blog.authorId}`}>{blog.authorUsername}</InternalLink>
+                  ), {formatDateAndTime(blog.publishedAt)}
                 </Typography>
               ) : (
                 <Typography variant="subtitle2">
