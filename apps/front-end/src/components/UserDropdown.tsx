@@ -69,7 +69,7 @@ function UserDropdown() {
       {(user) => {
         return (
           <DropdownMenuProvider>
-            <DropdownMenuTrigger>{user.displayName}</DropdownMenuTrigger>
+            <DropdownMenuTrigger aria-label="User options">{user.displayName}</DropdownMenuTrigger>
             <DropdownMenu>
               <CardContent>
                 <Typography variant="h6">{user.displayName}</Typography>

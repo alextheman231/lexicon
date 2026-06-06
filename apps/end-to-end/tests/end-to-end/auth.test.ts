@@ -12,6 +12,8 @@ test.describe("Authentication", () => {
     authenticatedPage,
   }) => {
     await authenticatedPage.goto("/");
-    await expect(authenticatedPage.getByRole("button", { name: "Test User" })).toBeVisible();
+    const userDropdownTrigger = authenticatedPage.getByLabel("User options");
+    await expect(userDropdownTrigger).toBeVisible();
+    expect(userDropdownTrigger).toHaveText("Test User");
   });
 });
