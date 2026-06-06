@@ -20,10 +20,12 @@ const playwrightConfig: PlaywrightTestConfig = {
   },
   testMatch: "**/*.test.ts",
   projects: [
-    {
-      name: "setup",
-      testMatch: "tests/setup.ts",
-    },
+    process.env.CI
+      ? null
+      : {
+          name: "setup",
+          testMatch: "tests/setup.ts",
+        },
     ...[
       {
         name: "chromium",
@@ -38,9 +40,14 @@ const playwrightConfig: PlaywrightTestConfig = {
         use: { ...devices["Pixel 5"] },
       },
     ].map(({ name, use }) => {
+      if (process.env.CI) {
+        return { name, use };
+      }
       return { name, use, dependencies: ["setup"] };
     }),
-  ],
+  ].filter((item) => {
+    return item !== null;
+  }),
   webServer: [
     {
       command: "pnpm run start-end-to-end",
