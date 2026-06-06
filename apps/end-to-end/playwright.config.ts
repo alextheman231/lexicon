@@ -13,7 +13,7 @@ const playwrightConfig: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
   reporter: [["html", { open: "never" }], ["list"]],
   use: {
-    baseURL: "http://localhost:5174",
+    baseURL: "http://localhost:6173",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -52,14 +52,14 @@ const playwrightConfig: PlaywrightTestConfig = {
     {
       command: "pnpm run start-end-to-end",
       cwd: "../back-end",
-      port: 8081,
+      port: 9090,
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
     },
     {
       command: "pnpm run start-end-to-end",
       cwd: "../front-end",
-      port: 5174,
+      port: 6173,
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
     },

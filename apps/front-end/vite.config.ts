@@ -27,6 +27,6 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   server: {
-    port: ENV === "end-to-end" ? 5174 : 5173,
+    port: ENV === "end-to-end" ? 6173 : 5173,
   },
 });
