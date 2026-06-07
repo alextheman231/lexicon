@@ -4,7 +4,7 @@ import { discovery } from "openid-client";
 
 let config: Configuration | undefined | null;
 
-export async function getGoogleConfig(): Promise<Configuration> {
+export async function loadGoogleConfig(): Promise<Configuration> {
   if (config) {
     return config;
   }
