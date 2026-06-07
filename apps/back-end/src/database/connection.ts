@@ -10,9 +10,9 @@ import path from "node:path";
 
 // eslint-disable-next-line @alextheman/no-namespace-imports
 import * as schema from "src/database/schema";
-import parseEnv from "src/utility/miscellaneous/parseEnv";
+import loadEnvironment from "src/utility/env/loadEnvironment";
 
-const ENV = parseEnv(process.env.NODE_ENV ?? "development");
+const ENV = loadEnvironment();
 
 const envFilePath = path.resolve(process.cwd(), `.env.${ENV}`);
 

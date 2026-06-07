@@ -1,7 +1,6 @@
 import type { Router } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
-import { stringListToArray } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import {
   buildAuthorizationUrl,
@@ -13,6 +12,7 @@ import {
 import { loadGoogleConfig } from "src/auth/google";
 import COOKIES from "src/server/routes/auth/helpers/COOKIES";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
+import loadAllowedOrigins from "src/utility/env/loadAllowedOrigins";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function getAuthGoogle(auth: Router) {
@@ -33,7 +33,7 @@ function getAuthGoogle(auth: Router) {
           throw new APIError(400, "INVALID_REDIRECT", "Missing redirect parameter");
         }
 
-        if (!stringListToArray(process.env.ALLOWED_ORIGINS ?? "").includes(redirect)) {
+        if (!loadAllowedOrigins().includes(redirect)) {
           throw new APIError(
             403,
             "DISALLOWED_ORIGIN",

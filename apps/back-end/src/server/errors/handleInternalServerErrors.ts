@@ -1,10 +1,10 @@
 import { CodeError } from "@alextheman/utility/v6";
 
+import loadEnvironment from "src/utility/env/loadEnvironment";
 import internalServerError from "src/utility/errors/internalServerError";
 import handleErrorMiddleware from "src/utility/handlers/handleErrorMiddleware";
-import parseEnv from "src/utility/miscellaneous/parseEnv";
 
-const ENV = parseEnv(process.env.NODE_ENV ?? "development");
+const ENV = loadEnvironment();
 
 const handleInternalServerErrors = handleErrorMiddleware((error, _request, response) => {
   if (

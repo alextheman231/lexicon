@@ -1,8 +1,8 @@
 import { init } from "@sentry/node";
 
-import parseEnv from "src/utility/miscellaneous/parseEnv";
+import loadEnvironment from "src/utility/env/loadEnvironment";
 
-const ENV = parseEnv(process.env.NODE_ENV ?? "development");
+const ENV = loadEnvironment();
 
 if (ENV === "production" && process.env.SENTRY_DSN) {
   init({

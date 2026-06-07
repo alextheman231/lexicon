@@ -16,10 +16,10 @@ import createAuthProvider from "src/services/auth/createAuthProvider";
 import findGoogleAuthUser from "src/services/auth/findGoogleAuthUser";
 import createUser from "src/services/users/createUser";
 import createUserSession from "src/services/userSessions/createUserSession";
+import loadEnvironment from "src/utility/env/loadEnvironment";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
-import parseEnv from "src/utility/miscellaneous/parseEnv";
 
-const ENV = parseEnv(process.env.NODE_ENV ?? "development");
+const ENV = loadEnvironment();
 
 function getAuthGoogleCallback(auth: Router) {
   auth.get(
