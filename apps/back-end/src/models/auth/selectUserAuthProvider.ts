@@ -12,7 +12,7 @@ export interface SelectAuthProviderQuery {
   providerUserId?: string;
 }
 
-async function selectAuthProvider(
+async function selectUserAuthProvider(
   connection: Connection,
   { provider, providerUserId }: SelectAuthProviderQuery,
 ): Promise<AuthProviderSchema | null> {
@@ -31,4 +31,4 @@ async function selectAuthProvider(
   return authProvider ?? null;
 }
 
-export default selectAuthProvider;
+export default selectUserAuthProvider;

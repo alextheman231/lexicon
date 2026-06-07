@@ -1,4 +1,4 @@
-import type { AuthProviderSchemaData, User } from "@lexicon/models";
+import type { User, UserAuthProviderInsertData } from "@lexicon/models";
 import type FactoryContext from "factory/context";
 import type UserFactory from "factory/users";
 
@@ -9,10 +9,10 @@ import { faker } from "@faker-js/faker";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
-import createAuthProvider from "src/services/auth/createAuthProvider";
+import createUserAuthProvider from "src/services/auth/createUserAuthProvider";
 
 export type AuthProviderFactoryData = Partial<
-  Omit<AuthProviderSchemaData, "userId"> & { user?: string | User }
+  Omit<UserAuthProviderInsertData, "userId"> & { user?: string | User }
 >;
 
 class AuthProviderFactory {
@@ -30,7 +30,7 @@ class AuthProviderFactory {
   public async insert(data?: AuthProviderFactoryData): Promise<AuthProviderSchema> {
     const userId = await getIdFromFactoryResource<string>(data?.user, this.users);
 
-    const authProvider = await createAuthProvider(this.context.connection, {
+    const authProvider = await createUserAuthProvider(this.context.connection, {
       provider: "google",
       providerUserId: faker.string.alpha(10),
       ...omitProperties(data ?? {}, "user"),

@@ -1,21 +1,31 @@
-import type { AuthProviderSchema } from "@lexicon/models";
+import type { UserAuthProvider } from "@lexicon/models";
 import type { IDToken } from "openid-client";
 
 import type { Connection } from "src/database/connection";
 
-import { parseAuthProviderSchema } from "@lexicon/models";
+import { az } from "@alextheman/utility";
+import { AuthProvider } from "@lexicon/models";
+import z from "zod";
 
-import selectAuthProvider from "src/models/auth/selectAuthProvider";
+import selectUserAuthProvider from "src/models/auth/selectUserAuthProvider";
 
 async function findGoogleAuthUser(
   connection: Connection,
   claims: IDToken,
-): Promise<AuthProviderSchema | null> {
-  const authProvider = await selectAuthProvider(connection, {
+): Promise<UserAuthProvider | null> {
+  const userAuthProvider = await selectUserAuthProvider(connection, {
     provider: "google",
     providerUserId: claims.sub,
   });
-  return authProvider === null ? null : parseAuthProviderSchema(authProvider);
+
+  if (userAuthProvider !== null) {
+    return {
+      ...userAuthProvider,
+      provider: az.with(z.enum(AuthProvider)).parse(userAuthProvider.provider),
+    };
+  }
+
+  return null;
 }
 
 export default findGoogleAuthUser;
