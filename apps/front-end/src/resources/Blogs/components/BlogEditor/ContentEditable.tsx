@@ -9,7 +9,7 @@ import EditorToolbar from "src/resources/Blogs/components/BlogEditor/EditorToolb
 
 function ContentEditable(props?: ContentEditableProps) {
   return (
-    <Card sx={{ minWidth: 0 }}>
+    <Card sx={{ minWidth: 0, maxHeight: 600, overflow: "hidden" }}>
       <EditorToolbar />
       <Divider />
       <CardContent
@@ -24,6 +24,8 @@ function ContentEditable(props?: ContentEditableProps) {
           whiteSpace: "pre-wrap",
           wordBreak: "break-word",
           overflowWrap: "break-word",
+          overflowY: "auto",
+          maxHeight: 550,
         }}
         {...props}
       />

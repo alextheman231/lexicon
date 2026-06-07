@@ -43,6 +43,8 @@ function EditorToolbar() {
     <Toolbar
       disableGutters
       sx={{
+        position: "sticky",
+        top: 0,
         minHeight: "auto",
         px: 1,
         gap: 1,
