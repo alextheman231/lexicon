@@ -9,7 +9,8 @@ import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrap
 import useLocation from "src/hooks/useLocation";
 import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
-import { useBlogQuery, useEditBlogMutation } from "src/resources/Blogs/queries";
+import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
+import useEditBlogMutation from "src/resources/Blogs/queries/useEditBlogMutation";
 import defaultErrorFormatters from "src/utility/errors/errorFormatters";
 import formatError from "src/utility/errors/formatError";
 

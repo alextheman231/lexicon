@@ -7,7 +7,7 @@ import { BlogState } from "@lexicon/models";
 
 import useLocation from "src/hooks/useLocation";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
-import { useCreateBlogMutation } from "src/resources/Blogs/queries";
+import useCreateBlogMutation from "src/resources/Blogs/queries/useCreateBlogMutation";
 import formatError from "src/utility/errors/formatError";
 
 interface CreateBlogProps {
