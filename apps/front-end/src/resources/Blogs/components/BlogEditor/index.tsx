@@ -8,7 +8,7 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
-import ContentEditable from "src/resources/Blogs/components/ContentEditable";
+import ContentEditable from "src/resources/Blogs/components/BlogEditor/ContentEditable";
 
 interface EditorProps {
   initialContent?: SerializedEditorState | string;

@@ -5,7 +5,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
 
-import EditorToolbar from "src/resources/Blogs/components/EditorToolbar";
+import EditorToolbar from "src/resources/Blogs/components/BlogEditor/EditorToolbar";
 
 function ContentEditable(props?: ContentEditableProps) {
   return (
