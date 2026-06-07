@@ -5,7 +5,7 @@ import { assertNotNull } from "@alextheman/utility";
 import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
 import selectUserSession from "src/models/userSessions/selectUserSession";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function getCurrentUser(currentUser: Router) {
   currentUser.get(

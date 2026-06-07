@@ -6,10 +6,10 @@ import initialiseAuthRouter from "src/server/routes/auth";
 import initialiseBlogsRouter from "src/server/routes/blogs";
 import initialiseCurrentUserRouter from "src/server/routes/currentUser";
 import initialiseUsersRouter from "src/server/routes/users";
-import defineEndpoint from "src/utility/defineEndpoint";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
-import initialiseRouter from "src/utility/initialiseRouter";
-import requireAuth from "src/utility/validators/requireAuth";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import requireAuth from "src/utility/handlers/requireAuth";
+import defineEndpoint from "src/utility/initialisers/defineEndpoint";
+import initialiseRouter from "src/utility/initialisers/initialiseRouter";
 
 function createEndpoints(app: Express) {
   app.get(

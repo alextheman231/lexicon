@@ -1,6 +1,6 @@
 import { APIError, CodeError, DataError } from "@alextheman/utility/v6";
 
-import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
+import handleErrorMiddleware from "src/utility/handlers/handleErrorMiddleware";
 
 const handleAPIErrors = handleErrorMiddleware((error, _request, response, next) => {
   if (APIError.check(error)) {

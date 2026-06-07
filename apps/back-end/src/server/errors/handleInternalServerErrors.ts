@@ -1,8 +1,8 @@
 import { CodeError } from "@alextheman/utility/v6";
 
 import ENV from "src/utility/constants/ENV";
-import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
-import internalServerError from "src/utility/internalServerError";
+import internalServerError from "src/utility/errors/internalServerError";
+import handleErrorMiddleware from "src/utility/handlers/handleErrorMiddleware";
 
 const handleInternalServerErrors = handleErrorMiddleware((error, _request, response) => {
   if (

@@ -2,7 +2,7 @@ import type { Express } from "express";
 
 import { Router } from "express";
 
-import defineEndpoint from "src/utility/defineEndpoint";
+import defineEndpoint from "src/utility/initialisers/defineEndpoint";
 
 function initialiseRouter(app: Express, prefix: string, routerFunction: (router: Router) => void) {
   const router = Router();

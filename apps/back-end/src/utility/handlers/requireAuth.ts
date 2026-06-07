@@ -4,8 +4,8 @@ import { parseUser } from "@lexicon/models";
 import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
 import selectUserSession from "src/models/userSessions/selectUserSession";
-import authRequiredError from "src/utility/authRequiredError";
-import handleFallthroughMiddleware from "src/utility/handleFallthroughMiddleware";
+import authRequiredError from "src/utility/errors/authRequiredError";
+import handleFallthroughMiddleware from "src/utility/handlers/handleFallthroughMiddleware";
 
 const requireAuth = handleFallthroughMiddleware(async (request) => {
   const connection = getConnection();

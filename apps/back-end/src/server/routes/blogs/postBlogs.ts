@@ -5,8 +5,8 @@ import { parseCreateBlogData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import { createBlog } from "src/services/blogs";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
-import requireAuth from "src/utility/validators/requireAuth";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import requireAuth from "src/utility/handlers/requireAuth";
 
 function postBlogs(blogs: Router) {
   blogs.post(

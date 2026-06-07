@@ -6,8 +6,8 @@ import { parseUser } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import { editUserProfile } from "src/services/users";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
-import requireAuth from "src/utility/validators/requireAuth";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import requireAuth from "src/utility/handlers/requireAuth";
 
 function putCurrentUserProfile(currentUser: Router) {
   currentUser.put(

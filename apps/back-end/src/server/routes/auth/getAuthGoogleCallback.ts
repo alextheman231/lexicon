@@ -16,7 +16,7 @@ import { createAuthProvider, getGoogleAuthUser } from "src/services/auth";
 import { createUser } from "src/services/users";
 import { createUserSession } from "src/services/userSessions";
 import ENV from "src/utility/constants/ENV";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function getAuthGoogleCallback(auth: Router) {
   auth.get(

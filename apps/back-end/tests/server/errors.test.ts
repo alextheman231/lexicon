@@ -1,4 +1,4 @@
-import type { EndpointNotFoundErrorPayload } from "src/utility/endpointNotFoundError";
+import type { EndpointNotFoundErrorPayload } from "src/utility/errors/endpointNotFoundError";
 
 import { CodeError, DataError } from "@alextheman/utility/v6";
 import request from "supertest";
