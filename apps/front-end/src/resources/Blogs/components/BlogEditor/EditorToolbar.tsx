@@ -4,9 +4,9 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import Toolbar from "@mui/material/Toolbar";
 import { $getSelection, $isRangeSelection } from "lexical";
 import { useEffect, useState } from "react";
-import { MdFormatBold, MdFormatItalic } from "react-icons/md";
+import { MdCode, MdFormatBold, MdFormatItalic } from "react-icons/md";
 
-import FormatTextButton from "src/resources/Blogs/components/FormatTextButton";
+import FormatTextButton from "src/resources/Blogs/components/BlogEditor/FormatTextButton";
 
 function EditorToolbar() {
   const [editor] = useLexicalComposerContext();
@@ -25,10 +25,15 @@ function EditorToolbar() {
             ? {
                 bold: selection.hasFormat("bold"),
                 italic: selection.hasFormat("italic"),
+                code: selection.hasFormat("code"),
               }
-            : { bold: false, italic: false };
+            : { bold: false, italic: false, code: false };
 
-          return previous.bold === next.bold && previous.italic === next.italic ? previous : next;
+          return previous.bold === next.bold &&
+            previous.italic === next.italic &&
+            previous.code === next.code
+            ? previous
+            : next;
         });
       });
     });
@@ -45,6 +50,7 @@ function EditorToolbar() {
     >
       <FormatTextButton icon={MdFormatBold} formatType="bold" active={formats.bold} />
       <FormatTextButton icon={MdFormatItalic} formatType="italic" active={formats.italic} />
+      <FormatTextButton icon={MdCode} formatType="code" active={formats.code} />
     </Toolbar>
   );
 }

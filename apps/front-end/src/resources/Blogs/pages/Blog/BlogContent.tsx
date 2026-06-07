@@ -1,8 +1,9 @@
 import { DataError } from "@alextheman/utility/v6";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+
+import ContentReadable from "src/resources/Blogs/components/BlogEditor/ContentReadable";
 
 interface BlogContentProps {
   content: unknown;
@@ -20,10 +21,7 @@ function BlogContent({ content }: BlogContentProps) {
         },
       }}
     >
-      <RichTextPlugin
-        contentEditable={<ContentEditable readOnly />}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
+      <RichTextPlugin contentEditable={<ContentReadable />} ErrorBoundary={LexicalErrorBoundary} />
     </LexicalComposer>
   );
 }
