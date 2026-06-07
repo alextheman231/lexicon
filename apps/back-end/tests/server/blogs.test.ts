@@ -25,7 +25,7 @@ import { randomUUID } from "node:crypto";
 import getTestFixtures from "tests/fixtures";
 
 import { blogRevisionsTable, blogStateHistoryTable } from "src/database/schema";
-import { selectUser } from "src/models/users";
+import selectUser from "src/models/users/selectUser";
 import app from "src/server/app";
 import { getLatestBlogVersion } from "src/services/blogs";
 

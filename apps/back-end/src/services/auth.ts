@@ -6,7 +6,8 @@ import type { AuthProviderSchema } from "src/database/schema";
 
 import { parseAuthProviderSchema } from "@lexicon/models";
 
-import { insertAuthProvider, selectAuthProvider } from "src/models/auth";
+import insertAuthProvider from "src/models/auth/insertAuthProvider";
+import selectAuthProvider from "src/models/auth/selectAuthProvider";
 
 export async function getGoogleAuthUser(
   connection: Connection,

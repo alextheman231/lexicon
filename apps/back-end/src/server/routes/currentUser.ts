@@ -6,8 +6,8 @@ import { parseUser } from "@lexicon/models";
 import { Router } from "express";
 
 import { getConnection } from "src/database/connection";
-import { selectUser } from "src/models/users";
-import { selectUserSession } from "src/models/userSessions";
+import selectUser from "src/models/users/selectUser";
+import selectUserSession from "src/models/userSessions/selectUserSession";
 import { editUserProfile } from "src/services/users";
 import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import requireAuth from "src/utility/validators/requireAuth";

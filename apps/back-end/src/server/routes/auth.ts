@@ -16,7 +16,7 @@ import { randomBytes } from "node:crypto";
 
 import { getGoogleConfig } from "src/auth/google";
 import { getConnection } from "src/database/connection";
-import { selectUser } from "src/models/users";
+import selectUser from "src/models/users/selectUser";
 import { createAuthProvider, getGoogleAuthUser } from "src/services/auth";
 import { createUser } from "src/services/users";
 import { createUserSession, expireUserSession } from "src/services/userSessions";

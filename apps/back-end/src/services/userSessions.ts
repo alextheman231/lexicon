@@ -5,7 +5,8 @@ import type { Connection } from "src/database/connection";
 import { addDaysToDate } from "@alextheman/utility";
 import { parseUserSession } from "@lexicon/models";
 
-import { insertUserSession, updateUserSession } from "src/models/userSessions";
+import insertUserSession from "src/models/userSessions/insertUserSession";
+import updateUserSession from "src/models/userSessions/updateUserSession";
 
 export async function createUserSession(
   connection: Connection,

@@ -10,7 +10,7 @@ import { parseBlogRevision } from "@lexicon/models";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
-import { insertBlogRevision } from "src/models/blogs";
+import insertBlogRevision from "src/models/blogs/insertBlogRevision";
 import { getLatestBlogVersion, selectBlogView } from "src/services/blogs";
 
 class BlogRevisionFactory {
