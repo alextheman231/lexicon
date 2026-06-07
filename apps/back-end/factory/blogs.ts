@@ -8,13 +8,11 @@ import { BlogState } from "@lexicon/models";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
-import {
-  insertBlog,
-  insertBlogRevision,
-  insertBlogStateHistory,
-  selectBlog,
-  updateBlog,
-} from "src/models/blogs";
+import insertBlog from "src/models/blogs/insertBlog";
+import insertBlogRevision from "src/models/blogs/insertBlogRevision";
+import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
+import selectBlog from "src/models/blogs/selectBlog";
+import updateBlog from "src/models/blogs/updateBlog";
 
 class BlogFactory {
   private context: FactoryContext;

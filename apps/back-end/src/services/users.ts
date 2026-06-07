@@ -4,7 +4,8 @@ import type { Connection } from "src/database/connection";
 
 import { parseUser } from "@lexicon/models";
 
-import { insertUser, updateUser } from "src/models/users";
+import { insertUser } from "src/models/users/insertUser";
+import updateUser from "src/models/users/updateUser";
 
 export async function createUser(connection: Connection, data: CreateUserData): Promise<User> {
   return parseUser(

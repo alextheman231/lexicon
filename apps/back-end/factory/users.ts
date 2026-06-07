@@ -4,7 +4,7 @@ import type FactoryContext from "factory/context";
 import { faker } from "@faker-js/faker";
 import { parseUser } from "@lexicon/models";
 
-import { insertUser } from "src/models/users";
+import { insertUser } from "src/models/users/insertUser";
 
 class UserFactory {
   private context: FactoryContext;

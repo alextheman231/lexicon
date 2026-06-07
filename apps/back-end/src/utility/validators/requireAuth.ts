@@ -2,8 +2,8 @@ import { assertNotNull } from "@alextheman/utility";
 import { parseUser } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import { selectUser } from "src/models/users";
-import { selectUserSession } from "src/models/userSessions";
+import selectUser from "src/models/users/selectUser";
+import selectUserSession from "src/models/userSessions/selectUserSession";
 import authRequiredError from "src/utility/authRequiredError";
 import handleFallthroughMiddleware from "src/utility/handleFallthroughMiddleware";
 

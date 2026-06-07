@@ -16,13 +16,11 @@ import { desc, eq, inArray, sql } from "drizzle-orm";
 import z from "zod";
 
 import { blogRevisionsTable, blogsTable, usersTable } from "src/database/schema";
-import {
-  insertBlog,
-  insertBlogRevision,
-  insertBlogStateHistory,
-  selectBlog,
-  updateBlog,
-} from "src/models/blogs";
+import insertBlog from "src/models/blogs/insertBlog";
+import insertBlogRevision from "src/models/blogs/insertBlogRevision";
+import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
+import selectBlog from "src/models/blogs/selectBlog";
+import updateBlog from "src/models/blogs/updateBlog";
 import paginate from "src/utility/paginate";
 
 const BlogSortColumn = {

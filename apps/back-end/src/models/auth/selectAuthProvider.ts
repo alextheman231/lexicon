@@ -1,18 +1,18 @@
 import type { AuthProvider } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
-import type { AuthProviderInsert, AuthProviderSchema } from "src/database/schema";
+import type { AuthProviderSchema } from "src/database/schema";
 
 import { and, eq } from "drizzle-orm";
 
-import { authProvidersTable, parseAuthProviderSchema } from "src/database/schema";
+import { authProvidersTable } from "src/database/schema";
 
 export interface SelectAuthProviderQuery {
   provider?: AuthProvider;
   providerUserId?: string;
 }
 
-export async function selectAuthProvider(
+async function selectAuthProvider(
   connection: Connection,
   { provider, providerUserId }: SelectAuthProviderQuery,
 ): Promise<AuthProviderSchema | null> {
@@ -28,13 +28,7 @@ export async function selectAuthProvider(
       ),
     );
 
-  return authProvider ? parseAuthProviderSchema(authProvider) : null;
+  return authProvider ?? null;
 }
 
-export async function insertAuthProvider(
-  connection: Connection,
-  data: AuthProviderInsert,
-): Promise<AuthProviderSchema> {
-  const [newProvider] = await connection.insert(authProvidersTable).values(data).returning();
-  return parseAuthProviderSchema(newProvider);
-}
+export default selectAuthProvider;
