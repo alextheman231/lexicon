@@ -1,7 +1,7 @@
 import cookieParser from "cookie-parser";
 import express from "express";
 
-import { handleErrors } from "src/server/errors";
+import { resolveErrors } from "src/server/errors";
 import createEndpoints from "src/server/routes";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
 import setupCors from "src/utility/setupCors";
@@ -16,6 +16,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 createEndpoints(app);
-handleErrors(app);
+resolveErrors(app);
 
 export default app;
