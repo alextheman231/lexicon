@@ -7,7 +7,7 @@ import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import BlogDropdown from "src/resources/Blogs/components/BlogDropdown";
 import BlogContent from "src/resources/Blogs/pages/Blog/BlogContent";
-import { useBlogQuery } from "src/resources/Blogs/queries";
+import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
 
 interface BlogPageProps {
   blogId: string;

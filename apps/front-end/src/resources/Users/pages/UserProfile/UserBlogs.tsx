@@ -15,7 +15,7 @@ import createListQueryBoundary from "src/groups/QueryBoundary/creators/createLis
 import usePagination from "src/hooks/usePagination";
 import BlogsList from "src/resources/Blogs/components/BlogsList";
 import BlogsTable from "src/resources/Blogs/components/BlogsTable";
-import { useBlogsQuery } from "src/resources/Blogs/queries";
+import useBlogsQuery from "src/resources/Blogs/queries/useBlogsQuery";
 
 interface UserBlogsProps {
   user: User;

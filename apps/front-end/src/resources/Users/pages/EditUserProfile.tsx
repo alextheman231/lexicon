@@ -7,7 +7,7 @@ import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
 import useLocation from "src/hooks/useLocation";
 import UserProfileForm from "src/resources/Users/components/UserProfileForm";
-import { useUpdateUserProfileMutation } from "src/resources/Users/queries";
+import useUpdateUserProfileMutation from "src/resources/Users/queries/useUpdateUserProfileMutation";
 import formatError from "src/utility/errors/formatError";
 
 function EditUserProfile() {

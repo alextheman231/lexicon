@@ -7,7 +7,8 @@ import { DataError } from "@alextheman/utility/v6";
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, use, useCallback, useMemo } from "react";
 
-import { useCurrentUserQuery, useLogoutMutation } from "src/resources/Users/queries";
+import useCurrentUserQuery from "src/resources/Users/queries/useCurrentUserQuery";
+import useLogoutMutation from "src/resources/Users/queries/useLogoutMutation";
 import queryKeys from "src/utility/queryKeys";
 
 export interface AuthContextValue {
