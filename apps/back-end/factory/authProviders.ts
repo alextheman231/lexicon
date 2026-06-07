@@ -9,7 +9,7 @@ import { faker } from "@faker-js/faker";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
-import { createAuthProvider } from "src/services/auth";
+import createAuthProvider from "src/services/auth/createAuthProvider";
 
 export type AuthProviderFactoryData = Partial<
   Omit<AuthProviderSchemaData, "userId"> & { user?: string | User }

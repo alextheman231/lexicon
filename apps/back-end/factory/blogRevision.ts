@@ -11,7 +11,8 @@ import { parseBlogRevision } from "@lexicon/models";
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
 import insertBlogRevision from "src/models/blogs/insertBlogRevision";
-import { getLatestBlogVersion, selectBlogView } from "src/services/blogs";
+import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
+import loadBlogView from "src/services/blogs/loadBlogView";
 
 class BlogRevisionFactory {
   private blogs: BlogFactory;
@@ -38,9 +39,9 @@ class BlogRevisionFactory {
     const editorId = await getIdFromFactoryResource<string>(data.editor, this.users);
     const blogId = await getIdFromFactoryResource<string>(data.blog, this.blogs);
 
-    const blogView = await selectBlogView(this.context.connection, blogId);
+    const blogView = await loadBlogView(this.context.connection, blogId);
     assertNotNull(blogView);
-    const latestVersion = await getLatestBlogVersion(this.context.connection, blogId);
+    const latestVersion = await findLatestBlogVersion(this.context.connection, blogId);
     assertNotNull(latestVersion);
 
     const blogRevisionTemplate: BlogRevisionInsert = {

@@ -1,15 +1,13 @@
-import type { AuthProviderSchemaData } from "@lexicon/models";
+import type { AuthProviderSchema } from "@lexicon/models";
 import type { IDToken } from "openid-client";
 
 import type { Connection } from "src/database/connection";
-import type { AuthProviderSchema } from "src/database/schema";
 
 import { parseAuthProviderSchema } from "@lexicon/models";
 
-import insertAuthProvider from "src/models/auth/insertAuthProvider";
 import selectAuthProvider from "src/models/auth/selectAuthProvider";
 
-export async function getGoogleAuthUser(
+async function findGoogleAuthUser(
   connection: Connection,
   claims: IDToken,
 ): Promise<AuthProviderSchema | null> {
@@ -20,9 +18,4 @@ export async function getGoogleAuthUser(
   return authProvider === null ? null : parseAuthProviderSchema(authProvider);
 }
 
-export async function createAuthProvider(
-  connection: Connection,
-  data: AuthProviderSchemaData,
-): Promise<AuthProviderSchema> {
-  return parseAuthProviderSchema(await insertAuthProvider(connection, data));
-}
+export default findGoogleAuthUser;

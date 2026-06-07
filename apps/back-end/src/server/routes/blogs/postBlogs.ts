@@ -4,7 +4,7 @@ import { assertNotUndefined } from "@alextheman/utility";
 import { parseCreateBlogData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import { createBlog } from "src/services/blogs";
+import createBlog from "src/services/blogs/createBlog";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import requireAuth from "src/utility/handlers/requireAuth";
 

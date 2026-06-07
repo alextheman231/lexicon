@@ -6,7 +6,7 @@ import { parseEndToEndAuthInsertData } from "@lexicon/models";
 import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
 import COOKIES from "src/server/routes/auth/helpers/COOKIES";
-import { createUserSession } from "src/services/userSessions";
+import createUserSession from "src/services/userSessions/createUserSession";
 import allowEnvironments from "src/utility/handlers/allowEnvironments";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
