@@ -21,7 +21,7 @@ import insertBlogRevision from "src/models/blogs/insertBlogRevision";
 import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
 import selectBlog from "src/models/blogs/selectBlog";
 import updateBlog from "src/models/blogs/updateBlog";
-import paginate from "src/utility/paginate";
+import paginate from "src/utility/miscellaneous/paginate";
 
 const BlogSortColumn = {
   updatedAt: blogsTable.updatedAt,

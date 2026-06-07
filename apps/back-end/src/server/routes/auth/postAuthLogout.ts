@@ -2,7 +2,7 @@ import type { Router } from "express";
 
 import { getConnection } from "src/database/connection";
 import { expireUserSession } from "src/services/userSessions";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function postAuthLogout(auth: Router) {
   auth.post(

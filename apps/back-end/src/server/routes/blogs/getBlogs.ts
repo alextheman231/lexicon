@@ -4,7 +4,7 @@ import { parseBlogFilter } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import { countBlogs, queryBlogIds, selectBlogSummaries } from "src/services/blogs";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function getBlogs(blogs: Router) {
   blogs.get(

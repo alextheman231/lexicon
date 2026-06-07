@@ -13,7 +13,7 @@ import { loadGoogleConfig } from "src/auth/google";
 import COOKIES from "src/server/routes/auth/helpers/COOKIES";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
 import ALLOWED_ORIGINS from "src/utility/constants/ALLOWED_ORIGINS";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function getAuthGoogle(auth: Router) {
   auth.get(

@@ -7,8 +7,8 @@ import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
 import COOKIES from "src/server/routes/auth/helpers/COOKIES";
 import { createUserSession } from "src/services/userSessions";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
-import allowEnvironments from "src/utility/validators/allowEnvironments";
+import allowEnvironments from "src/utility/handlers/allowEnvironments";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function postAuthEndToEnd(auth: Router) {
   auth.post(

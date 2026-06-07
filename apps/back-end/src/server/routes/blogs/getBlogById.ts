@@ -2,9 +2,9 @@ import type { Router } from "express";
 
 import { getConnection } from "src/database/connection";
 import { selectBlogView } from "src/services/blogs";
-import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
-import resourceNotFoundError from "src/utility/resourceNotFoundError";
-import validateUUID from "src/utility/validators/validateUUID";
+import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
+import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import validateUUID from "src/utility/handlers/validateUUID";
 
 function getBlogById(blogs: Router) {
   blogs.param("blogId", validateUUID).get(

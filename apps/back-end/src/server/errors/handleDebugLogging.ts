@@ -1,7 +1,7 @@
 import { parseBoolean } from "@alextheman/utility";
 
 import ENV from "src/utility/constants/ENV";
-import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
+import handleErrorMiddleware from "src/utility/handlers/handleErrorMiddleware";
 
 const DEBUG = parseBoolean(process.env.DEBUG ?? "false");
 

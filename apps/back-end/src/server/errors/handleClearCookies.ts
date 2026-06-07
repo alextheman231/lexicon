@@ -1,4 +1,4 @@
-import handleErrorMiddleware from "src/utility/handleErrorMiddleware";
+import handleErrorMiddleware from "src/utility/handlers/handleErrorMiddleware";
 
 const handleClearCookies = handleErrorMiddleware((error, _request, response, next) => {
   response.clearCookie("oauth_redirect");

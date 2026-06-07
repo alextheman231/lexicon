@@ -1,8 +1,8 @@
-import type { Env } from "src/utility/parseEnv";
+import type { Env } from "src/utility/miscellaneous/parseEnv";
 
 import ENV from "src/utility/constants/ENV";
-import endpointNotFoundError from "src/utility/endpointNotFoundError";
-import handleFallthroughMiddleware from "src/utility/handleFallthroughMiddleware";
+import endpointNotFoundError from "src/utility/errors/endpointNotFoundError";
+import handleFallthroughMiddleware from "src/utility/handlers/handleFallthroughMiddleware";
 
 function allowEnvironments(environments: Array<Env>) {
   return handleFallthroughMiddleware((request) => {
