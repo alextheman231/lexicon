@@ -5,7 +5,7 @@ import { assertNotNullable } from "@alextheman/utility";
 
 import { authProvidersTable } from "src/database/schema";
 
-async function insertAuthProvider(
+async function insertUserAuthProvider(
   connection: Connection,
   data: AuthProviderInsert,
 ): Promise<AuthProviderSchema> {
@@ -14,4 +14,4 @@ async function insertAuthProvider(
   return newProvider;
 }
 
-export default insertAuthProvider;
+export default insertUserAuthProvider;

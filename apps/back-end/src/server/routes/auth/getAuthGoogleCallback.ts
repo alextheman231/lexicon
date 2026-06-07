@@ -12,7 +12,7 @@ import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
 import COOKIES from "src/server/routes/auth/helpers/COOKIES";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
-import createAuthProvider from "src/services/auth/createAuthProvider";
+import createUserAuthProvider from "src/services/auth/createUserAuthProvider";
 import findGoogleAuthUser from "src/services/auth/findGoogleAuthUser";
 import createUser from "src/services/users/createUser";
 import createUserSession from "src/services/userSessions/createUserSession";
@@ -78,7 +78,7 @@ function getAuthGoogleCallback(auth: Router) {
           displayName: claims.name?.toString() ?? username,
         });
 
-        await createAuthProvider(transaction, {
+        await createUserAuthProvider(transaction, {
           userId: user.id,
           provider: "google",
           providerUserId: claims.sub,
