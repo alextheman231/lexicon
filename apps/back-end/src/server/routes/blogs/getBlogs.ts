@@ -3,7 +3,9 @@ import type { Router } from "express";
 import { parseBlogFilter } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import { countBlogs, queryBlogIds, selectBlogSummaries } from "src/services/blogs";
+import countBlogs from "src/services/blogs/countBlogs";
+import loadBlogSummaries from "src/services/blogs/loadBlogSummaries";
+import queryBlogIds from "src/services/blogs/queryBlogIds";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function getBlogs(blogs: Router) {
@@ -19,7 +21,7 @@ function getBlogs(blogs: Router) {
         state: filters.state,
       });
 
-      const blogs = await selectBlogSummaries(connection, blogIds);
+      const blogs = await loadBlogSummaries(connection, blogIds);
       response.status(200).send({ blogs, count });
     }),
   );

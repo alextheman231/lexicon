@@ -5,7 +5,7 @@ import type { ParamsDictionary } from "express-serve-static-core";
 import { parseUser } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import { editUserProfile } from "src/services/users";
+import editUserProfile from "src/services/users/editUserProfile";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import requireAuth from "src/utility/handlers/requireAuth";
 

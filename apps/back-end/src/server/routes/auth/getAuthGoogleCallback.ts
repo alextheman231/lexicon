@@ -12,9 +12,10 @@ import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
 import COOKIES from "src/server/routes/auth/helpers/COOKIES";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
-import { createAuthProvider, getGoogleAuthUser } from "src/services/auth";
-import { createUser } from "src/services/users";
-import { createUserSession } from "src/services/userSessions";
+import createAuthProvider from "src/services/auth/createAuthProvider";
+import findGoogleAuthUser from "src/services/auth/findGoogleAuthUser";
+import createUser from "src/services/users/createUser";
+import createUserSession from "src/services/userSessions/createUserSession";
 import ENV from "src/utility/constants/ENV";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
@@ -57,7 +58,7 @@ function getAuthGoogleCallback(auth: Router) {
         if (!claims?.sub || !claims?.email) {
           throw new APIError(400, "INVALID_GOOGLE_RESPONSE", "Missing required Google claims");
         }
-        const existingProvider = await getGoogleAuthUser(transaction, claims);
+        const existingProvider = await findGoogleAuthUser(transaction, claims);
 
         if (existingProvider) {
           const user = await selectUser(transaction, existingProvider);

@@ -27,7 +27,7 @@ import getTestFixtures from "tests/fixtures";
 import { blogRevisionsTable, blogStateHistoryTable } from "src/database/schema";
 import selectUser from "src/models/users/selectUser";
 import app from "src/server/app";
-import { getLatestBlogVersion } from "src/services/blogs";
+import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
 
 describe("GET", () => {
   describe("/api/v1/blogs", () => {
@@ -341,7 +341,7 @@ describe("PUT", () => {
         await getTestFixtures();
 
       const blog = await factory.blogs.insert({ author: authenticatedUser });
-      const oldRevisionNumber = await getLatestBlogVersion(connection, blog.id);
+      const oldRevisionNumber = await findLatestBlogVersion(connection, blog.id);
       assertNotNull(oldRevisionNumber);
 
       const data: Partial<EditBlogData> = {
@@ -362,7 +362,7 @@ describe("PUT", () => {
       expect(blogView.title).toBe(data.title);
       expect(blogView.content).toEqual(data.content);
 
-      const newRevisionNumber = await getLatestBlogVersion(connection, blogView.id);
+      const newRevisionNumber = await findLatestBlogVersion(connection, blogView.id);
       expect(newRevisionNumber).toBe(oldRevisionNumber + 1);
     });
     test("Responds with a 404 error if the blog does not exist", async () => {
