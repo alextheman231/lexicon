@@ -1,6 +1,8 @@
 import type { CookieOptions } from "express-serve-static-core";
 
-import ENV from "src/utility/constants/ENV";
+import parseEnv from "src/utility/miscellaneous/parseEnv";
+
+const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 
 const COOKIES: CookieOptions = {
   httpOnly: true,
