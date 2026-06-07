@@ -7,7 +7,9 @@ import handleClearCookies from "src/server/errors/handleClearCookies";
 import handleDebugLogging from "src/server/errors/handleDebugLogging";
 import handleInternalServerErrors from "src/server/errors/handleInternalServerErrors";
 import handleUnfoundEndpoint from "src/server/errors/handleUnfoundEndpoint";
-import ENV from "src/utility/constants/ENV";
+import parseEnv from "src/utility/miscellaneous/parseEnv";
+
+const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 
 export function resolveErrors(app: Express) {
   if (ENV === "production") {

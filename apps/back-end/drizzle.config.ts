@@ -1,7 +1,9 @@
 import type { Config } from "drizzle-kit";
 import dotenv from "dotenv";
 import path from "node:path";
-import ENV from "./src/utility/constants/ENV";
+import parseEnv from "src/utility/miscellaneous/parseEnv";
+
+const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 
 if (ENV !== "production") {
   dotenv.config({

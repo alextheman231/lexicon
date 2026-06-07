@@ -16,8 +16,10 @@ import createAuthProvider from "src/services/auth/createAuthProvider";
 import findGoogleAuthUser from "src/services/auth/findGoogleAuthUser";
 import createUser from "src/services/users/createUser";
 import createUserSession from "src/services/userSessions/createUserSession";
-import ENV from "src/utility/constants/ENV";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import parseEnv from "src/utility/miscellaneous/parseEnv";
+
+const ENV = parseEnv(process.env.NODE_ENV ?? "development");
 
 function getAuthGoogleCallback(auth: Router) {
   auth.get(
