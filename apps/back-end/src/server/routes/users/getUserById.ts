@@ -1,4 +1,4 @@
-import { Router } from "express";
+import type { Router } from "express";
 
 import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
@@ -6,12 +6,9 @@ import handleEndpointMiddleware from "src/utility/handleEndpointMiddleware";
 import resourceNotFoundError from "src/utility/resourceNotFoundError";
 import validateUUID from "src/utility/validators/validateUUID";
 
-const usersRouter = Router();
-
-usersRouter
-  .param("userId", validateUUID)
-  .route("/:userId")
-  .get(
+function getUserById(users: Router) {
+  users.param("userId", validateUUID).get(
+    "/:userId",
     handleEndpointMiddleware<{ userId: string }>(async (request, response) => {
       const connection = getConnection();
 
@@ -24,5 +21,6 @@ usersRouter
       response.status(200).send({ user });
     }),
   );
+}
 
-export default usersRouter;
+export default getUserById;
