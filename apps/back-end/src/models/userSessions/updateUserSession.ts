@@ -3,7 +3,7 @@ import type { UserSession, UserSessionUpdate } from "src/database/schema";
 
 import { eq } from "drizzle-orm";
 
-import { parseUserSession, userSessionsTable } from "src/database/schema";
+import { userSessionsTable } from "src/database/schema";
 
 async function updateUserSession(
   connection: Connection,
@@ -16,7 +16,7 @@ async function updateUserSession(
     .where(eq(userSessionsTable.id, sessionId))
     .returning();
 
-  return userSession ? parseUserSession(userSession) : null;
+  return userSession ?? null;
 }
 
 export default updateUserSession;

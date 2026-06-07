@@ -3,7 +3,7 @@ import type { User, UserUpdate } from "src/database/schema";
 
 import { eq } from "drizzle-orm";
 
-import { parseUser, usersTable } from "src/database/schema";
+import { usersTable } from "src/database/schema";
 
 async function updateUser(
   connection: Connection,
@@ -16,7 +16,7 @@ async function updateUser(
     .where(eq(usersTable.id, userId))
     .returning();
 
-  return user ? parseUser(user) : null;
+  return user ?? null;
 }
 
 export default updateUser;
