@@ -10,7 +10,8 @@ describe("Isolated test setup", () => {
 
     const blogs = await fillArray(
       async () => {
-        return await factory.blogs.insert();
+        const { blog } = await factory.blogs.insert();
+        return blog;
       },
       10,
       { sequential: true },
@@ -34,7 +35,8 @@ describe("Isolated test setup", () => {
 
     const blogs = await fillArray(
       async () => {
-        return await factory.blogs.insert();
+        const { blog } = await factory.blogs.insert();
+        return blog;
       },
       10,
       { sequential: true },

@@ -18,7 +18,7 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
   test("Updates the current blog and creates a new revision", async () => {
     const { connection, factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
 
-    const blog = await factory.blogs.insert({ author: authenticatedUser });
+    const { blog } = await factory.blogs.insert({ author: authenticatedUser });
     const oldRevisionNumber = await findLatestBlogVersion(connection, blog.id);
     assertNotNull(oldRevisionNumber);
 
@@ -70,7 +70,7 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
   test("If the blog state changed, insert a new state history record", async () => {
     const { connection, factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
 
-    const blog = await factory.blogs.insert({
+    const { blog } = await factory.blogs.insert({
       state: BlogState.DRAFT,
       author: authenticatedUser,
     });
@@ -99,8 +99,8 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
   test("Only updates the blog with the given ID", async () => {
     const { connection, factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
 
-    const firstBlog = await factory.blogs.insert({ author: authenticatedUser });
-    const secondBlog = await factory.blogs.insert({ author: authenticatedUser });
+    const { blog: firstBlog } = await factory.blogs.insert({ author: authenticatedUser });
+    const { blog: secondBlog } = await factory.blogs.insert({ author: authenticatedUser });
 
     const [{ secondBlogTitle, secondBlogContent }] = await connection
       .select({
@@ -134,7 +134,7 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
   test("Does not allow editing of a blog that does not belong to the current user", async () => {
     const { factory, authenticatedClient } = await getTestFixtures();
 
-    const blog = await factory.blogs.insert();
+    const { blog } = await factory.blogs.insert();
 
     const data: EditBlogData = {
       state: BlogState.PUBLISHED,

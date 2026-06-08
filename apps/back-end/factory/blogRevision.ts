@@ -37,7 +37,15 @@ class BlogRevisionFactory {
     > = {},
   ): Promise<BlogRevision> {
     const editorId = await getIdFromFactoryResource<string>(data.editor, this.users);
-    const blogId = await getIdFromFactoryResource<string>(data.blog, this.blogs);
+
+    let blogId: string | Blog | undefined = data.blog;
+
+    if (blogId === undefined) {
+      blogId = (await this.blogs.insert()).blog;
+    }
+    if (typeof blogId === "object") {
+      blogId = blogId.id;
+    }
 
     const blogView = await loadBlogView(this.context.connection, blogId);
     assertNotNull(blogView);

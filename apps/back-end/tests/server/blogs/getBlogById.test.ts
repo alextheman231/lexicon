@@ -15,7 +15,7 @@ describe("GET /api/v1/blogs/<blogId>", () => {
   test("Returns the blog with the given blog ID", async () => {
     const { connection, factory, authenticatedClient } = await getTestFixtures();
 
-    const blog = await factory.blogs.insert();
+    const { blog } = await factory.blogs.insert();
 
     const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
 
