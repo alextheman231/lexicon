@@ -102,7 +102,7 @@ class BlogFactory {
     const blog = { ...blogModel, currentRevisionId };
 
     this.records[blog.id] = blog;
-    return blog;
+    return { blog, initialRevision: revision };
   }
 }
 

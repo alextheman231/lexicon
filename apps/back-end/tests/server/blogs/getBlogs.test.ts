@@ -25,7 +25,8 @@ describe("GET /api/v1/blogs", () => {
 
     const blogs = await fillArray(
       async () => {
-        return await factory.blogs.insert();
+        const { blog } = await factory.blogs.insert();
+        return blog;
       },
       10,
       { sequential: true },
@@ -84,7 +85,8 @@ describe("GET /api/v1/blogs", () => {
     const blogs = (
       await fillArray(
         async () => {
-          return await factory.blogs.insert({ author, state: BlogState.PUBLISHED });
+          const { blog } = await factory.blogs.insert({ author, state: BlogState.PUBLISHED });
+          return blog;
         },
         10,
         { sequential: true },
@@ -130,7 +132,8 @@ describe("GET /api/v1/blogs", () => {
 
     await fillArray(
       async () => {
-        return await factory.blogs.insert({ author });
+        const { blog } = await factory.blogs.insert({ author });
+        return blog;
       },
       5,
       { sequential: true },
