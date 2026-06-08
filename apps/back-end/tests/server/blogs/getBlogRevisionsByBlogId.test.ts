@@ -1,5 +1,5 @@
 import { assertNotUndefined, az, fillArray } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
+import { CodeError, DataError } from "@alextheman/utility/v6";
 import { parseBlogRevisionHistory } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 import z from "zod";
@@ -52,5 +52,20 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
         );
       }
     }
+  });
+  test("Can not get blog revisions for a blog the user does not own", async () => {
+    const { factory, authenticatedClient } = await getTestFixtures();
+
+    const { blog } = await factory.blogs.insert();
+
+    const { body } = await authenticatedClient
+      .get(`/api/v1/blogs/${blog.id}/revisions`)
+      .expect(403);
+
+    const error = CodeError.expectError(() => {
+      throw body.error;
+    });
+
+    expect(error.code).toBe("FORBIDDEN_ACCESS");
   });
 });
