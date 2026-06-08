@@ -6,8 +6,8 @@ import initialiseAuthRouter from "src/server/routes/auth";
 import initialiseBlogsRouter from "src/server/routes/blogs";
 import initialiseCurrentUserRouter from "src/server/routes/currentUser";
 import initialiseUsersRouter from "src/server/routes/users";
+import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
-import requireAuth from "src/utility/handlers/requireAuth";
 import defineEndpoint from "src/utility/initialisers/defineEndpoint";
 import initialiseRouter from "src/utility/initialisers/initialiseRouter";
 
@@ -21,9 +21,8 @@ function createEndpoints(app: Express) {
 
   app.get(
     defineEndpoint("protected"),
-    requireAuth,
-    handleEndpointMiddleware((request, response) => {
-      const user = request.user!;
+    handleAuthenticatedEndpointMiddleware((request, response) => {
+      const { user } = request;
       response.status(200).send({ user });
     }),
   );
