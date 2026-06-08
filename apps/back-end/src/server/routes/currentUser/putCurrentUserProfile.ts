@@ -4,14 +4,12 @@ import { parseUser, parseUserProfileUpdateData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import editUserProfile from "src/services/users/editUserProfile";
-import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
-import requireAuth from "src/utility/handlers/requireAuth";
+import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 
 function putCurrentUserProfile(currentUser: Router) {
   currentUser.put(
     "/profile",
-    requireAuth,
-    handleEndpointMiddleware(async (request, response) => {
+    handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
       const user = parseUser(request.user);
 

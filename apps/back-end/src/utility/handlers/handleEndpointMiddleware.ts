@@ -6,7 +6,7 @@ function handleEndpointMiddleware<
   ResBody = unknown,
   ReqBody = unknown,
   ReqQuery = unknown,
-  Locals extends Record<string, unknown> = Record<string, unknown>,
+  Locals extends object = Record<string, unknown>,
 >(
   middleware: RequestHandler<ParameterType, ResBody, ReqBody, ReqQuery, Locals>,
 ): RequestHandler<ParameterType, ResBody, ReqBody, ReqQuery, Locals> {

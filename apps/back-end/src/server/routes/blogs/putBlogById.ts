@@ -1,6 +1,5 @@
 import type { Router } from "express";
 
-import { assertNotUndefined } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { parseEditBlogData } from "@lexicon/models";
 
@@ -9,15 +8,13 @@ import changeBlogState from "src/services/blogs/changeBlogState";
 import editBlog from "src/services/blogs/editBlog";
 import loadBlogView from "src/services/blogs/loadBlogView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
-import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
-import requireAuth from "src/utility/handlers/requireAuth";
+import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import validateUUID from "src/utility/handlers/validateUUID";
 
 function putBlogById(blogs: Router) {
   blogs.param("blogId", validateUUID).put(
     "/:blogId",
-    requireAuth,
-    handleEndpointMiddleware<{ blogId: string }>(async (request, response) => {
+    handleAuthenticatedEndpointMiddleware<{ blogId: string }>(async (request, response) => {
       const connection = getConnection();
 
       await connection.transaction(async (transaction) => {
@@ -25,8 +22,6 @@ function putBlogById(blogs: Router) {
         if (oldBlog === null) {
           throw resourceNotFoundError("blog", request.params.blogId);
         }
-
-        assertNotUndefined(request.user);
 
         if (oldBlog.authorId !== request.user.id) {
           throw new APIError(
