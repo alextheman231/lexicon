@@ -1,4 +1,4 @@
-import type { User, UserProfileData } from "@lexicon/models";
+import type { User, UserProfileUpdateData } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 
@@ -10,7 +10,7 @@ import updateUser from "src/models/users/updateUser";
 async function editUserProfile(
   connection: Connection,
   userId: string,
-  data: UserProfileData,
+  data: UserProfileUpdateData,
 ): Promise<User | null> {
   const user = await updateUser(connection, userId, data);
 
