@@ -4,6 +4,7 @@ import { Route } from "wouter";
 
 import AuthRequired from "src/components/AuthRequired";
 import Blog from "src/resources/Blogs/pages/Blog";
+import BlogRevisions from "src/resources/Blogs/pages/BlogRevisions";
 import CreateBlog from "src/resources/Blogs/pages/CreateBlog";
 import EditBlog from "src/resources/Blogs/pages/EditBlog";
 
@@ -21,6 +22,17 @@ function BlogsRouter() {
             <AuthRequired>
               {(currentUser) => {
                 return <EditBlog currentUser={currentUser} blogId={id} />;
+              }}
+            </AuthRequired>
+          );
+        }}
+      </Route>
+      <Route<{ id: string }> path={RegExp(`^/(?<id>${UUID_PATTERN})/revisions`)}>
+        {({ id }) => {
+          return (
+            <AuthRequired>
+              {(currentUser) => {
+                return <BlogRevisions blogId={id} currentUser={currentUser} />;
               }}
             </AuthRequired>
           );
