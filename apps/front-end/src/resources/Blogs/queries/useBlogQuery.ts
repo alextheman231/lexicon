@@ -8,7 +8,7 @@ import queryKeys from "src/utility/queryKeys";
 
 function useBlogQuery(blogId: string) {
   return useQuery<BlogView>({
-    queryKey: queryKeys.blogs({ blogId }),
+    queryKey: queryKeys.blogs({ blogId }, "revisions"),
     queryFn: async () => {
       const { data } = await lexiconAuthenticatedClient.get(`/api/v1/blogs/${blogId}`);
       return parseBlogView(data.blog);

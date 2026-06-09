@@ -20,9 +20,7 @@ function BlogsRouter() {
         {({ id }) => {
           return (
             <AuthRequired>
-              {(currentUser) => {
-                return <EditBlog currentUser={currentUser} blogId={id} />;
-              }}
+              <EditBlog blogId={id} />
             </AuthRequired>
           );
         }}
@@ -31,9 +29,7 @@ function BlogsRouter() {
         {({ id }) => {
           return (
             <AuthRequired>
-              {(currentUser) => {
-                return <BlogRevisions blogId={id} currentUser={currentUser} />;
-              }}
+              <BlogRevisions blogId={id} />
             </AuthRequired>
           );
         }}
