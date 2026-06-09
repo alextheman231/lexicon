@@ -28,9 +28,14 @@ function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
       <DropdownMenu>
         {extraItems && extraItems.insertLocation === "top" ? extraItems.items : null}
         {currentUser?.id === blog.authorId ? (
-          <DropdownMenuItem component={InternalLink} to={`/blogs/${blog.id}/edit`}>
-            Edit
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem component={InternalLink} to={`/blogs/${blog.id}/revisions`}>
+              View Revisions
+            </DropdownMenuItem>
+            <DropdownMenuItem component={InternalLink} to={`/blogs/${blog.id}/edit`}>
+              Edit
+            </DropdownMenuItem>
+          </>
         ) : null}
         <DropdownMenuItem>Add to collection (implementation coming soon)</DropdownMenuItem>
         {extraItems && extraItems.insertLocation === "bottom" ? extraItems.items : null}
