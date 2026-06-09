@@ -1,5 +1,3 @@
-import type { User } from "@lexicon/models";
-
 import { Page } from "@alextheman/components";
 import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
@@ -10,18 +8,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+import OwnershipRequired from "src/components/OwnershipRequired";
 import createItemQueryBoundary from "src/groups/QueryBoundary/creators/createItemQueryBoundary";
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
-import UnauthorisedPage from "src/pages/UnauthorisedPage";
 import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
 import useBlogRevisionsQuery from "src/resources/Blogs/queries/useBlogRevisionsQuery";
 
 interface BlogRevisionsProps {
   blogId: string;
-  currentUser: User;
 }
 
-function BlogRevisions({ blogId, currentUser }: BlogRevisionsProps) {
+function BlogRevisions({ blogId }: BlogRevisionsProps) {
   const { data: revisions, isPending, error } = useBlogRevisionsQuery(blogId);
   const { data: blog, isPending: isBlogPending, error: blogError } = useBlogQuery(blogId);
 
@@ -45,39 +42,42 @@ function BlogRevisions({ blogId, currentUser }: BlogRevisionsProps) {
       >
         <QueryBoundaryBlog.Data>
           {(blog) => {
-            if (blog.authorId !== currentUser.id) {
-              return <UnauthorisedPage />;
-            }
-
             return (
-              <QueryBoundaryRevisions.Context>
-                <Card>
-                  <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Revision Number</TableCell>
-                          <TableCell>Revision Blog Title</TableCell>
-                          <TableCell>Revision Message</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <QueryBoundaryRevisions.DataRowsMap columns={3}>
-                          {(revision) => {
-                            return (
-                              <TableRow>
-                                <TableCell>{revision.version}</TableCell>
-                                <TableCell>{revision.title}</TableCell>
-                                <TableCell>{revision.revisionMessage ?? "None"}</TableCell>
-                              </TableRow>
-                            );
-                          }}
-                        </QueryBoundaryRevisions.DataRowsMap>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Card>
-              </QueryBoundaryRevisions.Context>
+              <OwnershipRequired
+                data={blog}
+                ownerId={(blog) => {
+                  return blog.authorId;
+                }}
+              >
+                <QueryBoundaryRevisions.Context>
+                  <Card>
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Revision Number</TableCell>
+                            <TableCell>Revision Blog Title</TableCell>
+                            <TableCell>Revision Message</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <QueryBoundaryRevisions.DataRowsMap columns={3}>
+                            {(revision) => {
+                              return (
+                                <TableRow>
+                                  <TableCell>{revision.version}</TableCell>
+                                  <TableCell>{revision.title}</TableCell>
+                                  <TableCell>{revision.revisionMessage ?? "None"}</TableCell>
+                                </TableRow>
+                              );
+                            }}
+                          </QueryBoundaryRevisions.DataRowsMap>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Card>
+                </QueryBoundaryRevisions.Context>
+              </OwnershipRequired>
             );
           }}
         </QueryBoundaryBlog.Data>
