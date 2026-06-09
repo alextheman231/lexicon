@@ -8,7 +8,7 @@ import queryKeys from "src/utility/queryKeys";
 
 function useBlogRevisionsQuery(blogId: string) {
   return useQuery<Array<BlogRevision>>({
-    queryKey: queryKeys.blogs({ blogId }),
+    queryKey: queryKeys.blogRevisions({ blogId }),
     queryFn: async () => {
       const { data } = await lexiconAuthenticatedClient.get(`/api/v1/blogs/${blogId}/revisions`);
       return parseBlogRevisionHistory(data.revisions);
