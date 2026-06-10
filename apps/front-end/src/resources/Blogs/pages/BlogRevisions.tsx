@@ -34,9 +34,7 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
     <Page
       title={
         <>
-          <QueryBoundaryBlog.Error>
-            {DEFAULT_ERROR_MESSAGE}
-          </QueryBoundaryBlog.Error>
+          <QueryBoundaryBlog.Error>{DEFAULT_ERROR_MESSAGE}</QueryBoundaryBlog.Error>
           <QueryBoundaryBlog.Nullable nullableFallback="Could not retrieve blog." />
           <QueryBoundaryBlog.Data loadingFallback={<Skeleton />}>
             {(blog) => {
