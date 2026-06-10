@@ -10,8 +10,8 @@ import {
 } from "openid-client";
 
 import { loadGoogleConfig } from "src/auth/google";
-import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
+import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import loadAllowedOrigins from "src/utility/env/loadAllowedOrigins";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
