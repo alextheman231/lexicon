@@ -39,6 +39,8 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
         </QueryBoundaryBlog.Data>
       }
     >
+      <QueryBoundaryBlog.Error />
+      <QueryBoundaryRevisions.Error />
       <QueryBoundaryBlog.Data>
         {(blog) => {
           return (
