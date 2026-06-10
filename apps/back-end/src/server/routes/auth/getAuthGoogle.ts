@@ -10,7 +10,7 @@ import {
 } from "openid-client";
 
 import { loadGoogleConfig } from "src/auth/google";
-import COOKIES from "src/server/routes/auth/helpers/COOKIES";
+import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
 import loadAllowedOrigins from "src/utility/env/loadAllowedOrigins";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
@@ -20,6 +20,7 @@ function getAuthGoogle(auth: Router) {
     "/google",
     handleEndpointMiddleware<ParamsDictionary, unknown, unknown, { redirect: string }>(
       async (request, response) => {
+        const COOKIES = loadCookies();
         const callbackUrl = createCallbackUrl();
         const config = await loadGoogleConfig();
 

@@ -2,7 +2,6 @@ import type { CookieOptions } from "express-serve-static-core";
 
 import loadEnvironment from "src/utility/env/loadEnvironment";
 
-
 function loadCookies(): CookieOptions {
   const ENV = loadEnvironment();
 
