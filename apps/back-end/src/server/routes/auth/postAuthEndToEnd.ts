@@ -5,7 +5,7 @@ import { parseEndToEndAuthInsertData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
-import COOKIES from "src/server/routes/auth/helpers/COOKIES";
+import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import createUserSession from "src/services/userSessions/createUserSession";
 import allowEnvironments from "src/utility/handlers/allowEnvironments";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
@@ -15,6 +15,7 @@ function postAuthEndToEnd(auth: Router) {
     "/end-to-end",
     allowEnvironments(["development", "end-to-end"]),
     handleEndpointMiddleware(async (request, response) => {
+      const COOKIES = loadCookies();
       const connection = getConnection();
 
       const session = await connection.transaction(async (transaction) => {

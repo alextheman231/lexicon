@@ -10,7 +10,7 @@ import { randomBytes } from "node:crypto";
 import { loadGoogleConfig } from "src/auth/google";
 import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
-import COOKIES from "src/server/routes/auth/helpers/COOKIES";
+import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
 import createUserAuthProvider from "src/services/auth/createUserAuthProvider";
 import findGoogleAuthUser from "src/services/auth/findGoogleAuthUser";
@@ -30,6 +30,7 @@ function getAuthGoogleCallback(auth: Router) {
       unknown,
       { code: string; state: string; redirect: string }
     >(async (request, response) => {
+      const COOKIES = loadCookies();
       const config = await loadGoogleConfig();
 
       const cookieState = request.cookies.oauth_state;
