@@ -33,15 +33,17 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
   return (
     <Page
       title={
-        <QueryBoundaryBlog.Error>
-          {DEFAULT_ERROR_MESSAGE}
-        </QueryBoundaryBlog.Error>
-        <QueryBoundaryBlog.Nullable nullableFallback="Could not retrieve blog." />
-        <QueryBoundaryBlog.Data loadingFallback={<Skeleton />}>
-          {(blog) => {
-            return `Revisions for "${blog.title}"`;
-          }}
-        </QueryBoundaryBlog.Data>
+        <>
+          <QueryBoundaryBlog.Error>
+            {DEFAULT_ERROR_MESSAGE}
+          </QueryBoundaryBlog.Error>
+          <QueryBoundaryBlog.Nullable nullableFallback="Could not retrieve blog." />
+          <QueryBoundaryBlog.Data loadingFallback={<Skeleton />}>
+            {(blog) => {
+              return `Revisions for "${blog.title}"`;
+            }}
+          </QueryBoundaryBlog.Data>
+        </>
       }
     >
       <QueryBoundaryBlog.Error />
