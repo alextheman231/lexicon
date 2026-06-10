@@ -1,4 +1,8 @@
-import type { CreateItemQueryBoundaryParameters } from "@alextheman/components/QueryBoundary";
+import type {
+  CreateItemQueryBoundaryParameters,
+  QueryBoundaryDataProps,
+} from "@alextheman/components/QueryBoundary";
+import type { JSX } from "react";
 
 import type { LexiconQueryBoundaryComponentsBase } from "src/groups/QueryBoundary/creators/createBaseQueryBoundary";
 
@@ -9,7 +13,9 @@ import createBaseQueryBoundary from "src/groups/QueryBoundary/creators/createBas
 export interface LexiconQueryBoundaryComponentsItem<
   DataType,
 > extends LexiconQueryBoundaryComponentsBase {
-  Data: typeof QueryBoundaryData<DataType>;
+  Data: (
+    props: Omit<QueryBoundaryDataProps<DataType>, "data" | "isLoading" | "error">,
+  ) => JSX.Element;
 }
 
 function createItemQueryBoundary<DataType>(
@@ -19,7 +25,9 @@ function createItemQueryBoundary<DataType>(
 
   return {
     ...baseComponents,
-    Data: QueryBoundaryData,
+    Data: (props) => {
+      return <QueryBoundaryData {...params.query} {...props} />;
+    },
   };
 }
 

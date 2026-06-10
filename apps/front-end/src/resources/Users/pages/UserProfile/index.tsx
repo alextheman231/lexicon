@@ -28,44 +28,42 @@ function UserProfile({ userId }: UserProfileProps) {
   const { currentUser, unauthenticate } = useAuth();
 
   return (
-    <Tab.Context>
-      <QueryBoundaryItemWrapper data={user} isLoading={isPending} error={error}>
-        {(user) => {
-          return (
-            <Page
-              title={user.displayName ?? user.username}
-              subtitle={user.username}
-              action={
-                <DropdownMenuProvider>
-                  <DropdownMenuIconButton />
-                  <DropdownMenu>
-                    <DropdownMenuItem component={InternalLink} to="/blogs/new">
-                      Create Blog
-                    </DropdownMenuItem>
-                    {!isLargeScreen && user.id === currentUser?.id ? (
-                      <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
-                    ) : null}
-                  </DropdownMenu>
-                </DropdownMenuProvider>
-              }
-              tabs={
-                <Tab.List>
-                  <Tab.Item label="Blogs" value="blogs" />
-                  <Tab.Item label="About" value="about" />
-                </Tab.List>
-              }
-            >
-              <Tab.Panel value="about">
-                <AboutUser user={user} />
-              </Tab.Panel>
-              <Tab.Panel value="blogs">
-                <UserBlogs user={user} />
-              </Tab.Panel>
-            </Page>
-          );
-        }}
-      </QueryBoundaryItemWrapper>
-    </Tab.Context>
+    <QueryBoundaryItemWrapper data={user} isLoading={isPending} error={error}>
+      {(user) => {
+        return (
+          <Page
+            title={user.displayName ?? user.username}
+            subtitle={user.username}
+            action={
+              <DropdownMenuProvider>
+                <DropdownMenuIconButton />
+                <DropdownMenu>
+                  <DropdownMenuItem component={InternalLink} to="/blogs/new">
+                    Create Blog
+                  </DropdownMenuItem>
+                  {!isLargeScreen && user.id === currentUser?.id ? (
+                    <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
+                  ) : null}
+                </DropdownMenu>
+              </DropdownMenuProvider>
+            }
+            tabs={
+              <Tab.List>
+                <Tab.Item label="Blogs" value="blogs" />
+                <Tab.Item label="About" value="about" />
+              </Tab.List>
+            }
+          >
+            <Tab.Panel value="about">
+              <AboutUser user={user} />
+            </Tab.Panel>
+            <Tab.Panel value="blogs">
+              <UserBlogs user={user} />
+            </Tab.Panel>
+          </Page>
+        );
+      }}
+    </QueryBoundaryItemWrapper>
   );
 }
 

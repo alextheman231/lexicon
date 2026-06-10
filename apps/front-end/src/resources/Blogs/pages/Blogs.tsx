@@ -33,28 +33,26 @@ function Blogs() {
   });
 
   return (
-    <QueryBoundary.Context>
-      <Page title="Welcome to Lexicon!" subtitle="Take a look at some of our blogs.">
-        <Stack spacing={1}>
-          <QueryBoundary.Error />
-          {isLargeScreen ? (
-            <BlogsTable
-              PaginationGroup={PaginationGroup}
-              QueryBoundary={QueryBoundary}
-              totalRecordCount={totalRecordCount}
-              includeAuthor
-            />
-          ) : (
-            <BlogsList
-              PaginationGroup={PaginationGroup}
-              QueryBoundary={QueryBoundary}
-              totalRecordCount={totalRecordCount}
-              includeAuthor
-            />
-          )}
-        </Stack>
-      </Page>
-    </QueryBoundary.Context>
+    <Page title="Welcome to Lexicon!" subtitle="Take a look at some of our blogs.">
+      <Stack spacing={1}>
+        <QueryBoundary.Error />
+        {isLargeScreen ? (
+          <BlogsTable
+            PaginationGroup={PaginationGroup}
+            QueryBoundary={QueryBoundary}
+            totalRecordCount={totalRecordCount}
+            includeAuthor
+          />
+        ) : (
+          <BlogsList
+            PaginationGroup={PaginationGroup}
+            QueryBoundary={QueryBoundary}
+            totalRecordCount={totalRecordCount}
+            includeAuthor
+          />
+        )}
+      </Stack>
+    </Page>
   );
 }
 
