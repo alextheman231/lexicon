@@ -13,6 +13,7 @@ import createItemQueryBoundary from "src/groups/QueryBoundary/creators/createIte
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
 import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
 import useBlogRevisionsQuery from "src/resources/Blogs/queries/useBlogRevisionsQuery";
+import DEFAULT_ERROR_MESSAGE from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 
 interface BlogRevisionsProps {
   blogId: string;
@@ -32,6 +33,10 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
   return (
     <Page
       title={
+        <QueryBoundaryBlog.Error>
+          {DEFAULT_ERROR_MESSAGE}
+        </QueryBoundaryBlog.Error>
+        <QueryBoundaryBlog.Nullable nullableFallback="Could not retrieve blog." />
         <QueryBoundaryBlog.Data loadingFallback={<Skeleton />}>
           {(blog) => {
             return `Revisions for "${blog.title}"`;
