@@ -4,6 +4,7 @@ import { NavigationDrawer as AlexNavigationDrawer } from "@alextheman/components
 import { ThemeToggle } from "@alextheman/components/theme";
 import Stack from "@mui/material/Stack";
 
+import Banner from "src/components/PageWrapper/Banner";
 import UserDropdown from "src/components/UserDropdown";
 
 interface NavigationDrawerProps {
@@ -32,6 +33,7 @@ function NavigationDrawer({ children }: NavigationDrawerProps) {
         },
       ]}
     >
+      <Banner />
       {children}
     </AlexNavigationDrawer>
   );
