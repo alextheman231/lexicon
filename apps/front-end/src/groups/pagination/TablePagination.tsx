@@ -1,24 +1,27 @@
 import type { TablePaginationOwnProps } from "@mui/material/TablePagination";
 import type { ChangeEvent, MouseEvent } from "react";
 
+import type usePagination from "src/hooks/usePagination";
+
 import { assertNotUndefined, parseIntStrict } from "@alextheman/utility";
 import MUITablePagination from "@mui/material/TablePagination";
 
-import { usePaginationContext } from "src/groups/pagination/PaginationProvider";
-
-export interface TablePaginationProps extends Omit<
+export interface TablePaginationProps<
+  DataType extends object = Record<PropertyKey, unknown>,
+> extends Omit<
   TablePaginationOwnProps,
   "count" | "onPageChange" | "onRowsPerPageChange" | "page" | "rowsPerPage"
 > {
+  pagination: ReturnType<typeof usePagination<DataType>>;
   recordCount?: number;
 }
 
 function TablePagination<DataType extends object = Record<PropertyKey, unknown>>({
   recordCount,
   rowsPerPageOptions = [100, 500, 750, 1000],
+  pagination,
   ...props
-}: TablePaginationProps) {
-  const { pagination } = usePaginationContext<DataType>();
+}: TablePaginationProps<DataType>) {
   const {
     state: { paginationSettings },
     actions: { setPageNumber, setPageSize },

@@ -1,16 +1,23 @@
 import type { PaginationProps } from "@mui/material/Pagination";
 
+import type usePagination from "src/hooks/usePagination";
+
 import Pagination from "@mui/material/Pagination";
 import Typography from "@mui/material/Typography";
 
-import { usePaginationContext } from "src/groups/pagination/PaginationProvider";
-
-export interface ListPaginationProps extends Omit<PaginationProps, "count" | "page"> {
+export interface ListPaginationProps<
+  DataType extends object = Record<PropertyKey, unknown>,
+> extends Omit<PaginationProps, "count" | "page"> {
   totalRecordCount?: number;
+  pagination: ReturnType<typeof usePagination<DataType>>;
 }
 
-function ListPagination({ totalRecordCount, onChange, ...paginationProps }: ListPaginationProps) {
-  const { pagination } = usePaginationContext();
+function ListPagination<DataType extends object = Record<PropertyKey, unknown>>({
+  totalRecordCount,
+  onChange,
+  pagination,
+  ...paginationProps
+}: ListPaginationProps<DataType>) {
   const {
     state: { paginationSettings },
     actions: { setPageNumber },
