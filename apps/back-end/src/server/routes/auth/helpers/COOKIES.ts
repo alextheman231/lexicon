@@ -2,12 +2,15 @@ import type { CookieOptions } from "express-serve-static-core";
 
 import loadEnvironment from "src/utility/env/loadEnvironment";
 
-const ENV = loadEnvironment();
 
-const COOKIES: CookieOptions = {
-  httpOnly: true,
-  sameSite: ENV === "production" ? "none" : "lax",
-  secure: ENV === "production",
-};
+function loadCookies(): CookieOptions {
+  const ENV = loadEnvironment();
 
-export default COOKIES;
+  return {
+    httpOnly: true,
+    sameSite: ENV === "production" ? "none" : "lax",
+    secure: ENV === "production",
+  };
+}
+
+export default loadCookies;
