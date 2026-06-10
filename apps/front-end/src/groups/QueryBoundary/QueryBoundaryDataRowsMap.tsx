@@ -105,6 +105,9 @@ function QueryBoundaryDataRowsMap<ItemType>({
   if (nullableFallback) {
     boundaryNullable = (
       <QueryBoundaryNullable
+        data={props.data}
+        error={props.error}
+        isLoading={props.isLoading}
         nullableFallback={
           typeof nullableFallback === "function" ? nullableFallback(columns) : nullableFallback
         }
@@ -115,6 +118,9 @@ function QueryBoundaryDataRowsMap<ItemType>({
   if (undefinedFallback || nullFallback) {
     boundaryNullable = (
       <QueryBoundaryNullable
+        data={props.data}
+        error={props.error}
+        isLoading={props.isLoading}
         undefinedFallback={
           typeof undefinedFallback === "function" ? undefinedFallback(columns) : undefinedFallback
         }

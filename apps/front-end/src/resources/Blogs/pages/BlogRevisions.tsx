@@ -30,59 +30,55 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
   });
 
   return (
-    <QueryBoundaryBlog.Context>
-      <Page
-        title={
-          <QueryBoundaryBlog.Data loadingFallback={<Skeleton />}>
-            {(blog) => {
-              return `Revisions for "${blog.title}"`;
-            }}
-          </QueryBoundaryBlog.Data>
-        }
-      >
-        <QueryBoundaryBlog.Data>
+    <Page
+      title={
+        <QueryBoundaryBlog.Data loadingFallback={<Skeleton />}>
           {(blog) => {
-            return (
-              <OwnershipRequired
-                data={blog}
-                ownerId={(blog) => {
-                  return blog.authorId;
-                }}
-              >
-                <QueryBoundaryRevisions.Context>
-                  <Card>
-                    <TableContainer>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Revision Number</TableCell>
-                            <TableCell>Revision Blog Title</TableCell>
-                            <TableCell>Revision Message</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          <QueryBoundaryRevisions.DataRowsMap columns={3}>
-                            {(revision) => {
-                              return (
-                                <TableRow>
-                                  <TableCell>{revision.version}</TableCell>
-                                  <TableCell>{revision.title}</TableCell>
-                                  <TableCell>{revision.revisionMessage ?? "None"}</TableCell>
-                                </TableRow>
-                              );
-                            }}
-                          </QueryBoundaryRevisions.DataRowsMap>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Card>
-                </QueryBoundaryRevisions.Context>
-              </OwnershipRequired>
-            );
+            return `Revisions for "${blog.title}"`;
           }}
         </QueryBoundaryBlog.Data>
-      </Page>
-    </QueryBoundaryBlog.Context>
+      }
+    >
+      <QueryBoundaryBlog.Data>
+        {(blog) => {
+          return (
+            <OwnershipRequired
+              data={blog}
+              ownerId={(blog) => {
+                return blog.authorId;
+              }}
+            >
+              <Card>
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Revision Number</TableCell>
+                        <TableCell>Revision Blog Title</TableCell>
+                        <TableCell>Revision Message</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <QueryBoundaryRevisions.DataRowsMap columns={3}>
+                        {(revision) => {
+                          return (
+                            <TableRow>
+                              <TableCell>{revision.version}</TableCell>
+                              <TableCell>{revision.title}</TableCell>
+                              <TableCell>{revision.revisionMessage ?? "None"}</TableCell>
+                            </TableRow>
+                          );
+                        }}
+                      </QueryBoundaryRevisions.DataRowsMap>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Card>
+            </OwnershipRequired>
+          );
+        }}
+      </QueryBoundaryBlog.Data>
+    </Page>
   );
 }
 

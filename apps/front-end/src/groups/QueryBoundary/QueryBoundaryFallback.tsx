@@ -36,19 +36,25 @@ function QueryBoundaryFallback({
   codeErrorMap,
   errorFunction,
   logError,
-  ...queryBoundaryNullableProps
+  ...props
 }: QueryBoundaryFallbackProps) {
-  let queryBoundaryError = <QueryBoundaryError logError={logError} />;
+  let queryBoundaryError = (
+    <QueryBoundaryError data={props.data} error={props.error} logError={logError} />
+  );
 
   if (errorFallback) {
     queryBoundaryError = (
-      <QueryBoundaryError logError={logError}>{errorFallback}</QueryBoundaryError>
+      <QueryBoundaryError data={props.data} error={props.error} logError={logError}>
+        {errorFallback}
+      </QueryBoundaryError>
     );
   }
 
   if (codeErrorMap || errorFunction) {
     queryBoundaryError = (
       <QueryBoundaryError
+        data={props.data}
+        error={props.error}
         logError={logError}
         codeErrorMap={codeErrorMap}
         errorFunction={errorFunction}
@@ -59,7 +65,7 @@ function QueryBoundaryFallback({
   return (
     <>
       {queryBoundaryError}
-      <QueryBoundaryNullable {...queryBoundaryNullableProps} />
+      <QueryBoundaryNullable {...props} />
     </>
   );
 }
