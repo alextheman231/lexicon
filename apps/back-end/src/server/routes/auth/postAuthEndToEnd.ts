@@ -13,7 +13,7 @@ import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddlew
 function postAuthEndToEnd(auth: Router) {
   auth.post(
     "/end-to-end",
-    allowEnvironments(["development", "end-to-end"]),
+    allowEnvironments(["end-to-end"]),
     handleEndpointMiddleware(async (request, response) => {
       const COOKIES = loadCookies();
       const connection = getConnection();
