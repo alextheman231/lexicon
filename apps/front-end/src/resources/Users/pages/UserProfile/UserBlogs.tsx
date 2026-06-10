@@ -63,28 +63,26 @@ function UserBlogs({ user }: UserBlogsProps) {
   );
 
   return (
-    <PaginationGroup.Context>
-      <QueryBoundary.Context>
-        <Stack spacing={2}>
-          <QueryBoundary.Error />
-          {isLargeScreen ? (
-            <BlogsTable
-              cardContent={user.id === currentUser?.id ? select : null}
-              PaginationGroup={PaginationGroup}
-              QueryBoundary={QueryBoundary}
-              totalRecordCount={totalRecordCount}
-            />
-          ) : (
-            <BlogsList
-              cardContent={user.id === currentUser?.id ? select : null}
-              PaginationGroup={PaginationGroup}
-              QueryBoundary={QueryBoundary}
-              totalRecordCount={totalRecordCount}
-            />
-          )}
-        </Stack>
-      </QueryBoundary.Context>
-    </PaginationGroup.Context>
+    <QueryBoundary.Context>
+      <Stack spacing={2}>
+        <QueryBoundary.Error />
+        {isLargeScreen ? (
+          <BlogsTable
+            cardContent={user.id === currentUser?.id ? select : null}
+            PaginationGroup={PaginationGroup}
+            QueryBoundary={QueryBoundary}
+            totalRecordCount={totalRecordCount}
+          />
+        ) : (
+          <BlogsList
+            cardContent={user.id === currentUser?.id ? select : null}
+            PaginationGroup={PaginationGroup}
+            QueryBoundary={QueryBoundary}
+            totalRecordCount={totalRecordCount}
+          />
+        )}
+      </Stack>
+    </QueryBoundary.Context>
   );
 }
 
