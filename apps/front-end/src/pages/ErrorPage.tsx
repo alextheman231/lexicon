@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 import Debug from "src/components/Debug";
-import { DEFAULT_ERROR_MESSAGE } from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
+import DEFAULT_ERROR_MESSAGE from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 import formatError from "src/utility/errors/formatError";
 
 function ErrorPage({ error, resetError }: Parameters<FallbackRender>[0]) {
