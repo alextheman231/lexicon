@@ -13,7 +13,7 @@ import createItemQueryBoundary from "src/groups/QueryBoundary/creators/createIte
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
 import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
 import useBlogRevisionsQuery from "src/resources/Blogs/queries/useBlogRevisionsQuery";
-import { DEFAULT_ERROR_MESSAGE } from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
+import DEFAULT_ERROR_MESSAGE from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 
 interface BlogRevisionsProps {
   blogId: string;
