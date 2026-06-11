@@ -17,7 +17,7 @@ import Typography from "@mui/material/Typography";
 import { MdCreate, MdError, MdLogout, MdManageAccounts, MdPerson } from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryItemWrapper";
 import formatError from "src/utility/errors/formatError";
 
 function UserDropdown() {

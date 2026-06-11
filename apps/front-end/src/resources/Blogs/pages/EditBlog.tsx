@@ -4,7 +4,7 @@ import { useSnackbarContext } from "@alextheman/components/snackbar";
 import { BlogState } from "@lexicon/models";
 
 import OwnershipRequired from "src/components/OwnershipRequired";
-import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryItemWrapper";
 import useLocation from "src/hooks/useLocation";
 import BlogForm from "src/resources/Blogs/components/BlogForm";
 import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
