@@ -45,7 +45,11 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
       }
     >
       <QueryBoundaryBlog.Fallback />
-      <QueryBoundaryRevisions.Error />
+      <QueryBoundaryRevisions.Error
+        codeErrorMap={{
+          FORBIDDEN_ACCESS: "You cannot see blog revisions for a blog you did not create.",
+        }}
+      />
       <QueryBoundaryBlog.Data>
         {(blog) => {
           return (
@@ -54,6 +58,7 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
               ownerId={(blog) => {
                 return blog.authorId;
               }}
+              hideUnauthorisedPage
             >
               <Card>
                 <TableContainer>
