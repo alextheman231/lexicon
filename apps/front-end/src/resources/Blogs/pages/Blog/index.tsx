@@ -4,7 +4,7 @@ import { formatDateAndTime } from "@alextheman/utility";
 import Typography from "@mui/material/Typography";
 
 import { useAuth } from "src/AuthContextProvider";
-import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryItemWrapper";
 import BlogDropdown from "src/resources/Blogs/components/BlogDropdown";
 import BlogContent from "src/resources/Blogs/pages/Blog/BlogContent";
 import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";

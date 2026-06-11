@@ -9,7 +9,7 @@ import { createTabGroup } from "@alextheman/components/Tab";
 
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
-import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryWrapper";
+import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryItemWrapper";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import useUserQuery from "src/resources/Users/queries/useUserQuery";
