@@ -13,9 +13,21 @@ interface OwnershipRequiredPropsNoData extends AuthRequiredProps {
   ownerId: string | Array<string>;
 }
 
-export type OwnershipRequiredProps<DataType> =
+interface OwnershipRequiredPropsWithUnauthorisedPage {
+  hideUnauthorisedPage?: false;
+  unauthorisedMessage?: string;
+}
+
+interface OwnershipRequiredPropsNoUnauthorisedPage {
+  hideUnauthorisedPage: true;
+  unauthorisedMessage?: never;
+}
+
+export type OwnershipRequiredProps<DataType> = (
   | OwnershipRequiredPropsWithData<DataType>
-  | OwnershipRequiredPropsNoData;
+  | OwnershipRequiredPropsNoData
+) &
+  (OwnershipRequiredPropsWithUnauthorisedPage | OwnershipRequiredPropsNoUnauthorisedPage);
 
 function resolveOwnerId<DataType>(
   ownerIds: string | Array<string> | ((data: DataType) => string | Array<string>),
@@ -46,6 +58,7 @@ function resolveOwnerId<DataType>(
 function OwnershipRequired<DataType>({
   ownerId,
   data,
+  hideUnauthorisedPage,
   unauthorisedMessage,
   children,
 }: OwnershipRequiredProps<DataType>) {
@@ -55,7 +68,9 @@ function OwnershipRequired<DataType>({
         const resolvedOwnerIds = resolveOwnerId(ownerId, data);
 
         if (resolvedOwnerIds === undefined) {
-          return <UnauthorisedPage unauthorisedMessage={unauthorisedMessage} />;
+          return hideUnauthorisedPage ? null : (
+            <UnauthorisedPage unauthorisedMessage={unauthorisedMessage} />
+          );
         }
 
         if (
@@ -63,7 +78,9 @@ function OwnershipRequired<DataType>({
             return id === currentUser.id;
           })
         ) {
-          return <UnauthorisedPage unauthorisedMessage={unauthorisedMessage} />;
+          return hideUnauthorisedPage ? null : (
+            <UnauthorisedPage unauthorisedMessage={unauthorisedMessage} />
+          );
         }
 
         return typeof children === "function" ? children(currentUser) : children;
