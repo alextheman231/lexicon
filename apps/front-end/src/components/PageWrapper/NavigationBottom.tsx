@@ -12,7 +12,6 @@ import Stack from "@mui/material/Stack";
 import { MdHome, MdPerson } from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
-import Banner from "src/components/PageWrapper/Banner";
 import UserDropdown from "src/components/UserDropdown";
 
 interface NavigationBottomProps {
@@ -53,7 +52,6 @@ function NavigationBottom({ children }: NavigationBottomProps) {
           },
         ]}
       >
-        <Banner />
         {children}
       </AlexNavigationBottom>
     </Stack>
