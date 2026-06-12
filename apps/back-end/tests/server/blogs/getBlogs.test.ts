@@ -9,30 +9,27 @@ import {
 } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogSummaries, parseBlogSummariesResponse } from "@lexicon/models";
-import { eq } from "drizzle-orm";
 import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
 import getTestFixtures from "tests/fixtures";
 
-import { blogRevisionsTable } from "src/database/schema";
 import selectUser from "src/models/users/selectUser";
 
 describe("GET /api/v1/blogs", () => {
   test("Returns all the blogs from all users", async () => {
     const { connection, factory, authenticatedClient } = await getTestFixtures();
 
-    const blogs = await fillArray(
+    const factoryBlogs = await fillArray(
       async () => {
-        const { blog } = await factory.blogs.insert();
-        return blog;
+        return await factory.blogs.insertWithRevision();
       },
       10,
       { sequential: true },
     );
 
-    const blogIds = blogs.map((blog) => {
+    const blogIds = factoryBlogs.map(({ blog }) => {
       return blog.id;
     });
 
@@ -43,9 +40,10 @@ describe("GET /api/v1/blogs", () => {
 
     for (const blogSummary of blogSummaries) {
       if (blogIds.includes(blogSummary.id)) {
-        const blog = blogs.find((blog) => {
-          return blogSummary.id === blog.id;
-        });
+        const { blog, revision } =
+          factoryBlogs.find(({ blog }) => {
+            return blogSummary.id === blog.id;
+          }) ?? {};
 
         assertNotUndefined(blog);
         expect(omitProperties(blogSummary, ["authorDisplayName", "authorUsername"])).toMatchObject(
@@ -57,15 +55,7 @@ describe("GET /api/v1/blogs", () => {
         expect(blogSummary.authorDisplayName).toBe(user.displayName);
         expect(blogSummary.authorUsername).toBe(user.username);
 
-        const [revision] = await connection
-          .select({
-            title: blogRevisionsTable.title,
-            content: blogRevisionsTable.content,
-          })
-          .from(blogRevisionsTable)
-          .where(eq(blogRevisionsTable.id, blog.currentRevisionId));
-
-        assertNotNull(revision);
+        assertNotUndefined(revision);
 
         expect(blogSummary.title).toBe(revision.title);
       } else {
@@ -85,7 +75,10 @@ describe("GET /api/v1/blogs", () => {
     const blogs = (
       await fillArray(
         async () => {
-          const { blog } = await factory.blogs.insert({ author, state: BlogState.PUBLISHED });
+          const { blog } = await factory.blogs.insertWithRevision({
+            author,
+            state: BlogState.PUBLISHED,
+          });
           return blog;
         },
         10,
@@ -132,7 +125,7 @@ describe("GET /api/v1/blogs", () => {
 
     await fillArray(
       async () => {
-        const { blog } = await factory.blogs.insert({ author });
+        const { blog } = await factory.blogs.insertWithRevision({ author });
         return blog;
       },
       5,

@@ -1,21 +1,19 @@
 import { assertNotNull, omitProperties } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
 import { parseBlogView } from "@lexicon/models";
-import { eq } from "drizzle-orm";
 import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
 import getTestFixtures from "tests/fixtures";
 
-import { blogRevisionsTable } from "src/database/schema";
 import selectUser from "src/models/users/selectUser";
 
 describe("GET /api/v1/blogs/<blogId>", () => {
   test("Returns the blog with the given blog ID", async () => {
     const { connection, factory, authenticatedClient } = await getTestFixtures();
 
-    const { blog } = await factory.blogs.insert();
+    const { blog, revision } = await factory.blogs.insertWithRevision();
 
     const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
 
@@ -26,14 +24,6 @@ describe("GET /api/v1/blogs/<blogId>", () => {
     assertNotNull(user);
     expect(blogView.authorDisplayName).toBe(user.displayName);
     expect(blogView.authorUsername).toBe(user.username);
-
-    const [revision] = await connection
-      .select({
-        title: blogRevisionsTable.title,
-        content: blogRevisionsTable.content,
-      })
-      .from(blogRevisionsTable)
-      .where(eq(blogRevisionsTable.id, blog.currentRevisionId));
 
     assertNotNull(revision);
 
