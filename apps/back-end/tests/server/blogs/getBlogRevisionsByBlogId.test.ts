@@ -1,11 +1,10 @@
 import type { ResourceNotFoundErrorPayload } from "src/utility/errors/resourceNotFoundError";
 
-import { assertNotUndefined, az, fillArray } from "@alextheman/utility";
+import { assertNotUndefined, fillArray } from "@alextheman/utility";
 import { CodeError, DataError } from "@alextheman/utility/v6";
 import { parseBlogRevisionHistory } from "@lexicon/models";
 import request from "supertest";
 import { describe, expect, test } from "vitest";
-import z from "zod";
 
 import { randomUUID } from "node:crypto";
 
@@ -17,7 +16,7 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
   test("Gets all the blog revisions for the chosen blog", async () => {
     const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
 
-    const { blog, initialRevision } = await factory.blogs.insert({ author: authenticatedUser });
+    const blog = await factory.blogs.insert({ author: authenticatedUser });
     const blogRevisions = await fillArray(
       async () => {
         return await factory.blogRevisions.insert({ blog, editor: authenticatedUser });
@@ -25,10 +24,6 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
       10,
       { sequential: true },
     );
-    blogRevisions.push({
-      ...initialRevision,
-      content: az.with(z.record(z.string(), z.any())).parse(initialRevision.content),
-    });
 
     const factoryRevisionIds = blogRevisions.map((revision) => {
       return revision.id;
@@ -39,8 +34,7 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
       .expect(200);
 
     const revisions = parseBlogRevisionHistory(body.revisions);
-    // One more than the generated 10 because of the initially created revision from the blogs factory
-    expect(revisions.length).toBe(11);
+    expect(revisions.length).toBe(10);
 
     for (const revision of revisions) {
       if (factoryRevisionIds.includes(revision.id)) {
@@ -63,7 +57,7 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
   test("Can not get blog revisions for a blog the user does not own", async () => {
     const { factory, authenticatedClient } = await getTestFixtures();
 
-    const { blog } = await factory.blogs.insert();
+    const { blog } = await factory.blogs.insertWithRevision();
 
     const { body } = await authenticatedClient
       .get(`/api/v1/blogs/${blog.id}/revisions`)
@@ -95,7 +89,7 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
   test("Does not allow an unauthenticated user to view blog revisions", async () => {
     const { factory } = await getTestFixtures();
 
-    const { blog } = await factory.blogs.insert();
+    const { blog } = await factory.blogs.insertWithRevision();
 
     const { body } = await request(app).get(`/api/v1/blogs/${blog.id}/revisions`).expect(401);
 

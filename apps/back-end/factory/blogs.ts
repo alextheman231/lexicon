@@ -1,6 +1,8 @@
-import type { Blog, CreateBlogData, User } from "@lexicon/models";
+import type { CreateBlogData, User } from "@lexicon/models";
 import type FactoryContext from "factory/context";
 import type UserFactory from "factory/users";
+
+import type { Blog, BlogInsert, BlogRevision } from "src/database/schema";
 
 import { assertNotNull, getRandomNumber, omitProperties } from "@alextheman/utility";
 import { faker } from "@faker-js/faker";
@@ -13,6 +15,10 @@ import insertBlogRevision from "src/models/blogs/insertBlogRevision";
 import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
 import selectBlog from "src/models/blogs/selectBlog";
 import updateBlog from "src/models/blogs/updateBlog";
+
+type BlogFactoryData<InsertType extends object = Record<string, unknown>> = Partial<
+  Omit<InsertType, "authorId"> & { id: string; author: string | User }
+>;
 
 class BlogFactory {
   private context: FactoryContext;
@@ -60,9 +66,27 @@ class BlogFactory {
     };
   }
 
-  public async insert(
-    data: Partial<Omit<CreateBlogData, "authorId"> & { id: string; author: string | User }> = {},
-  ) {
+  public async insert(data: BlogFactoryData<BlogInsert> = {}): Promise<Blog> {
+    const authorId = await getIdFromFactoryResource<string>(data.author, this.users);
+    const blogTemplate: BlogInsert = {
+      authorId,
+      state: BlogState.DRAFT,
+      ...omitProperties(data, "author"),
+    };
+    const today = new Date();
+
+    const blog = await insertBlog(this.context.connection, {
+      ...blogTemplate,
+      authorId,
+      publishedAt: blogTemplate.state === BlogState.PUBLISHED ? today : null,
+      updatedAt: today,
+    });
+
+    return blog;
+  }
+  public async insertWithRevision(
+    data: BlogFactoryData<CreateBlogData> = {},
+  ): Promise<{ blog: Blog; revision: BlogRevision }> {
     const authorId = await getIdFromFactoryResource<string>(data.author, this.users);
     const blogTemplate: CreateBlogData = {
       title: faker.music.songName(),
@@ -102,7 +126,7 @@ class BlogFactory {
     const blog = { ...blogModel, currentRevisionId };
 
     this.records[blog.id] = blog;
-    return { blog, initialRevision: revision };
+    return { blog, revision };
   }
 }
 

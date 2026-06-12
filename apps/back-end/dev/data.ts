@@ -30,7 +30,7 @@ import users from "dev/fixtures/users.json" with { type: "json" };
     }
 
     for (const blog of blogs) {
-      await factory.blogs.insert({
+      await factory.blogs.insertWithRevision({
         ...omitProperties(blog, ["authorId", "content", "state"]),
         author: blog.authorId,
         state: az

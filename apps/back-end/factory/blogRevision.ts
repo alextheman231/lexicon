@@ -1,16 +1,19 @@
-import type { Blog, BlogRevision, User } from "@lexicon/models";
-import type BlogFactory from "factory/blogs";
+import type { BlogRevision, User } from "@lexicon/models";
 import type FactoryContext from "factory/context";
 import type UserFactory from "factory/users";
 
-import type { BlogRevisionInsert } from "src/database/schema";
+import type { Blog, BlogRevisionInsert } from "src/database/schema";
 
-import { assertNotNull, omitProperties } from "@alextheman/utility";
-import { parseBlogRevision } from "@lexicon/models";
+import { assertNotNull, az, getRandomNumber, omitProperties } from "@alextheman/utility";
+import { faker } from "@faker-js/faker";
+import BlogFactory from "factory/blogs";
+import z from "zod";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
 import insertBlogRevision from "src/models/blogs/insertBlogRevision";
+import selectBlog from "src/models/blogs/selectBlog";
+import updateBlog from "src/models/blogs/updateBlog";
 import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
 import loadBlogView from "src/services/blogs/loadBlogView";
 
@@ -36,35 +39,40 @@ class BlogRevisionFactory {
       }
     > = {},
   ): Promise<BlogRevision> {
-    const editorId = await getIdFromFactoryResource<string>(data.editor, this.users);
+    const blogId = await getIdFromFactoryResource<string>(data.blog, this.blogs);
 
-    let blogId: string | Blog | undefined = data.blog;
-
-    if (blogId === undefined) {
-      blogId = (await this.blogs.insert()).blog;
-    }
-    if (typeof blogId === "object") {
-      blogId = blogId.id;
-    }
-
+    const blog = await selectBlog(this.context.connection, blogId);
+    assertNotNull(blog);
     const blogView = await loadBlogView(this.context.connection, blogId);
-    assertNotNull(blogView);
-    const latestVersion = await findLatestBlogVersion(this.context.connection, blogId);
-    assertNotNull(latestVersion);
+
+    const editorId =
+      data.editor !== undefined
+        ? await getIdFromFactoryResource<string>(data.editor, this.users)
+        : blog.authorId;
+
+    const latestVersion = (await findLatestBlogVersion(this.context.connection, blogId)) ?? 0;
 
     const blogRevisionTemplate: BlogRevisionInsert = {
       editorId,
       blogId,
-      title: data.title ?? blogView.title,
-      content: data.content ?? blogView.content,
+      title: data.title ?? blogView?.title ?? faker.book.title(),
+      content:
+        data.content ??
+        blogView?.content ??
+        BlogFactory.generateEditorContent(faker.lorem.sentences(getRandomNumber(0, 5))),
       version: data.version ?? latestVersion + 1,
       ...omitProperties(data, ["editor", "blog"]),
     };
-    const createdRevision = await insertBlogRevision(this.context.connection, blogRevisionTemplate);
-    const revision = parseBlogRevision(createdRevision);
+    const revision = await insertBlogRevision(this.context.connection, blogRevisionTemplate);
+    await updateBlog(this.context.connection, blogId, { currentRevisionId: revision.id });
 
-    this.records[revision.id] = revision;
-    return revision;
+    const newRevision = {
+      ...revision,
+      content: az.with(z.record(z.string(), z.any())).parse(revision.content),
+    };
+
+    this.records[newRevision.id] = newRevision;
+    return newRevision;
   }
 }
 
