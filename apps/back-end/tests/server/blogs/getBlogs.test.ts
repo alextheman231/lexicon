@@ -6,6 +6,7 @@ import {
   fillArray,
   omitProperties,
   paralleliseArrays,
+  sortBy,
 } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogSummaries, parseBlogSummariesResponse } from "@lexicon/models";
@@ -84,12 +85,12 @@ describe("GET /api/v1/blogs", () => {
         10,
         { sequential: true },
       )
-    ).toSorted((first, second) => {
-      assertNotNull(first.publishedAt);
-      assertNotNull(second.publishedAt);
-
-      return second.publishedAt.getTime() - first.publishedAt.getTime();
-    });
+    ).toSorted(
+      sortBy((blog) => {
+        assertNotNull(blog.publishedAt);
+        return blog.publishedAt;
+      }, "desc"),
+    );
 
     const secondPageBlogs = blogs.slice(5, 10);
 
