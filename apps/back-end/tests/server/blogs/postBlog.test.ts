@@ -4,14 +4,12 @@ import { assertNotNull, isSameDate } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogView } from "@lexicon/models";
 import BlogFactory from "factory/blogs";
-import request from "supertest";
 import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
 import getTestFixtures from "tests/fixtures";
-
-import app from "src/server/app";
+import testClient from "tests/fixtures/testClient";
 
 describe("POST /api/v1/blogs", () => {
   test("Inserts a blog into the database", async () => {
@@ -42,7 +40,7 @@ describe("POST /api/v1/blogs", () => {
       content: BlogFactory.generateEditorContent("Test blog"),
     };
 
-    const { body } = await request(app).post("/api/v1/blogs").send(data).expect(401);
+    const { body } = await testClient.post("/api/v1/blogs").send(data).expect(401);
 
     const error = DataError.expectError(() => {
       throw body.error;

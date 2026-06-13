@@ -3,16 +3,15 @@ import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 // eslint-disable-next-line @alextheman/no-namespace-imports
 import * as OpenIDClient from "openid-client";
-import request from "supertest";
 import { describe, expect, test, vi } from "vitest";
 
 import getTestFixtures from "tests/fixtures";
+import testClient from "tests/fixtures/testClient";
 import COOKIES from "tests/server/auth/helpers/COOKIES";
 import getSetCookies from "tests/server/auth/helpers/getSetCookies";
 
 import { usersTable } from "src/database/schema";
 import selectUser from "src/models/users/selectUser";
-import app from "src/server/app";
 
 vi.mock("openid-client", async () => {
   return {
@@ -46,7 +45,7 @@ describe("GET /api/v1/auth/google/callback", () => {
       token_type: "Bearer",
     } as any);
 
-    const { body, headers } = await request(app)
+    const { body, headers } = await testClient
       .get("/api/v1/auth/google/callback")
       .query({ code: "test-code", state: "valid-state" })
       .set("Cookie", COOKIES)
@@ -86,7 +85,7 @@ describe("GET /api/v1/auth/google/callback", () => {
       token_type: "Bearer",
     } as any);
 
-    const { body, headers } = await request(app)
+    const { body, headers } = await testClient
       .get("/api/v1/auth/google/callback")
       .query({ code: "test-code", state: "valid-state" })
       .set("Cookie", COOKIES)
@@ -126,7 +125,7 @@ describe("GET /api/v1/auth/google/callback", () => {
       token_type: "Bearer",
     } as any);
 
-    const { body, headers } = await request(app)
+    const { body, headers } = await testClient
       .get("/api/v1/auth/google/callback")
       .query({ code: "test-code", state: "valid-state" })
       .set("Cookie", COOKIES)
