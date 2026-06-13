@@ -2,6 +2,7 @@ import type { Router } from "express";
 
 import { az } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
+import { blogQueryStringSchema } from "@lexicon/models";
 import z from "zod";
 
 import { getConnection } from "src/database/connection";
@@ -11,17 +12,13 @@ import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import validateUUID from "src/utility/handlers/validateUUID";
 
-const queryStringSchema = z.object({
-  revisionNumber: z.coerce.number().int().positive().optional(),
-});
-
 function getBlogById(blogs: Router) {
   blogs.param("blogId", validateUUID).get(
     "/:blogId",
     handleEndpointMiddleware<{ blogId: string }>(async (request, response) => {
       const connection = getConnection();
 
-      const { revisionNumber } = az.with(queryStringSchema).parse(request.query, (error) => {
+      const { revisionNumber } = az.with(blogQueryStringSchema).parse(request.query, (error) => {
         return new APIError(
           400,
           "INVALID_QUERY_STRING",
