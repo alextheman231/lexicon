@@ -1,6 +1,6 @@
 import { assertNotNull, omitProperties } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
-import { parseBlogView } from "@lexicon/models";
+import { BlogState, parseBlogView } from "@lexicon/models";
 import BlogFactory from "factory/blogs";
 import { describe, expect, test } from "vitest";
 
@@ -111,4 +111,33 @@ describe("GET /api/v1/blogs/<blogId>", () => {
     expect(error.data.resourceId).toBe(blog.id);
     expect(error.data.resourceType).toBe("blog");
   });
+  test.each<BlogState>([BlogState.ARCHIVED, BlogState.DRAFT])(
+    "Allows the owner to view their own %s blog",
+    async (state) => {
+      const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+
+      const { blog } = await factory.blogs.insertWithRevision({ state, author: authenticatedUser });
+      const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
+
+      const blogView = parseBlogView(body.blog);
+      expect(blogView.id).toBe(blog.id);
+      expect(blogView.state).toBe(state);
+    },
+  );
+  test.each<BlogState>([BlogState.ARCHIVED, BlogState.DRAFT])(
+    "Returns a 404 if the blog is %s but was not created by the signed-in user.",
+    async (state) => {
+      const { factory, authenticatedClient } = await getTestFixtures();
+
+      const { blog } = await factory.blogs.insertWithRevision({ state });
+      const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(404);
+
+      const error = DataError.expectError(() => {
+        throw body.error;
+      });
+      expect(error.code).toBe("RESOURCE_NOT_FOUND");
+      expect(error.data.resourceId).toBe(blog.id);
+      expect(error.data.resourceType).toBe("blog");
+    },
+  );
 });
