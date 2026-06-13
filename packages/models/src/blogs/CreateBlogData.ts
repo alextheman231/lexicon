@@ -1,4 +1,4 @@
-import { az, omitProperties } from "@alextheman/utility";
+import { az } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import z from "zod";
 
@@ -7,7 +7,7 @@ import { BlogState } from "src/blogs/BlogState";
 export const createBlogSchema = z.strictObject({
   title: z.string(),
   content: z.record(z.string(), z.any()),
-  state: z.enum(omitProperties(BlogState, "ARCHIVED")),
+  state: z.enum(BlogState),
 });
 
 export type CreateBlogData = z.infer<typeof createBlogSchema>;

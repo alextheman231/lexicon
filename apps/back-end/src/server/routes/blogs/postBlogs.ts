@@ -1,6 +1,7 @@
 import type { Router } from "express";
 
-import { parseCreateBlogData } from "@lexicon/models";
+import { APIError } from "@alextheman/utility/v6";
+import { BlogState, parseCreateBlogData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import createBlog from "src/services/blogs/createBlog";
@@ -14,6 +15,15 @@ function postBlogs(blogs: Router) {
 
       await connection.transaction(async (transaction) => {
         const data = parseCreateBlogData(request.body);
+
+        if (data.state === BlogState.ARCHIVED) {
+          throw new APIError(
+            400,
+            "INVALID_BLOG_DATA",
+            "Cannot create a blog with an initial archived state.",
+            { input: data },
+          );
+        }
 
         const { id } = await createBlog(transaction, request.user.id, data);
         response.status(201).send({ id });
