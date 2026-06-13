@@ -1,7 +1,7 @@
 import { APIError } from "@alextheman/utility/v6";
 
 export interface ForbiddenAccessErrorData {
-  userId: string;
+  userId?: string;
 }
 
 function forbiddenAccessError({ userId }: ForbiddenAccessErrorData) {

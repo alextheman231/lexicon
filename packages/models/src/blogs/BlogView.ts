@@ -4,6 +4,7 @@ import z from "zod";
 import { blogSummarySchema } from "src/blogs/BlogSummary";
 
 export const blogViewSchema = blogSummarySchema.extend({
+  revisionNumber: z.int(),
   content: z.record(z.string(), z.any()),
 });
 

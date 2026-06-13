@@ -4,9 +4,9 @@ import { APIError } from "@alextheman/utility/v6";
 import { parseEditBlogData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
+import selectBlog from "src/models/blogs/selectBlog";
 import changeBlogState from "src/services/blogs/changeBlogState";
 import editBlog from "src/services/blogs/editBlog";
-import loadBlogView from "src/services/blogs/loadBlogView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import validateUUID from "src/utility/handlers/validateUUID";
@@ -18,9 +18,10 @@ function putBlogById(blogs: Router) {
       const connection = getConnection();
 
       await connection.transaction(async (transaction) => {
-        const oldBlog = await loadBlogView(transaction, request.params.blogId);
+        const { blogId } = request.params;
+        const oldBlog = await selectBlog(transaction, blogId);
         if (oldBlog === null) {
-          throw resourceNotFoundError("blog", request.params.blogId);
+          throw resourceNotFoundError("blog", blogId);
         }
 
         if (oldBlog.authorId !== request.user.id) {
