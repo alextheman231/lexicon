@@ -1,0 +1,40 @@
+import type { Router } from "express";
+
+import { getConnection } from "src/database/connection";
+import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
+import editBlogCollection from "src/services/blogCollections/editBlogCollection";
+import { parseEditBlogCollectionData } from "src/services/blogCollections/helpers/EditBlogCollectionData";
+import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
+import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
+import validateUUID from "src/utility/handlers/validateUUID";
+
+function putBlogCollectionById(blogCollections: Router) {
+  blogCollections.param("blogCollectionId", validateUUID).put(
+    "/:blogCollectionId",
+    handleAuthenticatedEndpointMiddleware<{ blogCollectionId: string }>(
+      async (request, response) => {
+        const connection = getConnection();
+        const data = parseEditBlogCollectionData(request.body);
+        const { blogCollectionId } = request.params;
+
+        await connection.transaction(async (transaction) => {
+          const blogCollection = await selectBlogCollection(transaction, blogCollectionId);
+
+          if (blogCollection?.userId !== request.user.id) {
+            throw forbiddenAccessError({ userId: request.user.id });
+          }
+
+          await editBlogCollection(
+            transaction,
+            { userId: request.user.id, blogCollectionId },
+            data,
+          );
+        });
+
+        response.status(200).send({});
+      },
+    ),
+  );
+}
+
+export default putBlogCollectionById;
