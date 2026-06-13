@@ -8,7 +8,7 @@ import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import validateUUID from "src/utility/handlers/validateUUID";
 
-function getBlogRevisionByBlogId(blogs: Router) {
+function getBlogRevisionsByBlogId(blogs: Router) {
   blogs.param("blogId", validateUUID).get<{ blogId: string }>(
     "/:blogId/revisions",
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
@@ -32,4 +32,4 @@ function getBlogRevisionByBlogId(blogs: Router) {
   );
 }
 
-export default getBlogRevisionByBlogId;
+export default getBlogRevisionsByBlogId;
