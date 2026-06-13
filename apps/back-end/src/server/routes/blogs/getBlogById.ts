@@ -34,7 +34,10 @@ function getBlogById(blogs: Router) {
         throw resourceNotFoundError("blog", blogId);
       }
 
-      if (blog.state === BlogState.DRAFT && blog.authorId !== request.user?.id) {
+      if (
+        ([BlogState.ARCHIVED, BlogState.DRAFT] as Array<BlogState>).includes(blog.state) &&
+        blog.authorId !== request.user?.id
+      ) {
         throw resourceNotFoundError("blog", blogId);
       }
 
