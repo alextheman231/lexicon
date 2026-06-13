@@ -2,6 +2,7 @@ import { Page } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/routing";
 import { formatDateAndTime } from "@alextheman/utility";
 import Typography from "@mui/material/Typography";
+import { useSearchParams } from "wouter";
 
 import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryItemWrapper";
@@ -14,7 +15,9 @@ interface BlogPageProps {
 }
 
 function Blog({ blogId }: BlogPageProps) {
-  const { data: blog, isPending, error } = useBlogQuery(blogId);
+  const [searchParams] = useSearchParams();
+  const revisionNumber = searchParams.get("revisionNumber") ?? undefined;
+  const { data: blog, isPending, error } = useBlogQuery(blogId, { revisionNumber });
   const { currentUser } = useAuth();
 
   return (

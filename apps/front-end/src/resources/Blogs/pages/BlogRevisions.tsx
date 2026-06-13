@@ -1,4 +1,5 @@
 import { Page } from "@alextheman/components";
+import { InternalLink } from "@alextheman/components/routing";
 import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import Table from "@mui/material/Table";
@@ -75,7 +76,13 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
                         {(revision) => {
                           return (
                             <TableRow>
-                              <TableCell>{revision.version}</TableCell>
+                              <TableCell>
+                                <InternalLink
+                                  to={`/blogs/${blog.id}?revisionNumber=${revision.version}`}
+                                >
+                                  {revision.version}
+                                </InternalLink>
+                              </TableCell>
                               <TableCell>{revision.title}</TableCell>
                               <TableCell>{revision.revisionMessage ?? "None"}</TableCell>
                             </TableRow>
