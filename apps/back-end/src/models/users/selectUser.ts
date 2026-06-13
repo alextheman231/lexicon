@@ -1,9 +1,10 @@
 import type { Connection } from "src/database/connection";
 import type { User } from "src/database/schema";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import { usersTable } from "src/database/schema";
+import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 interface SelectUserFilterUserId {
   userId: string;
@@ -18,13 +19,18 @@ interface SelectUserFilterEmail {
 type SelectUserFilter = SelectUserFilterUserId | SelectUserFilterEmail;
 
 async function selectUser(connection: Connection, filters: SelectUserFilter): Promise<User | null> {
-  const query = connection.select().from(usersTable);
+  const user = fetchSole(
+    connection
+      .select()
+      .from(usersTable)
+      .where(
+        and(
+          filters.userId !== undefined ? eq(usersTable.id, filters.userId) : undefined,
+          filters.email !== undefined ? eq(usersTable.email, filters.email) : undefined,
+        ),
+      ),
+  );
 
-  const [user] = filters.userId
-    ? await query.where(eq(usersTable.id, filters.userId))
-    : filters.email
-      ? await query.where(eq(usersTable.email, filters.email))
-      : [];
   return user ?? null;
 }
 
