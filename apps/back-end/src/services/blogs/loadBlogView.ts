@@ -7,6 +7,7 @@ import { and, eq } from "drizzle-orm";
 import z from "zod";
 
 import { blogRevisionsTable, blogsTable, usersTable } from "src/database/schema";
+import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 interface BlogViewFilter {
   blogId: string;
@@ -17,40 +18,42 @@ async function loadBlogView(
   connection: Connection,
   { blogId, revisionNumber }: BlogViewFilter,
 ): Promise<BlogView | null> {
-  const [blog] = await connection
-    .select({
-      id: blogsTable.id,
-      revisionNumber: blogRevisionsTable.version,
-      authorId: blogsTable.authorId,
-      authorUsername: usersTable.username,
-      authorDisplayName: usersTable.displayName,
-      updatedAt: blogsTable.updatedAt,
-      state: blogsTable.state,
-      publishedAt: blogsTable.publishedAt,
-      title: blogRevisionsTable.title,
-      content: blogRevisionsTable.content,
-    })
-    .from(blogsTable)
-    .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.blogId, blogsTable.id))
-    .innerJoin(usersTable, eq(blogsTable.authorId, usersTable.id))
-    .where(
-      and(
-        eq(blogsTable.id, blogId),
-        revisionNumber !== undefined
-          ? eq(blogRevisionsTable.version, revisionNumber)
-          : eq(blogRevisionsTable.id, blogsTable.currentRevisionId),
+  const blog = await fetchSole(
+    connection
+      .select({
+        id: blogsTable.id,
+        revisionNumber: blogRevisionsTable.version,
+        authorId: blogsTable.authorId,
+        authorUsername: usersTable.username,
+        authorDisplayName: usersTable.displayName,
+        updatedAt: blogsTable.updatedAt,
+        state: blogsTable.state,
+        publishedAt: blogsTable.publishedAt,
+        title: blogRevisionsTable.title,
+        content: blogRevisionsTable.content,
+      })
+      .from(blogsTable)
+      .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.blogId, blogsTable.id))
+      .innerJoin(usersTable, eq(blogsTable.authorId, usersTable.id))
+      .where(
+        and(
+          eq(blogsTable.id, blogId),
+          revisionNumber !== undefined
+            ? eq(blogRevisionsTable.version, revisionNumber)
+            : eq(blogRevisionsTable.id, blogsTable.currentRevisionId),
+        ),
       ),
-    );
+  );
 
-  if (blog) {
-    return {
-      ...blog,
-      authorDisplayName: blog.authorDisplayName ?? blog.authorUsername,
-      content: az.with(z.record(z.string(), z.any())).parse(blog.content),
-    };
+  if (blog === null) {
+    return null;
   }
 
-  return null;
+  return {
+    ...blog,
+    authorDisplayName: blog.authorDisplayName ?? blog.authorUsername,
+    content: az.with(z.record(z.string(), z.any())).parse(blog.content),
+  };
 }
 
 export default loadBlogView;

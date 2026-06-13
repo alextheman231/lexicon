@@ -5,6 +5,7 @@ import type { Connection } from "src/database/connection";
 import { eq, inArray, sql } from "drizzle-orm";
 
 import { blogRevisionsTable, blogsTable, usersTable } from "src/database/schema";
+import fetchAll from "src/utility/databaseFilters/fetchAll";
 
 async function loadBlogSummaries(
   connection: Connection,
@@ -34,7 +35,7 @@ async function loadBlogSummaries(
         .orderBy(sql`ARRAY_POSITION(${sql.param(blogIds)}::UUID[], ${blogsTable.id})`)
     : baseQuery;
 
-  const blogs = await query;
+  const blogs = await fetchAll(query);
   return blogs.map((blog) => {
     return {
       ...blog,

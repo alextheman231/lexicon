@@ -6,6 +6,7 @@ import type { AuthProviderSchema } from "src/database/schema";
 import { and, eq } from "drizzle-orm";
 
 import { authProvidersTable } from "src/database/schema";
+import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 export interface SelectAuthProviderQuery {
   provider?: AuthProvider;
@@ -16,17 +17,19 @@ async function selectUserAuthProvider(
   connection: Connection,
   { provider, providerUserId }: SelectAuthProviderQuery,
 ): Promise<AuthProviderSchema | null> {
-  const [authProvider] = await connection
-    .select()
-    .from(authProvidersTable)
-    .where(
-      and(
-        provider !== undefined ? eq(authProvidersTable.provider, provider) : undefined,
-        providerUserId !== undefined
-          ? eq(authProvidersTable.providerUserId, providerUserId)
-          : undefined,
+  const authProvider = await fetchSole(
+    connection
+      .select()
+      .from(authProvidersTable)
+      .where(
+        and(
+          provider !== undefined ? eq(authProvidersTable.provider, provider) : undefined,
+          providerUserId !== undefined
+            ? eq(authProvidersTable.providerUserId, providerUserId)
+            : undefined,
+        ),
       ),
-    );
+  );
 
   return authProvider ?? null;
 }
