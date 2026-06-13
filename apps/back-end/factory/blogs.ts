@@ -91,7 +91,7 @@ class BlogFactory {
     const blogTemplate: CreateBlogData = {
       title: faker.music.songName(),
       content: BlogFactory.generateEditorContent(faker.lorem.sentences(getRandomNumber(0, 5))),
-      state: BlogState.DRAFT,
+      state: BlogState.PUBLISHED,
       ...omitProperties(data, "author"),
     };
     const today = new Date();

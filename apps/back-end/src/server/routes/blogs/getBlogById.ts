@@ -2,7 +2,7 @@ import type { Router } from "express";
 
 import { az } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
-import { blogQueryStringSchema } from "@lexicon/models";
+import { blogQueryStringSchema, BlogState } from "@lexicon/models";
 import z from "zod";
 
 import { getConnection } from "src/database/connection";
@@ -31,6 +31,10 @@ function getBlogById(blogs: Router) {
       const blog = await loadBlogView(connection, { blogId, revisionNumber });
 
       if (blog === null) {
+        throw resourceNotFoundError("blog", blogId);
+      }
+
+      if (blog.state === BlogState.DRAFT && blog.authorId !== request.user?.id) {
         throw resourceNotFoundError("blog", blogId);
       }
 
