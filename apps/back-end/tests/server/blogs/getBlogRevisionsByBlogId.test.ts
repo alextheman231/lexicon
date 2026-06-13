@@ -1,6 +1,6 @@
 import type { ResourceNotFoundErrorPayload } from "src/utility/errors/resourceNotFoundError";
 
-import { assertNotUndefined, fillArray, paralleliseArrays } from "@alextheman/utility";
+import { assertNotUndefined, fillArray, paralleliseArrays, sortBy } from "@alextheman/utility";
 import { CodeError, DataError } from "@alextheman/utility/v6";
 import { parseBlogRevisionHistory } from "@lexicon/models";
 import request from "supertest";
@@ -25,9 +25,11 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
         10,
         { sequential: true },
       )
-    ).toSorted((first, second) => {
-      return second.version - first.version;
-    });
+    ).toSorted(
+      sortBy((revision) => {
+        return revision.version;
+      }, "desc"),
+    );
 
     const { body } = await authenticatedClient
       .get(`/api/v1/blogs/${blog.id}/revisions`)
