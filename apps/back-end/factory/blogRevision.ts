@@ -43,7 +43,7 @@ class BlogRevisionFactory {
 
     const blog = await selectBlog(this.context.connection, blogId);
     assertNotNull(blog);
-    const blogView = await loadBlogView(this.context.connection, blogId);
+    const blogView = await loadBlogView(this.context.connection, { blogId });
 
     const editorId =
       data.editor !== undefined
