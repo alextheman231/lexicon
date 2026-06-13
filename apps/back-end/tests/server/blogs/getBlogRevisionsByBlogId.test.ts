@@ -3,14 +3,12 @@ import type { ResourceNotFoundErrorPayload } from "src/utility/errors/resourceNo
 import { assertNotUndefined, fillArray, paralleliseArrays, sortBy } from "@alextheman/utility";
 import { CodeError, DataError } from "@alextheman/utility/v6";
 import { parseBlogRevisionHistory } from "@lexicon/models";
-import request from "supertest";
 import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
 import getTestFixtures from "tests/fixtures";
-
-import app from "src/server/app";
+import testClient from "tests/fixtures/testClient";
 
 describe("GET /api/v1/blogs/<blogId>/revisions", () => {
   test("Gets all the blog revisions for the chosen blog", async () => {
@@ -84,7 +82,7 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
 
     const { blog } = await factory.blogs.insertWithRevision();
 
-    const { body } = await request(app).get(`/api/v1/blogs/${blog.id}/revisions`).expect(401);
+    const { body } = await testClient.get(`/api/v1/blogs/${blog.id}/revisions`).expect(401);
 
     const error = CodeError.expectError(() => {
       throw body.error;

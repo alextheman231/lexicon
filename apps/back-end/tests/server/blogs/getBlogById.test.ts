@@ -2,15 +2,14 @@ import { assertNotNull, omitProperties } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
 import { parseBlogView } from "@lexicon/models";
 import BlogFactory from "factory/blogs";
-import request from "supertest";
 import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
 import getTestFixtures from "tests/fixtures";
+import testClient from "tests/fixtures/testClient";
 
 import selectUser from "src/models/users/selectUser";
-import app from "src/server/app";
 
 describe("GET /api/v1/blogs/<blogId>", () => {
   test("Returns the blog with the given blog ID", async () => {
@@ -99,7 +98,7 @@ describe("GET /api/v1/blogs/<blogId>", () => {
       content: BlogFactory.generateEditorContent("New content"),
     });
 
-    const { body } = await request(app)
+    const { body } = await testClient
       .get(`/api/v1/blogs/${blog.id}`)
       .query({ revisionNumber: initialRevision.version })
       .expect(404);
