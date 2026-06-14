@@ -9,17 +9,13 @@ import z from "zod";
 import { blogsTable } from "src/database/schema";
 import buildBlogsQuery from "src/services/blogs/helpers/buildBlogsQuery";
 import extractRows from "src/utility/databaseFilters/extractRows";
-import fetchAll from "src/utility/databaseFilters/fetchAll";
+import fetchValues from "src/utility/databaseFilters/fetchValues";
 
 async function queryBlogIds(connection: Connection, filters: BlogFilter): Promise<Array<string>> {
-  const result = await fetchAll(
+  const ids = await fetchValues(
     extractRows(connection.execute(buildBlogsQuery(sql`${blogsTable.id}`, filters))),
   );
-  return az.with(z.array(z.uuid())).parse(
-    result.map((record) => {
-      return record.id;
-    }),
-  );
+  return az.with(z.array(z.uuid())).parse(ids);
 }
 
 export default queryBlogIds;
