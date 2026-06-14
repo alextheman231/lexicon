@@ -9,9 +9,9 @@ import registerEndpoints from "src/utility/initialisers/registerEndpoints";
 
 function initialiseBlogsRouter(router: Router) {
   registerEndpoints(router, {
-    getBlogs,
-    getBlogRevisionsByBlogId,
     getBlogById,
+    getBlogRevisionsByBlogId,
+    getBlogs,
     postBlogs,
     putBlogById,
   });
