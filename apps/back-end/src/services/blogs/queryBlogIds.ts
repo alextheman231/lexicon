@@ -8,11 +8,15 @@ import z from "zod";
 
 import { blogsTable } from "src/database/schema";
 import buildBlogsQuery from "src/services/blogs/helpers/buildBlogsQuery";
+import extractRows from "src/utility/databaseFilters/extractRows";
+import fetchAll from "src/utility/databaseFilters/fetchAll";
 
 async function queryBlogIds(connection: Connection, filters: BlogFilter): Promise<Array<string>> {
-  const { rows } = await connection.execute(buildBlogsQuery(sql`${blogsTable.id}`, filters));
+  const result = await fetchAll(
+    extractRows(connection.execute(buildBlogsQuery(sql`${blogsTable.id}`, filters))),
+  );
   return az.with(z.array(z.uuid())).parse(
-    rows.map((record) => {
+    result.map((record) => {
       return record.id;
     }),
   );
