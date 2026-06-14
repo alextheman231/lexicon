@@ -1,8 +1,7 @@
-import { az } from "@alextheman/utility";
+import { az, SortDirection } from "@alextheman/utility";
 import z from "zod";
 
 import { BlogState } from "src/blogs/BlogState";
-import { SortDirection } from "src/SortDirection";
 
 const blogFilterSchema = z.object({
   authorId: z.uuid().optional(),
