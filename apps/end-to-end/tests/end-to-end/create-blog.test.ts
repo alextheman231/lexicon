@@ -40,10 +40,18 @@ test.describe("Blog creation", () => {
 
     const submitButton = authenticatedPage.getByRole("button", { name: "Submit" });
     await expect(submitButton).toBeEnabled();
-    await submitButton.click();
+    await Promise.all([
+      authenticatedPage.waitForResponse((response) => {
+        return (
+          response.url().includes("/api/v1/blogs") &&
+          response.request().method() === "POST" &&
+          response.ok()
+        );
+      }),
+      submitButton.click(),
+      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`)),
+    ]);
 
-    await authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`));
-    expect(authenticatedPage.url()).toMatch(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`));
     const title = authenticatedPage.getByText("Standards").first();
     await expect(title).toBeVisible();
     await expect(authenticatedPage.getByText(content)).toBeVisible();

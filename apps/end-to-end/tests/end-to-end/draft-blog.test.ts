@@ -68,9 +68,18 @@ test.describe("Draft blog", () => {
 
     const draftButton = authenticatedPage.getByRole("button", { name: "Save as Draft" });
     await expect(draftButton).toBeEnabled();
-    await draftButton.click();
+    await Promise.all([
+      authenticatedPage.waitForResponse((response) => {
+        return (
+          response.url().includes("/api/v1/blogs") &&
+          response.request().method() === "POST" &&
+          response.ok()
+        );
+      }),
+      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`)),
+      draftButton.click(),
+    ]);
 
-    await authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`));
     await expect(authenticatedPage.getByText("Created by Test User")).toBeVisible();
     await expect(authenticatedPage.getByText("Unpublished (saved as draft)")).toBeVisible();
 
@@ -142,10 +151,18 @@ test.describe("Draft blog", () => {
 
     const submitButton = authenticatedPage.getByRole("button", { name: "Submit" });
     await expect(submitButton).toBeEnabled();
-    await submitButton.click();
+    await Promise.all([
+      authenticatedPage.waitForResponse((response) => {
+        return (
+          RegExp(`/api/v1/blogs/${UUID_PATTERN}$`).test(response.url()) &&
+          response.request().method() === "PUT" &&
+          response.ok()
+        );
+      }),
+      submitButton.click(),
+      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`)),
+    ]);
 
-    await authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`));
-    expect(authenticatedPage.url()).toMatch(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`));
     const newTitle = authenticatedPage.getByText("HCP Terraform Plan Output").first();
     await expect(newTitle).toBeVisible();
     await expect(authenticatedPage.getByText(editedContent)).toBeVisible();
