@@ -36,7 +36,8 @@ test.describe("Blog creation", () => {
         I have standards, you'd better have some too!
     `;
 
-    await editor.fill(content);
+    await editor.click();
+    await authenticatedPage.keyboard.insertText(content);
 
     const submitButton = authenticatedPage.getByRole("button", { name: "Submit" });
     await expect(submitButton).toBeEnabled();
