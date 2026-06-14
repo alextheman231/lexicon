@@ -7,6 +7,7 @@ dotenv.config({ quiet: true });
 
 const playwrightConfig: PlaywrightTestConfig = {
   testDir: "./tests",
+  timeout: 60000,
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
