@@ -70,6 +70,7 @@ test.describe("Draft blog", () => {
     await expect(draftButton).toBeEnabled();
     await draftButton.click();
 
+    await authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`));
     await expect(authenticatedPage.getByText("Created by Test User")).toBeVisible();
     await expect(authenticatedPage.getByText("Unpublished (saved as draft)")).toBeVisible();
 
