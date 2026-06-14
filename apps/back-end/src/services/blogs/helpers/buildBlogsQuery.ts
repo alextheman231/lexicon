@@ -4,11 +4,12 @@ import type { PgColumn } from "drizzle-orm/pg-core";
 
 import type { Connection } from "src/database/connection";
 
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import { blogRevisionsTable, blogsTable } from "src/database/schema";
 import { BlogSortColumn } from "src/services/blogs/helpers/BlogSortColumn";
 import maybeEq from "src/utility/databaseFilters/maybeEq";
+import sortOptions from "src/utility/databaseFilters/sortOptions";
 import paginate from "src/utility/miscellaneous/paginate";
 
 function buildBlogsQuery(
@@ -30,7 +31,7 @@ function buildBlogsQuery(
       );
 
     if (sortColumn && filters.sortDirection) {
-      query.orderBy(filters.sortDirection === "desc" ? desc(sortColumn) : asc(sortColumn));
+      query.orderBy(sortOptions(sortColumn, filters.sortDirection));
     }
     return query;
   })();
