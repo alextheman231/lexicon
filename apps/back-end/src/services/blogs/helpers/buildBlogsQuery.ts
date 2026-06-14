@@ -1,43 +1,46 @@
 import type { BlogFilter } from "@lexicon/models";
 import type { SQL } from "drizzle-orm";
+import type { PgColumn } from "drizzle-orm/pg-core";
 
-import { sql } from "drizzle-orm";
+import type { Connection } from "src/database/connection";
+
+import { and, asc, desc, eq } from "drizzle-orm";
 
 import { blogRevisionsTable, blogsTable } from "src/database/schema";
 import { BlogSortColumn } from "src/services/blogs/helpers/BlogSortColumn";
 import paginate from "src/utility/miscellaneous/paginate";
 
-function buildBlogsQuery(select: SQL, filters: BlogFilter): SQL {
-  const conditions: Array<SQL> = [];
+function buildBlogsQuery(
+  connection: Connection,
+  select: { id: PgColumn } | { count: SQL },
+  filters: BlogFilter,
+) {
+  const sortColumn = filters.sortColumn ? BlogSortColumn[filters.sortColumn] : undefined;
 
-  if (filters.authorId) {
-    conditions.push(sql`${blogsTable.authorId} = ${filters.authorId} `);
-  }
+  const query = (() => {
+    const query = connection
+      .select(select)
+      .from(blogsTable)
+      .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.id, blogsTable.currentRevisionId))
+      .where(
+        and(
+          filters.authorId ? eq(blogsTable.authorId, filters.authorId) : undefined,
+          filters.state ? eq(blogsTable.state, filters.state) : undefined,
+        ),
+      );
 
-  if (filters.state) {
-    conditions.push(sql`${blogsTable.state} = ${filters.state} `);
-  }
-
-  const where = conditions.length > 0 ? sql`WHERE ${sql.join(conditions, sql` AND `)}` : sql``;
-
-  const query = sql`
-    SELECT ${select}
-    FROM ${blogsTable}
-    JOIN ${blogRevisionsTable} ON ${blogRevisionsTable.id} = ${blogsTable.currentRevisionId}
-    ${where}
-  `;
-
-  if (filters.sortColumn && filters.sortDirection) {
-    const sortColumn = BlogSortColumn[filters.sortColumn];
-    query.append(sql`
-      ORDER BY ${sortColumn} ${sql.raw(filters.sortDirection)}
-    `);
-  }
+    if (sortColumn && filters.sortDirection) {
+      query.orderBy(filters.sortDirection === "desc" ? desc(sortColumn) : asc(sortColumn));
+    }
+    return query;
+  })();
 
   if (filters.pageNumber && filters.pageSize) {
-    query.append(paginate(filters.pageSize, filters.pageNumber));
+    return paginate(query, {
+      pageSize: filters.pageSize,
+      pageNumber: filters.pageNumber,
+    });
   }
-
   return query;
 }
 
