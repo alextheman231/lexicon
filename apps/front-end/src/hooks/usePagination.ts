@@ -1,4 +1,4 @@
-import type { SortDirection } from "@lexicon/models";
+import type { SortDirection } from "@alextheman/utility";
 
 import { useDebounce } from "@alextheman/components";
 import { omitProperties } from "@alextheman/utility";
