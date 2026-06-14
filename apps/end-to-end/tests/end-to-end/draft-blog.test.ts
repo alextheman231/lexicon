@@ -64,7 +64,8 @@ test.describe("Draft blog", () => {
             Plan: 0 to add, 0 to change, 1 to destroy.
         `;
 
-    await editor.fill(content);
+    await editor.click();
+    await authenticatedPage.keyboard.insertText(content);
 
     const draftButton = authenticatedPage.getByRole("button", { name: "Save as Draft" });
     await expect(draftButton).toBeEnabled();
@@ -147,6 +148,9 @@ test.describe("Draft blog", () => {
 
     const editPageEditor = authenticatedPage.locator('[data-lexical-editor="true"]');
 
+    await editPageEditor.click();
+    await authenticatedPage.keyboard.press("ControlOrMeta+A");
+    await authenticatedPage.keyboard.press("Backspace");
     await editPageEditor.fill(editedContent);
 
     const submitButton = authenticatedPage.getByRole("button", { name: "Submit" });
