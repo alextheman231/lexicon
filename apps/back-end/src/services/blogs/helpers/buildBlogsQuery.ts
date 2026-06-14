@@ -8,6 +8,7 @@ import { and, asc, desc, eq } from "drizzle-orm";
 
 import { blogRevisionsTable, blogsTable } from "src/database/schema";
 import { BlogSortColumn } from "src/services/blogs/helpers/BlogSortColumn";
+import maybeEq from "src/utility/databaseFilters/maybeEq";
 import paginate from "src/utility/miscellaneous/paginate";
 
 function buildBlogsQuery(
@@ -16,7 +17,6 @@ function buildBlogsQuery(
   filters: BlogFilter,
 ) {
   const sortColumn = filters.sortColumn ? BlogSortColumn[filters.sortColumn] : undefined;
-
   const query = (() => {
     const query = connection
       .select(select)
@@ -24,8 +24,8 @@ function buildBlogsQuery(
       .innerJoin(blogRevisionsTable, eq(blogRevisionsTable.id, blogsTable.currentRevisionId))
       .where(
         and(
-          filters.authorId ? eq(blogsTable.authorId, filters.authorId) : undefined,
-          filters.state ? eq(blogsTable.state, filters.state) : undefined,
+          maybeEq(blogsTable.authorId, filters.authorId),
+          maybeEq(blogsTable.state, filters.state),
         ),
       );
 

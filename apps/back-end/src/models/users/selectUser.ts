@@ -1,10 +1,11 @@
 import type { Connection } from "src/database/connection";
 import type { User } from "src/database/schema";
 
-import { and, eq } from "drizzle-orm";
+import { and } from "drizzle-orm";
 
 import { usersTable } from "src/database/schema";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
+import maybeEq from "src/utility/databaseFilters/maybeEq";
 
 interface SelectUserFilterUserId {
   userId: string;
@@ -23,12 +24,7 @@ async function selectUser(connection: Connection, filters: SelectUserFilter): Pr
     connection
       .select()
       .from(usersTable)
-      .where(
-        and(
-          filters.userId !== undefined ? eq(usersTable.id, filters.userId) : undefined,
-          filters.email !== undefined ? eq(usersTable.email, filters.email) : undefined,
-        ),
-      ),
+      .where(and(maybeEq(usersTable.id, filters.userId), maybeEq(usersTable.email, filters.email))),
   );
 
   return user ?? null;
