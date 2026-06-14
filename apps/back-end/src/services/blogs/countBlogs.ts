@@ -8,17 +8,17 @@ import z from "zod";
 
 import buildBlogsQuery from "src/services/blogs/helpers/buildBlogsQuery";
 import extractRows from "src/utility/databaseFilters/extractRows";
-import fetchSole from "src/utility/databaseFilters/fetchSole";
+import fetchValue from "src/utility/databaseFilters/fetchValue";
 
 async function countBlogs(
   connection: Connection,
   filters: Omit<BlogFilter, "pageNumber" | "pageSize" | "sortColumn" | "sortDirection">,
 ): Promise<number> {
-  const result = await fetchSole(
+  const count = await fetchValue(
     extractRows(connection.execute(buildBlogsQuery(sql`COUNT(*)`, filters))),
   );
-  assertNotNull(result);
-  return az.with(z.coerce.number().int()).parse(result.count);
+  assertNotNull(count);
+  return az.with(z.coerce.number().int()).parse(count);
 }
 
 export default countBlogs;
