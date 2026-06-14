@@ -11,17 +11,17 @@ async function fetchValue<ValueType>(
     return null;
   }
 
-  const columns = Object.keys(result).length;
+  const values = Object.values(result);
 
-  if (columns !== 1) {
+  if (values.length !== 1) {
     throw new DataError(
-      { columns },
+      { columns: values.length },
       "MULTIPLE_COLUMNS_ERROR",
       "Expected only one column to be returned",
     );
   }
 
-  return Object.values(result)[0];
+  return values[0];
 }
 
 export default fetchValue;
