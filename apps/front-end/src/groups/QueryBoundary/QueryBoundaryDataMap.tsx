@@ -2,6 +2,7 @@ import type { QueryBoundaryDataMapProps } from "@alextheman/components/QueryBoun
 
 import { QueryBoundaryDataMap as AlexQueryBoundaryDataMap } from "@alextheman/components/QueryBoundary";
 import { containsKeys } from "@alextheman/utility";
+import Skeleton from "@mui/material/Skeleton";
 
 function QueryBoundaryDataMap<ItemType>({
   itemKey,
@@ -10,6 +11,7 @@ function QueryBoundaryDataMap<ItemType>({
 }: QueryBoundaryDataMapProps<ItemType>) {
   return (
     <AlexQueryBoundaryDataMap
+      loadingFallback={<Skeleton />}
       {...props}
       itemKey={
         itemKey ??
