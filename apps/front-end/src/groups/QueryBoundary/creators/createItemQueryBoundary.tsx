@@ -6,7 +6,7 @@ import type { JSX } from "react";
 
 import type { LexiconQueryBoundaryComponentsBase } from "src/groups/QueryBoundary/creators/createBaseQueryBoundary";
 
-import { QueryBoundaryData } from "@alextheman/components/QueryBoundary";
+import { createItemQueryBoundary as createAlexItemQueryBoundary } from "@alextheman/components/QueryBoundary";
 
 import createBaseQueryBoundary from "src/groups/QueryBoundary/creators/createBaseQueryBoundary";
 
@@ -22,12 +22,11 @@ function createItemQueryBoundary<DataType>(
   params: CreateItemQueryBoundaryParameters<DataType>,
 ): LexiconQueryBoundaryComponentsItem<DataType> {
   const baseComponents = createBaseQueryBoundary(params);
+  const { Data } = createAlexItemQueryBoundary(params);
 
   return {
     ...baseComponents,
-    Data: (props) => {
-      return <QueryBoundaryData {...params.query} {...props} />;
-    },
+    Data,
   };
 }
 
