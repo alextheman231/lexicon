@@ -7,6 +7,7 @@ import type { JSX } from "react";
 import type { LexiconQueryBoundaryComponentsBase } from "src/groups/QueryBoundary/creators/createBaseQueryBoundary";
 
 import { createItemQueryBoundary as createAlexItemQueryBoundary } from "@alextheman/components/QueryBoundary";
+import Skeleton from "@mui/material/Skeleton";
 
 import createBaseQueryBoundary from "src/groups/QueryBoundary/creators/createBaseQueryBoundary";
 
@@ -26,7 +27,11 @@ function createItemQueryBoundary<DataType>(
 
   return {
     ...baseComponents,
-    Data,
+    Data: ({ loadingFallback, ...props }) => {
+      return (
+        <Data {...params.query} loadingFallback={loadingFallback ?? <Skeleton />} {...props} />
+      );
+    },
   };
 }
 

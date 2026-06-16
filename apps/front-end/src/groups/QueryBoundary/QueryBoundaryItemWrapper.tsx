@@ -6,6 +6,7 @@ import type {
 import type { QueryBoundaryFallbackProps } from "src/groups/QueryBoundary/QueryBoundaryFallback";
 
 import { QueryBoundaryItemWrapper as AlexQueryBoundaryItemWrapper } from "@alextheman/components/QueryBoundary";
+import Skeleton from "@mui/material/Skeleton";
 
 import ErrorMessage from "src/components/ErrorMessage";
 
@@ -22,6 +23,7 @@ function QueryBoundaryItemWrapper<DataType>({
   return (
     <AlexQueryBoundaryItemWrapper
       logError={import.meta.env.DEV}
+      loadingFallback={<Skeleton />}
       errorFallback={(error) => {
         return (
           <ErrorMessage error={error} codeErrorMap={codeErrorMap} errorFunction={errorFunction} />
