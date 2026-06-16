@@ -27,7 +27,9 @@ export interface LexiconQueryBoundaryObjectComponents<
   ) => JSX.Element;
 }
 
-function createObjectQueryBoundary(params: CreateObjectQueryBoundaryParameters) {
+function createObjectQueryBoundary<DataType extends object = Record<PropertyKey, unknown>>(
+  params: CreateObjectQueryBoundaryParameters<DataType>,
+) {
   const baseComponents = createItemQueryBoundary(params);
   const { Value } = createAlexObjectQueryBoundary(params);
 

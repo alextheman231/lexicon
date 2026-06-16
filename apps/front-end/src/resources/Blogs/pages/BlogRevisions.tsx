@@ -1,7 +1,6 @@
 import { Page } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/routing";
 import Card from "@mui/material/Card";
-import Skeleton from "@mui/material/Skeleton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,8 +9,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import OwnershipRequired from "src/components/OwnershipRequired";
-import createItemQueryBoundary from "src/groups/QueryBoundary/creators/createItemQueryBoundary";
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
+import createObjectQueryBoundary from "src/groups/QueryBoundary/creators/createObjectQueryBoundary";
 import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
 import useBlogRevisionsQuery from "src/resources/Blogs/queries/useBlogRevisionsQuery";
 import DEFAULT_ERROR_MESSAGE from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
@@ -27,7 +26,7 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
   const QueryBoundaryRevisions = createListQueryBoundary({
     query: { data: revisions, isLoading: isPending, error },
   });
-  const QueryBoundaryBlog = createItemQueryBoundary({
+  const QueryBoundaryBlog = createObjectQueryBoundary({
     query: { data: blog, isLoading: isBlogPending, error: blogError },
   });
 
@@ -37,11 +36,11 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
         <>
           <QueryBoundaryBlog.Error>{DEFAULT_ERROR_MESSAGE}</QueryBoundaryBlog.Error>
           <QueryBoundaryBlog.Nullable nullableFallback="Could not retrieve blog." />
-          <QueryBoundaryBlog.Data loadingFallback={<Skeleton />}>
-            {(blog) => {
-              return `Revisions for "${blog.title}"`;
+          <QueryBoundaryBlog.Value propertyName="title">
+            {(title) => {
+              return `Revisions for "${title}"`;
             }}
-          </QueryBoundaryBlog.Data>
+          </QueryBoundaryBlog.Value>
         </>
       }
     >
