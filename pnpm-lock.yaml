@@ -164,8 +164,8 @@ importers:
   apps/front-end:
     dependencies:
       '@alextheman/components':
-        specifier: 7.2.1
-        version: 7.2.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@mui/material@9.1.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/react-form@1.33.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(wouter@3.10.0(react@19.2.7))
+        specifier: 7.3.1
+        version: 7.3.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@mui/material@9.1.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/react-form@1.33.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(wouter@3.10.0(react@19.2.7))
       '@emotion/react':
         specifier: 11.14.0
         version: 11.14.0(@types/react@19.2.17)(react@19.2.7)
@@ -271,8 +271,8 @@ importers:
 
 packages:
 
-  '@alextheman/components@7.2.1':
-    resolution: {integrity: sha512-krPnn5IjTk58GWqSl6mO6MDDaE/1SjIXYhk575je4ggu8k50yzDxgr3hhtOu4CiV7HSMW1zrY7Giu/y9jlSltA==}
+  '@alextheman/components@7.3.1':
+    resolution: {integrity: sha512-/sgBNUPTiR1M9vFC0PlC8+LDBgoIPicwIOWnScnQxiQgldJUAIJLKXrQ36yJqCYq8ZMZ0X+ewCEGU36qe0PD6w==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       '@emotion/react': '>=11.0.0'
@@ -5703,7 +5703,7 @@ packages:
 
 snapshots:
 
-  '@alextheman/components@7.2.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@mui/material@9.1.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/react-form@1.33.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(wouter@3.10.0(react@19.2.7))':
+  '@alextheman/components@7.3.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@mui/material@9.1.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/react-form@1.33.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(wouter@3.10.0(react@19.2.7))':
     dependencies:
       '@alextheman/utility': 5.21.1(zod@4.4.3)
       '@emotion/react': 11.14.0(@types/react@19.2.17)(react@19.2.7)

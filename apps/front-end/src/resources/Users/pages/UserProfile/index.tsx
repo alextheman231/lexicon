@@ -9,7 +9,7 @@ import { createTabGroup } from "@alextheman/components/Tab";
 
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
-import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryItemWrapper";
+import createObjectQueryBoundary from "src/groups/QueryBoundary/creators/createObjectQueryBoundary";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import useUserQuery from "src/resources/Users/queries/useUserQuery";
@@ -22,19 +22,30 @@ type TabState = "blogs" | "about";
 
 function UserProfile({ userId }: UserProfileProps) {
   const { data: user, isPending, error } = useUserQuery(userId);
+  const QueryBoundary = createObjectQueryBoundary({
+    query: { data: user, isLoading: isPending, error },
+  });
+
   const [tab, setTab] = useHash<TabState>("blogs");
   const Tab = createTabGroup<TabState>({ tab, setTab });
+
   const isLargeScreen = useIsLargeScreen();
   const { currentUser, unauthenticate } = useAuth();
 
   return (
-    <QueryBoundaryItemWrapper data={user} isLoading={isPending} error={error}>
-      {(user) => {
-        return (
-          <Page
-            title={user.displayName ?? user.username}
-            subtitle={user.username}
-            action={
+    <Page
+      title={
+        <QueryBoundary.Data>
+          {(user) => {
+            return user.displayName ?? user.username;
+          }}
+        </QueryBoundary.Data>
+      }
+      subtitle={<QueryBoundary.Value propertyName="username" />}
+      action={
+        <QueryBoundary.Data>
+          {(user) => {
+            return (
               <DropdownMenuProvider>
                 <DropdownMenuIconButton />
                 <DropdownMenu>
@@ -46,24 +57,33 @@ function UserProfile({ userId }: UserProfileProps) {
                   ) : null}
                 </DropdownMenu>
               </DropdownMenuProvider>
-            }
-            tabs={
-              <Tab.List>
-                <Tab.Item label="Blogs" value="blogs" />
-                <Tab.Item label="About" value="about" />
-              </Tab.List>
-            }
-          >
-            <Tab.Panel value="about">
-              <AboutUser user={user} />
-            </Tab.Panel>
-            <Tab.Panel value="blogs">
-              <UserBlogs user={user} />
-            </Tab.Panel>
-          </Page>
-        );
-      }}
-    </QueryBoundaryItemWrapper>
+            );
+          }}
+        </QueryBoundary.Data>
+      }
+      tabs={
+        <Tab.List>
+          <Tab.Item label="Blogs" value="blogs" />
+          <Tab.Item label="About" value="about" />
+        </Tab.List>
+      }
+    >
+      <QueryBoundary.Fallback />
+      <QueryBoundary.Data>
+        {(user) => {
+          return (
+            <>
+              <Tab.Panel value="about">
+                <AboutUser QueryBoundary={QueryBoundary} />
+              </Tab.Panel>
+              <Tab.Panel value="blogs">
+                <UserBlogs user={user} />
+              </Tab.Panel>
+            </>
+          );
+        }}
+      </QueryBoundary.Data>
+    </Page>
   );
 }
 
