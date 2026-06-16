@@ -6,6 +6,7 @@ import {
 } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
 import { createTabGroup } from "@alextheman/components/Tab";
+import Typography from "@mui/material/Typography";
 
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
@@ -41,7 +42,17 @@ function UserProfile({ userId }: UserProfileProps) {
           }}
         </QueryBoundary.Data>
       }
-      subtitle={<QueryBoundary.Value propertyName="username" />}
+      subtitle={
+        <QueryBoundary.Value propertyName="username">
+          {(username) => {
+            return (
+              <Typography variant="body2" color="text.secondary">
+                {username}
+              </Typography>
+            );
+          }}
+        </QueryBoundary.Value>
+      }
       action={
         <QueryBoundary.Data>
           {(user) => {
