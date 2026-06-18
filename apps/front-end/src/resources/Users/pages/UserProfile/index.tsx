@@ -6,7 +6,6 @@ import {
 } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
 import { createTabGroup } from "@alextheman/components/Tab";
-import Typography from "@mui/material/Typography";
 
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
@@ -14,6 +13,7 @@ import createObjectQueryBoundary from "src/groups/QueryBoundary/creators/createO
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import useUserQuery from "src/resources/Users/queries/useUserQuery";
+import subtitleFormatter from "src/utility/valueFormatters/subtitleFormatter";
 
 interface UserProfileProps {
   userId: string;
@@ -42,17 +42,7 @@ function UserProfile({ userId }: UserProfileProps) {
           }}
         </QueryBoundary.Data>
       }
-      subtitle={
-        <QueryBoundary.Value propertyName="username">
-          {(username) => {
-            return (
-              <Typography variant="body2" color="text.secondary">
-                {username}
-              </Typography>
-            );
-          }}
-        </QueryBoundary.Value>
-      }
+      subtitle={<QueryBoundary.Value propertyName="username" valueFormatter={subtitleFormatter} />}
       action={
         <QueryBoundary.Data>
           {(user) => {
