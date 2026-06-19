@@ -2,7 +2,7 @@ import type { BlogFilter } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 
-import { assertNotNull, az } from "@alextheman/utility";
+import { az } from "@alextheman/utility";
 import { sql } from "drizzle-orm";
 import z from "zod";
 
@@ -14,7 +14,6 @@ async function countBlogs(
   filters: Omit<BlogFilter, "pageNumber" | "pageSize" | "sortColumn" | "sortDirection">,
 ): Promise<number> {
   const count = await fetchValue(buildBlogsQuery(connection, { count: sql`COUNT(*)` }, filters));
-  assertNotNull(count);
   return az.with(z.coerce.number().int()).parse(count);
 }
 
