@@ -4,11 +4,12 @@ import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 async function fetchValue<ValueType>(
   query: Promise<Array<Record<string, ValueType>>>,
-): Promise<ValueType | null> {
-  const result = await fetchSole(query);
+): Promise<ValueType> {
+  const errorMessage = "Expected exactly one row to be returned.";
+  const result = await fetchSole(query, { errorMessage });
 
   if (result === null) {
-    return null;
+    throw new DataError({ result }, "NO_ROWS_ERROR", errorMessage);
   }
 
   const values = Object.values(result);
@@ -17,7 +18,7 @@ async function fetchValue<ValueType>(
     throw new DataError(
       { columns: values.length },
       "MULTIPLE_COLUMNS_ERROR",
-      "Expected only one column to be returned",
+      "Expected only one column to be returned.",
     );
   }
 
