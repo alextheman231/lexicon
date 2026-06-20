@@ -7,9 +7,9 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { afterEach, beforeEach, vi } from "vitest";
 
 import { pool } from "src/database/connection";
-// eslint-disable-next-line @alextheman/no-namespace-imports
+// eslint-disable-next-line @alextheman/no-namespace-imports -- Needed for the spy that ensures that the connection we use in tests is the test connection.
 import * as dbModule from "src/database/connection";
-// eslint-disable-next-line @alextheman/no-namespace-imports
+// eslint-disable-next-line @alextheman/no-namespace-imports -- Allows our connection to be typed with respect to our database schema.
 import * as schema from "src/database/schema";
 
 let client: PoolClient;

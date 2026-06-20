@@ -1,7 +1,7 @@
 import { assertNotNull } from "@alextheman/utility";
 import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
-// eslint-disable-next-line @alextheman/no-namespace-imports
+// eslint-disable-next-line @alextheman/no-namespace-imports -- Needed to mock OpenIDClient.
 import * as OpenIDClient from "openid-client";
 import { describe, expect, test, vi } from "vitest";
 
