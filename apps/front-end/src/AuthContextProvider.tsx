@@ -4,12 +4,11 @@ import type { User } from "@lexicon/models";
 import type { ReactNode } from "react";
 
 import { DataError } from "@alextheman/utility/v6";
-import { useQueryClient } from "@tanstack/react-query";
 import { createContext, use, useCallback, useMemo } from "react";
 
+import useQueryInvalidation from "src/hooks/query/useQueryInvalidation";
 import useCurrentUserQuery from "src/resources/Users/queries/useCurrentUserQuery";
 import useLogoutMutation from "src/resources/Users/queries/useLogoutMutation";
-import queryKeys from "src/utility/query/queryKeys";
 
 export interface AuthContextValue {
   authenticate: () => void;
@@ -40,9 +39,9 @@ export interface AuthContextProviderProps {
 }
 
 function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const queryClient = useQueryClient();
   const { data: user, isPending, error } = useCurrentUserQuery();
   const { mutateAsync: logout } = useLogoutMutation();
+  const invalidateAuth = useQueryInvalidation("auth");
 
   const currentUser: User | null | undefined = isPending ? undefined : user;
 
@@ -50,9 +49,9 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
     await logout();
   }, [logout]);
 
-  const authenticate = useCallback(() => {
-    queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
-  }, [queryClient]);
+  const authenticate = useCallback(async () => {
+    await invalidateAuth();
+  }, [invalidateAuth]);
 
   const value = useMemo<AuthContextValue>(() => {
     return {

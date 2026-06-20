@@ -1,20 +1,17 @@
 import type { UserProfileFormOutputData } from "@lexicon/models";
 
-import { useQueryClient } from "@tanstack/react-query";
-
 import useMutation from "src/hooks/query/useMutation";
+import useQueryInvalidation from "src/hooks/query/useQueryInvalidation";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
-import queryKeys from "src/utility/query/queryKeys";
 
 function useUpdateUserProfileMutation() {
-  const queryClient = useQueryClient();
+  const invalidate = useQueryInvalidation("auth");
+
   return useMutation({
     mutationFn: async (data: UserProfileFormOutputData) => {
       await lexiconAuthenticatedClient.put("/api/v1/current-user/profile", data);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
-    },
+    onSuccess: invalidate,
   });
 }
 
