@@ -6,7 +6,7 @@ import z from "zod";
 
 import useMutation from "src/hooks/query/useMutation";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
-import queryKeys from "src/utility/queryKeys";
+import queryKeys from "src/utility/query/queryKeys";
 
 function useCreateBlogMutation() {
   const queryClient = useQueryClient();

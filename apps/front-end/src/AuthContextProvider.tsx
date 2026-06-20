@@ -9,7 +9,7 @@ import { createContext, use, useCallback, useMemo } from "react";
 
 import useCurrentUserQuery from "src/resources/Users/queries/useCurrentUserQuery";
 import useLogoutMutation from "src/resources/Users/queries/useLogoutMutation";
-import queryKeys from "src/utility/queryKeys";
+import queryKeys from "src/utility/query/queryKeys";
 
 export interface AuthContextValue {
   authenticate: () => void;
