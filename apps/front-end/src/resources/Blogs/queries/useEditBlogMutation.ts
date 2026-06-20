@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import useMutation from "src/hooks/query/useMutation";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
-import { relatedQueryKeys } from "src/utility/queryKeys";
+import { relatedQueryKeys } from "src/utility/query/queryKeys";
 
 function useEditBlogMutation(blogId: string) {
   const queryClient = useQueryClient();

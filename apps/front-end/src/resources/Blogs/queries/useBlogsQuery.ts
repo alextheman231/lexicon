@@ -8,7 +8,7 @@ import z from "zod";
 
 import useQuery from "src/hooks/query/useQuery";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
-import queryKeys from "src/utility/queryKeys";
+import queryKeys from "src/utility/query/queryKeys";
 
 function useBlogsQuery(
   params?: Partial<PaginationSettings<BlogSummary> & { authorId: string; state: BlogState }>,

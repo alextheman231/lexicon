@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import useMutation from "src/hooks/query/useMutation";
 import useLocation from "src/hooks/useLocation";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
-import queryKeys from "src/utility/queryKeys";
+import queryKeys from "src/utility/query/queryKeys";
 
 function useLogoutMutation() {
   const queryClient = useQueryClient();

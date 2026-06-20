@@ -1,6 +1,6 @@
 import useQuery from "src/hooks/query/useQuery";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
-import queryKeys from "src/utility/queryKeys";
+import queryKeys from "src/utility/query/queryKeys";
 
 export function useBackendErrorQuery() {
   return useQuery({

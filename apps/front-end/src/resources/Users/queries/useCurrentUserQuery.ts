@@ -4,7 +4,7 @@ import { parseUser } from "@lexicon/models";
 
 import useQuery from "src/hooks/query/useQuery";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
-import queryKeys from "src/utility/queryKeys";
+import queryKeys from "src/utility/query/queryKeys";
 
 function useCurrentUserQuery() {
   return useQuery<User | null>({
