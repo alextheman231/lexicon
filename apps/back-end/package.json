@@ -53,7 +53,7 @@
   "author": "alextheman",
   "license": "ISC",
   "devDependencies": {
-    "@faker-js/faker": "10.4.0",
+    "@faker-js/faker": "10.5.0",
     "@lexicon/configs": "workspace:*",
     "@types/cookie-parser": "1.4.10",
     "@types/cors": "2.8.19",
@@ -67,14 +67,14 @@
     "nodemon": "3.1.14",
     "prettier-plugin-sql": "0.20.0",
     "supertest": "7.2.2",
-    "tsdown": "0.22.2",
+    "tsdown": "0.22.3",
     "tsx": "4.22.4",
     "typescript": "6.0.3",
-    "vitest": "4.1.8"
+    "vitest": "4.1.9"
   },
   "dependencies": {
     "@lexicon/models": "workspace:*",
-    "@sentry/node": "10.57.0",
+    "@sentry/node": "10.58.0",
     "cookie-parser": "1.4.7",
     "cors": "2.8.6",
     "dotenv": "17.4.2",

@@ -37,8 +37,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "25.9.3",
-    "eslint-plugin-perfectionist": "5.9.0",
-    "tsdown": "0.22.2"
+    "eslint-plugin-perfectionist": "5.9.1",
+    "tsdown": "0.22.3"
   },
   "peerDependencies": {
     "@alextheman/eslint-plugin": ">=5.16.0",
