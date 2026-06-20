@@ -21,25 +21,27 @@ function deleteBlogCollectionItemEndpoint(blogCollections: Router) {
         const connection = getConnection();
         const { blogCollectionId, blogCollectionItemId } = request.params;
 
-        const blogCollection = await selectBlogCollection(connection, blogCollectionId);
-        if (blogCollection === null) {
-          throw resourceNotFoundError("blog-collection", blogCollectionId);
-        }
+        await connection.transaction(async (transaction) => {
+          const blogCollection = await selectBlogCollection(transaction, blogCollectionId);
+          if (blogCollection === null) {
+            throw resourceNotFoundError("blog-collection", blogCollectionId);
+          }
 
-        if (blogCollection.userId !== request.user.id) {
-          throw forbiddenAccessError({ userId: request.user.id });
-        }
+          if (blogCollection.userId !== request.user.id) {
+            throw forbiddenAccessError({ userId: request.user.id });
+          }
 
-        const wasDeleted = await removeBlogCollectionItem(
-          connection,
-          blogCollectionId,
-          blogCollectionItemId,
-        );
-        if (!wasDeleted) {
-          throw resourceNotFoundError("blog-collection-item", blogCollectionItemId);
-        }
+          const wasDeleted = await removeBlogCollectionItem(
+            transaction,
+            blogCollectionId,
+            blogCollectionItemId,
+          );
+          if (!wasDeleted) {
+            throw resourceNotFoundError("blog-collection-item", blogCollectionItemId);
+          }
 
-        response.status(204).send({});
+          response.status(204).send({});
+        });
       }),
     );
 }
