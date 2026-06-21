@@ -7,7 +7,7 @@ const endpointRestrictedImports = combineRestrictedImports(baseRestrictedImports
     {
       regex: String.raw`^src/services/(\w+)/mutations/(\w+)$`,
       message:
-        "Please import the transaction-safe service from `src/services/mutations/transaction` instead.",
+        "Please import the transaction-safe service from `src/services/**/mutations/transaction` instead.",
     },
   ],
 });
