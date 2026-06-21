@@ -100,6 +100,9 @@ Perhaps the main potential point of confusion could be with `services` and `mode
 - A model function should only perform one query on one table, and return all resource properties (with the exception of anything that should be considered sensitive, e.g. passwords), whereas a service function can then compose model functions in a way that allows endpoint logic to just call it and have all business logic applied.
 - Models should be named after the SQL keyword (e.g. `selectUser`, `insertUser`, `updateUser`...), whereas services should be named differently (e.g. `getUser`, `createUser`, `editUser`...).
 - Models that mutate database state should never be imported directly into endpoint logic - they should use a service function instead for that (although calling a `select` model function is ok).
+- In the service layer, each resource there is also split further into `mutations` and `views`, where views consist of read-only operations, whereas mutations may also mutate database state.
+- The mutations folder also has a `transaction` folder inside of it. The functions from here generally wrap around the regular services but instead of accepting `connection: Connection`, they instead accept `transaction: Transaction`. The transaction-safe functions from the `transaction` folder must be used in endpoint logic over the regular ones at the root of the resource folder in services.
+- Even if you forget and accidentally import the wrong function in the route itself, we have configured an extra safety net with ESLint to remind you to use the transaction-safe function from `src/services/**/mutations/transaction` instead, so there's that too.
 
 ## Front-end
 
