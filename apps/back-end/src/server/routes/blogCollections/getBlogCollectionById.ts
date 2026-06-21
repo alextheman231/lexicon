@@ -1,7 +1,7 @@
 import type { Router } from "express";
 
 import { getConnection } from "src/database/connection";
-import loadBlogCollectionView from "src/services/blogCollections/loadBlogCollectionView";
+import loadBlogCollectionView from "src/services/blogCollections/views/loadBlogCollectionView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import validateUUID from "src/utility/handlers/validateUUID";

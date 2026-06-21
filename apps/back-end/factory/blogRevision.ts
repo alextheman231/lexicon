@@ -14,8 +14,8 @@ import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 import insertBlogRevision from "src/models/blogs/insertBlogRevision";
 import selectBlog from "src/models/blogs/selectBlog";
 import updateBlog from "src/models/blogs/updateBlog";
-import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
-import loadBlogView from "src/services/blogs/loadBlogView";
+import findLatestBlogVersion from "src/services/blogs/views/findLatestBlogRevision";
+import loadBlogView from "src/services/blogs/views/loadBlogView";
 
 class BlogRevisionFactory {
   private blogs: BlogFactory;

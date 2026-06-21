@@ -14,8 +14,8 @@ import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl"
 import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import createUserAuthProvider from "src/services/auth/createUserAuthProvider";
 import findGoogleAuthUser from "src/services/auth/findGoogleAuthUser";
-import createUser from "src/services/users/createUser";
-import createUserSession from "src/services/userSessions/createUserSession";
+import createUser from "src/services/users/mutations/transaction/createUser";
+import createUserSession from "src/services/userSessions/mutations/transaction/createUserSession";
 import loadEnvironment from "src/utility/env/loadEnvironment";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 

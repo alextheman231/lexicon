@@ -3,7 +3,7 @@ import type { BlogCollectionView } from "@lexicon/models";
 import type { Connection } from "src/database/connection";
 
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
-import countBlogCollectionItems from "src/services/blogCollections/countBlogCollectionItems";
+import countBlogCollectionItems from "src/services/blogCollections/views/countBlogCollectionItems";
 
 async function loadBlogCollectionView(
   connection: Connection,

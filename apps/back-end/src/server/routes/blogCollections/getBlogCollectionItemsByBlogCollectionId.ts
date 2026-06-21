@@ -7,9 +7,9 @@ import z from "zod";
 
 import { getConnection } from "src/database/connection";
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
-import countBlogCollectionItems from "src/services/blogCollections/countBlogCollectionItems";
-import loadBlogCollectionItemSummaries from "src/services/blogCollections/loadBlogCollectionItemSummaries";
-import queryBlogCollectionItemIds from "src/services/blogCollections/queryBlogCollectionItemIds";
+import countBlogCollectionItems from "src/services/blogCollections/views/countBlogCollectionItems";
+import loadBlogCollectionItemSummaries from "src/services/blogCollections/views/loadBlogCollectionItemSummaries";
+import queryBlogCollectionItemIds from "src/services/blogCollections/views/queryBlogCollectionItemIds";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import validateUUID from "src/utility/handlers/validateUUID";

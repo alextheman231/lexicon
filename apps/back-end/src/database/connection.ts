@@ -39,6 +39,7 @@ const pool = new Pool({
 export type Connection = NodePgDatabase<typeof schema> & {
   $client?: Pool | PoolClient;
 };
+export type Transaction = Parameters<Parameters<Connection["transaction"]>[0]>[0];
 
 const connection: Connection = drizzle(pool, { schema });
 

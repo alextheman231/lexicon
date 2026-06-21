@@ -1,7 +1,7 @@
 import type { Router } from "express";
 
 import { getConnection } from "src/database/connection";
-import expireUserSession from "src/services/userSessions/expireUserSession";
+import expireUserSession from "src/services/userSessions/mutations/transaction/expireUserSession";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function postAuthLogout(auth: Router) {
@@ -16,8 +16,11 @@ function postAuthLogout(auth: Router) {
       }
 
       response.clearCookie("session");
-      await expireUserSession(connection, sessionId);
-      response.status(204).send({});
+
+      await connection.transaction(async (transaction) => {
+        await expireUserSession(transaction, sessionId);
+        response.status(204).send({});
+      });
     }),
   );
 }
