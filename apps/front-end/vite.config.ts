@@ -17,6 +17,8 @@ function parseEnv(input: unknown): Env {
 }
 
 const ENV = parseEnv(process.env.NODE_ENV ?? "development");
+const FRONT_END_PORT = ENV === "end-to-end" ? 6173 : 5173;
+const BACK_END_PORT = ENV === "end-to-end" ? 9090 : 8080;
 
 export default defineConfig({
   build: {
@@ -27,6 +29,20 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   server: {
-    port: ENV === "end-to-end" ? 6173 : 5173,
+    port: FRONT_END_PORT,
+    proxy: {
+      "^/api/v\\d+": {
+        target: `http://localhost:${BACK_END_PORT}`,
+        headers: {
+          host: `localhost:${BACK_END_PORT}`,
+        },
+      },
+      "^/static/": {
+        target: `http://localhost:${BACK_END_PORT}`,
+        headers: {
+          host: `localhost:${BACK_END_PORT}`,
+        },
+      },
+    },
   },
 });

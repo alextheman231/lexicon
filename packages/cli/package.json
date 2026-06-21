@@ -1,0 +1,48 @@
+{
+  "name": "@lexicon/cli",
+  "version": "1.0.0",
+  "description": "A CLI to carry out common dev tooling commands.",
+  "main": "index.js",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "lexicon": "./dist/cli/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextheman231/lexicon.git"
+  },
+  "sideEffects": true,
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsx src/cli/index.ts",
+    "format": "pnpm run format-prettier && pnpm run format-eslint",
+    "format-eslint": "eslint --fix --suppress-all \"src/**/*.{ts,tsx}\" && rm -f eslint-suppressions.json",
+    "format-prettier": "pnpm run format-prettier-typescript && pnpm run format-prettier-javascript",
+    "format-prettier-javascript": "prettier --write \"./**/*.{js,json}\"",
+    "format-prettier-typescript": "prettier --write --parser typescript \"./**/*.{ts,tsx}\"",
+    "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-prettier",
+    "lint-eslint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint-prettier": "pnpm run lint-prettier-typescript && pnpm run lint-prettier-javascript",
+    "lint-prettier-javascript": "prettier --check \"./**/*.{js,json}\"",
+    "lint-prettier-typescript": "prettier --check --parser typescript \"./**/*.{ts,tsx}\"",
+    "lint-tsc": "tsc --noEmit",
+    "update-dependencies": "pnpm update --latest && pnpm update"
+  },
+  "author": "alextheman",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "commander": "15.0.0",
+    "execa": "9.6.1"
+  },
+  "devDependencies": {
+    "@commander-js/extra-typings": "15.0.0",
+    "tsdown": "0.22.3",
+    "tsx": "4.22.4"
+  },
+  "engines": {
+    "node": ">=22.3.0"
+  }
+}
