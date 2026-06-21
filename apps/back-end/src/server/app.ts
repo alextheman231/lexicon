@@ -11,11 +11,19 @@ import setupCors from "src/utility/initialisers/setupCors";
 const app = express();
 
 app.use(setupCors(loadAllowedOrigins()));
+app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(loadCurrentUser);
 
 createEndpoints(app);
+
+app.get(/^\/(?!api).*/, (_request, response) => {
+  response.sendFile("index.html", {
+    root: "public",
+  });
+});
+
 resolveErrors(app);
 
 export default app;

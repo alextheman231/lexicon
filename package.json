@@ -7,7 +7,10 @@
   "scripts": {
     "build": "turbo run build",
     "build-alex-c-line-config": "tsdown",
-    "dev": "turbo run dev",
+    "build-apps": "pnpm run build --filter=!@lexicon/**",
+    "build-packages": "pnpm run build --filter=@lexicon/**",
+    "build-static": "pnpm --dir packages/cli run dev build-static",
+    "dev": "turbo run dev --filter=!@lexicon/cli",
     "format": "pnpm run format-package-json && pnpm run format-prettier && pnpm run format-workspaces",
     "format-package-json": "eslint --fix --suppress-all \"**/package.json\" && rm -f eslint-suppressions.json",
     "format-prettier": "pnpm run format-prettier-json && pnpm run format-prettier-yml",
@@ -22,7 +25,7 @@
     "lint-workspaces": "bash -c 'turbo run lint $@' --",
     "pre-commit": "alex-c-line pre-commit",
     "prepare": "husky",
-    "start": "turbo run start",
+    "start": "pnpm run build-static && pnpm --dir apps/back-end run start",
     "test": "turbo run test --filter=!end-to-end",
     "test-end-to-end": "turbo run test --filter=end-to-end",
     "update-dependencies": "turbo run update-dependencies && pnpm update --latest && pnpm update"
@@ -30,6 +33,7 @@
   "devDependencies": {
     "@alextheman/eslint-plugin": "5.18.0",
     "@faker-js/faker": "10.5.0",
+    "@types/node": "25.9.3",
     "@typescript-eslint/utils": "8.61.1",
     "alex-c-line": "2.10.3",
     "cross-env": "10.1.0",
@@ -43,7 +47,7 @@
   },
   "packageManager": "pnpm@11.8.0+sha512.c1f5e7c4cb241c8f174b743851d82f42b802324afc8b0f116b96adb15aa06664948dde36960a3ba1079ba5b4b29dd0140135b94b5b5f5263592249d68e555f26",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.3.0"
   },
   "dependencies": {
     "@alextheman/utility": "5.23.0",

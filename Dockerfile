@@ -8,7 +8,8 @@ COPY apps ./apps
 COPY packages ./packages
 
 RUN ["pnpm", "install", "--frozen-lockfile"]
-RUN ["pnpm", "run", "build", "--ui=stream"]
+RUN ["pnpm", "run", "build-packages"]
+RUN ["pnpm", "run", "build-static"]
 
 EXPOSE 8080
 
