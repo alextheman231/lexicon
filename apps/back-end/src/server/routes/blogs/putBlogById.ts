@@ -5,8 +5,8 @@ import { parseEditBlogData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import selectBlog from "src/models/blogs/selectBlog";
-import changeBlogState from "src/services/blogs/changeBlogState";
-import editBlog from "src/services/blogs/editBlog";
+import changeBlogState from "src/services/blogs/mutations/transaction/changeBlogState";
+import editBlog from "src/services/blogs/mutations/transaction/editBlog";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import validateUUID from "src/utility/handlers/validateUUID";

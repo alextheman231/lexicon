@@ -10,7 +10,7 @@ import { containsKeys, omitProperties } from "@alextheman/utility";
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
 import insertBlogCollectionItem from "src/models/blogCollections/insertBlogCollectionItem";
-import findLatestBlogCollectionItemNumber from "src/services/blogCollections/findLatestBlogCollectionItemNumber";
+import findLatestBlogCollectionItemNumber from "src/services/blogCollections/views/findLatestBlogCollectionItemNumber";
 
 type BlogCollectionItemFactoryData = Partial<
   Omit<BlogCollectionItemInsert, "blogId" | "blogCollectionId"> & {

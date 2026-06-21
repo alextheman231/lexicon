@@ -3,9 +3,9 @@ import type { Router } from "express";
 import { BlogState, parseBlogFilter } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import countBlogs from "src/services/blogs/countBlogs";
-import loadBlogSummaries from "src/services/blogs/loadBlogSummaries";
-import queryBlogIds from "src/services/blogs/queryBlogIds";
+import countBlogs from "src/services/blogs/views/countBlogs";
+import loadBlogSummaries from "src/services/blogs/views/loadBlogSummaries";
+import queryBlogIds from "src/services/blogs/views/queryBlogIds";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 

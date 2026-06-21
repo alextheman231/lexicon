@@ -7,7 +7,7 @@ import type { EditBlogCollectionData } from "src/services/blogCollections/helper
 import { omitProperties } from "@alextheman/utility";
 
 import updateBlogCollection from "src/models/blogCollections/updateBlogCollection";
-import createBlogCollectionItems from "src/services/blogCollections/createBlogCollectionItems";
+import createBlogCollectionItems from "src/services/blogCollections/mutations/createBlogCollectionItems";
 
 async function editBlogCollection(
   connection: Connection,

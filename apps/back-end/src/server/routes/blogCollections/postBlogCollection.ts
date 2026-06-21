@@ -1,8 +1,8 @@
 import type { Router } from "express";
 
 import { getConnection } from "src/database/connection";
-import createBlogCollection from "src/services/blogCollections/createBlogCollection";
 import { parseCreateBlogCollectionData } from "src/services/blogCollections/helpers/CreateBlogCollectionData";
+import createBlogCollection from "src/services/blogCollections/mutations/transaction/createBlogCollection";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 
 function postBlogCollection(blogCollections: Router) {

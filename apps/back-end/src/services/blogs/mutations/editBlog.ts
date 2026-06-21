@@ -7,7 +7,7 @@ import { assertNotNull } from "@alextheman/utility";
 
 import insertBlogRevision from "src/models/blogs/insertBlogRevision";
 import updateBlog from "src/models/blogs/updateBlog";
-import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
+import findLatestBlogVersion from "src/services/blogs/views/findLatestBlogRevision";
 
 async function editBlog(
   connection: Connection,

@@ -9,7 +9,7 @@ import { randomUUID } from "node:crypto";
 
 import getTestFixtures from "tests/fixtures";
 
-import loadBlogCollectionItemsByBlogCollectionId from "src/services/blogCollections/loadBlogCollectionItemsByBlogCollectionId";
+import loadBlogCollectionItemsByBlogCollectionId from "src/services/blogCollections/views/loadBlogCollectionItemsByBlogCollectionId";
 
 describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>", () => {
   test("Deletes a blog collection item from the collection", async () => {

@@ -6,7 +6,7 @@ import { omitProperties } from "@alextheman/utility";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
-import createUserSession from "src/services/userSessions/createUserSession";
+import createUserSession from "src/services/userSessions/mutations/createUserSession";
 
 export type UserSessionFactoryData = Partial<
   Omit<CreateUserSessionData, "userId"> & { user?: string | User }
