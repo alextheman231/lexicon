@@ -107,32 +107,14 @@ jobs:
           push: true
           tags: ${{ vars.DOCKER_USERNAME }}/lexicon:latest
 
-  deploy-server:
+  deploy-app:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
       contents: read
     needs: [deploy-image]
-    env:
-      SENTRY_RELEASE: ${{ github.sha }}
+
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-        with:
-          persist-credentials: false
-
-      - name: Create Sentry release
-        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_ORGANISATION_TOKEN }}
-          SENTRY_ORG: alextheman231
-          SENTRY_PROJECT: lexicon-back-end
-        with:
-          environment: production
-          release: ${{ env.SENTRY_RELEASE }}
-          ignore_missing: true
-          ignore_empty: true
-
       - name: Install Render CLI
         run: curl -fsSL https://raw.githubusercontent.com/render-oss/cli/refs/heads/main/bin/install.sh | sh
 
@@ -142,18 +124,14 @@ jobs:
           RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}
         run: render deploys create $RENDER_SERVICE_ID --wait --confirm
 
-  deploy-front-end:
+  deploy-sentry:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
       contents: read
+    needs: [deploy-app]
     env:
-      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
-      VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
-      VITE_SENTRY_DSN: ${{ vars.FRONT_END_SENTRY_DSN }}
-      VITE_SENTRY_RELEASE: ${{ github.sha }}
-    needs: [deploy-image]
+      SENTRY_RELEASE: ${{ github.sha }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -177,23 +155,25 @@ jobs:
           path: "**/.turbo"
           key: deployment-build-${{ github.sha }}
 
-      - name: Install Vercel
-        uses: alextheman231/typescript-actions/actions/safe-npm-dependency-global-install@8701899e25ea05979ebb0c89da71c4ebd6c3911d # v1.2.3
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Create Sentry release for back-end
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_ORGANISATION_TOKEN }}
+          SENTRY_ORG: alextheman231
+          SENTRY_PROJECT: lexicon-back-end
         with:
-          package-name: vercel
-          dependency-group: devDependencies
+          environment: production
+          release: ${{ env.SENTRY_RELEASE }}
+          ignore_missing: true
+          ignore_empty: true
 
-      - name: Pull Vercel Environment Information
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
-
-      - name: Build Project
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel build --prod --token=$VERCEL_TOKEN
-
-      - name: Create Sentry release
+      - name: Create Sentry release for front-end
         uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_ORGANISATION_TOKEN }}
@@ -201,12 +181,7 @@ jobs:
           SENTRY_PROJECT: lexicon-front-end
         with:
           environment: production
-          release: ${{ env.VITE_SENTRY_RELEASE }}
+          release: ${{ env.SENTRY_RELEASE }}
           sourcemaps: apps/front-end/dist/assets
           ignore_missing: true
           ignore_empty: true
-
-      - name: Deploy to Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
