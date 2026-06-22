@@ -31,13 +31,13 @@
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "dependencies": {
-    "@alextheman/components": "7.4.0",
+    "@alextheman/components": "7.4.1",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@lexical/react": "0.45.0",
     "@lexicon/models": "workspace:*",
     "@mui/material": "9.1.1",
-    "@sentry/react": "10.58.0",
+    "@sentry/react": "10.59.0",
     "@tanstack/react-form": "1.33.0",
     "@tanstack/react-query": "5.101.0",
     "@tanstack/react-store": "0.11.0",
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@lexicon/configs": "workspace:*",
-    "@types/node": "25.9.3",
+    "@types/node": "26.0.0",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
