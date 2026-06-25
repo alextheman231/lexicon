@@ -10,7 +10,7 @@ import { Pool } from "pg";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
-// eslint-disable-next-line @alextheman/no-namespace-imports
+// eslint-disable-next-line @alextheman/no-namespace-imports -- Needed to give the connection access to our schema types.
 import * as schema from "src/database/schema";
 import loadEnvironment from "src/utility/env/loadEnvironment";
 
