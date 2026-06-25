@@ -1,7 +1,7 @@
 # Lexicon
 
 [![CI](https://github.com/alextheman231/lexicon/actions/workflows/ci.yml/badge.svg)](https://github.com/alextheman231/lexicon/actions/workflows/ci.yml)
-[![Deploy Production](https://github.com/alextheman231/lexicon/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/alextheman231/lexicon/actions/workflows/deploy-production.yml)
+[![Deploy](https://github.com/alextheman231/lexicon/actions/workflows/deploy.yml/badge.svg)](https://github.com/alextheman231/lexicon/actions/workflows/deploy.yml)
 
 This is a blog site that I have created. It allows users to create, post, and edit blogs. It is the successor to my old Neurosongs project, taking a lot of the ideas that shaped that and polishing them even further with better patterns and a reusable package ecosystem to support it.
 
