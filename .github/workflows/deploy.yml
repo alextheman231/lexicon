@@ -83,6 +83,16 @@ jobs:
             --output text
           )
 
+          aws ecs describe-tasks \
+            --cluster "$AWS_CLUSTER_NAME" \
+            --tasks "$TASK_ARN" \
+            --query 'tasks[0].{
+              StopReason:stoppedReason,
+              ExitCode:containers[0].exitCode,
+              Reason:containers[0].reason,
+              LastStatus:containers[0].lastStatus
+            }'
+
           if [ "$EXIT_CODE" = "None" ]; then
             echo "Migration task stopped without reporting an exit code."
             exit 1
