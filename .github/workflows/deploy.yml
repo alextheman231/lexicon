@@ -6,11 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-image:
+  deploy-app:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
       contents: read
+      id-token: write
     steps:
       - name: Checkout the repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -23,6 +24,12 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PAT }}
 
+      - name: Login to AWS
+        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6.2.0
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
       - name: Build and push Docker image to Docker Hub
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
@@ -30,14 +37,80 @@ jobs:
           push: true
           tags: ${{ vars.DOCKER_USERNAME }}/lexicon:latest
 
-  deploy-app:
+      - name: Apply migrations
+        id: migration
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
+          AWS_MIGRATION_TASK_FAMILY: ${{ vars.AWS_MIGRATION_TASK_FAMILY }}
+          AWS_SECURITY_GROUP_ID: ${{ vars.AWS_SECURITY_GROUP_ID }}
+          AWS_SUBNET_IDS: ${{ vars.AWS_SUBNET_IDS }}
+          AWS_ASSIGN_PUBLIC_IP: ${{ vars.AWS_ASSIGN_PUBLIC_IP }}
+        run: |
+          TASK_ARN=$(aws ecs run-task \
+            --cluster "$AWS_CLUSTER_NAME" \
+            --task-definition "$AWS_MIGRATION_TASK_FAMILY" \
+            --launch-type FARGATE \
+            --network-configuration \
+            "awsvpcConfiguration={subnets=[$AWS_SUBNET_IDS],securityGroups=[$AWS_SECURITY_GROUP_ID],assignPublicIp=$AWS_ASSIGN_PUBLIC_IP}" \
+            --query 'tasks[0].taskArn' \
+            --output text
+          )
+
+          if [ "$TASK_ARN" = "None" ]; then
+            echo "Failed to start migration task."
+            exit 1
+          fi
+
+          echo "task_arn=$TASK_ARN" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for migrations to apply successfully
+        env:
+          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
+          TASK_ARN: ${{ steps.migration.outputs.task_arn }}
+        run: aws ecs wait tasks-stopped --cluster "$AWS_CLUSTER_NAME" --tasks "$TASK_ARN"
+
+      - name: Return the exit code provided from the migration application
+        env:
+          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
+          TASK_ARN: ${{ steps.migration.outputs.task_arn }}
+        run: |
+          EXIT_CODE=$(
+            aws ecs describe-tasks \
+            --cluster "$AWS_CLUSTER_NAME" \
+            --tasks "$TASK_ARN" \
+            --query "tasks[0].containers[0].exitCode" \
+            --output text
+          )
+
+          if [ "$EXIT_CODE" = "None" ]; then
+            echo "Migration task stopped without reporting an exit code."
+            exit 1
+          fi
+
+          exit "$EXIT_CODE"
+
+      - name: Deploy ECS service
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
+          AWS_SERVICE_NAME: ${{ vars.AWS_SERVICE_NAME }}
+        run: aws ecs update-service --cluster "$AWS_CLUSTER_NAME" --service "$AWS_SERVICE_NAME" --region "$AWS_REGION" --force-new-deployment
+
+      - name: Wait for service to stabilise
+        env:
+          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
+          AWS_SERVICE_NAME: ${{ vars.AWS_SERVICE_NAME }}
+        run: aws ecs wait services-stable --cluster "$AWS_CLUSTER_NAME" --service "$AWS_SERVICE_NAME"
+
+  deploy-sentry:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
       contents: read
     env:
       SENTRY_RELEASE: ${{ github.sha }}
-    needs: [deploy-image]
+    needs: [deploy-app]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -65,24 +138,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install Render CLI
-        run: curl -fsSL https://raw.githubusercontent.com/render-oss/cli/refs/heads/main/bin/install.sh | sh
-
       - name: Build packages
         run: pnpm run build
-
-      - name: Deploy to Render
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_DEPLOY_KEY }}
-          RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}
-        run: render deploys create $RENDER_SERVICE_ID --wait --confirm
-
-      - name: Apply migrations
-        working-directory: apps/back-end
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          NODE_ENV: production
-        run: pnpm run migrate-db
 
       - name: Create Sentry release for back-end
         uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
