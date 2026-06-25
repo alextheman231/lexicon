@@ -34,6 +34,10 @@ if (!DATABASE_URL) {
   );
 }
 
+console.info(process.cwd());
+console.info(
+  readFileSync(path.join(process.cwd(), "aws-rds-global-bundle.pem"), "utf8").slice(0, 100),
+);
 const pool = new Pool({
   connectionString: DATABASE_URL,
   ssl:
