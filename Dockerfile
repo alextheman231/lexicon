@@ -7,6 +7,8 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.json ./
 COPY apps ./apps
 COPY packages ./packages
 
+RUN ["curl", "-fsSL", "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem", "-o", "apps/back-end/aws-rds-global-bundle.pem"]
+
 RUN ["pnpm", "install", "--frozen-lockfile"]
 RUN ["pnpm", "run", "build-packages"]
 RUN ["pnpm", "run", "build-static"]

@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
+// eslint-disable-next-line no-restricted-imports -- The configuration must be loaded synchronously so fs/promises can't be used.
+import { readFileSync } from "node:fs";
 import path from "node:path";
 
 // eslint-disable-next-line @alextheman/no-namespace-imports
@@ -34,6 +36,12 @@ if (!DATABASE_URL) {
 
 const pool = new Pool({
   connectionString: DATABASE_URL,
+  ssl:
+    ENV === "production"
+      ? {
+          ca: readFileSync(path.join(process.cwd(), "aws-rds-global-bundle.pem"), "utf-8"),
+        }
+      : false,
 });
 
 export type Connection = NodePgDatabase<typeof schema> & {
