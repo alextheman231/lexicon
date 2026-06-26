@@ -32,7 +32,7 @@ jobs:
           cache: "pnpm"
 
       - name: Cache Turborepo cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: "**/.turbo"
           key: turbo-lint-${{ hashFiles('{apps,packages}/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'turbo.json') }}
@@ -81,7 +81,7 @@ jobs:
           cache: "pnpm"
 
       - name: Cache Turborepo cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: "**/.turbo"
           key: turbo-test-${{ hashFiles('{apps,packages}/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'turbo.json') }}
@@ -143,14 +143,14 @@ jobs:
           cache: "pnpm"
 
       - name: Cache Turborepo cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: "**/.turbo"
           key: turbo-end-to-end-${{ hashFiles('{apps,packages}/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'turbo.json') }}
           restore-keys: turbo-end-to-end-
 
       - name: Cache Playwright browsers
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml', 'apps/end-to-end/playwright.config.ts') }}
