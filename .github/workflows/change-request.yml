@@ -1,0 +1,28 @@
+name: Change request
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: A short explanation for the reason behind the change.
+        required: true
+        default: Redeploy Lexicon
+      description:
+        description: A further description of the change.
+        required: false
+        default: Trigger a redeployment of Lexicon.
+
+jobs:
+  create-change-request:
+    permissions:
+      contents: write
+      pull-requests: write
+    if: ${{ github.repository == 'alextheman231/lexicon' }}
+    uses: alextheman231/github-actions/.github/workflows/create-change-request.yml@0776a9d83e56a216f52b56cb87ec0ff8f84a9368 # v12.3.0
+    with:
+      APP_ID: ${{ vars.ALEX_UP_BOT_APP_ID }}
+      actor: ${{ github.actor }}
+      reason: ${{ inputs.reason }}
+      description: ${{ inputs.description }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.ALEX_UP_BOT_PRIVATE_KEY }}
