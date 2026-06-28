@@ -18,24 +18,27 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
-        with:
-          username: ${{ vars.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PAT }}
-
       - name: Login to AWS
         uses: aws-actions/configure-aws-credentials@254c19bd240aabef8777f48595e9d2d7b972184b # v6.2.1
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Build and push Docker image to Docker Hub
-        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
-        with:
-          context: .
-          push: true
-          tags: ${{ vars.DOCKER_USERNAME }}/lexicon:latest
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@d539f0932e70871a027e9d5a9d8fc38589180a64 # v2.1.6
+
+      - name: Build and push Docker image to ECR
+        env:
+          AWS_ECR_REPOSITORY_URL: ${{ vars.AWS_ECR_REPOSITORY_URL }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build \
+            -t "$AWS_ECR_REPOSITORY_URL:$IMAGE_TAG" \
+            -t "$AWS_ECR_REPOSITORY_URL:latest" \
+            .
+
+          docker push "$AWS_ECR_REPOSITORY_URL:$IMAGE_TAG"
+          docker push "$AWS_ECR_REPOSITORY_URL:latest"
 
       - name: Apply migrations
         id: migration
