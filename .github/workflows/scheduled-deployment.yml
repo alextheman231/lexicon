@@ -1,0 +1,21 @@
+name: Scheduled Apply
+
+on:
+  schedule:
+    - cron: 0 21 1 * *
+
+jobs:
+  scheduled-apply:
+    permissions:
+      contents: write
+      pull-requests: write
+    if: ${{ github.repository == 'alextheman231/infrastructure' }}
+    uses: alextheman231/github-actions/.github/workflows/create-change-request.yml@0776a9d83e56a216f52b56cb87ec0ff8f84a9368 # v12.3.0
+    with:
+      APP_ID: ${{ vars.ALEX_UP_BOT_APP_ID }}
+      actor: alex-up-bot[bot]
+      reason: "Scheduled deployment"
+      description: "This is a monthly scheduled deployment of Lexicon, intended to fix potential drifts. Please verify CI passes before merging."
+      branch_name: scheduled-deployment
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.ALEX_UP_BOT_PRIVATE_KEY }}
