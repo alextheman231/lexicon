@@ -1,15 +1,15 @@
-name: Scheduled Apply
+name: Scheduled Deployment
 
 on:
   schedule:
     - cron: 0 21 1 * *
 
 jobs:
-  scheduled-apply:
+  scheduled-deployment:
     permissions:
       contents: write
       pull-requests: write
-    if: ${{ github.repository == 'alextheman231/infrastructure' }}
+    if: ${{ github.repository == 'alextheman231/lexicon' }}
     uses: alextheman231/github-actions/.github/workflows/create-change-request.yml@0776a9d83e56a216f52b56cb87ec0ff8f84a9368 # v12.3.0
     with:
       APP_ID: ${{ vars.ALEX_UP_BOT_APP_ID }}
