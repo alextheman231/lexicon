@@ -2,7 +2,7 @@ import useQuery from "src/hooks/query/useQuery";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
 import queryKeys from "src/utility/query/queryKeys";
 
-export function useBackendErrorQuery() {
+function useBackendErrorQuery() {
   return useQuery({
     queryKey: [queryKeys.backendError()],
     queryFn: async () => {
@@ -10,3 +10,5 @@ export function useBackendErrorQuery() {
     },
   });
 }
+
+export default useBackendErrorQuery;
