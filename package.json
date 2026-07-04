@@ -33,23 +33,23 @@
   "devDependencies": {
     "@alextheman/eslint-plugin": "5.18.0",
     "@faker-js/faker": "10.5.0",
-    "@types/node": "26.0.1",
-    "@typescript-eslint/utils": "8.62.0",
+    "@types/node": "26.1.0",
+    "@typescript-eslint/utils": "8.62.1",
     "alex-c-line": "2.11.3",
     "cross-env": "10.1.0",
-    "eslint": "10.5.0",
+    "eslint": "10.6.0",
     "husky": "9.1.7",
-    "prettier": "3.8.4",
-    "turbo": "2.10.0",
+    "prettier": "3.9.4",
+    "turbo": "2.10.3",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.62.0"
+    "typescript-eslint": "8.62.1"
   },
   "packageManager": "pnpm@11.10.0+sha512.0b7f8b98060031904c017e3a41eb187a16d40eeb829b95c4f8cb03681761fc4ab53dd219115b9b447f4dce1a05a214764461e7d3703392a9f32f9511ce8c86c8",
   "engines": {
     "node": ">=22.3.0"
   },
   "dependencies": {
-    "@alextheman/utility": "5.23.0",
+    "@alextheman/utility": "5.23.1",
     "zod": "4.4.3"
   }
 }
