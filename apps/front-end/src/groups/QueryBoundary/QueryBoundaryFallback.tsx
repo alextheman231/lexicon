@@ -25,8 +25,7 @@ export interface QueryBoundaryFallbackErrorPropsDefault extends QueryBoundaryFal
 }
 
 export type QueryBoundaryFallbackErrorProps =
-  | QueryBoundaryFallbackErrorPropsDefault
-  | QueryBoundaryFallbackErrorPropsCodeError;
+  QueryBoundaryFallbackErrorPropsDefault | QueryBoundaryFallbackErrorPropsCodeError;
 
 export type QueryBoundaryFallbackProps = QueryBoundaryFallbackErrorProps &
   QueryBoundaryNullableProps;
