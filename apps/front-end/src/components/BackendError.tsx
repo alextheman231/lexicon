@@ -1,4 +1,4 @@
-import { useBackendErrorQuery } from "src/queries";
+import useBackendErrorQuery from "src/queries/useBackendErrorQuery";
 
 function BackendError() {
   useBackendErrorQuery();
