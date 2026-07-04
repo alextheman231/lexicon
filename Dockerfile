@@ -1,6 +1,9 @@
 FROM ghcr.io/pnpm/pnpm:latest
 RUN ["pnpm", "runtime", "set", "node", "22", "-g"]
 
+ARG GITHUB_SHA=unknown
+ENV GITHUB_SHA=$GITHUB_SHA
+
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.json ./

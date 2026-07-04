@@ -33,6 +33,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
+            --build-arg GITHUB_SHA="$IMAGE_TAG" \
             -t "$AWS_ECR_REPOSITORY_URL:$IMAGE_TAG" \
             -t "$AWS_ECR_REPOSITORY_URL:latest" \
             .
