@@ -6,6 +6,7 @@ import initialiseAuthRouter from "src/server/routes/auth";
 import initialiseBlogCollectionsRouter from "src/server/routes/blogCollections";
 import initialiseBlogsRouter from "src/server/routes/blogs";
 import initialiseCurrentUserRouter from "src/server/routes/currentUser";
+import initialiseMetadataRouter from "src/server/routes/metadata";
 import initialiseUsersRouter from "src/server/routes/users";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
@@ -28,6 +29,7 @@ function createEndpoints(app: Express) {
     }),
   );
 
+  initialiseRouter(app, "metadata", initialiseMetadataRouter);
   initialiseRouter(app, "auth", initialiseAuthRouter);
   initialiseRouter(app, "blogs", initialiseBlogsRouter);
   initialiseRouter(app, "blog-collections", initialiseBlogCollectionsRouter);

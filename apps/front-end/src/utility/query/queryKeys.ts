@@ -16,6 +16,9 @@ const queryKeys = {
   blogRevisions: (...args: Array<unknown>): QueryKey => {
     return ["blogRevisions", ...args];
   },
+  metadata: (...args: Array<unknown>): QueryKey => {
+    return ["metadata", ...args];
+  },
 };
 
 export const relatedQueryKeys: Record<keyof typeof queryKeys, Array<QueryKey>> = {
@@ -24,6 +27,7 @@ export const relatedQueryKeys: Record<keyof typeof queryKeys, Array<QueryKey>> =
   users: [queryKeys.users()],
   blogs: [queryKeys.blogs(), queryKeys.blogRevisions()],
   blogRevisions: [queryKeys.blogs(), queryKeys.blogRevisions()],
+  metadata: [queryKeys.metadata()],
 };
 
 export default queryKeys;
