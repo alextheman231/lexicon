@@ -19,7 +19,8 @@ function EditUserProfile() {
   async function onSubmit(data: UserProfileFormOutputData) {
     try {
       await updateUserProfile(data);
-      setLocation(`/users/${currentUser?.id}`);
+      addSnackbar("Profile edited successfully", { severity: "success" });
+      setLocation(`/users/${currentUser?.id}#about`);
     } catch (error) {
       addSnackbar(formatError(error), { severity: "error" });
     }
