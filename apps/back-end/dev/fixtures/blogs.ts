@@ -24,6 +24,20 @@ const blogsFixtures: Array<BlogFixture> = [
     content:
       "Have you ever tried referencing a composite action from a reusable workflow, then calling that reusable workflow from a different repository? Would not recommend...",
   },
+  {
+    id: "f6794018-132b-4ab5-a1de-ea4ac20752e2",
+    authorId: "5e5cc620-2c37-4c20-b2d7-84e99bf3b8ed",
+    title: "Blog from my alt account",
+    state: BlogState.PUBLISHED,
+    content: "This is a published blog from my alt account.",
+  },
+  {
+    id: "b3b95d93-f1da-4ca5-9961-62ce55094062",
+    authorId: "5e5cc620-2c37-4c20-b2d7-84e99bf3b8ed",
+    title: "Cool blog about deployment",
+    state: BlogState.PUBLISHED,
+    content: "This is a story about how I deployed Lexicon with AWS and Terraform.",
+  },
 ];
 
 export default blogsFixtures;

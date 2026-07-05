@@ -1,4 +1,4 @@
-import type { AuthProvider } from "@lexicon/models";
+import { AuthProvider } from "@lexicon/models";
 
 interface AuthProvidersFixtures {
   provider: AuthProvider;
@@ -25,8 +25,22 @@ const usersFixtures: Array<UserFixture> = [
     dateOfBirth: new Date("2003-07-16T00:00:00.000Z"),
     authProviders: [
       {
-        provider: "google",
+        provider: AuthProvider.GOOGLE,
         providerUserId: "110146671422678973171",
+      },
+    ],
+  },
+  {
+    id: "5e5cc620-2c37-4c20-b2d7-84e99bf3b8ed",
+    username: "alextheman231231",
+    displayName: "Alex's Second Account",
+    description: "My alt account for testing.",
+    email: "alextheman231231@gmail.com",
+    dateOfBirth: new Date("2003-07-16T00:00:00.000Z"),
+    authProviders: [
+      {
+        provider: AuthProvider.GOOGLE,
+        providerUserId: "103479103835235904013",
       },
     ],
   },
@@ -39,7 +53,7 @@ const usersFixtures: Array<UserFixture> = [
     dateOfBirth: new Date("2003-07-16T00:00:00.000Z"),
     authProviders: [
       {
-        provider: "end-to-end",
+        provider: AuthProvider.END_TO_END,
         providerUserId: "f6588594-f71b-4566-89fb-7928e3bae05e",
       },
     ],
@@ -53,7 +67,7 @@ const usersFixtures: Array<UserFixture> = [
     dateOfBirth: new Date("2003-07-16T00:00:00.000Z"),
     authProviders: [
       {
-        provider: "end-to-end",
+        provider: AuthProvider.END_TO_END,
         providerUserId: "8f30b55d-c950-4f49-9cf3-77910b66b1e1",
       },
     ],
@@ -67,7 +81,7 @@ const usersFixtures: Array<UserFixture> = [
     dateOfBirth: new Date("2003-07-16T00:00:00.000Z"),
     authProviders: [
       {
-        provider: "end-to-end",
+        provider: AuthProvider.END_TO_END,
         providerUserId: "f4bd7341e-de9a-42ba-acda-7c96f18fa3eb",
       },
     ],
