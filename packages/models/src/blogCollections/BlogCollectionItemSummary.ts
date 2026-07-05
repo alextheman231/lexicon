@@ -7,6 +7,7 @@ import z from "zod";
 export const blogCollectionItemSummarySchema = z.object({
   id: z.uuid(),
   itemNumber: z.int().positive(),
+  createdAt: z.coerce.date(),
   blogId: z.uuid(),
   blogTitle: z.string(),
   authorUsername: z.string(),

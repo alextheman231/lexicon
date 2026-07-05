@@ -6,6 +6,7 @@ export const blogCollectionSchema = z.object({
   name: z.string().max(100),
   userId: z.uuid(),
   description: z.string().nullable(),
+  createdAt: z.coerce.date(),
 });
 
 export type BlogCollection = z.infer<typeof blogCollectionSchema>;

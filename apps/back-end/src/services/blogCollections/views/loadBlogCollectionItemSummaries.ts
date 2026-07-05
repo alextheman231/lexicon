@@ -21,6 +21,7 @@ async function loadBlogCollectionItemSummaries(
       .select({
         id: blogCollectionItemsTable.id,
         itemNumber: blogCollectionItemsTable.itemNumber,
+        createdAt: blogCollectionItemsTable.createdAt,
         blogId: blogCollectionItemsTable.blogId,
         blogCollectionId: blogCollectionItemsTable.blogCollectionId,
         blogTitle: blogRevisionsTable.title,

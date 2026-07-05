@@ -14,7 +14,8 @@ describe("GET /api/v1/blog-collections/:blogCollectionId", () => {
   test("Returns the blog collection with the given ID", async () => {
     const { factory } = await getTestFixtures();
 
-    const blogCollection = await factory.blogCollections.insert();
+    const user = await factory.users.insert();
+    const blogCollection = await factory.blogCollections.insert({ user });
     await fillArray(
       async () => {
         return await factory.blogCollectionItems.insert({ blogCollection });
@@ -29,7 +30,11 @@ describe("GET /api/v1/blog-collections/:blogCollectionId", () => {
 
     const blogCollectionView = az.with(blogCollectionViewSchema).parse(body.blogCollection);
 
-    expect(blogCollection).toMatchObject(omitProperties(blogCollectionView, "itemCount"));
+    expect(
+      omitProperties(blogCollectionView, ["itemCount", "username", "userDisplayName"]),
+    ).toMatchObject(blogCollection);
+    expect(blogCollectionView.username).toBe(user.username);
+    expect(blogCollectionView.userDisplayName).toBe(user.displayName);
     expect(blogCollectionView.itemCount).toBe(3);
   });
   test("Returns a 404 error if the collection does not exist", async () => {
