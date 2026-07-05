@@ -40,7 +40,8 @@ import { getConnection } from "src/database/connection";
       });
       for (const [index, item] of blogCollection.items.entries()) {
         await factory.blogCollectionItems.insert({
-          ...item,
+          ...omitProperties(item, "blogId"),
+          blog: item.blogId,
           blogCollection: createdCollection,
           itemNumber: index + 1,
         });
