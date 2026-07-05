@@ -1,41 +1,33 @@
-import { az, omitProperties } from "@alextheman/utility";
-import { AuthProvider, BlogState } from "@lexicon/models";
+import { omitProperties } from "@alextheman/utility";
+import blogsFixtures from "dev/fixtures/blogs";
+import usersFixtures from "dev/fixtures/users";
 import DataFactory from "factory";
 import BlogFactory from "factory/blogs";
 import { Pool } from "pg";
-import z from "zod";
 
 import { getConnection } from "src/database/connection";
-
-import blogs from "dev/fixtures/blogs.json" with { type: "json" };
-import users from "dev/fixtures/users.json" with { type: "json" };
 
 (async () => {
   const connection = getConnection();
   try {
     const factory = DataFactory.create(connection);
 
-    for (const user of users) {
+    for (const user of usersFixtures) {
       const createdUser = await factory.users.insert({
         ...omitProperties(user, "authProviders"),
-        dateOfBirth: new Date(user.dateOfBirth),
       });
       for (const authProvider of user.authProviders) {
         await factory.authProviders.insert({
           user: createdUser.id,
-          provider: az.with(z.enum(AuthProvider)).parse(authProvider.provider),
-          providerUserId: authProvider.providerUserId,
+          ...authProvider,
         });
       }
     }
 
-    for (const blog of blogs) {
+    for (const blog of blogsFixtures) {
       await factory.blogs.insertWithRevision({
-        ...omitProperties(blog, ["authorId", "content", "state"]),
+        ...omitProperties(blog, ["authorId", "content"]),
         author: blog.authorId,
-        state: az
-          .with(z.enum(omitProperties(BlogState, "ARCHIVED")))
-          .parse(blog.state.toLowerCase()),
         content: BlogFactory.generateEditorContent(blog.content),
       });
     }
