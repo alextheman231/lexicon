@@ -139,7 +139,7 @@ function UserDropdown() {
           {(metadata) => {
             return (
               <>
-                <CardContent>
+                <CardContent sx={{ overflowWrap: "break-word" }}>
                   <Typography variant="h6">Metadata</Typography>
                   <Typography variant="body2">
                     Current SHA: {metadata.commitHash ?? "unknown"}
