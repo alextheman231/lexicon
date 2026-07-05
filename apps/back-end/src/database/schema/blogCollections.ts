@@ -1,4 +1,4 @@
-import { integer, pgTable, text, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { blogsTable } from "src/database/schema/blogs";
 import { usersTable } from "src/database/schema/users";
@@ -6,6 +6,7 @@ import { usersTable } from "src/database/schema/users";
 export const blogCollectionsTable = pgTable(
   "blog_collections",
   {
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     description: text("description"),
     id: uuid("id").primaryKey().defaultRandom(),
     name: varchar("name", { length: 100 }).notNull(),
@@ -39,6 +40,7 @@ export const blogCollectionItemsTable = pgTable(
         },
         { onDelete: "cascade" },
       ),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     id: uuid("id").primaryKey().defaultRandom(),
     itemNumber: integer("item_number").notNull(),
   },

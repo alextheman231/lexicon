@@ -4,6 +4,8 @@ import z from "zod";
 import { blogCollectionSchema } from "src/blogCollections/BlogCollection";
 
 export const blogCollectionViewSchema = blogCollectionSchema.extend({
+  username: z.string(),
+  userDisplayName: z.string(),
   itemCount: z.int().nonnegative(),
 });
 
