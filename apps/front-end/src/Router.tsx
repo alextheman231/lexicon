@@ -6,6 +6,7 @@ import BackendError from "src/components/BackendError";
 import PageWrapper from "src/components/PageWrapper";
 import AuthCallback from "src/pages/AuthCallback";
 import SignIn from "src/pages/SignIn";
+import BlogCollectionsRouter from "src/resources/BlogCollections/Router";
 import Blogs from "src/resources/Blogs/pages/Blogs";
 import BlogsRouter from "src/resources/Blogs/Router";
 import EditUserProfile from "src/resources/Users/pages/EditUserProfile";
@@ -28,12 +29,17 @@ function Router() {
           <Route path="/account/edit">
             <EditUserProfile />
           </Route>
+
           <Route path="/users" nest>
             <UsersRouter />
           </Route>
           <Route path="/blogs" nest>
             <BlogsRouter />
           </Route>
+          <Route path="/blog-collections" nest>
+            <BlogCollectionsRouter />
+          </Route>
+
           <Route path="/control/fe-error">
             {() => {
               throw new CodeError(

@@ -10,6 +10,7 @@ export const blogCollectionItemSummarySchema = z.object({
   createdAt: z.coerce.date(),
   blogId: z.uuid(),
   blogTitle: z.string(),
+  authorId: z.uuid(),
   authorUsername: z.string(),
   authorDisplayName: z.string(),
   blogUpdatedAt: z.coerce.date(),

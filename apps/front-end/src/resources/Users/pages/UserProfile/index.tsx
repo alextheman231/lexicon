@@ -11,6 +11,7 @@ import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
 import createObjectQueryBoundary from "src/groups/QueryBoundary/creators/createObjectQueryBoundary";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
+import UserBlogCollections from "src/resources/Users/pages/UserProfile/UserBlogCollections";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
 import useUserQuery from "src/resources/Users/queries/useUserQuery";
 import subtitleFormatter from "src/utility/valueFormatters/subtitleFormatter";
@@ -19,7 +20,7 @@ interface UserProfileProps {
   userId: string;
 }
 
-type TabState = "blogs" | "about";
+type TabState = "blogs" | "collections" | "about";
 
 function UserProfile({ userId }: UserProfileProps) {
   const { data: user, isPending, error } = useUserQuery(userId);
@@ -65,6 +66,7 @@ function UserProfile({ userId }: UserProfileProps) {
       tabs={
         <Tab.List>
           <Tab.Item label="Blogs" value="blogs" />
+          <Tab.Item label="Collections" value="collections" />
           <Tab.Item label="About" value="about" />
         </Tab.List>
       }
@@ -79,6 +81,9 @@ function UserProfile({ userId }: UserProfileProps) {
               </Tab.Panel>
               <Tab.Panel value="blogs">
                 <UserBlogs user={user} />
+              </Tab.Panel>
+              <Tab.Panel value="collections">
+                <UserBlogCollections user={user} />
               </Tab.Panel>
             </>
           );

@@ -1,10 +1,10 @@
 import { az } from "@alextheman/utility";
 import z from "zod";
 
-import { blogCollectionSchema } from "src/blogCollections/BlogCollection";
+import { blogCollectionViewSchema } from "src/blogCollections/BlogCollectionView";
 
 export const blogCollectionsResponseSchema = z.object({
-  blogCollections: z.array(blogCollectionSchema),
+  blogCollections: z.array(blogCollectionViewSchema),
   count: z.int(),
 });
 
