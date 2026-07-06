@@ -17,6 +17,14 @@ import updateBlog from "src/models/blogs/updateBlog";
 import findLatestBlogVersion from "src/services/blogs/views/findLatestBlogRevision";
 import loadBlogView from "src/services/blogs/views/loadBlogView";
 
+interface BlogRevisionRelations {
+  editor: string | User;
+  blog: string | Blog;
+}
+type BlogRevisionFactoryDataBase = Omit<BlogRevisionInsert, "editorId" | "blogId">;
+type BlogRevisionFactoryData = Partial<BlogRevisionFactoryDataBase & BlogRevisionRelations>;
+type BlogRevisionFactoryDataStrict = Partial<BlogRevisionFactoryDataBase> & BlogRevisionRelations;
+
 class BlogRevisionFactory {
   private blogs: BlogFactory;
   private context: FactoryContext;
@@ -31,14 +39,7 @@ class BlogRevisionFactory {
     this.blogs = blogs;
   }
 
-  public async insert(
-    data: Partial<
-      Omit<BlogRevisionInsert, "editorId" | "blogId"> & {
-        editor: string | User;
-        blog: string | Blog;
-      }
-    > = {},
-  ): Promise<BlogRevision> {
+  public async insert(data: BlogRevisionFactoryData = {}): Promise<BlogRevision> {
     const blogId = await getIdFromFactoryResource<string>(data.blog, this.blogs);
 
     const blog = await selectBlog(this.context.connection, blogId);
@@ -73,6 +74,9 @@ class BlogRevisionFactory {
 
     this.records[newRevision.id] = newRevision;
     return newRevision;
+  }
+  public async insertStrict(data: BlogRevisionFactoryDataStrict): Promise<BlogRevision> {
+    return await this.insert(data);
   }
 }
 

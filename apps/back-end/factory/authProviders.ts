@@ -11,9 +11,12 @@ import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
 import createUserAuthProvider from "src/services/auth/createUserAuthProvider";
 
-export type AuthProviderFactoryData = Partial<
-  Omit<UserAuthProviderInsertData, "userId"> & { user?: string | User }
->;
+interface AuthProviderRelations {
+  user: string | User;
+}
+type AuthProviderFactoryDataBase = Omit<UserAuthProviderInsertData, "userId">;
+type AuthProviderFactoryData = Partial<AuthProviderFactoryDataBase & AuthProviderRelations>;
+type AuthProviderFactoryDataStrict = Partial<AuthProviderFactoryDataBase> & AuthProviderRelations;
 
 class AuthProviderFactory {
   private context: FactoryContext;
@@ -38,6 +41,9 @@ class AuthProviderFactory {
     });
     this.records[authProvider.id] = authProvider;
     return authProvider;
+  }
+  public async insertStrict(data: AuthProviderFactoryDataStrict): Promise<AuthProviderSchema> {
+    return await this.insert(data);
   }
 }
 

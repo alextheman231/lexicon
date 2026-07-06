@@ -8,9 +8,12 @@ import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
 import createUserSession from "src/services/userSessions/mutations/createUserSession";
 
-export type UserSessionFactoryData = Partial<
-  Omit<CreateUserSessionData, "userId"> & { user?: string | User }
->;
+interface UserSessionRelations {
+  user: string | User;
+}
+type UserSessionFactoryDataBase = Omit<CreateUserSessionData, "userId">;
+type UserSessionFactoryData = Partial<UserSessionFactoryDataBase & UserSessionRelations>;
+type UserSessionFactoryDataStrict = Partial<UserSessionFactoryDataBase> & UserSessionRelations;
 
 class UserSessionFactory {
   private context: FactoryContext;
@@ -33,6 +36,9 @@ class UserSessionFactory {
     });
     this.records[userSession.id] = userSession;
     return userSession;
+  }
+  public async insertStrict(data: UserSessionFactoryDataStrict): Promise<UserSession> {
+    return await this.insert(data);
   }
 }
 

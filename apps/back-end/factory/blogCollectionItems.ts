@@ -12,12 +12,19 @@ import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 import insertBlogCollectionItem from "src/models/blogCollections/insertBlogCollectionItem";
 import findLatestBlogCollectionItemNumber from "src/services/blogCollections/views/findLatestBlogCollectionItemNumber";
 
-type BlogCollectionItemFactoryData = Partial<
-  Omit<BlogCollectionItemInsert, "blogId" | "blogCollectionId"> & {
-    blog: string | Blog;
-    blogCollection: string | BlogCollection;
-  }
+interface BlogCollectionItemRelations {
+  blog: string | Blog;
+  blogCollection: string | BlogCollection;
+}
+type BlogCollectionItemFactoryDataBase = Omit<
+  BlogCollectionItemInsert,
+  "blogId" | "blogCollectionId"
 >;
+type BlogCollectionItemFactoryData = Partial<
+  BlogCollectionItemFactoryDataBase & BlogCollectionItemRelations
+>;
+type BlogCollectionItemFactoryDataStrict = Partial<BlogCollectionItemFactoryDataBase> &
+  BlogCollectionItemRelations;
 
 class BlogCollectionItemFactory {
   private blogCollections: BlogCollectionFactory;
@@ -48,7 +55,7 @@ class BlogCollectionItemFactory {
       }
       return data.blog;
     })();
-    await getIdFromFactoryResource<string>(data?.blog, this.blogs);
+
     const blogCollectionId = await getIdFromFactoryResource<string>(
       data?.blogCollection,
       this.blogCollections,
@@ -72,6 +79,11 @@ class BlogCollectionItemFactory {
 
     this.records[blogCollectionItem.id] = blogCollectionItem;
     return blogCollectionItem;
+  }
+  public async insertStrict(
+    data: BlogCollectionItemFactoryDataStrict,
+  ): Promise<BlogCollectionItem> {
+    return await this.insert(data);
   }
 }
 

@@ -16,9 +16,20 @@ import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
 import selectBlog from "src/models/blogs/selectBlog";
 import updateBlog from "src/models/blogs/updateBlog";
 
-type BlogFactoryData<InsertType extends object = Record<string, unknown>> = Partial<
-  Omit<InsertType, "authorId"> & { id: string; author: string | User }
+interface BlogRelations {
+  author: string | User;
+}
+type BlogFactoryDataBase<InsertType extends object = Record<string, unknown>> = Omit<
+  InsertType,
+  "authorId"
 >;
+type BlogFactoryData<InsertType extends object = Record<string, unknown>> = Partial<
+  BlogFactoryDataBase<InsertType> & BlogRelations
+>;
+type BlogFactoryDataStrict<InsertType extends object = Record<string, unknown>> = Partial<
+  BlogFactoryDataBase<InsertType>
+> &
+  BlogRelations;
 
 class BlogFactory {
   private context: FactoryContext;
@@ -84,11 +95,14 @@ class BlogFactory {
 
     return blog;
   }
+  public async insertStrict(data: BlogFactoryDataStrict<BlogInsert>): Promise<Blog> {
+    return await this.insert(data);
+  }
   public async insertWithRevision(
-    data: BlogFactoryData<CreateBlogData> = {},
+    data: BlogFactoryData<CreateBlogData & { id: string }> = {},
   ): Promise<{ blog: Blog; revision: BlogRevision }> {
     const authorId = await getIdFromFactoryResource<string>(data.author, this.users);
-    const blogTemplate: CreateBlogData = {
+    const blogTemplate: CreateBlogData & { id?: string } = {
       title: faker.music.songName(),
       content: BlogFactory.generateEditorContent(faker.lorem.sentences(getRandomNumber(0, 5))),
       state: BlogState.PUBLISHED,
@@ -127,6 +141,11 @@ class BlogFactory {
 
     this.records[blog.id] = blog;
     return { blog, revision };
+  }
+  public async insertWithRevisionStrict(
+    data: BlogFactoryDataStrict<CreateBlogData & { id: string }>,
+  ): Promise<{ blog: Blog; revision: BlogRevision }> {
+    return await this.insertWithRevision(data);
   }
 }
 
