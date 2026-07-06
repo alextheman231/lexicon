@@ -6,6 +6,8 @@ import { parseUser } from "@lexicon/models";
 
 import { insertUser } from "src/models/users/insertUser";
 
+type UserFactoryData = Partial<CreateUserData>;
+
 class UserFactory {
   private context: FactoryContext;
 
@@ -16,7 +18,7 @@ class UserFactory {
     this.records = {};
   }
 
-  public async insert(data?: Partial<CreateUserData>): Promise<User> {
+  public async insert(data?: UserFactoryData): Promise<User> {
     const userTemplate: CreateUserData = {
       username: faker.internet.username(),
       displayName: faker.internet.displayName(),
@@ -35,6 +37,9 @@ class UserFactory {
 
     this.records[user.id] = user;
     return user;
+  }
+  public async insertStrict(data: UserFactoryData): Promise<User> {
+    return await this.insert(data);
   }
 }
 

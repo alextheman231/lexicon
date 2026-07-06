@@ -14,11 +14,11 @@ import { getConnection } from "src/database/connection";
     const factory = DataFactory.create(connection);
 
     for (const user of usersFixtures) {
-      const createdUser = await factory.users.insert({
+      const createdUser = await factory.users.insertStrict({
         ...omitProperties(user, "authProviders"),
       });
       for (const authProvider of user.authProviders) {
-        await factory.authProviders.insert({
+        await factory.authProviders.insertStrict({
           user: createdUser,
           ...authProvider,
         });
@@ -26,7 +26,7 @@ import { getConnection } from "src/database/connection";
     }
 
     for (const blog of blogsFixtures) {
-      await factory.blogs.insertWithRevision({
+      await factory.blogs.insertWithRevisionStrict({
         ...omitProperties(blog, ["authorId", "content"]),
         author: blog.authorId,
         content: BlogFactory.generateEditorContent(blog.content),
@@ -34,12 +34,12 @@ import { getConnection } from "src/database/connection";
     }
 
     for (const blogCollection of blogCollectionsFixtures) {
-      const createdCollection = await factory.blogCollections.insert({
+      const createdCollection = await factory.blogCollections.insertStrict({
         ...omitProperties(blogCollection, ["userId", "items"]),
         user: blogCollection.userId,
       });
       for (const [index, item] of blogCollection.items.entries()) {
-        await factory.blogCollectionItems.insert({
+        await factory.blogCollectionItems.insertStrict({
           ...omitProperties(item, "blogId"),
           blog: item.blogId,
           blogCollection: createdCollection,

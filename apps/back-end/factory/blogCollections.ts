@@ -11,9 +11,13 @@ import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
 import insertBlogCollection from "src/models/blogCollections/insertBlogCollection";
 
-type BlogCollectionFactoryData = Partial<
-  Omit<BlogCollectionInsert, "userId"> & { user?: string | User }
->;
+interface BlogCollectionRelations {
+  user: string | User;
+}
+type BlogCollectionFactoryDataBase = Omit<BlogCollectionInsert, "userId">;
+type BlogCollectionFactoryData = Partial<BlogCollectionFactoryDataBase & BlogCollectionRelations>;
+type BlogCollectionFactoryDataStrict = Partial<BlogCollectionFactoryDataBase> &
+  BlogCollectionRelations;
 
 class BlogCollectionFactory {
   private context: FactoryContext;
@@ -43,6 +47,9 @@ class BlogCollectionFactory {
     );
     this.records[blogCollection.id] = blogCollection;
     return blogCollection;
+  }
+  public async insertStrict(data: BlogCollectionFactoryDataStrict): Promise<BlogCollection> {
+    return await this.insert(data);
   }
 }
 
