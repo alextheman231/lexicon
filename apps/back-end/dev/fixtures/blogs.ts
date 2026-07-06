@@ -1,10 +1,11 @@
+import type { CreateBlogData } from "@lexicon/models";
+import type { BlogFactoryDataBase } from "factory/blogs";
+
 import { BlogState } from "@lexicon/models";
 
-interface BlogFixture {
+interface BlogFixture extends BlogFactoryDataBase<Omit<CreateBlogData, "content">> {
   id: string;
   authorId: string;
-  title: string;
-  state: BlogState;
   content: string;
 }
 

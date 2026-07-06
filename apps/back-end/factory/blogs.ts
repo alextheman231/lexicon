@@ -19,7 +19,7 @@ import updateBlog from "src/models/blogs/updateBlog";
 interface BlogRelations {
   author: string | User;
 }
-type BlogFactoryDataBase<InsertType extends object = Record<string, unknown>> = Omit<
+export type BlogFactoryDataBase<InsertType extends object = Record<string, unknown>> = Omit<
   InsertType,
   "authorId"
 >;

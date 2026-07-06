@@ -1,12 +1,12 @@
+import type { BlogCollectionFactoryDataBase } from "factory/blogCollections";
+
 interface BlogCollectionItemFixture {
   id: string;
   blogId: string;
 }
 
-interface BlogCollectionFixture {
+interface BlogCollectionFixture extends Omit<BlogCollectionFactoryDataBase, "id" | "createdAt"> {
   id: string;
-  name: string;
-  description: string;
   userId: string;
   items: Array<BlogCollectionItemFixture>;
 }
