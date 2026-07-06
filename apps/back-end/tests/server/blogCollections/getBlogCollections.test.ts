@@ -13,6 +13,7 @@ describe("GET /api/v1/blog-collections", () => {
   test("Returns an array of all blog collections", async () => {
     const fixtures = new TestFixtures();
 
+    const { connection } = fixtures;
     const factory = await fixtures.factory;
 
     const blogCollections = await fillArray(

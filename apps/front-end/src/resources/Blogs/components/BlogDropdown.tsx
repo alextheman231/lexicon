@@ -10,6 +10,7 @@ import { InternalLink } from "@alextheman/components/routing";
 
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
+import AddToCollectionDropdownMenuItem from "src/resources/BlogCollections/components/AddToCollectionDropdownMenuItem";
 
 interface BlogDropdownProps {
   blog: Blog | BlogView | BlogSummary;
@@ -37,7 +38,7 @@ function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
             </DropdownMenuItem>
           </>
         ) : null}
-        <DropdownMenuItem>Add to collection (implementation coming soon)</DropdownMenuItem>
+        <AddToCollectionDropdownMenuItem blogId={blog.id} />
         {extraItems && extraItems.insertLocation === "bottom" ? extraItems.items : null}
       </DropdownMenu>
     </DropdownMenuProvider>
