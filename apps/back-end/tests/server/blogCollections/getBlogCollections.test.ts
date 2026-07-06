@@ -1,11 +1,13 @@
 import type { BlogCollectionsFilter } from "@lexicon/models";
 
-import { assertNotUndefined, fillArray } from "@alextheman/utility";
+import { assertNotUndefined, fillArray, getRandomNumber, range } from "@alextheman/utility";
 import { parseBlogCollectionsResponse } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
+
+import countBlogCollectionItems from "src/services/blogCollections/views/countBlogCollectionItems";
 
 describe("GET /api/v1/blog-collections", () => {
   test("Returns an array of all blog collections", async () => {
@@ -15,7 +17,14 @@ describe("GET /api/v1/blog-collections", () => {
 
     const blogCollections = await fillArray(
       async () => {
-        return await factory.blogCollections.insert();
+        const blogCollection = await factory.blogCollections.insert();
+        const count = getRandomNumber(1, 10);
+
+        for (const _ in range(0, count)) {
+          await factory.blogCollectionItems.insert({ blogCollection });
+        }
+
+        return blogCollection;
       },
       10,
       { sequential: true },
@@ -32,6 +41,8 @@ describe("GET /api/v1/blog-collections", () => {
       });
       assertNotUndefined(factoryCollection);
       expect(collection).toMatchObject(factoryCollection);
+      const itemCount = await countBlogCollectionItems(connection, collection.id);
+      expect(itemCount).toBe(collection.itemCount);
     }
   });
   test("Can filter by user", async () => {
