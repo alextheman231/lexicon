@@ -184,7 +184,15 @@ jobs:
                 --query "services[0].deployments[?status=='PRIMARY'].rolloutState | [0]" \
                 --output text
             )
-            echo "Primary deployment state: $ROLLOUT_STATE"
+            PRIMARY_DEPLOYMENT=$(
+              aws ecs describe-services \
+                --cluster "$AWS_CLUSTER_NAME" \
+                --services "$AWS_SERVICE_NAME" \
+                --query "services[0].deployments[?status=='PRIMARY'].id | [0]" \
+                --output text
+            )
+
+            echo "Primary deployment: $PRIMARY_DEPLOYMENT ($ROLLOUT_STATE)"
 
             aws ecs describe-services \
               --cluster "$AWS_CLUSTER_NAME" \
