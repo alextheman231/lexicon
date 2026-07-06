@@ -72,13 +72,9 @@ jobs:
         env:
           AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
           TASK_ARN: ${{ steps.migration.outputs.task_arn }}
-        run: aws ecs wait tasks-stopped --cluster "$AWS_CLUSTER_NAME" --tasks "$TASK_ARN"
-
-      - name: Return the exit code provided from the migration application
-        env:
-          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
-          TASK_ARN: ${{ steps.migration.outputs.task_arn }}
         run: |
+          aws ecs wait tasks-stopped --cluster "$AWS_CLUSTER_NAME" --tasks "$TASK_ARN"
+
           EXIT_CODE=$(
             aws ecs describe-tasks \
             --cluster "$AWS_CLUSTER_NAME" \
