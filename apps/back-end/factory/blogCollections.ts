@@ -14,7 +14,7 @@ import insertBlogCollection from "src/models/blogCollections/insertBlogCollectio
 interface BlogCollectionRelations {
   user: string | User;
 }
-type BlogCollectionFactoryDataBase = Omit<BlogCollectionInsert, "userId">;
+export type BlogCollectionFactoryDataBase = Omit<BlogCollectionInsert, "userId">;
 type BlogCollectionFactoryData = Partial<BlogCollectionFactoryDataBase & BlogCollectionRelations>;
 type BlogCollectionFactoryDataStrict = Partial<BlogCollectionFactoryDataBase> &
   BlogCollectionRelations;

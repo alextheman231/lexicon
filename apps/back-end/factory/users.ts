@@ -6,7 +6,7 @@ import { parseUser } from "@lexicon/models";
 
 import { insertUser } from "src/models/users/insertUser";
 
-type UserFactoryData = Partial<CreateUserData>;
+export type UserFactoryData = Partial<CreateUserData>;
 
 class UserFactory {
   private context: FactoryContext;
