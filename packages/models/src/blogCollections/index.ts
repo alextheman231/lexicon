@@ -16,6 +16,10 @@ export {
   parseBlogCollectionItemSummary,
 } from "src/blogCollections/BlogCollectionItemSummary";
 export {
+  blogCollectionOptionSchema,
+  parseBlogCollectionOptions,
+} from "src/blogCollections/BlogCollectionOption";
+export {
   blogCollectionsFilterSchema,
   parseBlogCollectionsFilter,
 } from "src/blogCollections/BlogCollectionsFilter";
@@ -33,6 +37,7 @@ export type { BlogCollectionItem } from "src/blogCollections/BlogCollectionItem"
 export type { BlogCollectionItemsFilter } from "src/blogCollections/BlogCollectionItemsFilter";
 export type { BlogCollectionItemsResponse } from "src/blogCollections/BlogCollectionItemsResponse";
 export type { BlogCollectionItemSummary } from "src/blogCollections/BlogCollectionItemSummary";
+export type { BlogCollectionOption } from "src/blogCollections/BlogCollectionOption";
 export type { BlogCollectionsFilter } from "src/blogCollections/BlogCollectionsFilter";
 export type { BlogCollectionsResponse } from "src/blogCollections/BlogCollectionsResponse";
 export type { BlogCollectionView } from "src/blogCollections/BlogCollectionView";
