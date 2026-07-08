@@ -30,11 +30,12 @@ describe("GET /api/v1/users/<userId>", () => {
     expect(error.data.resourceType).toBe("user");
     expect(error.data.resourceId).toBe(missingId);
   });
-  test("Should fail with 400 if not a valid UUID", async () => {
-    const { body } = await testClient.get(`/api/v1/users/hello`).expect(400);
+  test("Should fail with 404 if not a valid UUID", async () => {
+    const { body } = await testClient.get(`/api/v1/users/hello`).expect(404);
     const error = DataError.expectError(() => {
       throw body.error;
     });
-    expect(error.data.input).toBe("hello");
+    expect(error.code).toBe("ENDPOINT_NOT_FOUND");
+    expect(error.data.endpoint).toBe("/api/v1/users/hello");
   });
 });

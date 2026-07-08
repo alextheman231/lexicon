@@ -1,14 +1,15 @@
 import type { Router } from "express";
 
+import { UUID_REGEX_PATTERN } from "@alextheman/utility";
+
 import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
-import validateUUID from "src/utility/handlers/validateUUID";
 
 function getUserById(users: Router) {
-  users.param("userId", validateUUID).get(
-    "/:userId",
+  users.get(
+    RegExp(`^/(?<userId>${UUID_REGEX_PATTERN})$`),
     handleEndpointMiddleware<{ userId: string }>(async (request, response) => {
       const connection = getConnection();
 

@@ -1,6 +1,6 @@
 import type { Router } from "express";
 
-import { az } from "@alextheman/utility";
+import { az, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { blogQueryStringSchema, BlogState } from "@lexicon/models";
 import z from "zod";
@@ -10,11 +10,10 @@ import findLatestBlogVersion from "src/services/blogs/views/findLatestBlogRevisi
 import loadBlogView from "src/services/blogs/views/loadBlogView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
-import validateUUID from "src/utility/handlers/validateUUID";
 
 function getBlogById(blogs: Router) {
-  blogs.param("blogId", validateUUID).get(
-    "/:blogId",
+  blogs.get(
+    RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})$`),
     handleEndpointMiddleware<{ blogId: string }>(async (request, response) => {
       const connection = getConnection();
 

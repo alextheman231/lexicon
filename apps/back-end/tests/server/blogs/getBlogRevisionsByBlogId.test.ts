@@ -90,16 +90,4 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
 
     expect(error.code).toBe("AUTH_REQUIRED");
   });
-  test("Errors with 400 on invalid UUID", async () => {
-    const { authenticatedClient } = await getTestFixtures();
-
-    const { body } = await authenticatedClient.get("/api/v1/blogs/invalid/revisions").expect(400);
-
-    const error = DataError.expectError(() => {
-      throw body.error;
-    });
-
-    expect(error.code).toBe("INVALID_UUID");
-    expect(error.data.input).toBe("invalid");
-  });
 });

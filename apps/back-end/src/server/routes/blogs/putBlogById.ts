@@ -1,5 +1,6 @@
 import type { Router } from "express";
 
+import { UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { parseEditBlogData } from "@lexicon/models";
 
@@ -9,11 +10,10 @@ import changeBlogState from "src/services/blogs/mutations/transaction/changeBlog
 import editBlog from "src/services/blogs/mutations/transaction/editBlog";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
-import validateUUID from "src/utility/handlers/validateUUID";
 
 function putBlogById(blogs: Router) {
-  blogs.param("blogId", validateUUID).put(
-    "/:blogId",
+  blogs.put(
+    RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})$`),
     handleAuthenticatedEndpointMiddleware<{ blogId: string }>(async (request, response) => {
       const connection = getConnection();
 

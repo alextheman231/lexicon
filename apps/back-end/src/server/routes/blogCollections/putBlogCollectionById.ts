@@ -1,16 +1,17 @@
 import type { Router } from "express";
 
+import { UUID_REGEX_PATTERN } from "@alextheman/utility";
+
 import { getConnection } from "src/database/connection";
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
 import { parseEditBlogCollectionData } from "src/services/blogCollections/helpers/EditBlogCollectionData";
 import editBlogCollection from "src/services/blogCollections/mutations/transaction/editBlogCollection";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
-import validateUUID from "src/utility/handlers/validateUUID";
 
 function putBlogCollectionById(blogCollections: Router) {
-  blogCollections.param("blogCollectionId", validateUUID).put(
-    "/:blogCollectionId",
+  blogCollections.put(
+    RegExp(`^/(?<blogCollectionId>${UUID_REGEX_PATTERN})$`),
     handleAuthenticatedEndpointMiddleware<{ blogCollectionId: string }>(
       async (request, response) => {
         const connection = getConnection();
