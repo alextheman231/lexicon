@@ -1,5 +1,5 @@
 import { Switch } from "@alextheman/components/routing";
-import { UUID_PATTERN } from "@alextheman/utility";
+import { UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { Route } from "wouter";
 
 import AuthRequired from "src/components/AuthRequired";
@@ -11,12 +11,12 @@ import EditBlog from "src/resources/Blogs/pages/EditBlog";
 function BlogsRouter() {
   return (
     <Switch>
-      <Route<{ id: string }> path={RegExp(`^/(?<id>${UUID_PATTERN})$`)}>
+      <Route<{ id: string }> path={RegExp(`^/(?<id>${UUID_REGEX_PATTERN})$`)}>
         {({ id }) => {
           return <Blog blogId={id} />;
         }}
       </Route>
-      <Route<{ id: string }> path={RegExp(`^/(?<id>${UUID_PATTERN})/edit$`)}>
+      <Route<{ id: string }> path={RegExp(`^/(?<id>${UUID_REGEX_PATTERN})/edit$`)}>
         {({ id }) => {
           return (
             <AuthRequired>
@@ -25,7 +25,7 @@ function BlogsRouter() {
           );
         }}
       </Route>
-      <Route<{ id: string }> path={RegExp(`^/(?<id>${UUID_PATTERN})/revisions`)}>
+      <Route<{ id: string }> path={RegExp(`^/(?<id>${UUID_REGEX_PATTERN})/revisions`)}>
         {({ id }) => {
           return (
             <AuthRequired>

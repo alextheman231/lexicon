@@ -1,4 +1,4 @@
-import { normaliseIndents, UUID_PATTERN } from "@alextheman/utility";
+import { normaliseIndents, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { expect } from "@playwright/test";
 
 import test from "tests/fixtures";
@@ -50,7 +50,7 @@ test.describe("Blog creation", () => {
         );
       }),
       submitButton.click(),
-      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`)),
+      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_REGEX_PATTERN}$`)),
     ]);
 
     const title = authenticatedPage.getByText("Standards").first();

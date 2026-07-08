@@ -1,4 +1,4 @@
-import { normaliseIndents, UUID_PATTERN } from "@alextheman/utility";
+import { normaliseIndents, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { expect } from "@playwright/test";
 
 import test from "tests/fixtures";
@@ -77,7 +77,7 @@ test.describe("Draft blog", () => {
           response.ok()
         );
       }),
-      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`)),
+      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_REGEX_PATTERN}$`)),
       draftButton.click(),
     ]);
 
@@ -89,7 +89,7 @@ test.describe("Draft blog", () => {
     const editItem = authenticatedPage.getByRole("menuitem", { name: "Edit" });
     await expect(editItem).toBeVisible();
     await editItem.click();
-    await authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}/edit$`));
+    await authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_REGEX_PATTERN}/edit$`));
 
     const editedContent = normaliseIndents`
             Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
@@ -158,13 +158,13 @@ test.describe("Draft blog", () => {
     await Promise.all([
       authenticatedPage.waitForResponse((response) => {
         return (
-          RegExp(`/api/v1/blogs/${UUID_PATTERN}$`).test(response.url()) &&
+          RegExp(`/api/v1/blogs/${UUID_REGEX_PATTERN}$`).test(response.url()) &&
           response.request().method() === "PUT" &&
           response.ok()
         );
       }),
       submitButton.click(),
-      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_PATTERN}$`)),
+      authenticatedPage.waitForURL(RegExp(`^${baseURL}/blogs/${UUID_REGEX_PATTERN}$`)),
     ]);
 
     const newTitle = authenticatedPage.getByText("HCP Terraform Plan Output").first();
