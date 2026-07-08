@@ -1,6 +1,7 @@
 import type { BlogCollectionItemsFilter } from "@lexicon/models";
 import type { Router } from "express";
 
+import { UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { parseBlogCollectionItemsFilter } from "@lexicon/models";
 import z from "zod";
@@ -12,11 +13,10 @@ import loadBlogCollectionItemSummaries from "src/services/blogCollections/views/
 import queryBlogCollectionItemIds from "src/services/blogCollections/views/queryBlogCollectionItemIds";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
-import validateUUID from "src/utility/handlers/validateUUID";
 
 function getBlogCollectionItemsByBlogCollectionId(blogCollections: Router) {
-  return blogCollections.param("blogCollectionId", validateUUID).get(
-    "/:blogCollectionId/items",
+  return blogCollections.get(
+    RegExp(`^/(?<blogCollectionId>${UUID_REGEX_PATTERN})/items$`),
     handleEndpointMiddleware<{ blogCollectionId: string }>(async (request, response) => {
       const connection = getConnection();
       const { blogCollectionId } = request.params;

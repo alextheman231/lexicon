@@ -1,14 +1,15 @@
 import type { Router } from "express";
 
+import { UUID_REGEX_PATTERN } from "@alextheman/utility";
+
 import { getConnection } from "src/database/connection";
 import loadBlogCollectionView from "src/services/blogCollections/views/loadBlogCollectionView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
-import validateUUID from "src/utility/handlers/validateUUID";
 
 function getBlogCollectionById(blogCollections: Router) {
-  blogCollections.param("blogCollectionId", validateUUID).get(
-    "/:blogCollectionId",
+  blogCollections.get(
+    RegExp(`^/(?<blogCollectionId>${UUID_REGEX_PATTERN})$`),
     handleEndpointMiddleware<{ blogCollectionId: string }>(async (request, response) => {
       const connection = getConnection();
       const { blogCollectionId } = request.params;
