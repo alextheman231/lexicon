@@ -9,3 +9,5 @@ minimumReleaseAgeExclude:
   - "@alextheman/*"
   - alex-c-line
 ignoreWorkspaceRootCheck: true
+overrides:
+  typescript: 6.0.3
