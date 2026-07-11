@@ -1,5 +1,7 @@
 import type { Router } from "express";
 
+import { parseBlogCollectionOptionsQueryString } from "@lexicon/models";
+
 import { getConnection } from "src/database/connection";
 import fetchBlogCollectionOptions from "src/server/routes/blogCollections/helpers/fetchBlogCollectionOptions";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
@@ -9,8 +11,12 @@ function getBlogCollectionOptions(blogCollections: Router) {
     "/options",
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
+      const query = parseBlogCollectionOptionsQueryString(request.query);
 
-      const options = await fetchBlogCollectionOptions(connection, { userId: request.user.id });
+      const options = await fetchBlogCollectionOptions(connection, {
+        userId: request.user.id,
+        selectedBlogId: query.selectedBlogId,
+      });
 
       response.status(200).send({ options });
     }),
