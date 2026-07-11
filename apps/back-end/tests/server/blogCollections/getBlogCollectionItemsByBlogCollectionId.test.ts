@@ -16,12 +16,14 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 describe("GET /api/v1/blog-collections/:blogCollectionId/items", () => {
   test("Returns all blog collection items", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const blogCollection = await factory.blogCollections.insert();
     const blogCollectionItems = (
@@ -55,7 +57,9 @@ describe("GET /api/v1/blog-collections/:blogCollectionId/items", () => {
     }
   });
   test("Takes pagination data through the query string", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const author = await factory.users.insert();
     const blogCollection = await factory.blogCollections.insert();
@@ -128,7 +132,9 @@ describe("GET /api/v1/blog-collections/:blogCollectionId/items", () => {
     expect(error.data.resourceType).toBe("blog-collection");
   });
   test("Returns 400 if query string is invalid", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const filters = {
       sortColumn: "invalid",

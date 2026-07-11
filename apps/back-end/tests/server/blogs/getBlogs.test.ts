@@ -14,14 +14,17 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 import selectUser from "src/models/users/selectUser";
 
 describe("GET /api/v1/blogs", () => {
   test("Returns all the blogs from all users", async () => {
-    const { connection, factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
 
     const factoryBlogs = await fillArray(
       async () => {
@@ -35,7 +38,7 @@ describe("GET /api/v1/blogs", () => {
       return blog.id;
     });
 
-    const { body } = await authenticatedClient.get("/api/v1/blogs").expect(200);
+    const { body } = await testClient.get("/api/v1/blogs").expect(200);
 
     const blogSummaries = parseBlogSummaries(body.blogs);
     expect(blogSummaries.length).toBe(10);
@@ -70,7 +73,9 @@ describe("GET /api/v1/blogs", () => {
     }
   });
   test("Takes pagination/filtering data through the query string", async () => {
-    const { factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const author = await factory.users.insert();
 
@@ -104,7 +109,7 @@ describe("GET /api/v1/blogs", () => {
       sortDirection: "desc",
     };
 
-    const { body } = await authenticatedClient.get("/api/v1/blogs").query(filters).expect(200);
+    const { body } = await testClient.get("/api/v1/blogs").query(filters).expect(200);
 
     const { blogs: blogSummaries, count } = parseBlogSummariesResponse(body);
     expect(count).toBe(10);
@@ -121,7 +126,9 @@ describe("GET /api/v1/blogs", () => {
     }
   });
   test("Filtering by authorId works", async () => {
-    const { factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const author = await factory.users.insert();
 
@@ -148,7 +155,7 @@ describe("GET /api/v1/blogs", () => {
       pageSize: 10,
     };
 
-    const { body } = await authenticatedClient.get("/api/v1/blogs").query(filters).expect(200);
+    const { body } = await testClient.get("/api/v1/blogs").query(filters).expect(200);
 
     const { blogs: blogSummaries, count } = parseBlogSummariesResponse(body);
 
@@ -160,13 +167,11 @@ describe("GET /api/v1/blogs", () => {
     }
   });
   test("Returns an empty array if the authorId is not found in database", async () => {
-    const { authenticatedClient } = await getTestFixtures();
-
     const filters: BlogFilter = {
       authorId: randomUUID(),
     };
 
-    const { body } = await authenticatedClient.get("/api/v1/blogs").query(filters).expect(200);
+    const { body } = await testClient.get("/api/v1/blogs").query(filters).expect(200);
 
     const { blogs, count } = parseBlogSummariesResponse(body);
     expect(blogs.length).toBe(0);
@@ -175,17 +180,21 @@ describe("GET /api/v1/blogs", () => {
   test.each<BlogState>([BlogState.ARCHIVED, BlogState.DRAFT])(
     "Filtering by current user in authorId filter allows us to filter by %s state",
     async (state) => {
-      const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+      const fixtures = new TestFixtures();
 
-      const { blog } = await factory.blogs.insertWithRevision({ state, author: authenticatedUser });
+      const factory = await fixtures.factory;
+      const author = await fixtures.authenticatedUser;
+      const testClient = await fixtures.authenticatedClient;
+
+      const { blog } = await factory.blogs.insertWithRevision({ state, author });
       await factory.blogs.insertWithRevision({ state: BlogState.PUBLISHED });
 
       const filters: BlogFilter = {
-        authorId: authenticatedUser.id,
+        authorId: author.id,
         state,
       };
 
-      const { body } = await authenticatedClient.get(`/api/v1/blogs`).query(filters).expect(200);
+      const { body } = await testClient.get(`/api/v1/blogs`).query(filters).expect(200);
 
       const { blogs } = parseBlogSummariesResponse(body);
 
@@ -196,7 +205,9 @@ describe("GET /api/v1/blogs", () => {
   test.each<BlogState>([BlogState.ARCHIVED, BlogState.DRAFT])(
     "Filtering by %s state without filtering by current user gives a forbidden access error",
     async (state) => {
-      const { factory } = await getTestFixtures();
+      const fixtures = new TestFixtures();
+
+      const factory = await fixtures.factory;
 
       const { blog } = await factory.blogs.insertWithRevision({ state });
       await factory.blogs.insertWithRevision({ state: BlogState.PUBLISHED });

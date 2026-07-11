@@ -7,18 +7,22 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 describe("GET /api/v1/blogs/<blogId>/revisions", () => {
   test("Gets all the blog revisions for the chosen blog", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
 
-    const blog = await factory.blogs.insert({ author: authenticatedUser });
+    const factory = await fixtures.factory;
+    const author = await fixtures.authenticatedUser;
+    const testClient = await fixtures.authenticatedClient;
+
+    const blog = await factory.blogs.insert({ author });
     const factoryRevisions = (
       await fillArray(
         async () => {
-          return await factory.blogRevisions.insert({ blog, editor: authenticatedUser });
+          return await factory.blogRevisions.insert({ blog, editor: author });
         },
         10,
         { sequential: true },
@@ -29,9 +33,7 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
       }, "desc"),
     );
 
-    const { body } = await authenticatedClient
-      .get(`/api/v1/blogs/${blog.id}/revisions`)
-      .expect(200);
+    const { body } = await testClient.get(`/api/v1/blogs/${blog.id}/revisions`).expect(200);
 
     const apiRevisions = parseBlogRevisionHistory(body.revisions);
     expect(apiRevisions.length).toBe(10);
@@ -46,13 +48,14 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
     }
   });
   test("Can not get blog revisions for a blog the user does not own", async () => {
-    const { factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
 
     const { blog } = await factory.blogs.insertWithRevision();
 
-    const { body } = await authenticatedClient
-      .get(`/api/v1/blogs/${blog.id}/revisions`)
-      .expect(403);
+    const { body } = await testClient.get(`/api/v1/blogs/${blog.id}/revisions`).expect(403);
 
     const error = CodeError.expectError(() => {
       throw body.error;
@@ -61,13 +64,13 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
     expect(error.code).toBe("FORBIDDEN_ACCESS");
   });
   test("Returns a 404 error if the blog was not found", async () => {
-    const { authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const testClient = await fixtures.authenticatedClient;
 
     const missingId = randomUUID();
 
-    const { body } = await authenticatedClient
-      .get(`/api/v1/blogs/${missingId}/revisions`)
-      .expect(404);
+    const { body } = await testClient.get(`/api/v1/blogs/${missingId}/revisions`).expect(404);
 
     const error = DataError.expectError<ResourceNotFoundErrorPayload>(() => {
       throw body.error;
@@ -78,7 +81,9 @@ describe("GET /api/v1/blogs/<blogId>/revisions", () => {
     expect(error.data.resourceType).toBe("blog");
   });
   test("Does not allow an unauthenticated user to view blog revisions", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const { blog } = await factory.blogs.insertWithRevision();
 

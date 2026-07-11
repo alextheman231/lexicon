@@ -1,7 +1,7 @@
 import { parseUser } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 describe("requireAuth", () => {
@@ -10,7 +10,9 @@ describe("requireAuth", () => {
     expect(body.error.code).toBe("AUTH_REQUIRED");
   });
   test("Allows the endpoint logic to run if auth present", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const user = await factory.users.insert();
     const session = await factory.userSessions.insert({ user });

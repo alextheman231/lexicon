@@ -9,17 +9,22 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 
 import { blogRevisionsTable, blogStateHistoryTable } from "src/database/schema";
 import findLatestBlogVersion from "src/services/blogs/views/findLatestBlogRevision";
 
 describe("PUT /api/v1/blogs/<blogId>", () => {
   test("Updates the current blog and creates a new revision", async () => {
-    const { connection, factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
+    const author = await fixtures.authenticatedUser;
 
     const { blog, revision } = await factory.blogs.insertWithRevision({
-      author: authenticatedUser,
+      author,
     });
 
     const data: Partial<EditBlogData> = {
@@ -28,8 +33,8 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
       content: BlogFactory.generateEditorContent("This blog has been edited"),
     };
 
-    await authenticatedClient.put(`/api/v1/blogs/${blog.id}`).send(data).expect(200);
-    const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
+    await testClient.put(`/api/v1/blogs/${blog.id}`).send(data).expect(200);
+    const { body } = await testClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
 
     const blogView = parseBlogView(body.blog);
     expect(blogView.id).toBe(blog.id);
@@ -44,7 +49,9 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
     expect(newRevisionNumber).toBe(revision.version + 1);
   });
   test("Responds with a 404 error if the blog does not exist", async () => {
-    const { authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const testClient = await fixtures.authenticatedClient;
 
     const data: EditBlogData = {
       state: BlogState.DRAFT,
@@ -54,10 +61,7 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
 
     const missingId = randomUUID();
 
-    const { body } = await authenticatedClient
-      .put(`/api/v1/blogs/${missingId}`)
-      .send(data)
-      .expect(404);
+    const { body } = await testClient.put(`/api/v1/blogs/${missingId}`).send(data).expect(404);
 
     const error = DataError.expectError(() => {
       throw body.error;
@@ -68,11 +72,16 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
     expect(error.data.resourceId).toBe(missingId);
   });
   test("If the blog state changed, insert a new state history record", async () => {
-    const { connection, factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
+    const user = await fixtures.authenticatedUser;
+    const testClient = await fixtures.authenticatedClient;
 
     const { blog } = await factory.blogs.insertWithRevision({
       state: BlogState.DRAFT,
-      author: authenticatedUser,
+      author: user,
     });
 
     const data: EditBlogData = {
@@ -81,8 +90,8 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
       content: BlogFactory.generateEditorContent("This blog has been edited"),
     };
 
-    await authenticatedClient.put(`/api/v1/blogs/${blog.id}`).send(data).expect(200);
-    const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
+    await testClient.put(`/api/v1/blogs/${blog.id}`).send(data).expect(200);
+    const { body } = await testClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
 
     const blogView = parseBlogView(body.blog);
     expect(blogView.state).toBe(data.state);
@@ -97,13 +106,18 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
     expect(history[1].state).toBe(blog.state);
   });
   test("Only updates the blog with the given ID", async () => {
-    const { connection, factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = await new TestFixtures();
+
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
+    const author = await fixtures.authenticatedUser;
 
     const { blog: firstBlog } = await factory.blogs.insertWithRevision({
-      author: authenticatedUser,
+      author,
     });
     const { blog: secondBlog } = await factory.blogs.insertWithRevision({
-      author: authenticatedUser,
+      author,
     });
 
     const [{ secondBlogTitle, secondBlogContent }] = await connection
@@ -120,15 +134,15 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
       content: BlogFactory.generateEditorContent("This blog has been edited"),
     };
 
-    await authenticatedClient.put(`/api/v1/blogs/${firstBlog.id}`).send(data).expect(200);
+    await testClient.put(`/api/v1/blogs/${firstBlog.id}`).send(data).expect(200);
 
-    const { body } = await authenticatedClient.get(`/api/v1/blogs/${firstBlog.id}`).expect(200);
+    const { body } = await testClient.get(`/api/v1/blogs/${firstBlog.id}`).expect(200);
     const firstBlogView = parseBlogView(body.blog);
 
     expect(firstBlogView.title).toBe(data.title);
     expect(firstBlogView.content).toEqual(data.content);
 
-    const { body: secondBlogRequest } = await authenticatedClient
+    const { body: secondBlogRequest } = await testClient
       .get(`/api/v1/blogs/${secondBlog.id}`)
       .expect(200);
     const secondBlogView = parseBlogView(secondBlogRequest.blog);
@@ -136,7 +150,10 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
     expect(secondBlogView.content).toEqual(secondBlogContent);
   });
   test("Does not allow editing of a blog that does not belong to the current user", async () => {
-    const { factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
 
     const { blog } = await factory.blogs.insertWithRevision();
 
@@ -146,10 +163,7 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
       content: BlogFactory.generateEditorContent("This blog has been edited"),
     };
 
-    const { body } = await authenticatedClient
-      .put(`/api/v1/blogs/${blog.id}`)
-      .send(data)
-      .expect(403);
+    const { body } = await testClient.put(`/api/v1/blogs/${blog.id}`).send(data).expect(403);
 
     const error = CodeError.expectError(() => {
       throw body.error;

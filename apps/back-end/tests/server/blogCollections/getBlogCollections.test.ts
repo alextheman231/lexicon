@@ -4,12 +4,14 @@ import { assertNotUndefined, fillArray } from "@alextheman/utility";
 import { parseBlogCollectionsResponse } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 describe("GET /api/v1/blog-collections", () => {
   test("Returns an array of all blog collections", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const blogCollections = await fillArray(
       async () => {
@@ -33,7 +35,9 @@ describe("GET /api/v1/blog-collections", () => {
     }
   });
   test("Can filter by user", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const user = await factory.users.insert();
     const blogCollections = await fillArray(

@@ -7,19 +7,24 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 
 import loadBlogCollectionItemsByBlogCollectionId from "src/services/blogCollections/views/loadBlogCollectionItemsByBlogCollectionId";
 
 describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>", () => {
   test("Deletes a blog collection item from the collection", async () => {
-    const { connection, factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
 
-    const blogCollection = await factory.blogCollections.insert({ user: authenticatedUser });
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
+    const user = await fixtures.authenticatedUser;
+
+    const blogCollection = await factory.blogCollections.insert({ user });
     const itemToKeep = await factory.blogCollectionItems.insert({ blogCollection });
     const itemToDelete = await factory.blogCollectionItems.insert({ blogCollection });
 
-    const { body: getBeforeDeleteBody } = await authenticatedClient
+    const { body: getBeforeDeleteBody } = await testClient
       .get(`/api/v1/blog-collections/${blogCollection.id}/items`)
       .expect(200);
     const beforeDelete = parseBlogCollectionItemsResponse(getBeforeDeleteBody);
@@ -34,12 +39,12 @@ describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>"
     expect(idsBeforeDelete).toContain(itemToKeep.id);
     expect(idsBeforeDelete).toContain(itemToDelete.id);
 
-    await authenticatedClient
+    await testClient
       .delete(`/api/v1/blog-collections/${blogCollection.id}/items/${itemToDelete.id}`)
       .expect(204);
 
     // Assert the item does not get returned in responses
-    const { body: getAfterDeleteBody } = await authenticatedClient
+    const { body: getAfterDeleteBody } = await testClient
       .get(`/api/v1/blog-collections/${blogCollection.id}/items`)
       .expect(200);
     const afterDelete = parseBlogCollectionItemsResponse(getAfterDeleteBody);
@@ -67,7 +72,9 @@ describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>"
     expect(idsFromDatabase).not.toContain(itemToDelete.id);
   });
   test("Returns 404 if the blog collection itself does not exist", async () => {
-    const { authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const authenticatedClient = await fixtures.authenticatedClient;
 
     const missingId = randomUUID();
     const missingItemId = randomUUID();
@@ -85,12 +92,16 @@ describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>"
     expect(error.data.resourceType).toBe("blog-collection");
   });
   test("Returns 404 if the blog collection item does not exist", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
 
-    const blogCollection = await factory.blogCollections.insert({ user: authenticatedUser });
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
+    const user = await fixtures.authenticatedUser;
+
+    const blogCollection = await factory.blogCollections.insert({ user });
     const missingItemId = randomUUID();
 
-    const { body } = await authenticatedClient
+    const { body } = await testClient
       .delete(`/api/v1/blog-collections/${blogCollection.id}/items/${missingItemId}`)
       .expect(404);
 
@@ -103,12 +114,16 @@ describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>"
     expect(error.data.resourceType).toBe("blog-collection-item");
   });
   test("Does not allow deletion of an item from another user's blog collection", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
+    const user = await fixtures.authenticatedUser;
 
     const blogCollection = await factory.blogCollections.insert();
     const blogCollectionItem = await factory.blogCollectionItems.insert({ blogCollection });
 
-    const { body } = await authenticatedClient
+    const { body } = await testClient
       .delete(`/api/v1/blog-collections/${blogCollection.id}/items/${blogCollectionItem.id}`)
       .expect(403);
 
@@ -117,12 +132,16 @@ describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>"
     });
 
     expect(error.code).toBe("FORBIDDEN_ACCESS");
-    expect(error.data.userId).toBe(authenticatedUser.id);
+    expect(error.data.userId).toBe(user.id);
   });
   test("Adjusts item numbers correctly", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
 
-    const blogCollection = await factory.blogCollections.insert({ user: authenticatedUser });
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
+    const user = await fixtures.authenticatedUser;
+
+    const blogCollection = await factory.blogCollections.insert({ user });
     const blogCollectionItems = (
       await fillArray(
         async () => {
@@ -140,11 +159,11 @@ describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>"
     // eslint-disable-next-line prefer-destructuring -- I don't think destructuring particularly helps with readability in this case.
     const itemToDelete = blogCollectionItems[5];
 
-    await authenticatedClient
+    await testClient
       .delete(`/api/v1/blog-collections/${blogCollection.id}/items/${itemToDelete.id}`)
       .expect(204);
 
-    const { body: getAfterDeleteBody } = await authenticatedClient
+    const { body: getAfterDeleteBody } = await testClient
       .get(`/api/v1/blog-collections/${blogCollection.id}/items`)
       .expect(200);
     const afterDelete = parseBlogCollectionItemsResponse(getAfterDeleteBody);

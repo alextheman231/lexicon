@@ -1,13 +1,15 @@
 import { parseUser } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 
 describe("PUT /api/v1/current-user/profile", () => {
   test("Update the current user's profile details", async () => {
-    const { authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
 
-    await authenticatedClient
+    const testClient = await fixtures.authenticatedClient;
+
+    await testClient
       .put("/api/v1/current-user/profile")
       .send({
         username: "alex_man",
@@ -16,7 +18,7 @@ describe("PUT /api/v1/current-user/profile", () => {
       })
       .expect(200);
 
-    const { body } = await authenticatedClient.get("/api/v1/current-user").expect(200);
+    const { body } = await testClient.get("/api/v1/current-user").expect(200);
 
     const currentUser = parseUser(body.user);
 

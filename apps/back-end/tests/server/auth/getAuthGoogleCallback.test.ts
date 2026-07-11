@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import * as OpenIDClient from "openid-client";
 import { describe, expect, test, vi } from "vitest";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 import COOKIES from "tests/server/auth/helpers/COOKIES";
 import getSetCookies from "tests/server/auth/helpers/getSetCookies";
@@ -26,7 +26,10 @@ vi.mock("openid-client", async () => {
 
 describe("GET /api/v1/auth/google/callback", () => {
   test("On successful response from Google, create the user and insert into the database", async () => {
-    const { connection } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const { connection } = fixtures;
+
     const initialUser = await connection
       .select()
       .from(usersTable)
@@ -68,7 +71,10 @@ describe("GET /api/v1/auth/google/callback", () => {
   });
 
   test("If auth provider and user already exists in database, use the existing details", async () => {
-    const { connection, factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
 
     const factoryUser = await factory.users.insert();
     const factoryAuthProvider = await factory.authProviders.insert({ user: factoryUser });
@@ -108,7 +114,10 @@ describe("GET /api/v1/auth/google/callback", () => {
     expect(users.length).toBe(1);
   });
   test("If auth provider and user already exists in database, use the existing details", async () => {
-    const { connection, factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
 
     const factoryUser = await factory.users.insert();
     const factoryAuthProvider = await factory.authProviders.insert({ user: factoryUser });
