@@ -4,6 +4,7 @@ import z from "zod";
 export const blogCollectionOptionSchema = z.object({
   id: z.uuid(),
   name: z.string(),
+  selected: z.boolean(),
 });
 
 export type BlogCollectionOption = z.infer<typeof blogCollectionOptionSchema>;
