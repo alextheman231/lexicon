@@ -7,12 +7,14 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 describe("GET /api/v1/blog-collections/:blogCollectionId", () => {
   test("Returns the blog collection with the given ID", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const user = await factory.users.insert();
     const blogCollection = await factory.blogCollections.insert({ user });

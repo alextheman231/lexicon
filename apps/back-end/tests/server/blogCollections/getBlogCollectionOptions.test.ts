@@ -2,22 +2,26 @@ import { assertNotUndefined, fillArray } from "@alextheman/utility";
 import { parseBlogCollectionOptions } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 
 describe("GET /api/v1/blog-collections/options", () => {
   test("Returns the ID and name of each blog collection.", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const user = await fixtures.authenticatedUser;
+    const testClient = await fixtures.authenticatedClient;
 
     const blogCollections = await fillArray(
       async () => {
-        return await factory.blogCollections.insert({ user: authenticatedUser });
+        return await factory.blogCollections.insert({ user });
       },
       10,
       { sequential: true },
     );
     const otherCollection = await factory.blogCollections.insert();
 
-    const { body } = await authenticatedClient.get("/api/v1/blog-collections/options").expect(200);
+    const { body } = await testClient.get("/api/v1/blog-collections/options").expect(200);
     const options = parseBlogCollectionOptions(body.options);
 
     expect(options.length).toBe(10);

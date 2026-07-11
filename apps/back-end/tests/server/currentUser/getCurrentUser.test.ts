@@ -4,24 +4,29 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 describe("GET /api/v1/current-user", () => {
   test("Get the currently signed in user", async () => {
-    const { authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
 
-    const { body } = await authenticatedClient.get("/api/v1/current-user").expect(200);
+    const testClient = await fixtures.authenticatedClient;
+    const user = await fixtures.authenticatedUser;
+
+    const { body } = await testClient.get("/api/v1/current-user").expect(200);
     const signedInUser = parseUser(body.user);
 
-    expect(signedInUser).toMatchObject(authenticatedUser);
+    expect(signedInUser).toMatchObject(user);
   });
   test("If there is currently no session, return a null user", async () => {
     const { body } = await testClient.get("/api/v1/current-user").expect(200);
     expect(body.user).toBeNull();
   });
   test("If session is expired, return null user", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const user = await factory.users.insert();
     const session = await factory.userSessions.insert({

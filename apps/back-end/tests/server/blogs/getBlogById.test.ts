@@ -6,18 +6,22 @@ import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 import selectUser from "src/models/users/selectUser";
 
 describe("GET /api/v1/blogs/<blogId>", () => {
   test("Returns the blog with the given blog ID", async () => {
-    const { connection, factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
 
     const { blog, revision } = await factory.blogs.insertWithRevision();
 
-    const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
+    const { body } = await testClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
 
     const blogView = parseBlogView(body.blog);
     expect(blogView).toMatchObject(omitProperties(blog, "currentRevisionId"));
@@ -33,10 +37,13 @@ describe("GET /api/v1/blogs/<blogId>", () => {
     expect(blogView.content).toEqual(revision.content);
   });
   test("Returns 404 if blog not found", async () => {
-    const { authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const testClient = await fixtures.authenticatedClient;
+
     const missingId = randomUUID();
 
-    const { body } = await authenticatedClient.get(`/api/v1/blogs/${missingId}`).expect(404);
+    const { body } = await testClient.get(`/api/v1/blogs/${missingId}`).expect(404);
 
     const error = DataError.expectError(() => {
       throw body.error;
@@ -46,10 +53,14 @@ describe("GET /api/v1/blogs/<blogId>", () => {
     expect(error.data.resourceType).toBe("blog");
   });
   test("Allows for a query string to get a specific blog revision", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const user = await fixtures.authenticatedUser;
+    const testClient = await fixtures.authenticatedClient;
 
     const { blog, revision: initialRevision } = await factory.blogs.insertWithRevision({
-      author: authenticatedUser,
+      author: user,
     });
     await factory.blogRevisions.insert({
       blog,
@@ -57,26 +68,29 @@ describe("GET /api/v1/blogs/<blogId>", () => {
       content: BlogFactory.generateEditorContent("New content"),
     });
 
-    const { body } = await authenticatedClient
+    const { body } = await testClient
       .get(`/api/v1/blogs/${blog.id}`)
       .query({ revisionNumber: initialRevision.version })
       .expect(200);
     const revisionView = parseBlogView(body.blog);
     expect(revisionView).toMatchObject(omitProperties(blog, "currentRevisionId"));
 
-    expect(revisionView.authorId).toBe(authenticatedUser.id);
-    expect(revisionView.authorDisplayName).toBe(authenticatedUser.displayName);
-    expect(revisionView.authorUsername).toBe(authenticatedUser.username);
+    expect(revisionView.authorId).toBe(user.id);
+    expect(revisionView.authorDisplayName).toBe(user.displayName);
+    expect(revisionView.authorUsername).toBe(user.username);
 
     expect(revisionView.title).toBe(initialRevision.title);
     expect(revisionView.content).toEqual(initialRevision.content);
   });
   test("Returns 400 for an invalid revision number", async () => {
-    const { factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
 
     const { blog } = await factory.blogs.insertWithRevision();
 
-    const { body } = await authenticatedClient
+    const { body } = await testClient
       .get(`/api/v1/blogs/${blog.id}`)
       .query({ revisionNumber: "invalid" })
       .expect(400);
@@ -89,7 +103,9 @@ describe("GET /api/v1/blogs/<blogId>", () => {
     expect(error.data.query.revisionNumber).toBe("invalid");
   });
   test("If querying for a revision that is not the current revision, do not allow anyone other than the current user to access it.", async () => {
-    const { factory } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
 
     const { blog, revision: initialRevision } = await factory.blogs.insertWithRevision();
     await factory.blogRevisions.insert({
@@ -114,10 +130,14 @@ describe("GET /api/v1/blogs/<blogId>", () => {
   test.each<BlogState>([BlogState.ARCHIVED, BlogState.DRAFT])(
     "Allows the owner to view their own %s blog",
     async (state) => {
-      const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+      const fixtures = new TestFixtures();
 
-      const { blog } = await factory.blogs.insertWithRevision({ state, author: authenticatedUser });
-      const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
+      const factory = await fixtures.factory;
+      const testClient = await fixtures.authenticatedClient;
+      const author = await fixtures.authenticatedUser;
+
+      const { blog } = await factory.blogs.insertWithRevision({ state, author });
+      const { body } = await testClient.get(`/api/v1/blogs/${blog.id}`).expect(200);
 
       const blogView = parseBlogView(body.blog);
       expect(blogView.id).toBe(blog.id);
@@ -127,10 +147,13 @@ describe("GET /api/v1/blogs/<blogId>", () => {
   test.each<BlogState>([BlogState.ARCHIVED, BlogState.DRAFT])(
     "Returns a 404 if the blog is %s but was not created by the signed-in user.",
     async (state) => {
-      const { factory, authenticatedClient } = await getTestFixtures();
+      const fixtures = new TestFixtures();
+
+      const factory = await fixtures.factory;
+      const testClient = await fixtures.authenticatedClient;
 
       const { blog } = await factory.blogs.insertWithRevision({ state });
-      const { body } = await authenticatedClient.get(`/api/v1/blogs/${blog.id}`).expect(404);
+      const { body } = await testClient.get(`/api/v1/blogs/${blog.id}`).expect(404);
 
       const error = DataError.expectError(() => {
         throw body.error;

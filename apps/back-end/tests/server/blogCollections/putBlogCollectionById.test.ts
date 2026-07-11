@@ -5,37 +5,41 @@ import { DataError } from "@alextheman/utility/v6";
 import { parseBlogCollectionItemsResponse, parseBlogCollectionView } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
-import getTestFixtures from "tests/fixtures";
-import testClient from "tests/fixtures/testClient";
+import TestFixtures from "tests/fixtures";
 
 describe("PUT /api/v1/blog-collections/<blogCollectionId>", () => {
   test("Updates a given blog collection's metadata if no items provided", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
 
-    const blogCollection = await factory.blogCollections.insert({ user: authenticatedUser });
+    const factory = await fixtures.factory;
+    const user = await fixtures.authenticatedUser;
+    const testClient = await fixtures.authenticatedClient;
+
+    const blogCollection = await factory.blogCollections.insert({ user });
 
     const data: EditBlogCollectionData = {
       name: "Favourite Blogs",
       description: "My favourite blogs",
     };
 
-    await authenticatedClient
-      .put(`/api/v1/blog-collections/${blogCollection.id}`)
-      .send(data)
-      .expect(200);
+    await testClient.put(`/api/v1/blog-collections/${blogCollection.id}`).send(data).expect(200);
     const { body } = await testClient
       .get(`/api/v1/blog-collections/${blogCollection.id}`)
       .expect(200);
     const blogCollectionView = parseBlogCollectionView(body.blogCollection);
 
     expect(blogCollectionView).toMatchObject(data);
-    expect(blogCollectionView.userId).toBe(authenticatedUser.id);
+    expect(blogCollectionView.userId).toBe(user.id);
     expect(blogCollectionView.itemCount).toBe(0);
   });
   test("Inserts blog collection items if items specified", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
 
-    const blogCollection = await factory.blogCollections.insert({ user: authenticatedUser });
+    const factory = await fixtures.factory;
+    const user = await fixtures.authenticatedUser;
+    const testClient = await fixtures.authenticatedClient;
+
+    const blogCollection = await factory.blogCollections.insert({ user });
     const { blog: firstBlog } = await factory.blogs.insertWithRevision();
     const { blog: secondBlog } = await factory.blogs.insertWithRevision();
 
@@ -45,10 +49,7 @@ describe("PUT /api/v1/blog-collections/<blogCollectionId>", () => {
       items: [{ blogId: firstBlog.id }, { blogId: secondBlog.id }],
     };
 
-    await authenticatedClient
-      .put(`/api/v1/blog-collections/${blogCollection.id}`)
-      .send(data)
-      .expect(200);
+    await testClient.put(`/api/v1/blog-collections/${blogCollection.id}`).send(data).expect(200);
 
     const { body: collectionBody } = await testClient
       .get(`/api/v1/blog-collections/${blogCollection.id}`)
@@ -58,7 +59,7 @@ describe("PUT /api/v1/blog-collections/<blogCollectionId>", () => {
     expect(omitProperties(blogCollectionView, "itemCount")).toMatchObject(
       omitProperties(data, "items"),
     );
-    expect(blogCollectionView.userId).toBe(authenticatedUser.id);
+    expect(blogCollectionView.userId).toBe(user.id);
     expect(blogCollectionView.itemCount).toBe(2);
 
     const { body: itemsBody } = await testClient
@@ -75,7 +76,11 @@ describe("PUT /api/v1/blog-collections/<blogCollectionId>", () => {
     }
   });
   test("Does not allow users to edit collections that are not theirs", async () => {
-    const { factory, authenticatedClient, authenticatedUser } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
+    const user = await fixtures.authenticatedUser;
 
     const blogCollection = await factory.blogCollections.insert();
     const data: EditBlogCollectionData = {
@@ -83,7 +88,7 @@ describe("PUT /api/v1/blog-collections/<blogCollectionId>", () => {
       description: "My favourite blogs",
     };
 
-    const { body } = await authenticatedClient
+    const { body } = await testClient
       .put(`/api/v1/blog-collections/${blogCollection.id}`)
       .send(data)
       .expect(403);
@@ -93,6 +98,6 @@ describe("PUT /api/v1/blog-collections/<blogCollectionId>", () => {
     });
 
     expect(error.code).toBe("FORBIDDEN_ACCESS");
-    expect(error.data.userId).toBe(authenticatedUser.id);
+    expect(error.data.userId).toBe(user.id);
   });
 });

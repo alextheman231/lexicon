@@ -2,11 +2,14 @@ import { fillArray } from "@alextheman/utility";
 import { parseBlogSummaries } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
-import getTestFixtures from "tests/fixtures";
+import TestFixtures from "tests/fixtures";
 
 describe("Isolated test setup", () => {
   test("Generates 10 blogs", async () => {
-    const { factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
 
     const blogs = await fillArray(
       async () => {
@@ -21,7 +24,7 @@ describe("Isolated test setup", () => {
       return blog.id;
     });
 
-    const { body } = await authenticatedClient.get("/api/v1/blogs").expect(200);
+    const { body } = await testClient.get("/api/v1/blogs").expect(200);
 
     const blogSummaries = parseBlogSummaries(body.blogs);
     expect(blogSummaries.length).toBe(10);
@@ -31,7 +34,10 @@ describe("Isolated test setup", () => {
     }
   });
   test("Generates 10 more blogs independently from the above test", async () => {
-    const { factory, authenticatedClient } = await getTestFixtures();
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+    const testClient = await fixtures.authenticatedClient;
 
     const blogs = await fillArray(
       async () => {
@@ -46,7 +52,7 @@ describe("Isolated test setup", () => {
       return blog.id;
     });
 
-    const { body } = await authenticatedClient.get("/api/v1/blogs").expect(200);
+    const { body } = await testClient.get("/api/v1/blogs").expect(200);
 
     const blogSummaries = parseBlogSummaries(body.blogs);
     expect(blogSummaries.length).toBe(10);
