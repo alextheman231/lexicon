@@ -52,6 +52,7 @@ jobs:
         with:
           environment: production
           release: ${{ env.SENTRY_RELEASE }}
+          sourcemaps: apps/back-end/dist
           ignore_missing: true
           ignore_empty: true
 
