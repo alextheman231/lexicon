@@ -9,6 +9,7 @@ const tsdownConfig: UserConfig = {
   deps: {
     neverBundle: ["@alextheman/utility", "zod"],
   },
+  sourcemap: true,
 };
 
 export default tsdownConfig;
