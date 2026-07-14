@@ -178,28 +178,31 @@ jobs:
           AWS_SERVICE_NAME: ${{ vars.AWS_SERVICE_NAME }}
         run: |
           while true; do
-            ROLLOUT_STATE=$(
+            SERVICE_DESCRIPTION=$(
               aws ecs describe-services \
                 --cluster "$AWS_CLUSTER_NAME" \
-                --services "$AWS_SERVICE_NAME" \
-                --query "services[0].deployments[?status=='PRIMARY'].rolloutState | [0]" \
-                --output text
+                --services "$AWS_SERVICE_NAME"
             )
+
             PRIMARY_DEPLOYMENT=$(
-              aws ecs describe-services \
-                --cluster "$AWS_CLUSTER_NAME" \
-                --services "$AWS_SERVICE_NAME" \
-                --query "services[0].deployments[?status=='PRIMARY'].id | [0]" \
-                --output text
+              jq '
+                .services[0].deployments[]
+                | select(.status == "PRIMARY")
+              ' <<<"$SERVICE_DESCRIPTION"
             )
 
-            echo "Primary deployment: $PRIMARY_DEPLOYMENT ($ROLLOUT_STATE)"
+            ROLLOUT_STATE=$(jq -r '.rolloutState' <<<"$PRIMARY_DEPLOYMENT")
+            DEPLOYMENT_ID=$(jq -r '.id' <<<"$PRIMARY_DEPLOYMENT")
 
-            aws ecs describe-services \
-              --cluster "$AWS_CLUSTER_NAME" \
-              --services "$AWS_SERVICE_NAME" \
-              --query 'services[0].events[0:5].[createdAt,message]' \
-              --output table
+            LATEST_EVENT=$(
+              jq -r '
+                .services[0].events
+                | if length == 0 then "No events." else max_by(.createdAt).message end
+              ' <<<"$SERVICE_DESCRIPTION"
+            )
+
+            echo "Primary deployment: $DEPLOYMENT_ID ($ROLLOUT_STATE)"          
+            echo "Latest event: $LATEST_EVENT"
 
             if [ "$ROLLOUT_STATE" = "FAILED" ]; then
               echo "Deployment failed."
@@ -211,5 +214,5 @@ jobs:
               break
             fi
 
-            sleep 15
+            sleep 10
           done
