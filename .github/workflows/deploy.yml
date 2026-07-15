@@ -137,32 +137,39 @@ jobs:
           AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
           TASK_ARN: ${{ steps.migration.outputs.task_arn }}
         run: |
-          aws ecs wait tasks-stopped --cluster "$AWS_CLUSTER_NAME" --tasks "$TASK_ARN"
+          START_TIME=$(date +%s)
 
-          EXIT_CODE=$(
-            aws ecs describe-tasks \
-            --cluster "$AWS_CLUSTER_NAME" \
-            --tasks "$TASK_ARN" \
-            --query "tasks[0].containers[0].exitCode" \
-            --output text
-          )
+          while true; do
+            TASK_INFO=$(aws ecs describe-tasks \
+              --cluster "$AWS_CLUSTER_NAME" \
+              --tasks "$TASK_ARN" \
+              --query 'tasks[0].{
+                StopReason:stoppedReason,
+                ExitCode:containers[0].exitCode,
+                Reason:containers[0].reason,
+                LastStatus:containers[0].lastStatus
+              }' \
+              --output json
+            )
+            CURRENT_STATUS=$(jq -r '.LastStatus' <<<"$TASK_INFO")
+            EXIT_CODE=$(jq -r '.ExitCode' <<<"$TASK_INFO")
+            
+            ELAPSED=$(( $(date +%s) - START_TIME ))
+            echo "Last status: $LAST_STATUS (${ELAPSED}s elapsed)"
 
-          aws ecs describe-tasks \
-            --cluster "$AWS_CLUSTER_NAME" \
-            --tasks "$TASK_ARN" \
-            --query 'tasks[0].{
-              StopReason:stoppedReason,
-              ExitCode:containers[0].exitCode,
-              Reason:containers[0].reason,
-              LastStatus:containers[0].lastStatus
-            }'
+            if [ "$CURRENT_STATUS" == "STOPPED" ]; then
+              echo "$TASK_INFO"
 
-          if [ "$EXIT_CODE" = "None" ]; then
-            echo "Migration task stopped without reporting an exit code."
-            exit 1
-          fi
+              if [ "$EXIT_CODE" == "None" ]; then
+                echo "Migration task stopped without reporting an exit code."
+                exit 1
+              fi
 
-          exit "$EXIT_CODE"
+              exit "$EXIT_CODE"
+            fi
+
+            sleep 10
+          done
 
       - name: Deploy ECS service
         env:
