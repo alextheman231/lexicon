@@ -155,12 +155,12 @@ jobs:
             EXIT_CODE=$(jq -r '.ExitCode' <<<"$TASK_INFO")
             
             ELAPSED=$(( $(date +%s) - START_TIME ))
-            echo "Last status: $LAST_STATUS (${ELAPSED}s elapsed)"
+            echo "Current status: $CURRENT_STATUS (${ELAPSED}s elapsed)"
 
-            if [ "$CURRENT_STATUS" == "STOPPED" ]; then
+            if [[ "$CURRENT_STATUS" == "STOPPED" ]]; then
               echo "$TASK_INFO"
 
-              if [ "$EXIT_CODE" == "None" ]; then
+              if [[ "$EXIT_CODE" == "None" ]]; then
                 echo "Migration task stopped without reporting an exit code."
                 exit 1
               fi
@@ -214,19 +214,19 @@ jobs:
 
             ELAPSED=$(( $(date +%s) - START_TIME ))
 
-            if [ "$LATEST_EVENT" != "$LAST_EVENT" ]; then
+            if [[ "$LATEST_EVENT" != "$LAST_EVENT" ]]; then
               echo "Latest event: $LATEST_EVENT (Rollout state: $ROLLOUT_STATE, ${ELAPSED}s elapsed)"
               LAST_EVENT="$LATEST_EVENT"
             else
               echo "Rollout state: $ROLLOUT_STATE (${ELAPSED}s elapsed)"
             fi
 
-            if [ "$ROLLOUT_STATE" = "FAILED" ]; then
+            if [[ "$ROLLOUT_STATE" == "FAILED" ]]; then
               echo "Deployment failed."
               exit 1
             fi
 
-            if [ "$ROLLOUT_STATE" = "COMPLETED" ]; then
+            if [[ "$ROLLOUT_STATE" == "COMPLETED" ]]; then
               echo "Service is stable."
               break
             fi
