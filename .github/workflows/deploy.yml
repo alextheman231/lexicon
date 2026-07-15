@@ -184,6 +184,8 @@ jobs:
           AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
           AWS_SERVICE_NAME: ${{ vars.AWS_SERVICE_NAME }}
         run: |
+          START_TIME=$(date +%s)
+
           DEPLOYMENT_ID=$(
             aws ecs describe-services \
               --cluster "$AWS_CLUSTER_NAME" \
@@ -210,11 +212,13 @@ jobs:
             ROLLOUT_STATE=$(jq -r '.rolloutState' <<<"$SERVICE_INFO")
             LATEST_EVENT=$(jq -r '.latestEvent' <<<"$SERVICE_INFO")
 
+            ELAPSED=$(( $(date +%s) - START_TIME ))
+
             if [ "$LATEST_EVENT" != "$LAST_EVENT" ]; then
-              echo "Latest event: $LATEST_EVENT (Rollout state: $ROLLOUT_STATE)"
+              echo "Latest event: $LATEST_EVENT (Rollout state: $ROLLOUT_STATE, ${ELAPSED}s elapsed)"
               LAST_EVENT="$LATEST_EVENT"
             else
-              echo "Rollout state: $ROLLOUT_STATE"
+              echo "Rollout state: $ROLLOUT_STATE (${ELAPSED}s elapsed)"
             fi
 
             if [ "$ROLLOUT_STATE" = "FAILED" ]; then
