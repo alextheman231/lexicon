@@ -34,15 +34,15 @@
     "@alextheman/components": "7.5.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
-    "@lexical/react": "0.47.0",
+    "@lexical/react": "0.48.0",
     "@lexicon/models": "workspace:*",
     "@mui/material": "9.2.0",
-    "@sentry/react": "10.64.0",
-    "@tanstack/react-form": "1.33.1",
+    "@sentry/react": "10.66.0",
+    "@tanstack/react-form": "1.33.2",
     "@tanstack/react-query": "5.101.2",
     "@tanstack/react-store": "0.11.0",
     "axios": "1.18.1",
-    "lexical": "0.47.0",
+    "lexical": "0.48.0",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "react-error-boundary": "6.1.2",
@@ -55,7 +55,7 @@
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.3",
-    "typescript": "7.0.2",
-    "vite": "8.1.4"
+    "typescript": "6.0.3",
+    "vite": "8.1.5"
   }
 }
