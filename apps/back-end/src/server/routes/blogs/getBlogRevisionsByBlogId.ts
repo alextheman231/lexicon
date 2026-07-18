@@ -11,7 +11,7 @@ import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAu
 
 function getBlogRevisionsByBlogId(blogs: Router) {
   blogs.get<{ blogId: string }>(
-    RegExp(`/(?<blogId>${UUID_REGEX_PATTERN})/revisions$`),
+    RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})/revisions$`),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
       const { blogId } = request.params;
