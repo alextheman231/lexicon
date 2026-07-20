@@ -35,8 +35,7 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
       title={
         <>
           <QueryBoundaryBlog.Error>{DEFAULT_ERROR_MESSAGE}</QueryBoundaryBlog.Error>
-          <QueryBoundaryBlog.Nullable nullableFallback="Could not retrieve blog." />
-          <QueryBoundaryBlog.Value propertyName="title">
+          <QueryBoundaryBlog.Value nullableFallback="Could not retrieve blog." propertyName="title">
             {(title) => {
               return `Revisions for "${title}"`;
             }}
@@ -44,7 +43,7 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
         </>
       }
     >
-      <QueryBoundaryBlog.Fallback />
+      <QueryBoundaryBlog.Error />
       <QueryBoundaryRevisions.Error
         codeErrorMap={{
           FORBIDDEN_ACCESS: "You cannot see blog revisions for a blog you did not create.",
