@@ -2,7 +2,6 @@ import type { QueryBoundaryDataMapProps } from "@alextheman/components/QueryBoun
 import type { ReactNode } from "react";
 
 import { SkeletonRow } from "@alextheman/components";
-import { QueryBoundaryNullable } from "@alextheman/components/QueryBoundary";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 
@@ -29,7 +28,7 @@ export interface QueryBoundaryDataRowsPropsUndefinedOrNull extends QueryBoundary
 
 export type QueryBoundaryDataRowsMapProps<ItemType> = Omit<
   QueryBoundaryDataMapProps<ItemType>,
-  "emptyFallback" | "loadingFallback"
+  "emptyFallback" | "loadingFallback" | "undefinedFallback" | "nullFallback" | "nullableFallback"
 > &
   (QueryBoundaryDataRowsPropsNullable | QueryBoundaryDataRowsPropsUndefinedOrNull);
 
@@ -63,19 +62,42 @@ function QueryBoundaryDataRowsMap<ItemType>({
     typeof loadingFallback === "function" ? loadingFallback(columns) : loadingFallback;
   const resolvedEmptyFallback =
     typeof emptyFallback === "function" ? emptyFallback(columns) : emptyFallback;
-
-  let boundaryData = (
-    <QueryBoundaryDataMap
-      emptyFallback={resolvedEmptyFallback}
-      loadingFallback={resolvedLoadingFallback}
-      {...props}
-    >
-      {children}
-    </QueryBoundaryDataMap>
-  );
+  const resolvedUndefinedFallback =
+    typeof undefinedFallback === "function" ? undefinedFallback(columns) : undefinedFallback;
+  const resolvedNullFallback =
+    typeof nullFallback === "function" ? nullFallback(columns) : nullFallback;
+  const resolvedNullableFallback =
+    typeof nullableFallback === "function" ? nullableFallback(columns) : nullableFallback;
 
   if (dataParser) {
-    boundaryData = (
+    if (resolvedNullableFallback !== undefined) {
+      return (
+        <QueryBoundaryDataMap
+          emptyFallback={resolvedEmptyFallback}
+          loadingFallback={resolvedLoadingFallback}
+          dataParser={dataParser}
+          nullableFallback={resolvedNullableFallback}
+          {...props}
+        >
+          {children}
+        </QueryBoundaryDataMap>
+      );
+    }
+    if (resolvedUndefinedFallback !== undefined || resolvedNullFallback !== undefined) {
+      return (
+        <QueryBoundaryDataMap
+          emptyFallback={resolvedEmptyFallback}
+          loadingFallback={resolvedLoadingFallback}
+          undefinedFallback={resolvedUndefinedFallback}
+          nullFallback={resolvedNullFallback}
+          dataParser={dataParser}
+          {...props}
+        >
+          {children}
+        </QueryBoundaryDataMap>
+      );
+    }
+    return (
       <QueryBoundaryDataMap
         emptyFallback={resolvedEmptyFallback}
         loadingFallback={resolvedLoadingFallback}
@@ -88,7 +110,34 @@ function QueryBoundaryDataRowsMap<ItemType>({
   }
 
   if (itemParser) {
-    boundaryData = (
+    if (resolvedNullableFallback !== undefined) {
+      return (
+        <QueryBoundaryDataMap
+          emptyFallback={resolvedEmptyFallback}
+          loadingFallback={resolvedLoadingFallback}
+          itemParser={itemParser}
+          nullableFallback={resolvedNullableFallback}
+          {...props}
+        >
+          {children}
+        </QueryBoundaryDataMap>
+      );
+    }
+    if (resolvedUndefinedFallback !== undefined || resolvedNullFallback !== undefined) {
+      return (
+        <QueryBoundaryDataMap
+          emptyFallback={resolvedEmptyFallback}
+          loadingFallback={resolvedLoadingFallback}
+          undefinedFallback={resolvedUndefinedFallback}
+          nullFallback={resolvedNullFallback}
+          itemParser={itemParser}
+          {...props}
+        >
+          {children}
+        </QueryBoundaryDataMap>
+      );
+    }
+    return (
       <QueryBoundaryDataMap
         emptyFallback={resolvedEmptyFallback}
         loadingFallback={resolvedLoadingFallback}
@@ -100,40 +149,39 @@ function QueryBoundaryDataRowsMap<ItemType>({
     );
   }
 
-  let boundaryNullable = <QueryBoundaryNullable />;
-
-  if (nullableFallback) {
-    boundaryNullable = (
-      <QueryBoundaryNullable
-        data={props.data}
-        error={props.error}
-        isLoading={props.isLoading}
-        nullableFallback={
-          typeof nullableFallback === "function" ? nullableFallback(columns) : nullableFallback
-        }
-      />
+  if (resolvedNullableFallback !== undefined) {
+    return (
+      <QueryBoundaryDataMap
+        emptyFallback={resolvedEmptyFallback}
+        loadingFallback={resolvedLoadingFallback}
+        nullableFallback={resolvedNullableFallback}
+        {...props}
+      >
+        {children}
+      </QueryBoundaryDataMap>
     );
   }
-
-  if (undefinedFallback || nullFallback) {
-    boundaryNullable = (
-      <QueryBoundaryNullable
-        data={props.data}
-        error={props.error}
-        isLoading={props.isLoading}
-        undefinedFallback={
-          typeof undefinedFallback === "function" ? undefinedFallback(columns) : undefinedFallback
-        }
-        nullFallback={typeof nullFallback === "function" ? nullFallback(columns) : nullFallback}
-      />
+  if (resolvedUndefinedFallback !== undefined || resolvedNullFallback !== undefined) {
+    return (
+      <QueryBoundaryDataMap
+        emptyFallback={resolvedEmptyFallback}
+        loadingFallback={resolvedLoadingFallback}
+        undefinedFallback={resolvedUndefinedFallback}
+        nullFallback={resolvedNullFallback}
+        {...props}
+      >
+        {children}
+      </QueryBoundaryDataMap>
     );
   }
-
   return (
-    <>
-      {boundaryNullable}
-      {boundaryData}
-    </>
+    <QueryBoundaryDataMap
+      emptyFallback={resolvedEmptyFallback}
+      loadingFallback={resolvedLoadingFallback}
+      {...props}
+    >
+      {children}
+    </QueryBoundaryDataMap>
   );
 }
 

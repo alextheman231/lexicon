@@ -29,12 +29,78 @@ function createListQueryBoundary<ItemType>(
 
   return {
     ...baseComponents,
-    DataMap: ({ dataParser, itemParser, ...props }) => {
+    DataMap: ({
+      dataParser,
+      itemParser,
+      undefinedFallback,
+      nullFallback,
+      nullableFallback,
+      ...props
+    }) => {
       if (dataParser !== undefined) {
+        if (nullableFallback !== undefined) {
+          return (
+            <QueryBoundaryDataMap
+              {...params.query}
+              {...props}
+              nullableFallback={nullableFallback}
+              dataParser={dataParser}
+            />
+          );
+        }
+        if (undefinedFallback !== undefined || nullFallback !== undefined) {
+          return (
+            <QueryBoundaryDataMap
+              {...params.query}
+              {...props}
+              undefinedFallback={undefinedFallback}
+              nullFallback={nullFallback}
+              dataParser={dataParser}
+            />
+          );
+        }
         return <QueryBoundaryDataMap {...params.query} {...props} dataParser={dataParser} />;
       }
+
       if (itemParser !== undefined) {
+        if (nullableFallback !== undefined) {
+          return (
+            <QueryBoundaryDataMap
+              {...params.query}
+              {...props}
+              nullableFallback={nullableFallback}
+              itemParser={itemParser}
+            />
+          );
+        }
+        if (undefinedFallback !== undefined || nullFallback !== undefined) {
+          return (
+            <QueryBoundaryDataMap
+              {...params.query}
+              {...props}
+              undefinedFallback={undefinedFallback}
+              nullFallback={nullFallback}
+              itemParser={itemParser}
+            />
+          );
+        }
         return <QueryBoundaryDataMap {...params.query} {...props} itemParser={itemParser} />;
+      }
+
+      if (nullableFallback !== undefined) {
+        return (
+          <QueryBoundaryDataMap {...params.query} {...props} nullableFallback={nullableFallback} />
+        );
+      }
+      if (undefinedFallback !== undefined || nullFallback !== undefined) {
+        return (
+          <QueryBoundaryDataMap
+            {...params.query}
+            {...props}
+            undefinedFallback={undefinedFallback}
+            nullFallback={nullFallback}
+          />
+        );
       }
       return <QueryBoundaryDataMap {...params.query} {...props} />;
     },

@@ -1,18 +1,16 @@
-import type {
-  QueryBoundaryContextValue,
-  QueryBoundaryDataProps,
-} from "@alextheman/components/QueryBoundary";
+import type { QueryBoundaryDataProps } from "@alextheman/components/QueryBoundary";
+import type { ReactNode } from "react";
 
-import type { QueryBoundaryFallbackProps } from "src/groups/QueryBoundary/QueryBoundaryFallback";
+import type { QueryBoundaryErrorProps } from "src/groups/QueryBoundary/QueryBoundaryError";
 
 import { QueryBoundaryItemWrapper as AlexQueryBoundaryItemWrapper } from "@alextheman/components/QueryBoundary";
 import Skeleton from "@mui/material/Skeleton";
 
 import ErrorMessage from "src/components/ErrorMessage";
 
-export type QueryBoundaryItemWrapperProps<DataType> = QueryBoundaryContextValue<DataType> &
-  QueryBoundaryFallbackProps &
-  QueryBoundaryDataProps<DataType>;
+export type QueryBoundaryItemWrapperProps<DataType> = Omit<QueryBoundaryErrorProps, "children"> & {
+  errorFallback?: ReactNode | ((error: unknown) => ReactNode);
+} & QueryBoundaryDataProps<DataType>;
 
 function QueryBoundaryItemWrapper<DataType>({
   children,

@@ -33,8 +33,7 @@ function UserDropdown() {
 
   const dropdownTrigger = (
     <DropdownMenuTrigger aria-label="User options">
-      <QueryBoundaryUser.Nullable nullFallback="Options" />
-      <QueryBoundaryUser.Data>
+      <QueryBoundaryUser.Data nullFallback="Options">
         {(user) => {
           return user.displayName ?? user.username;
         }}
@@ -73,10 +72,11 @@ function UserDropdown() {
           );
         }}
       </QueryBoundaryUser.Error>
-      <QueryBoundaryUser.Nullable nullFallback={dropdownTrigger} />
-      <QueryBoundaryUser.Data>{dropdownTrigger}</QueryBoundaryUser.Data>
+      <QueryBoundaryUser.Data nullFallback={dropdownTrigger}>
+        {dropdownTrigger}
+      </QueryBoundaryUser.Data>
       <DropdownMenu>
-        <QueryBoundaryUser.Nullable
+        <QueryBoundaryUser.Data
           nullFallback={
             <DropdownMenuItem
               component={ExternalLink}
@@ -88,8 +88,7 @@ function UserDropdown() {
               <Typography>Sign in</Typography>
             </DropdownMenuItem>
           }
-        />
-        <QueryBoundaryUser.Data>
+        >
           {(user) => {
             return (
               <CardContent>
@@ -100,7 +99,7 @@ function UserDropdown() {
           }}
         </QueryBoundaryUser.Data>
         <Divider />
-        <QueryBoundaryUser.Data>
+        <QueryBoundaryUser.Data nullFallback={null}>
           {(user) => {
             return (
               <>

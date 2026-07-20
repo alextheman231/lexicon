@@ -71,7 +71,7 @@ function UserProfile({ userId }: UserProfileProps) {
         </Tab.List>
       }
     >
-      <QueryBoundary.Fallback />
+      <QueryBoundary.Error />
       <QueryBoundary.Data>
         {(user) => {
           return (
