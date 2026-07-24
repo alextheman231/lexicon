@@ -34,15 +34,15 @@
     "@alextheman/eslint-plugin": "5.18.0",
     "@faker-js/faker": "10.5.0",
     "@types/node": "26.1.1",
-    "@typescript-eslint/utils": "8.64.0",
-    "alex-c-line": "2.12.4",
+    "@typescript-eslint/utils": "8.65.0",
+    "alex-c-line": "2.13.0",
     "cross-env": "10.1.0",
     "eslint": "10.7.0",
     "husky": "9.1.7",
-    "prettier": "3.9.5",
-    "turbo": "2.10.5",
+    "prettier": "3.9.6",
+    "turbo": "2.10.6",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.64.0"
+    "typescript-eslint": "8.65.0"
   },
   "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72",
   "engines": {
