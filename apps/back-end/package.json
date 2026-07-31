@@ -59,7 +59,7 @@
     "@types/cors": "2.8.19",
     "@types/express": "5.0.6",
     "@types/express-serve-static-core": "5.1.2",
-    "@types/node": "26.1.1",
+    "@types/node": "26.1.2",
     "@types/pg": "8.20.0",
     "@types/supertest": "7.2.1",
     "drizzle-kit": "0.31.10",
@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "@lexicon/models": "workspace:*",
-    "@sentry/node": "10.67.0",
+    "@sentry/node": "10.69.0",
     "cookie-parser": "1.4.7",
     "cors": "2.8.6",
     "dotenv": "17.4.2",
