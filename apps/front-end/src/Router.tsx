@@ -1,6 +1,5 @@
 import { Router as AlexRouter, Switch } from "@alextheman/components/routing";
 import { CodeError } from "@alextheman/utility/v6";
-import Alert from "@mui/material/Alert";
 import { Route } from "wouter";
 
 import BackendError from "src/components/BackendError";
@@ -17,10 +16,6 @@ function Router() {
   return (
     <AlexRouter>
       <PageWrapper>
-        <Alert severity="info" sx={{ marginBottom: 2 }}>
-          Scheduled maintenance: Lexicon will undergo infrastructure maintenance on Saturday 1st
-          August from 10:00pm to 12:00am BST. Some downtime may occur during this period.
-        </Alert>
         <Switch>
           <Route path="/">
             <Blogs />
