@@ -164,8 +164,8 @@ importers:
   apps/front-end:
     dependencies:
       '@alextheman/components':
-        specifier: 7.6.1
-        version: 7.6.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@mui/material@9.2.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/react-form@1.33.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(wouter@3.10.0(react@19.2.8))
+        specifier: 7.7.0
+        version: 7.7.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@mui/material@9.2.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/react-form@1.33.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(wouter@3.10.0(react@19.2.8))
       '@emotion/react':
         specifier: 11.14.0
         version: 11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2)
@@ -181,6 +181,9 @@ importers:
       '@mui/material':
         specifier: 9.2.0
         version: 9.2.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@mui/utils':
+        specifier: 9.2.0
+        version: 9.2.0(@types/react@19.2.18)(react@19.2.8)
       '@sentry/react':
         specifier: 10.69.0
         version: 10.69.0(react@19.2.8)
@@ -287,8 +290,8 @@ importers:
 
 packages:
 
-  '@alextheman/components@7.6.1':
-    resolution: {integrity: sha512-4+KUhekHpP8oCyLfKhfloPHgo91UhM3T9Nlswalu8NXcdL81xMHYAUlttBnvzQ6tfOq1aGGGlaC1+QP5ntOuPA==}
+  '@alextheman/components@7.7.0':
+    resolution: {integrity: sha512-cSBQ7FPf9mRJekrBFPnbu7Pf4d5obvovlDOmiORezO8hEjW5mgB3uIUZeQuGkdHmFPuVxKdYorK7Mn3TZcIj2w==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       '@emotion/react': '>=11.0.0'
@@ -4608,7 +4611,7 @@ packages:
 
 snapshots:
 
-  '@alextheman/components@7.6.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@mui/material@9.2.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/react-form@1.33.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(wouter@3.10.0(react@19.2.8))':
+  '@alextheman/components@7.7.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@mui/material@9.2.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/react-form@1.33.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(wouter@3.10.0(react@19.2.8))':
     dependencies:
       '@alextheman/utility': 5.26.0(zod@4.4.3)
       '@emotion/react': 11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@10.2.2)
