@@ -1,4 +1,4 @@
-import type { EditBlogCollectionData } from "src/services/blogCollections/helpers/EditBlogCollectionData";
+import type { EditBlogCollectionData } from "@lexicon/models";
 
 import { assertNotNullable, omitProperties } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";

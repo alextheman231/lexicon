@@ -1,7 +1,6 @@
-import type { BlogCollection } from "@lexicon/models";
+import type { BlogCollection, CreateBlogCollectionData } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
-import type { CreateBlogCollectionData } from "src/services/blogCollections/helpers/CreateBlogCollectionData";
 
 import { omitProperties } from "@alextheman/utility";
 

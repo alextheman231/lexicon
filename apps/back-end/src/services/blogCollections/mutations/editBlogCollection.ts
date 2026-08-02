@@ -1,8 +1,7 @@
-import type { BlogCollection } from "@lexicon/models";
+import type { BlogCollection, EditBlogCollectionData } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 import type { BlogCollectionEndpointIds } from "src/services/blogCollections/helpers/BlogCollectionEndpointIds";
-import type { EditBlogCollectionData } from "src/services/blogCollections/helpers/EditBlogCollectionData";
 
 import { omitProperties } from "@alextheman/utility";
 
