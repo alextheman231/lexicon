@@ -1,7 +1,6 @@
-import type { BlogCollectionItem } from "@lexicon/models";
+import type { BlogCollectionItem, CreateBlogCollectionItemData } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
-import type { CreateBlogCollectionItemData } from "src/services/blogCollections/helpers/CreateBlogCollectionItemData";
 
 import { blogCollectionItemsTable } from "src/database/schema";
 import findLatestBlogCollectionItemNumber from "src/services/blogCollections/views/findLatestBlogCollectionItemNumber";

@@ -1,6 +1,7 @@
+import type { EditBlogCollectionData } from "@lexicon/models";
+
 import type { Transaction } from "src/database/connection";
 import type { BlogCollectionEndpointIds } from "src/services/blogCollections/helpers/BlogCollectionEndpointIds";
-import type { EditBlogCollectionData } from "src/services/blogCollections/helpers/EditBlogCollectionData";
 
 import editBlogCollectionUnsafe from "src/services/blogCollections/mutations/editBlogCollection";
 

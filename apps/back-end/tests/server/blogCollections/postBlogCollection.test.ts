@@ -1,4 +1,4 @@
-import type { CreateBlogCollectionData } from "src/services/blogCollections/helpers/CreateBlogCollectionData";
+import type { CreateBlogCollectionData } from "@lexicon/models";
 
 import { assertNotNullable, omitProperties, parseUUID } from "@alextheman/utility";
 import { parseBlogCollectionItemsResponse, parseBlogCollectionView } from "@lexicon/models";

@@ -1,5 +1,6 @@
+import type { CreateBlogCollectionItemData } from "@lexicon/models";
+
 import type { Transaction } from "src/database/connection";
-import type { CreateBlogCollectionItemData } from "src/services/blogCollections/helpers/CreateBlogCollectionItemData";
 
 import createBlogCollectionItemsUnsafe from "src/services/blogCollections/mutations/createBlogCollectionItems";
 
