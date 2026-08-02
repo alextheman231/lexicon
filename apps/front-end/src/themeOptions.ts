@@ -25,6 +25,9 @@ const lexiconThemeOptions: ThemeOptions = {
       },
     },
   },
+  typography: {
+    fontFamily: '"Inter", "Source Sans 3", "IBM Plex Sans", Arial, sans-serif',
+  },
 };
 
 export default lexiconThemeOptions;

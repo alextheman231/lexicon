@@ -1,3 +1,4 @@
+import "@fontsource/inter";
 import { SnackbarProvider, Snackbars } from "@alextheman/components/snackbar";
 import { defaultThemeOptions } from "@alextheman/components/v8/theme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
