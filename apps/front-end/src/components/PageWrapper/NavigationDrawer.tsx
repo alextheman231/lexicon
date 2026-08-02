@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import { NavigationDrawer as AlexNavigationDrawer } from "@alextheman/components/routing";
-import { ThemeToggle } from "@alextheman/components/theme";
+import { ThemeToggle } from "@alextheman/components/v8/theme";
 import Stack from "@mui/material/Stack";
 
 import UserDropdown from "src/components/UserDropdown";

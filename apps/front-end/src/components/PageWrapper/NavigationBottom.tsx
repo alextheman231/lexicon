@@ -4,7 +4,7 @@ import {
   NavigationBottom as AlexNavigationBottom,
   InternalLink,
 } from "@alextheman/components/routing";
-import { ThemeToggle } from "@alextheman/components/theme";
+import { ThemeToggle } from "@alextheman/components/v8/theme";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
