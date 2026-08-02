@@ -5,7 +5,7 @@ const lexiconThemeOptions: ThemeOptions = {
     light: {
       palette: {
         primary: {
-          main: "#FF862F",
+          main: "#D96B18",
         },
         background: {
           default: "#F8F6F0",
