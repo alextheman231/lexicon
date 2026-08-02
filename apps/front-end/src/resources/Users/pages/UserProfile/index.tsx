@@ -54,6 +54,9 @@ function UserProfile({ userId }: UserProfileProps) {
                   <DropdownMenuItem component={InternalLink} to="/blogs/new">
                     Create Blog
                   </DropdownMenuItem>
+                  <DropdownMenuItem component={InternalLink} to="/blog-collections/new">
+                    Create Blog Collection
+                  </DropdownMenuItem>
                   {!isLargeScreen && user.id === currentUser?.id ? (
                     <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
                   ) : null}

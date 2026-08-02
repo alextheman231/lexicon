@@ -1,6 +1,8 @@
 import type { BlogCollectionView, User } from "@lexicon/models";
 
 import { useIsLargeScreen } from "@alextheman/components";
+import { InternalLink } from "@alextheman/components/routing";
+import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
 import createPaginationGroup from "src/groups/pagination";
@@ -33,6 +35,11 @@ function UserBlogCollections({ user }: UserBlogCollectionsProps) {
 
   return (
     <Stack spacing={2}>
+      <Button component={InternalLink} to="/blog-collections/new" variant="contained">
+        <Stack direction="row" spacing={4}>
+          + New Blog Collection
+        </Stack>
+      </Button>
       {isLargeScreen ? (
         <BlogCollectionsTable
           PaginationGroup={PaginationGroup}
