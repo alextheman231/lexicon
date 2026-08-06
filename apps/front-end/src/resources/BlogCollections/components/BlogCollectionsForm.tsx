@@ -25,7 +25,7 @@ export type BlogCollectionsFormValidatedType = z.output<typeof formSchema>;
 
 interface BlogCollectionsFormProps extends Omit<DialogProps, "onClose" | "onSubmit"> {
   onClose: () => void | Promise<void>;
-  onSubmit?: (data: BlogCollectionsFormValidatedType) => void | Promise<void>;
+  onSubmit: (data: BlogCollectionsFormValidatedType) => void | Promise<void>;
   blogId: string;
 }
 
@@ -65,7 +65,7 @@ function BlogCollectionsForm({
         : [""],
     },
     onSubmit: ({ value }) => {
-      onSubmit?.(value);
+      onSubmit(value);
     },
   });
 
@@ -74,7 +74,7 @@ function BlogCollectionsForm({
       <DialogTitle>
         <QueryBoundaryBlog.Data>
           {(blog) => {
-            return `Add "${blog.title}" to collection(s) (Feature not yet available)`;
+            return `Add "${blog.title}" to collection(s)`;
           }}
         </QueryBoundaryBlog.Data>
       </DialogTitle>
@@ -124,7 +124,7 @@ function BlogCollectionsForm({
         <DialogActions>
           <Button onClick={onClose}>Close</Button>
           <form.AppForm>
-            <form.SubmitButton disabled />
+            <form.SubmitButton />
           </form.AppForm>
         </DialogActions>
       </form>

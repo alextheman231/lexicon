@@ -4,11 +4,17 @@ import { and, eq, gt, sql } from "drizzle-orm";
 
 import { blogCollectionItemsTable } from "src/database/schema";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
+import maybeEq from "src/utility/databaseFilters/maybeEq";
+
+export interface ItemFilter {
+  blogCollectionItemId?: string;
+  blogId?: string;
+}
 
 async function removeBlogCollectionItem(
   connection: Connection,
   blogCollectionId: string,
-  blogCollectionItemId: string,
+  itemFilter: ItemFilter,
 ): Promise<boolean> {
   const deletedItem = await fetchSole(
     connection
@@ -16,7 +22,8 @@ async function removeBlogCollectionItem(
       .where(
         and(
           eq(blogCollectionItemsTable.blogCollectionId, blogCollectionId),
-          eq(blogCollectionItemsTable.id, blogCollectionItemId),
+          maybeEq(blogCollectionItemsTable.id, itemFilter.blogCollectionItemId),
+          maybeEq(blogCollectionItemsTable.blogId, itemFilter.blogId),
         ),
       )
       .returning(),
