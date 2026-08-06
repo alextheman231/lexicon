@@ -31,11 +31,9 @@ function deleteBlogCollectionItemEndpoint(blogCollections: Router) {
           throw forbiddenAccessError({ userId: request.user.id });
         }
 
-        const wasDeleted = await removeBlogCollectionItem(
-          transaction,
-          blogCollectionId,
+        const wasDeleted = await removeBlogCollectionItem(transaction, blogCollectionId, {
           blogCollectionItemId,
-        );
+        });
         if (!wasDeleted) {
           throw resourceNotFoundError("blog-collection-item", blogCollectionItemId);
         }

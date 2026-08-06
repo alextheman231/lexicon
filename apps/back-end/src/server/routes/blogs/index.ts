@@ -5,6 +5,7 @@ import getBlogRevisionsByBlogId from "src/server/routes/blogs/getBlogRevisionsBy
 import getBlogs from "src/server/routes/blogs/getBlogs";
 import postBlogs from "src/server/routes/blogs/postBlogs";
 import putBlogById from "src/server/routes/blogs/putBlogById";
+import putBlogToBlogCollections from "src/server/routes/blogs/putBlogToBlogCollections";
 import registerEndpoints from "src/utility/initialisers/registerEndpoints";
 
 function initialiseBlogsRouter(router: Router) {
@@ -14,6 +15,7 @@ function initialiseBlogsRouter(router: Router) {
     getBlogs,
     postBlogs,
     putBlogById,
+    putBlogToBlogCollections,
   });
 }
 
