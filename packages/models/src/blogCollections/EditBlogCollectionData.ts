@@ -6,7 +6,7 @@ import { az } from "@alextheman/utility";
 
 import { createBlogCollectionDataSchema } from "src/blogCollections/CreateBlogCollectionData";
 
-export const editBlogCollectionDataSchema = createBlogCollectionDataSchema;
+export const editBlogCollectionDataSchema = createBlogCollectionDataSchema.omit({ items: true });
 
 export type EditBlogCollectionData = z.infer<typeof editBlogCollectionDataSchema>;
 
