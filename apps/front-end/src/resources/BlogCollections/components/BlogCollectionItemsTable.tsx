@@ -14,6 +14,8 @@ import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+import BlogCollectionItemsDropdown from "src/resources/BlogCollections/components/BlogCollectionsItemsDropdown";
+
 interface BlogCollectionItemsTableProps {
   QueryBoundaryItems: LexiconQueryBoundaryComponentsList<BlogCollectionItemSummary>;
   PaginationGroup: PaginationComponents<BlogCollectionItemSummary>;
@@ -35,10 +37,11 @@ function BlogCollectionItemsTable({
               <TableCell>Author</TableCell>
               <TableCell>Published</TableCell>
               <TableCell>Added</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <QueryBoundaryItems.DataRowsMap columns={4}>
+            <QueryBoundaryItems.DataRowsMap columns={5}>
               {(item) => {
                 return (
                   <TableRow>
@@ -58,6 +61,13 @@ function BlogCollectionItemsTable({
                         : "Not published yet"}
                     </TableCell>
                     <TableCell>{formatDateAndTime(item.createdAt)}</TableCell>
+                    <TableCell>
+                      <BlogCollectionItemsDropdown
+                        blogId={item.blogId}
+                        blogCollectionId={item.blogCollectionId}
+                        blogCollectionItemId={item.id}
+                      />
+                    </TableCell>
                   </TableRow>
                 );
               }}
