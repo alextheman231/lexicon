@@ -1,7 +1,9 @@
 import type { BlogSummary, User } from "@lexicon/models";
 
 import { useIsLargeScreen } from "@alextheman/components";
+import { InternalLink } from "@alextheman/components/routing";
 import { BlogState } from "@lexicon/models";
+import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -64,6 +66,11 @@ function UserBlogs({ user }: UserBlogsProps) {
 
   return (
     <Stack spacing={2}>
+      {user.id === currentUser?.id ? (
+        <Button fullWidth component={InternalLink} to="/blogs/new" variant="contained">
+          + Create Blog
+        </Button>
+      ) : null}
       <QueryBoundary.Error />
       {isLargeScreen ? (
         <BlogsTable
