@@ -10,6 +10,7 @@ const blogsFilterSchema = z.object({
   pageSize: az.fieldNumber().int().optional(),
   sortColumn: z.enum(["updatedAt", "publishedAt", "state", "title"]).optional(),
   sortDirection: z.enum(SortDirection).optional(),
+  searchQuery: z.string().optional(),
 });
 
 export type BlogsFilter = z.infer<typeof blogsFilterSchema>;

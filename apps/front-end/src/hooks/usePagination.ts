@@ -15,7 +15,7 @@ interface PaginationState<DataType extends object = Record<PropertyKey, unknown>
 export interface PaginationSettings<DataType extends object = Record<PropertyKey, unknown>> {
   pageNumber: number;
   pageSize: number;
-  search?: string;
+  searchQuery?: string;
   sortColumn?: keyof DataType;
   sortDirection: SortDirection;
 }
@@ -108,7 +108,7 @@ function createReducer<DataType extends object = Record<PropertyKey, unknown>>(
 function usePagination<DataType extends object = Record<PropertyKey, unknown>>(
   initialState: Partial<PaginationSettings<DataType>>,
 ) {
-  const rawSearch = initialState.search ?? "";
+  const rawSearch = initialState.searchQuery ?? "";
   const sortColumn = rawSearch === "" ? (initialState.sortColumn ?? undefined) : undefined;
   const [internalState, dispatch] = useReducer<
     PaginationState<DataType>,
@@ -121,7 +121,7 @@ function usePagination<DataType extends object = Record<PropertyKey, unknown>>(
     sortDirection: initialState.sortDirection ?? "asc",
   });
 
-  const search = useDebounce<string | undefined>(
+  const searchQuery = useDebounce<string | undefined>(
     internalState.rawSearch !== "" ? internalState.rawSearch : undefined,
   );
 
@@ -129,11 +129,11 @@ function usePagination<DataType extends object = Record<PropertyKey, unknown>>(
     return {
       pageNumber: internalState.pageNumber,
       pageSize: internalState.pageSize,
-      search,
+      searchQuery,
       sortColumn: internalState.sortColumn,
       sortDirection: internalState.sortDirection,
     };
-  }, [internalState, search]);
+  }, [internalState, searchQuery]);
 
   const applySort = useCallback(
     (sortColumn: keyof DataType, sortDirection?: SortDirection) => {
