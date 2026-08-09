@@ -1,6 +1,6 @@
 import type { Router } from "express";
 
-import { BlogState, parseBlogFilter } from "@lexicon/models";
+import { BlogState, parseBlogsFilter } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import countBlogs from "src/services/blogs/views/countBlogs";
@@ -14,7 +14,7 @@ function getBlogs(blogs: Router) {
     "/",
     handleEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
-      const parsedFilters = parseBlogFilter(request.query);
+      const parsedFilters = parseBlogsFilter(request.query);
 
       if (
         ([BlogState.ARCHIVED, BlogState.DRAFT] as Array<BlogState | undefined>).includes(

@@ -3,7 +3,7 @@ import z from "zod";
 
 import { BlogState } from "src/blogs/BlogState";
 
-const blogFilterSchema = z.object({
+const blogsFilterSchema = z.object({
   authorId: z.uuid().optional(),
   state: z.enum(BlogState).optional(),
   pageNumber: az.fieldNumber().int().optional(),
@@ -12,8 +12,8 @@ const blogFilterSchema = z.object({
   sortDirection: z.enum(SortDirection).optional(),
 });
 
-export type BlogFilter = z.infer<typeof blogFilterSchema>;
+export type BlogsFilter = z.infer<typeof blogsFilterSchema>;
 
-export function parseBlogFilter(input: unknown): BlogFilter {
-  return az.with(blogFilterSchema).parse(input);
+export function parseBlogsFilter(input: unknown): BlogsFilter {
+  return az.with(blogsFilterSchema).parse(input);
 }

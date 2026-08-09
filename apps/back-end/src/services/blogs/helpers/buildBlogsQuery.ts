@@ -1,4 +1,4 @@
-import type { BlogFilter } from "@lexicon/models";
+import type { BlogsFilter } from "@lexicon/models";
 import type { SQL } from "drizzle-orm";
 import type { PgColumn } from "drizzle-orm/pg-core";
 
@@ -15,7 +15,7 @@ import paginate from "src/utility/miscellaneous/paginate";
 function buildBlogsQuery(
   connection: Connection,
   select: { id: PgColumn } | { count: SQL },
-  filters: BlogFilter,
+  filters: BlogsFilter,
 ) {
   const sortColumn = filters.sortColumn ? BlogSortColumn[filters.sortColumn] : undefined;
   const query = (() => {

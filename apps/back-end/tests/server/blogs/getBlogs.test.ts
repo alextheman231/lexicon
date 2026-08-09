@@ -1,4 +1,4 @@
-import type { BlogFilter } from "@lexicon/models";
+import type { BlogsFilter } from "@lexicon/models";
 
 import {
   assertNotNull,
@@ -100,7 +100,7 @@ describe("GET /api/v1/blogs", () => {
 
     const secondPageBlogs = blogs.slice(5, 10);
 
-    const filters: BlogFilter = {
+    const filters: BlogsFilter = {
       authorId: author.id,
       state: BlogState.PUBLISHED,
       pageNumber: 2,
@@ -149,7 +149,7 @@ describe("GET /api/v1/blogs", () => {
       { sequential: true },
     );
 
-    const filters: BlogFilter = {
+    const filters: BlogsFilter = {
       authorId: author.id,
       pageNumber: 1,
       pageSize: 10,
@@ -167,7 +167,7 @@ describe("GET /api/v1/blogs", () => {
     }
   });
   test("Returns an empty array if the authorId is not found in database", async () => {
-    const filters: BlogFilter = {
+    const filters: BlogsFilter = {
       authorId: randomUUID(),
     };
 
@@ -189,7 +189,7 @@ describe("GET /api/v1/blogs", () => {
       const { blog } = await factory.blogs.insertWithRevision({ state, author });
       await factory.blogs.insertWithRevision({ state: BlogState.PUBLISHED });
 
-      const filters: BlogFilter = {
+      const filters: BlogsFilter = {
         authorId: author.id,
         state,
       };
@@ -212,7 +212,7 @@ describe("GET /api/v1/blogs", () => {
       const { blog } = await factory.blogs.insertWithRevision({ state });
       await factory.blogs.insertWithRevision({ state: BlogState.PUBLISHED });
 
-      const filters: BlogFilter = {
+      const filters: BlogsFilter = {
         authorId: blog.authorId,
         state,
       };
