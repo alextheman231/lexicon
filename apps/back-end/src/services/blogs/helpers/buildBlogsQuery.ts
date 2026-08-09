@@ -9,6 +9,7 @@ import { and, eq } from "drizzle-orm";
 import { blogRevisionsTable, blogsTable } from "src/database/schema";
 import { BlogSortColumn } from "src/services/blogs/helpers/BlogSortColumn";
 import maybeEq from "src/utility/databaseFilters/maybeEq";
+import maybeIlike from "src/utility/databaseFilters/maybeIlike";
 import sortOptions from "src/utility/databaseFilters/sortOptions";
 import paginate from "src/utility/miscellaneous/paginate";
 
@@ -27,6 +28,7 @@ function buildBlogsQuery(
         and(
           maybeEq(blogsTable.authorId, filters.authorId),
           maybeEq(blogsTable.state, filters.state),
+          maybeIlike(blogRevisionsTable.title, filters.searchQuery),
         ),
       );
 
