@@ -1,7 +1,7 @@
 export { parseBlog, parseBlogs } from "src/blogs/Blog";
-export { parseBlogFilter } from "src/blogs/BlogFilter";
 export { blogQueryStringSchema, parseBlogQueryString } from "src/blogs/BlogQueryString";
 export { parseBlogRevision, parseBlogRevisionHistory } from "src/blogs/BlogRevision";
+export { parseBlogsFilter } from "src/blogs/BlogsFilter";
 export { BlogState } from "src/blogs/BlogState";
 export { parseBlogStateHistory, parseBlogStateHistoryRow } from "src/blogs/BlogStateHistoryRow";
 export { parseBlogSummariesResponse } from "src/blogs/BlogSummariesResponse";
@@ -15,12 +15,12 @@ export {
 } from "src/blogs/PutBlogToBlogCollectionsData";
 
 export type { Blog } from "src/blogs/Blog";
-export type { BlogFilter } from "src/blogs/BlogFilter";
 export type {
   BlogQueryStringValidatedType,
   BlogQueryStringInputType,
 } from "src/blogs/BlogQueryString";
 export type { BlogRevision } from "src/blogs/BlogRevision";
+export type { BlogsFilter } from "src/blogs/BlogsFilter";
 export type { BlogStateHistoryRow } from "src/blogs/BlogStateHistoryRow";
 export type { BlogSummariesResponse } from "src/blogs/BlogSummariesResponse";
 export type { BlogSummary } from "src/blogs/BlogSummary";
