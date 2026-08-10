@@ -1,13 +1,9 @@
 import type { BlogSummary } from "@lexicon/models";
 
-import { Page, useIsLargeScreen } from "@alextheman/components";
+import { Page, Search, useIsLargeScreen } from "@alextheman/components";
 import { BlogState } from "@lexicon/models";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import { MdSearch } from "react-icons/md";
 
 import createPaginationGroup from "src/groups/pagination";
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
@@ -55,28 +51,11 @@ function Blogs() {
             totalRecordCount={totalRecordCount}
             includeAuthor
             cardContent={
-              <TextField
+              <Search
                 fullWidth
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleSearch}>
-                          <MdSearch />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-                value={pagination.state.rawSearch}
-                onKeyDown={async (event) => {
-                  if (event.key === "Enter") {
-                    await handleSearch();
-                  }
-                }}
-                onChange={async (event) => {
-                  pagination.actions.setRawSearch(event.target.value);
-                }}
+                rawSearch={pagination.state.rawSearch}
+                setRawSearch={pagination.actions.setRawSearch}
+                handleSearch={handleSearch}
               />
             }
           />
@@ -87,28 +66,11 @@ function Blogs() {
             totalRecordCount={totalRecordCount}
             includeAuthor
             cardContent={
-              <TextField
+              <Search
                 fullWidth
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleSearch}>
-                          <MdSearch />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-                value={pagination.state.rawSearch}
-                onKeyDown={async (event) => {
-                  if (event.key === "Enter") {
-                    await handleSearch();
-                  }
-                }}
-                onChange={async (event) => {
-                  pagination.actions.setRawSearch(event.target.value);
-                }}
+                rawSearch={pagination.state.rawSearch}
+                setRawSearch={pagination.actions.setRawSearch}
+                handleSearch={handleSearch}
               />
             }
           />

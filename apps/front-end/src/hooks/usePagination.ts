@@ -1,4 +1,5 @@
 import type { SortDirection } from "@alextheman/utility";
+import type { Dispatch, SetStateAction } from "react";
 
 import { useDebounce } from "@alextheman/components";
 import { omitProperties } from "@alextheman/utility";
@@ -153,9 +154,13 @@ function usePagination<DataType extends object = Record<PropertyKey, unknown>>(
     },
     [dispatch],
   );
-  const setRawSearch = useCallback(
-    (rawSearch: string) => {
-      dispatch({ type: "setRawSearch", value: rawSearch });
+  const setRawSearch: Dispatch<SetStateAction<string>> = useCallback(
+    (rawSearch) => {
+      if (typeof rawSearch === "function") {
+        dispatch({ type: "setRawSearch", value: rawSearch(internalState.rawSearch) });
+      } else {
+        dispatch({ type: "setRawSearch", value: rawSearch });
+      }
     },
     [dispatch],
   );
