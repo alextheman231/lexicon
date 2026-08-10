@@ -36,6 +36,7 @@ function Blogs() {
   });
 
   async function handleSearch() {
+    pagination.actions.setPageNumber(0);
     setSearchQuery(pagination.state.rawSearch === "" ? undefined : pagination.state.rawSearch);
     await refetch();
   }
