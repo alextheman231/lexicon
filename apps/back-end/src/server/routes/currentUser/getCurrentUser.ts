@@ -13,7 +13,7 @@ function getCurrentUser(currentUser: Router) {
   currentUser.get(
     "/",
     handleRateLimit({
-      limit: 10,
+      limit: 30,
       windowMs: msToSeconds(10),
     }),
     handleEndpointMiddleware(async (request, response) => {

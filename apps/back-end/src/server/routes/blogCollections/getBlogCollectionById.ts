@@ -13,7 +13,7 @@ function getBlogCollectionById(blogCollections: Router) {
   blogCollections.get(
     RegExp(`^/(?<blogCollectionId>${UUID_REGEX_PATTERN})$`),
     handleRateLimit({
-      limit: 10,
+      limit: 30,
       windowMs: msToSeconds(10),
     }),
     handleEndpointMiddleware<{ blogCollectionId: string }>(async (request, response) => {

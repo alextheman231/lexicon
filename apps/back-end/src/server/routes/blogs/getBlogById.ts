@@ -17,7 +17,7 @@ function getBlogById(blogs: Router) {
   blogs.get(
     RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})$`),
     handleRateLimit({
-      limit: 10,
+      limit: 30,
       windowMs: msToSeconds(10),
     }),
     handleEndpointMiddleware<{ blogId: string }>(async (request, response) => {

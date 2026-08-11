@@ -13,7 +13,7 @@ function getUserById(users: Router) {
   users.get(
     RegExp(`^/(?<userId>${UUID_REGEX_PATTERN})$`),
     handleRateLimit({
-      limit: 10,
+      limit: 30,
       windowMs: msToSeconds(10),
     }),
     handleEndpointMiddleware<{ userId: string }>(async (request, response) => {

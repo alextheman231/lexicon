@@ -15,7 +15,7 @@ function getBlogRevisionsByBlogId(blogs: Router) {
   blogs.get<{ blogId: string }>(
     RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})/revisions$`),
     handleRateLimit({
-      limit: 10,
+      limit: 30,
       windowMs: msToSeconds(10),
     }),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
