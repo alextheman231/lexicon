@@ -9,10 +9,16 @@ import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import createUserSession from "src/services/userSessions/mutations/transaction/createUserSession";
 import allowEnvironments from "src/utility/handlers/allowEnvironments";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToMinutes from "src/utility/timeConverters/msToMinutes";
 
 function postAuthEndToEnd(auth: Router) {
   auth.post(
     "/end-to-end",
+    handleRateLimit({
+      windowMs: msToMinutes(15),
+      limit: 10,
+    }),
     allowEnvironments(["end-to-end"]),
     handleEndpointMiddleware(async (request, response) => {
       const COOKIES = loadCookies();

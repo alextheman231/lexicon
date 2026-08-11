@@ -8,10 +8,16 @@ import loadBlogRevisions from "src/services/blogs/views/loadBlogRevisions";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToSeconds from "src/utility/timeConverters/msToSeconds";
 
 function getBlogRevisionsByBlogId(blogs: Router) {
   blogs.get<{ blogId: string }>(
     RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})/revisions$`),
+    handleRateLimit({
+      limit: 10,
+      windowMs: msToSeconds(10),
+    }),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
       const { blogId } = request.params;

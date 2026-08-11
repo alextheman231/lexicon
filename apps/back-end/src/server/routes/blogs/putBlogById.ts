@@ -10,10 +10,16 @@ import changeBlogState from "src/services/blogs/mutations/transaction/changeBlog
 import editBlog from "src/services/blogs/mutations/transaction/editBlog";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToSeconds from "src/utility/timeConverters/msToSeconds";
 
 function putBlogById(blogs: Router) {
   blogs.put(
     RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})$`),
+    handleRateLimit({
+      limit: 5,
+      windowMs: msToSeconds(10),
+    }),
     handleAuthenticatedEndpointMiddleware<{ blogId: string }>(async (request, response) => {
       const connection = getConnection();
 

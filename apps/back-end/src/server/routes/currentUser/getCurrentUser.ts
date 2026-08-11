@@ -6,10 +6,16 @@ import { getConnection } from "src/database/connection";
 import selectUser from "src/models/users/selectUser";
 import selectUserSession from "src/models/userSessions/selectUserSession";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToSeconds from "src/utility/timeConverters/msToSeconds";
 
 function getCurrentUser(currentUser: Router) {
   currentUser.get(
     "/",
+    handleRateLimit({
+      limit: 10,
+      windowMs: msToSeconds(10),
+    }),
     handleEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
       const sessionId = request.cookies.session;

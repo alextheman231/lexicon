@@ -8,12 +8,18 @@ import removeBlogCollectionItem from "src/services/blogCollections/mutations/tra
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToSeconds from "src/utility/timeConverters/msToSeconds";
 
 function deleteBlogCollectionItemEndpoint(blogCollections: Router) {
   blogCollections.delete(
     RegExp(
       `^/(?<blogCollectionId>${UUID_REGEX_PATTERN})/items/(?<blogCollectionItemId>${UUID_REGEX_PATTERN})$`,
     ),
+    handleRateLimit({
+      limit: 5,
+      windowMs: msToSeconds(10),
+    }),
     handleAuthenticatedEndpointMiddleware<{
       blogCollectionId: string;
       blogCollectionItemId: string;

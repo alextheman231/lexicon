@@ -8,10 +8,16 @@ import loadBlogSummaries from "src/services/blogs/views/loadBlogSummaries";
 import queryBlogIds from "src/services/blogs/views/queryBlogIds";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToSeconds from "src/utility/timeConverters/msToSeconds";
 
 function getBlogs(blogs: Router) {
   blogs.get(
     "/",
+    handleRateLimit({
+      limit: 10,
+      windowMs: msToSeconds(10),
+    }),
     handleEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
       const parsedFilters = parseBlogsFilter(request.query);
