@@ -12,7 +12,7 @@ function getBlogCollectionOptions(blogCollections: Router) {
   blogCollections.get(
     "/options",
     handleRateLimit({
-      limit: 10,
+      limit: 30,
       windowMs: msToSeconds(10),
     }),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
