@@ -9,10 +9,16 @@ import selectBlog from "src/models/blogs/selectBlog";
 import setBlogCollectionsForBlog from "src/services/blogCollections/mutations/transaction/setBlogCollectionsForBlog";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToSeconds from "src/utility/timeConverters/msToSeconds";
 
 function putBlogToBlogCollections(blogs: Router) {
   blogs.put(
     RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})/blog-collections`),
+    handleRateLimit({
+      limit: 5,
+      windowMs: msToSeconds(10),
+    }),
     handleAuthenticatedEndpointMiddleware<{ blogId: string }>(async (request, response) => {
       const connection = getConnection();
 

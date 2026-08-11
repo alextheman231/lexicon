@@ -5,10 +5,16 @@ import { parseBlogCollectionOptionsQueryString } from "@lexicon/models";
 import { getConnection } from "src/database/connection";
 import fetchBlogCollectionOptions from "src/server/routes/blogCollections/helpers/fetchBlogCollectionOptions";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToSeconds from "src/utility/timeConverters/msToSeconds";
 
 function getBlogCollectionOptions(blogCollections: Router) {
   blogCollections.get(
     "/options",
+    handleRateLimit({
+      limit: 10,
+      windowMs: msToSeconds(10),
+    }),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
       const query = parseBlogCollectionOptionsQueryString(request.query);

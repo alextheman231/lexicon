@@ -10,10 +10,16 @@ import findLatestBlogVersion from "src/services/blogs/views/findLatestBlogRevisi
 import loadBlogView from "src/services/blogs/views/loadBlogView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
+import handleRateLimit from "src/utility/handlers/handleRateLimit";
+import msToSeconds from "src/utility/timeConverters/msToSeconds";
 
 function getBlogById(blogs: Router) {
   blogs.get(
     RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})$`),
+    handleRateLimit({
+      limit: 10,
+      windowMs: msToSeconds(10),
+    }),
     handleEndpointMiddleware<{ blogId: string }>(async (request, response) => {
       const connection = getConnection();
 
