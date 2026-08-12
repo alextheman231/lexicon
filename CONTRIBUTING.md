@@ -52,7 +52,6 @@ GOOGLE_CLIENT_ID="<client-id-here>"
 GOOGLE_CLIENT_SECRET="<client-secret-here>"
 DATABASE_URL="postgres://<user>@localhost:5432/lexicon_dev"
 API_BASE_URL="http://localhost:8080"
-ALLOWED_ORIGINS="http://localhost:5173,http://localhost:4173"
 ```
 
 You can [create a Google Cloud project here](https://console.cloud.google.com/) to get the Google Client ID and Google Client secret.

@@ -167,7 +167,6 @@ jobs:
           echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/development?schema=public" >> apps/back-end/.env.end-to-end
           echo PORT="9090" >> apps/back-end/.env.end-to-end
           echo API_BASE_URL="http://localhost:9090" >> apps/back-end/.env.end-to-end
-          echo ALLOWED_ORIGINS="http://localhost:6173" >> apps/back-end/.env.end-to-end
 
       - name: Initialise front-end environment variables
         run: |
