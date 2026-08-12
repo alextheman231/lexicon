@@ -12,7 +12,6 @@ import {
 import { loadGoogleConfig } from "src/auth/google";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
 import loadCookies from "src/server/routes/auth/helpers/loadCookies";
-import loadAllowedOrigins from "src/utility/env/loadAllowedOrigins";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 import msToMinutes from "src/utility/timeConverters/msToMinutes";
@@ -38,15 +37,6 @@ function getAuthGoogle(auth: Router) {
 
         if (typeof redirect !== "string") {
           throw new APIError(400, "INVALID_REDIRECT", "Missing redirect parameter");
-        }
-
-        if (!loadAllowedOrigins().includes(redirect)) {
-          throw new APIError(
-            403,
-            "DISALLOWED_ORIGIN",
-            "The provided redirect origin is not allowed.",
-            { origin: redirect },
-          );
         }
 
         response.cookie("oauth_state", state, COOKIES);
