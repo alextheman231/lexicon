@@ -162,7 +162,7 @@ function usePagination<DataType extends object = Record<PropertyKey, unknown>>(
         dispatch({ type: "setRawSearch", value: rawSearch });
       }
     },
-    [dispatch],
+    [dispatch, internalState.rawSearch],
   );
 
   return {
