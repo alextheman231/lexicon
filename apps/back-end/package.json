@@ -59,8 +59,8 @@
     "@types/cors": "2.8.19",
     "@types/express": "5.0.6",
     "@types/express-serve-static-core": "5.1.3",
-    "@types/node": "26.1.2",
-    "@types/pg": "8.20.4",
+    "@types/node": "26.2.0",
+    "@types/pg": "8.21.0",
     "@types/supertest": "7.2.1",
     "drizzle-kit": "0.31.10",
     "execa": "10.0.1",
@@ -68,21 +68,21 @@
     "prettier-plugin-sql": "0.20.0",
     "supertest": "7.2.2",
     "tsdown": "0.22.14",
-    "tsx": "4.23.9",
+    "tsx": "4.23.12",
     "vitest": "4.1.10"
   },
   "dependencies": {
     "@lexicon/models": "workspace:*",
-    "@sentry/node": "10.69.0",
+    "@sentry/node": "10.70.0",
     "cookie-parser": "1.4.7",
     "dotenv": "17.4.2",
     "drizzle-orm": "0.45.2",
     "drizzle-zod": "0.8.3",
     "express": "5.2.1",
     "express-rate-limit": "8.6.2",
-    "openid-client": "6.8.4",
-    "pg": "8.22.0",
+    "openid-client": "6.8.5",
+    "pg": "8.23.0",
     "rate-limit-redis": "6.0.1",
-    "redis": "6.2.0"
+    "redis": "6.2.1"
   }
 }
