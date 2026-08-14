@@ -40,7 +40,7 @@
   "devDependencies": {
     "@commander-js/extra-typings": "15.0.0",
     "tsdown": "0.22.14",
-    "tsx": "4.23.9"
+    "tsx": "4.23.12"
   },
   "engines": {
     "node": ">=22.3.0"
