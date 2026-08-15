@@ -1,6 +1,8 @@
 import rateLimit from "express-rate-limit";
+import RedisStore from "rate-limit-redis";
 
-import store from "src/server/rateLimit/store";
+import redisClient from "src/server/rateLimit/redis";
+import loadEnvironment from "src/utility/env/loadEnvironment";
 
 interface RateLimitOptions {
   limit: number;
@@ -8,6 +10,17 @@ interface RateLimitOptions {
 }
 
 function handleRateLimit({ limit, windowMs }: RateLimitOptions) {
+  const ENV = loadEnvironment();
+
+  const store =
+    ENV === "production"
+      ? new RedisStore({
+          sendCommand: (...args) => {
+            return redisClient.sendCommand(args);
+          },
+        })
+      : undefined;
+
   return rateLimit({
     windowMs,
     limit,
