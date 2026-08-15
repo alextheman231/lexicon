@@ -1,6 +1,6 @@
 import type { Router } from "express";
 
-import { UUID_REGEX_PATTERN } from "@alextheman/utility";
+import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { parseEditBlogData } from "@lexicon/models";
 
@@ -11,7 +11,6 @@ import editBlog from "src/services/blogs/mutations/transaction/editBlog";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function putBlogById(blogs: Router) {
   blogs.put(

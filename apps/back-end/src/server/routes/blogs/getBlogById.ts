@@ -1,6 +1,6 @@
 import type { Router } from "express";
 
-import { az, UUID_REGEX_PATTERN } from "@alextheman/utility";
+import { az, secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { blogQueryStringSchema, BlogState } from "@lexicon/models";
 import z from "zod";
@@ -11,7 +11,6 @@ import loadBlogView from "src/services/blogs/views/loadBlogView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogById(blogs: Router) {
   blogs.get(

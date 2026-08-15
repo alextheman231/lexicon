@@ -1,12 +1,12 @@
 import type { Router } from "express";
 
+import { secondsToMs } from "@alextheman/utility";
 import { parseUser, parseUserProfileUpdateData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import editUserProfile from "src/services/users/mutations/transaction/editUserProfile";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function putCurrentUserProfile(currentUser: Router) {
   currentUser.put(

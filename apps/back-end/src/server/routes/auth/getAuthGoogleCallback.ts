@@ -1,7 +1,7 @@
 import type { Router } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
-import { assertNotNull } from "@alextheman/utility";
+import { assertNotNull, minutesToMs } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { authorizationCodeGrant } from "openid-client";
 
@@ -19,7 +19,6 @@ import createUserSession from "src/services/userSessions/mutations/transaction/c
 import loadEnvironment from "src/utility/env/loadEnvironment";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import minutesToMs from "src/utility/timeConverters/minutesToMs";
 
 const ENV = loadEnvironment();
 

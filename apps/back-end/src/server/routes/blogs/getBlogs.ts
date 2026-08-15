@@ -1,5 +1,6 @@
 import type { Router } from "express";
 
+import { secondsToMs } from "@alextheman/utility";
 import { BlogState, parseBlogsFilter } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
@@ -9,7 +10,6 @@ import queryBlogIds from "src/services/blogs/views/queryBlogIds";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogs(blogs: Router) {
   blogs.get(

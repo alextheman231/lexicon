@@ -1,6 +1,6 @@
 import type { Router } from "express";
 
-import { UUID_REGEX_PATTERN } from "@alextheman/utility";
+import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
 import selectBlog from "src/models/blogs/selectBlog";
@@ -9,7 +9,6 @@ import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogRevisionsByBlogId(blogs: Router) {
   blogs.get<{ blogId: string }>(

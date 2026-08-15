@@ -1,5 +1,6 @@
 import type { Router } from "express";
 
+import { minutesToMs } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { parseEndToEndAuthInsertData } from "@lexicon/models";
 
@@ -10,7 +11,6 @@ import createUserSession from "src/services/userSessions/mutations/transaction/c
 import allowEnvironments from "src/utility/handlers/allowEnvironments";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import minutesToMs from "src/utility/timeConverters/minutesToMs";
 
 function postAuthEndToEnd(auth: Router) {
   auth.post(

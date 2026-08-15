@@ -1,6 +1,6 @@
 import type { Router } from "express";
 
-import { pickProperties } from "@alextheman/utility";
+import { pickProperties, secondsToMs } from "@alextheman/utility";
 import { parseBlogCollectionsFilter } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
@@ -9,7 +9,6 @@ import loadBlogCollections from "src/services/blogCollections/views/loadBlogColl
 import queryBlogCollectionIds from "src/services/blogCollections/views/queryBlogCollectionIds";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogCollections(blogCollections: Router) {
   blogCollections.get(
