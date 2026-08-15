@@ -1,4 +1,4 @@
-import { az } from "@alextheman/utility";
+import { assertNotNull, az } from "@alextheman/utility";
 import z from "zod";
 
 import { getConnection } from "src/database/connection";
@@ -11,14 +11,16 @@ const loadCurrentUser = handleFallthroughMiddleware(async (request) => {
   const sessionId = z.uuid().optional().catch(undefined).parse(request.cookies?.session);
   const session = sessionId !== undefined ? await selectUserSession(connection, sessionId) : null;
 
-  const currentUser = session !== null ? await selectUser(connection, session) : null;
-  request.user =
-    currentUser !== null
-      ? {
-          ...currentUser,
-          dateOfBirth: az.with(z.coerce.date().nullable()).parse(currentUser.dateOfBirth),
-        }
-      : null;
+  if (session === null || session.expiresAt < new Date()) {
+    request.user = null;
+  } else {
+    const currentUser = await selectUser(connection, session);
+    assertNotNull(currentUser);
+    request.user = {
+      ...currentUser,
+      dateOfBirth: az.with(z.coerce.date().nullable()).parse(currentUser.dateOfBirth),
+    };
+  }
 });
 
 export default loadCurrentUser;
