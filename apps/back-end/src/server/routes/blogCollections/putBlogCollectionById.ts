@@ -10,14 +10,14 @@ import editBlogCollection from "src/services/blogCollections/mutations/transacti
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToSeconds from "src/utility/timeConverters/msToSeconds";
+import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function putBlogCollectionById(blogCollections: Router) {
   blogCollections.put(
     RegExp(`^/(?<blogCollectionId>${UUID_REGEX_PATTERN})$`),
     handleRateLimit({
       limit: 5,
-      windowMs: msToSeconds(10),
+      windowMs: secondsToMs(10),
     }),
     handleAuthenticatedEndpointMiddleware<{ blogCollectionId: string }>(
       async (request, response) => {

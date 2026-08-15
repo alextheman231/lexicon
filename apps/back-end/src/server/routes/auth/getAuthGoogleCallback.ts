@@ -19,7 +19,7 @@ import createUserSession from "src/services/userSessions/mutations/transaction/c
 import loadEnvironment from "src/utility/env/loadEnvironment";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToMinutes from "src/utility/timeConverters/msToMinutes";
+import minutesToMs from "src/utility/timeConverters/minutesToMs";
 
 const ENV = loadEnvironment();
 
@@ -28,7 +28,7 @@ function getAuthGoogleCallback(auth: Router) {
     "/google/callback",
     handleRateLimit({
       limit: 10,
-      windowMs: msToMinutes(15),
+      windowMs: minutesToMs(15),
     }),
     handleEndpointMiddleware<
       ParamsDictionary,

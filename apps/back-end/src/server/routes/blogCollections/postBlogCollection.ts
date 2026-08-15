@@ -7,14 +7,14 @@ import { getConnection } from "src/database/connection";
 import createBlogCollection from "src/services/blogCollections/mutations/transaction/createBlogCollection";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToSeconds from "src/utility/timeConverters/msToSeconds";
+import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function postBlogCollection(blogCollections: Router) {
   blogCollections.post(
     "/",
     handleRateLimit({
       limit: 5,
-      windowMs: msToSeconds(10),
+      windowMs: secondsToMs(10),
     }),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
