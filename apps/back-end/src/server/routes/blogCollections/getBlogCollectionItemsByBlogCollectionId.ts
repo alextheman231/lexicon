@@ -1,7 +1,7 @@
 import type { BlogCollectionItemsFilter } from "@lexicon/models";
 import type { Router } from "express";
 
-import { UUID_REGEX_PATTERN } from "@alextheman/utility";
+import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import { parseBlogCollectionItemsFilter } from "@lexicon/models";
 import z from "zod";
@@ -14,7 +14,6 @@ import queryBlogCollectionItemIds from "src/services/blogCollections/views/query
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogCollectionItemsByBlogCollectionId(blogCollections: Router) {
   return blogCollections.get(

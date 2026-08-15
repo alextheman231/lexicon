@@ -1,13 +1,12 @@
 import type { Router } from "express";
 
-import { UUID_REGEX_PATTERN } from "@alextheman/utility";
+import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
 import loadBlogCollectionView from "src/services/blogCollections/views/loadBlogCollectionView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogCollectionById(blogCollections: Router) {
   blogCollections.get(

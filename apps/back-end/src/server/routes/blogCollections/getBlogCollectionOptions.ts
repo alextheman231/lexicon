@@ -1,12 +1,12 @@
 import type { Router } from "express";
 
+import { secondsToMs } from "@alextheman/utility";
 import { parseBlogCollectionOptionsQueryString } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import fetchBlogCollectionOptions from "src/server/routes/blogCollections/helpers/fetchBlogCollectionOptions";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogCollectionOptions(blogCollections: Router) {
   blogCollections.get(

@@ -1,6 +1,7 @@
 import type { Router } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
+import { minutesToMs } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
 import {
   buildAuthorizationUrl,
@@ -14,7 +15,6 @@ import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl"
 import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import minutesToMs from "src/utility/timeConverters/minutesToMs";
 
 function getAuthGoogle(auth: Router) {
   auth.get(
