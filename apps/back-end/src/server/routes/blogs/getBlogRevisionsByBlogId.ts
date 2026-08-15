@@ -9,14 +9,14 @@ import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToSeconds from "src/utility/timeConverters/msToSeconds";
+import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogRevisionsByBlogId(blogs: Router) {
   blogs.get<{ blogId: string }>(
     RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})/revisions$`),
     handleRateLimit({
       limit: 30,
-      windowMs: msToSeconds(10),
+      windowMs: secondsToMs(10),
     }),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();

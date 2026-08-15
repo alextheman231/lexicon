@@ -6,14 +6,14 @@ import { getConnection } from "src/database/connection";
 import editUserProfile from "src/services/users/mutations/transaction/editUserProfile";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToSeconds from "src/utility/timeConverters/msToSeconds";
+import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function putCurrentUserProfile(currentUser: Router) {
   currentUser.put(
     "/profile",
     handleRateLimit({
       limit: 5,
-      windowMs: msToSeconds(10),
+      windowMs: secondsToMs(10),
     }),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();

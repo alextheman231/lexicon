@@ -10,13 +10,13 @@ import createUserSession from "src/services/userSessions/mutations/transaction/c
 import allowEnvironments from "src/utility/handlers/allowEnvironments";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToMinutes from "src/utility/timeConverters/msToMinutes";
+import minutesToMs from "src/utility/timeConverters/minutesToMs";
 
 function postAuthEndToEnd(auth: Router) {
   auth.post(
     "/end-to-end",
     handleRateLimit({
-      windowMs: msToMinutes(15),
+      windowMs: minutesToMs(15),
       limit: 10,
     }),
     allowEnvironments(["end-to-end"]),

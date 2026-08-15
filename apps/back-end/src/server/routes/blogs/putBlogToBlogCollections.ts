@@ -10,14 +10,14 @@ import setBlogCollectionsForBlog from "src/services/blogCollections/mutations/tr
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToSeconds from "src/utility/timeConverters/msToSeconds";
+import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function putBlogToBlogCollections(blogs: Router) {
   blogs.put(
     RegExp(`^/(?<blogId>${UUID_REGEX_PATTERN})/blog-collections`),
     handleRateLimit({
       limit: 5,
-      windowMs: msToSeconds(10),
+      windowMs: secondsToMs(10),
     }),
     handleAuthenticatedEndpointMiddleware<{ blogId: string }>(async (request, response) => {
       const connection = getConnection();

@@ -9,7 +9,7 @@ import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToSeconds from "src/utility/timeConverters/msToSeconds";
+import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function deleteBlogCollectionItemEndpoint(blogCollections: Router) {
   blogCollections.delete(
@@ -18,7 +18,7 @@ function deleteBlogCollectionItemEndpoint(blogCollections: Router) {
     ),
     handleRateLimit({
       limit: 5,
-      windowMs: msToSeconds(10),
+      windowMs: secondsToMs(10),
     }),
     handleAuthenticatedEndpointMiddleware<{
       blogCollectionId: string;

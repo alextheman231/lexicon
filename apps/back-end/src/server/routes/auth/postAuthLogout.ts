@@ -4,14 +4,14 @@ import { getConnection } from "src/database/connection";
 import expireUserSession from "src/services/userSessions/mutations/transaction/expireUserSession";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToMinutes from "src/utility/timeConverters/msToMinutes";
+import minutesToMs from "src/utility/timeConverters/minutesToMs";
 
 function postAuthLogout(auth: Router) {
   auth.post(
     "/logout",
     handleRateLimit({
       limit: 10,
-      windowMs: msToMinutes(15),
+      windowMs: minutesToMs(15),
     }),
     handleEndpointMiddleware(async (request, response) => {
       const connection = getConnection();

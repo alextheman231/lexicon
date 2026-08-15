@@ -6,14 +6,14 @@ import { getConnection } from "src/database/connection";
 import fetchBlogCollectionOptions from "src/server/routes/blogCollections/helpers/fetchBlogCollectionOptions";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToSeconds from "src/utility/timeConverters/msToSeconds";
+import secondsToMs from "src/utility/timeConverters/secondsToMs";
 
 function getBlogCollectionOptions(blogCollections: Router) {
   blogCollections.get(
     "/options",
     handleRateLimit({
       limit: 30,
-      windowMs: msToSeconds(10),
+      windowMs: secondsToMs(10),
     }),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();

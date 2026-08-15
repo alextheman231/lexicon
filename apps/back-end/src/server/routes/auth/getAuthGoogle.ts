@@ -14,14 +14,14 @@ import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl"
 import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import msToMinutes from "src/utility/timeConverters/msToMinutes";
+import minutesToMs from "src/utility/timeConverters/minutesToMs";
 
 function getAuthGoogle(auth: Router) {
   auth.get(
     "/google",
     handleRateLimit({
       limit: 10,
-      windowMs: msToMinutes(15),
+      windowMs: minutesToMs(15),
     }),
     handleEndpointMiddleware<ParamsDictionary, unknown, unknown, { redirect: string }>(
       async (request, response) => {
