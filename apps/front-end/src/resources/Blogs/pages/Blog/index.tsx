@@ -1,5 +1,4 @@
 import { Page } from "@alextheman/components";
-import { InternalLink } from "@alextheman/components/routing";
 import { formatDateAndTime } from "@alextheman/utility";
 import Typography from "@mui/material/Typography";
 import { useSearchParams } from "wouter";
@@ -43,9 +42,13 @@ function Blog({ blogId }: BlogPageProps) {
               </Typography>
             ) : (
               <Typography variant="subtitle2">
-                Created by {blog.authorDisplayName} (
-                <InternalLink to={`/users/${blog.authorId}`}>{blog.authorUsername}</InternalLink>) •
-                Unpublished (saved as draft)
+                Created by{" "}
+                <UserLink
+                  userId={blog.authorId}
+                  displayName={blog.authorDisplayName}
+                  username={blog.authorUsername}
+                />{" "}
+                • Unpublished (saved as draft)
               </Typography>
             );
           }}
