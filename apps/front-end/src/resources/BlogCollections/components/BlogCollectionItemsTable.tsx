@@ -15,6 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import BlogCollectionItemsDropdown from "src/resources/BlogCollections/components/BlogCollectionsItemsDropdown";
+import UserLink from "src/resources/Users/components/UserLink";
 
 interface BlogCollectionItemsTableProps {
   QueryBoundaryItems: LexiconQueryBoundaryComponentsList<BlogCollectionItemSummary>;
@@ -49,11 +50,11 @@ function BlogCollectionItemsTable({
                       <InternalLink to={`/blogs/${item.blogId}`}>{item.blogTitle}</InternalLink>
                     </TableCell>
                     <TableCell>
-                      {item.authorDisplayName} (
-                      <InternalLink to={`users/${item.authorId}`}>
-                        {item.authorUsername}
-                      </InternalLink>
-                      )
+                      <UserLink
+                        userId={item.authorId}
+                        username={item.authorUsername}
+                        displayName={item.authorDisplayName}
+                      />
                     </TableCell>
                     <TableCell>
                       {item.blogPublishedAt !== null

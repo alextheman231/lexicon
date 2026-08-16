@@ -9,6 +9,7 @@ import createObjectQueryBoundary from "src/groups/QueryBoundary/creators/createO
 import BlogDropdown from "src/resources/Blogs/components/BlogDropdown";
 import BlogContent from "src/resources/Blogs/pages/Blog/BlogContent";
 import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
+import UserLink from "src/resources/Users/components/UserLink";
 
 interface BlogPageProps {
   blogId: string;
@@ -32,9 +33,13 @@ function Blog({ blogId }: BlogPageProps) {
           {(blog) => {
             return blog.publishedAt ? (
               <Typography variant="subtitle2">
-                Published by {blog.authorDisplayName} (
-                <InternalLink to={`/users/${blog.authorId}`}>{blog.authorUsername}</InternalLink>
-                ), {formatDateAndTime(blog.publishedAt)}
+                Published by{" "}
+                <UserLink
+                  userId={blog.authorId}
+                  displayName={blog.authorDisplayName}
+                  username={blog.authorUsername}
+                />
+                , {formatDateAndTime(blog.publishedAt)}
               </Typography>
             ) : (
               <Typography variant="subtitle2">

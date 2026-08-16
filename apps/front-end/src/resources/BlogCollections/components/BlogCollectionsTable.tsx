@@ -14,6 +14,8 @@ import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+import UserLink from "src/resources/Users/components/UserLink";
+
 interface BlogCollectionsTableProps {
   PaginationGroup: PaginationComponents<BlogCollectionView>;
   QueryBoundary: LexiconQueryBoundaryComponentsList<BlogCollectionView>;
@@ -55,11 +57,11 @@ function BlogCollectionsTable({
                     </TableCell>
                     {includeUser ? (
                       <TableCell>
-                        {blogCollection.userDisplayName} (
-                        <InternalLink to={`/users/${blogCollection.userId}`}>
-                          {blogCollection.username}
-                        </InternalLink>
-                        )
+                        <UserLink
+                          userId={blogCollection.userId}
+                          displayName={blogCollection.userDisplayName}
+                          username={blogCollection.username}
+                        />
                       </TableCell>
                     ) : null}
                     <TableCell>{formatDateAndTime(blogCollection.createdAt)}</TableCell>

@@ -18,6 +18,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import BlogDropdown from "src/resources/Blogs/components/BlogDropdown";
+import UserLink from "src/resources/Users/components/UserLink";
 
 interface BlogsTableProps {
   PaginationGroup: PaginationComponents<BlogSummary>;
@@ -70,11 +71,11 @@ function BlogsTable({
                     </TableCell>
                     {includeAuthor ? (
                       <TableCell>
-                        {blog.authorDisplayName} (
-                        <InternalLink to={`/users/${blog.authorId}`}>
-                          {blog.authorUsername}
-                        </InternalLink>
-                        )
+                        <UserLink
+                          userId={blog.authorId}
+                          username={blog.authorUsername}
+                          displayName={blog.authorDisplayName}
+                        />
                       </TableCell>
                     ) : null}
                     <TableCell>

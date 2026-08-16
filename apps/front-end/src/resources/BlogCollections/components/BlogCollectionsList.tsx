@@ -12,6 +12,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 
+import UserLink from "src/resources/Users/components/UserLink";
+
 interface BlogCollectionsTableProps {
   PaginationGroup: PaginationComponents<BlogCollectionView>;
   QueryBoundary: LexiconQueryBoundaryComponentsList<BlogCollectionView>;
@@ -42,11 +44,11 @@ function BlogCollectionsList({
                 <CardContent>
                   {includeUser ? (
                     <Typography variant="subtitle2">
-                      {blogCollection.userDisplayName} (
-                      <InternalLink to={`/users/${blogCollection.userId}`}>
-                        {blogCollection.username}
-                      </InternalLink>
-                      )
+                      <UserLink
+                        userId={blogCollection.userId}
+                        displayName={blogCollection.userDisplayName}
+                        username={blogCollection.username}
+                      />
                     </Typography>
                   ) : null}
                   <Typography variant="subtitle2">

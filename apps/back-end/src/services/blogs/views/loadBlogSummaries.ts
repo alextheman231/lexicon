@@ -36,12 +36,7 @@ async function loadBlogSummaries(
     : baseQuery;
 
   const blogs = await fetchAll(query);
-  return blogs.map((blog) => {
-    return {
-      ...blog,
-      authorDisplayName: blog.authorDisplayName ?? blog.authorUsername,
-    };
-  });
+  return blogs;
 }
 
 export default loadBlogSummaries;

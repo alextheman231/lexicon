@@ -14,6 +14,7 @@ import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 
 import BlogDropdown from "src/resources/Blogs/components/BlogDropdown";
+import UserLink from "src/resources/Users/components/UserLink";
 
 interface BlogsListProps {
   PaginationGroup: PaginationComponents<BlogSummary>;
@@ -45,11 +46,11 @@ function BlogsList({
                 <CardContent>
                   {includeAuthor ? (
                     <Typography variant="subtitle2">
-                      {blog.authorDisplayName} (
-                      <InternalLink to={`/users/${blog.authorId}`}>
-                        {blog.authorUsername}
-                      </InternalLink>
-                      )
+                      <UserLink
+                        userId={blog.authorId}
+                        username={blog.authorUsername}
+                        displayName={blog.authorDisplayName}
+                      />
                     </Typography>
                   ) : null}
                   <Typography variant="subtitle2">
