@@ -36,7 +36,6 @@ async function loadBlogCollectionView(
 
   return {
     ...blogCollection,
-    userDisplayName: blogCollection.userDisplayName ?? blogCollection.username,
     itemCount,
   };
 }

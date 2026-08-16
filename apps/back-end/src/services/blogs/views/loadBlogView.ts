@@ -51,7 +51,6 @@ async function loadBlogView(
 
   return {
     ...blog,
-    authorDisplayName: blog.authorDisplayName ?? blog.authorUsername,
     content: az.with(z.record(z.string(), z.any())).parse(blog.content),
   };
 }

@@ -40,9 +40,7 @@ async function loadBlogCollectionItemSummaries(
         sql`ARRAY_POSITION(${sql.param(blogCollectionItemIds)}::UUID[], ${blogCollectionItemsTable.id})`,
       ),
   );
-  return items.map((item) => {
-    return { ...item, authorDisplayName: item.authorDisplayName ?? item.authorUsername };
-  });
+  return items;
 }
 
 export default loadBlogCollectionItemSummaries;
