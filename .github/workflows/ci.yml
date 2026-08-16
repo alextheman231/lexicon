@@ -115,7 +115,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: lexicon
-          POSTGRES_DB: development
+          POSTGRES_DB: end-to-end
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -164,22 +164,15 @@ jobs:
       - name: Initialise back-end environment variables
         run: |
           touch apps/back-end/.env.end-to-end
-          echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/development?schema=public" >> apps/back-end/.env.end-to-end
+          echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/end-to-end?schema=public" >> apps/back-end/.env.end-to-end
           echo PORT="9090" >> apps/back-end/.env.end-to-end
           echo API_BASE_URL="http://localhost:9090" >> apps/back-end/.env.end-to-end
 
-      - name: Initialise front-end environment variables
-        run: |
-          touch apps/front-end/.env
-          echo VITE_API_BASE_URL="http://localhost:9090" >> apps/front-end/.env
-
-      - name: Initialise end-to-end environment variables
-        run: |
-          touch apps/end-to-end/.env
-          echo API_BASE_URL="http://localhost:9090" >> apps/end-to-end/.env
-
       - name: Build packages
-        run: pnpm run build
+        run: pnpm run build-packages
+
+      - name: Build apps for static serving
+        run: pnpm run build-static
 
       - name: Apply migrations
         run: pnpm run migrate-db
