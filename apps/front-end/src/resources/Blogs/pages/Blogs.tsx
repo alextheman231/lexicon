@@ -3,11 +3,13 @@ import type { BlogSummary } from "@lexicon/models";
 import { Page, Search, useIsLargeScreen } from "@alextheman/components";
 import { BlogState } from "@lexicon/models";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { useState } from "react";
 
 import createPaginationGroup from "src/groups/pagination";
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
 import usePagination from "src/hooks/usePagination";
+import LexiconLogo from "src/icons/LexiconLogo";
 import BlogsList from "src/resources/Blogs/components/BlogsList";
 import BlogsTable from "src/resources/Blogs/components/BlogsTable";
 import useBlogsQuery from "src/resources/Blogs/queries/useBlogsQuery";
@@ -42,7 +44,15 @@ function Blogs() {
   }
 
   return (
-    <Page title="Welcome to Lexicon!" subtitle="Take a look at some of our blogs.">
+    <Page
+      title={
+        <Stack spacing={2}>
+          <LexiconLogo style={{ height: 200, width: 200 }} />
+          <Typography variant="h6">Welcome to Lexicon!</Typography>
+        </Stack>
+      }
+      subtitle="Take a look at some of our blogs."
+    >
       <Stack spacing={1}>
         <QueryBoundary.Error />
         {isLargeScreen ? (
