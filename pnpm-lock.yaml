@@ -170,8 +170,8 @@ importers:
   apps/front-end:
     dependencies:
       '@alextheman/components':
-        specifier: 7.8.0
-        version: 7.8.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@mui/material@9.3.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/react-form@1.33.5(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(wouter@3.10.0(react@19.2.8))
+        specifier: 7.9.2
+        version: 7.9.2(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@mui/material@9.3.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/react-form@1.33.5(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(wouter@3.10.0(react@19.2.8))
       '@emotion/react':
         specifier: 11.14.0
         version: 11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0)
@@ -299,8 +299,8 @@ importers:
 
 packages:
 
-  '@alextheman/components@7.8.0':
-    resolution: {integrity: sha512-Atc6xJMO8l7xwrPlIEiGWlxW6M7IScF7Z4/XUkSKswmIYrXFkdjSjmJl5uxODmvi32UBRoekt4FtKXqplpsLeg==}
+  '@alextheman/components@7.9.2':
+    resolution: {integrity: sha512-tW5syWJObHC6UkjuUzGEGrTwvdetlnZBf62fOgWt8MMG1irOgoA7y6QDE4+8UN5ubxRx0IAKvQcDlLg1dYjByQ==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       '@emotion/react': '>=11.0.0'
@@ -4765,7 +4765,7 @@ packages:
 
 snapshots:
 
-  '@alextheman/components@7.8.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@mui/material@9.3.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/react-form@1.33.5(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(wouter@3.10.0(react@19.2.8))':
+  '@alextheman/components@7.9.2(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@mui/material@9.3.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/react-form@1.33.5(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(wouter@3.10.0(react@19.2.8))':
     dependencies:
       '@alextheman/utility': 5.27.0(zod@4.4.3)
       '@emotion/react': 11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@11.0.0)
