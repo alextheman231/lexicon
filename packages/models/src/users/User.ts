@@ -10,6 +10,8 @@ const userSchema = z.object({
   dateOfBirth: z.coerce.date().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().nullable(),
+  profilePictureFileKey: z.string().nullable(),
+  profilePictureFileName: z.string().nullable(),
 });
 
 export type User = z.infer<typeof userSchema>;
