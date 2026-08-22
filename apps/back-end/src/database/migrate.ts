@@ -13,9 +13,9 @@ import { getConnection } from "src/database/connection";
       migrationsFolder: path.join(process.cwd(), "src", "database", "migrations"),
     });
     console.info("Migrations applied successfully!");
-  } catch (err) {
-    console.error(err);
-    throw err;
+  } catch (error) {
+    console.error(error);
+    throw error;
   } finally {
     if (connection.$client instanceof Pool) {
       await connection.$client.end();
