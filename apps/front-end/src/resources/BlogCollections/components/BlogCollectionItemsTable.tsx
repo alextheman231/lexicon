@@ -54,6 +54,7 @@ function BlogCollectionItemsTable({
                         userId={item.authorId}
                         username={item.authorUsername}
                         displayName={item.authorDisplayName}
+                        profilePictureUrl={item.authorProfilePictureUrl}
                       />
                     </TableCell>
                     <TableCell>

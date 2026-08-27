@@ -42,6 +42,7 @@ function BlogCollectionItemsList({
                       userId={item.authorId}
                       username={item.authorUsername}
                       displayName={item.authorDisplayName}
+                      profilePictureUrl={item.authorProfilePictureUrl}
                     />
                   </Typography>
                   <Typography variant="subtitle2">

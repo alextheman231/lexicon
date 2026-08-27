@@ -6,6 +6,7 @@ import { blogCollectionSchema } from "src/blogCollections/BlogCollection";
 export const blogCollectionViewSchema = blogCollectionSchema.extend({
   username: z.string(),
   userDisplayName: z.string().nullable(),
+  userProfilePictureUrl: z.string().nullable(),
   itemCount: z.int().nonnegative(),
 });
 

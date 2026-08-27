@@ -2,6 +2,7 @@ import type { BlogCollectionItemSummary } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 
+import { omitProperties } from "@alextheman/utility";
 import { eq, inArray, sql } from "drizzle-orm";
 
 import {
@@ -10,6 +11,7 @@ import {
   blogsTable,
   usersTable,
 } from "src/database/schema";
+import getProfilePictureUrl from "src/services/users/views/getProfilePictureUrl";
 import fetchAll from "src/utility/databaseFilters/fetchAll";
 
 async function loadBlogCollectionItemSummaries(
@@ -28,6 +30,7 @@ async function loadBlogCollectionItemSummaries(
         authorId: blogsTable.authorId,
         authorDisplayName: usersTable.displayName,
         authorUsername: usersTable.username,
+        authorProfilePictureFileKey: usersTable.profilePictureFileKey,
         blogUpdatedAt: blogsTable.updatedAt,
         blogPublishedAt: blogsTable.publishedAt,
       })
@@ -40,7 +43,15 @@ async function loadBlogCollectionItemSummaries(
         sql`ARRAY_POSITION(${sql.param(blogCollectionItemIds)}::UUID[], ${blogCollectionItemsTable.id})`,
       ),
   );
-  return items;
+  return items.map((item) => {
+    return {
+      ...omitProperties(item, "authorProfilePictureFileKey"),
+      authorProfilePictureUrl: getProfilePictureUrl({
+        id: item.authorId,
+        profilePictureFileKey: item.authorProfilePictureFileKey,
+      }),
+    };
+  });
 }
 
 export default loadBlogCollectionItemSummaries;

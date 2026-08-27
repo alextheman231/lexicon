@@ -50,6 +50,7 @@ function BlogsList({
                         userId={blog.authorId}
                         username={blog.authorUsername}
                         displayName={blog.authorDisplayName}
+                        profilePictureUrl={blog.authorProfilePictureUrl}
                       />
                     </Typography>
                   ) : null}

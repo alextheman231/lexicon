@@ -1,5 +1,6 @@
 import { Page } from "@alextheman/components";
 import { formatDateAndTime } from "@alextheman/utility";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useSearchParams } from "wouter";
 
@@ -31,25 +32,29 @@ function Blog({ blogId }: BlogPageProps) {
         <QueryBoundary.Data>
           {(blog) => {
             return blog.publishedAt ? (
-              <Typography variant="subtitle2">
-                Published by{" "}
-                <UserLink
-                  userId={blog.authorId}
-                  displayName={blog.authorDisplayName}
-                  username={blog.authorUsername}
-                />
-                , {formatDateAndTime(blog.publishedAt)}
-              </Typography>
+              <Stack spacing={1} sx={{ marginTop: 2 }}>
+                <Typography variant="subtitle2">
+                  <UserLink
+                    userId={blog.authorId}
+                    displayName={blog.authorDisplayName}
+                    username={blog.authorUsername}
+                    profilePictureUrl={blog.authorProfilePictureUrl}
+                  />
+                </Typography>
+                <Typography variant="subtitle2">{formatDateAndTime(blog.publishedAt)}</Typography>
+              </Stack>
             ) : (
-              <Typography variant="subtitle2">
-                Created by{" "}
-                <UserLink
-                  userId={blog.authorId}
-                  displayName={blog.authorDisplayName}
-                  username={blog.authorUsername}
-                />{" "}
-                • Unpublished (saved as draft)
-              </Typography>
+              <Stack spacing={1} sx={{ marginTop: 2 }}>
+                <Typography variant="subtitle2">
+                  <UserLink
+                    userId={blog.authorId}
+                    displayName={blog.authorDisplayName}
+                    username={blog.authorUsername}
+                    profilePictureUrl={blog.authorProfilePictureUrl}
+                  />
+                </Typography>
+                <Typography variant="subtitle2">Unpublished (saved as draft)</Typography>
+              </Stack>
             );
           }}
         </QueryBoundary.Data>

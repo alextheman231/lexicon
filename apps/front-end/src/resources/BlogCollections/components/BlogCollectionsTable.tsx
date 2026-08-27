@@ -61,6 +61,7 @@ function BlogCollectionsTable({
                           userId={blogCollection.userId}
                           displayName={blogCollection.userDisplayName}
                           username={blogCollection.username}
+                          profilePictureUrl={blogCollection.userProfilePictureUrl}
                         />
                       </TableCell>
                     ) : null}

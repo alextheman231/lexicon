@@ -75,6 +75,7 @@ function BlogsTable({
                           userId={blog.authorId}
                           username={blog.authorUsername}
                           displayName={blog.authorDisplayName}
+                          profilePictureUrl={blog.authorProfilePictureUrl}
                         />
                       </TableCell>
                     ) : null}

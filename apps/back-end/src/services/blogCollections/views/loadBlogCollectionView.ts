@@ -2,10 +2,12 @@ import type { BlogCollectionView } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 
+import { omitProperties } from "@alextheman/utility";
 import { eq } from "drizzle-orm";
 
 import { blogCollectionsTable, usersTable } from "src/database/schema";
 import countBlogCollectionItems from "src/services/blogCollections/views/countBlogCollectionItems";
+import getProfilePictureUrl from "src/services/users/views/getProfilePictureUrl";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 async function loadBlogCollectionView(
@@ -19,6 +21,7 @@ async function loadBlogCollectionView(
         userId: blogCollectionsTable.userId,
         username: usersTable.username,
         userDisplayName: usersTable.displayName,
+        userProfilePictureFileKey: usersTable.profilePictureFileKey,
         name: blogCollectionsTable.name,
         createdAt: blogCollectionsTable.createdAt,
         description: blogCollectionsTable.description,
@@ -35,7 +38,11 @@ async function loadBlogCollectionView(
   const itemCount = await countBlogCollectionItems(connection, blogCollectionId);
 
   return {
-    ...blogCollection,
+    ...omitProperties(blogCollection, "userProfilePictureFileKey"),
+    userProfilePictureUrl: getProfilePictureUrl({
+      id: blogCollection.userId,
+      profilePictureFileKey: blogCollection.userProfilePictureFileKey,
+    }),
     itemCount,
   };
 }
