@@ -10,7 +10,7 @@ import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddlew
 
 function getUserProfilePictureByUserId(user: Router) {
   user.get(
-    RegExp(`^/(?<userId>${UUID_REGEX_PATTERN})/profile-picture`),
+    RegExp(`^/(?<userId>${UUID_REGEX_PATTERN})/profile-picture/(?<keyId>${UUID_REGEX_PATTERN})`),
     handleEndpointMiddleware<{ userId: string }>(async (request, response) => {
       const connection = getConnection();
 
