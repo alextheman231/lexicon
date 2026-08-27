@@ -2,6 +2,7 @@ import type { UserProfile } from "@lexicon/models";
 
 import { Page } from "@alextheman/components";
 import { FileInput } from "@alextheman/components/file";
+import { InternalLink } from "@alextheman/components/routing";
 import { useSnackbarContext } from "@alextheman/components/snackbar";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -22,7 +23,7 @@ interface UploadProfilePictureProps {
 
 function UploadProfilePicture({ currentUser }: UploadProfilePictureProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [display, setDisplay] = useState<string>("");
+  const [display, setDisplay] = useState<string>(currentUser.profilePictureUrl ?? "");
   const { mutateAsync: upload } = useUploadProfilePictureMutation();
   const { addSnackbar } = useSnackbarContext();
   const [_, setLocation] = useLocation();
@@ -60,6 +61,9 @@ function UploadProfilePicture({ currentUser }: UploadProfilePictureProps) {
       <CardActions>
         <Button variant="contained" onClick={handleSubmit}>
           Submit
+        </Button>
+        <Button component={InternalLink} to={`/users/${currentUser.id}`}>
+          Back
         </Button>
       </CardActions>
     </Page>
