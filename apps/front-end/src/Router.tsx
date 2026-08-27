@@ -2,6 +2,7 @@ import { Router as AlexRouter, Switch } from "@alextheman/components/routing";
 import { CodeError } from "@alextheman/utility/v6";
 import { Route } from "wouter";
 
+import AuthRequired from "src/components/AuthRequired";
 import BackendError from "src/components/BackendError";
 import PageWrapper from "src/components/PageWrapper";
 import AuthCallback from "src/pages/AuthCallback";
@@ -10,6 +11,7 @@ import BlogCollectionsRouter from "src/resources/BlogCollections/Router";
 import Blogs from "src/resources/Blogs/pages/Blogs";
 import BlogsRouter from "src/resources/Blogs/Router";
 import EditUserProfile from "src/resources/Users/pages/EditUserProfile";
+import UploadProfilePicture from "src/resources/Users/pages/UploadProfilePicture";
 import UsersRouter from "src/resources/Users/Router";
 
 function Router() {
@@ -28,6 +30,13 @@ function Router() {
           </Route>
           <Route path="/account/edit">
             <EditUserProfile />
+          </Route>
+          <Route path="/account/profile-picture/upload">
+            <AuthRequired>
+              {(currentUser) => {
+                return <UploadProfilePicture currentUser={currentUser} />;
+              }}
+            </AuthRequired>
           </Route>
 
           <Route path="/users" nest>

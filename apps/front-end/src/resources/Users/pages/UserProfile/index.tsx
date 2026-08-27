@@ -6,6 +6,9 @@ import {
 } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
 import { createTabGroup } from "@alextheman/components/Tab";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
@@ -39,7 +42,15 @@ function UserProfile({ userId }: UserProfileProps) {
       title={
         <QueryBoundary.Data>
           {(user) => {
-            return user.displayName ?? user.username;
+            return (
+              <Stack spacing={2}>
+                <Avatar
+                  src={`/api/v1/users/${userId}/profile-picture`}
+                  sx={{ width: 100, height: 100 }}
+                />
+                <Typography variant="h6">{user.displayName ?? user.username}</Typography>
+              </Stack>
+            );
           }}
         </QueryBoundary.Data>
       }
@@ -57,6 +68,11 @@ function UserProfile({ userId }: UserProfileProps) {
                   <DropdownMenuItem component={InternalLink} to="/blog-collections/new">
                     Create Blog Collection
                   </DropdownMenuItem>
+                  {user.id === currentUser?.id ? (
+                    <DropdownMenuItem component={InternalLink} to="/account/profile-picture/upload">
+                      Upload Profile Picture
+                    </DropdownMenuItem>
+                  ) : null}
                   {!isLargeScreen && user.id === currentUser?.id ? (
                     <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
                   ) : null}
