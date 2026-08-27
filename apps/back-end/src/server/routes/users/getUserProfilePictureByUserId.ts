@@ -1,12 +1,11 @@
 import type { Router } from "express";
 
-import { assertNotUndefined, UUID_REGEX_PATTERN } from "@alextheman/utility";
+import { assertNotNull, assertNotUndefined, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 
 import { getConnection } from "src/database/connection";
 import fileStoreClient from "src/fileStoreClient";
 import selectUser from "src/models/users/selectUser";
-import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function getUserProfilePictureByUserId(user: Router) {
@@ -16,13 +15,8 @@ function getUserProfilePictureByUserId(user: Router) {
       const connection = getConnection();
 
       const user = await selectUser(connection, { userId: request.params.userId });
-      if (user === null) {
-        throw resourceNotFoundError("user", request.params.userId);
-      }
-
-      if (user.profilePictureFileKey === null) {
-        return response.status(200).send({});
-      }
+      assertNotNull(user);
+      assertNotNull(user.profilePictureFileKey);
 
       const file = await fileStoreClient.send(
         new GetObjectCommand({

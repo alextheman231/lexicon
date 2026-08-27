@@ -44,10 +44,7 @@ function UserProfile({ userId }: UserProfileProps) {
           {(user) => {
             return (
               <Stack spacing={2}>
-                <Avatar
-                  src={`/api/v1/users/${userId}/profile-picture`}
-                  sx={{ width: 100, height: 100 }}
-                />
+                <Avatar src={user.profilePictureUrl ?? ""} sx={{ width: 100, height: 100 }} />
                 <Typography variant="h6">{user.displayName ?? user.username}</Typography>
               </Stack>
             );
