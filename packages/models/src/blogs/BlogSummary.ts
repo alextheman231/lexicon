@@ -8,6 +8,7 @@ export const blogSummarySchema = z.object({
   authorId: z.uuid(),
   authorUsername: z.string(),
   authorDisplayName: z.string().nullable(),
+  authorProfilePictureUrl: z.string().nullable(),
   updatedAt: z.coerce.date(),
   publishedAt: z.coerce.date().nullable(),
   state: z.enum(BlogState),

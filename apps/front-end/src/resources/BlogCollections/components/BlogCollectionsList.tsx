@@ -48,6 +48,7 @@ function BlogCollectionsList({
                         userId={blogCollection.userId}
                         displayName={blogCollection.userDisplayName}
                         username={blogCollection.username}
+                        profilePictureUrl={blogCollection.userProfilePictureUrl}
                       />
                     </Typography>
                   ) : null}

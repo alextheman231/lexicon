@@ -1,10 +1,11 @@
-import type { User } from "@lexicon/models";
-
-import type { User as UserSchema } from "src/database/schema";
-
 import getIdsFromProfilePictureFileKey from "src/utility/fileKeys/getIdsFromProfilePictureFileKey";
 
-function getProfilePictureUrl(user: UserSchema | User): string | null {
+interface ProfilePictureUrlParams {
+  id: string;
+  profilePictureFileKey: string | null;
+}
+
+function getProfilePictureUrl(user: ProfilePictureUrlParams): string | null {
   if (user.profilePictureFileKey === null) {
     return null;
   }

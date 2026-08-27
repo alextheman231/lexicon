@@ -2,11 +2,12 @@ import type { BlogView } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 
-import { az } from "@alextheman/utility";
+import { az, omitProperties } from "@alextheman/utility";
 import { and, eq } from "drizzle-orm";
 import z from "zod";
 
 import { blogRevisionsTable, blogsTable, usersTable } from "src/database/schema";
+import getProfilePictureUrl from "src/services/users/views/getProfilePictureUrl";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 interface BlogViewFilter {
@@ -26,6 +27,7 @@ async function loadBlogView(
         authorId: blogsTable.authorId,
         authorUsername: usersTable.username,
         authorDisplayName: usersTable.displayName,
+        authorProfilePictureFileKey: usersTable.profilePictureFileKey,
         updatedAt: blogsTable.updatedAt,
         state: blogsTable.state,
         publishedAt: blogsTable.publishedAt,
@@ -50,7 +52,11 @@ async function loadBlogView(
   }
 
   return {
-    ...blog,
+    ...omitProperties(blog, "authorProfilePictureFileKey"),
+    authorProfilePictureUrl: getProfilePictureUrl({
+      id: blog.authorId,
+      profilePictureFileKey: blog.authorProfilePictureFileKey,
+    }),
     content: az.with(z.record(z.string(), z.any())).parse(blog.content),
   };
 }
