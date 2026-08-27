@@ -1,4 +1,4 @@
-import type { User } from "@lexicon/models";
+import type { UserProfile } from "@lexicon/models";
 
 import type { BlogCollectionFormValidatedType } from "src/resources/BlogCollections/components/BlogCollectionForm";
 
@@ -11,7 +11,7 @@ import useCreateBlogCollectionMutation from "src/resources/BlogCollections/queri
 import formatError from "src/utility/errors/formatError";
 
 interface CreateBlogCollectionProps {
-  currentUser: User;
+  currentUser: UserProfile;
 }
 
 function CreateBlogCollection({ currentUser }: CreateBlogCollectionProps) {

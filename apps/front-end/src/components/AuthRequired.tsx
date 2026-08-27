@@ -1,4 +1,4 @@
-import type { User } from "@lexicon/models";
+import type { UserProfile } from "@lexicon/models";
 import type { ReactNode } from "react";
 
 import axios from "axios";
@@ -11,7 +11,7 @@ import defaultErrorFormatters from "src/utility/errors/errorFormatters";
 
 export interface AuthRequiredProps {
   unauthorisedMessage?: string;
-  children: ReactNode | ((currentUser: User) => ReactNode);
+  children: ReactNode | ((currentUser: UserProfile) => ReactNode);
 }
 
 function AuthRequired({

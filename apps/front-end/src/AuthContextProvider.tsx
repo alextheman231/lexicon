@@ -1,6 +1,6 @@
 import type { ContextHookOptions } from "@alextheman/components";
 import type { OptionalOnCondition } from "@alextheman/utility";
-import type { User } from "@lexicon/models";
+import type { UserProfile } from "@lexicon/models";
 import type { ReactNode } from "react";
 
 import { DataError } from "@alextheman/utility/v6";
@@ -12,7 +12,7 @@ import useLogoutMutation from "src/resources/Users/queries/useLogoutMutation";
 
 export interface AuthContextValue {
   authenticate: () => void;
-  currentUser: User | null | undefined;
+  currentUser: UserProfile | null | undefined;
   currentUserLoading: boolean;
   currentUserError: unknown;
   unauthenticate: () => void;
@@ -43,7 +43,7 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
   const { mutateAsync: logout } = useLogoutMutation();
   const invalidateAuth = useQueryInvalidation("auth");
 
-  const currentUser: User | null | undefined = isPending ? undefined : user;
+  const currentUser: UserProfile | null | undefined = isPending ? undefined : user;
 
   const unauthenticate = useCallback(async () => {
     await logout();

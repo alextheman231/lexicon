@@ -1,4 +1,4 @@
-import type { User } from "@lexicon/models";
+import type { UserProfile } from "@lexicon/models";
 
 import { Page } from "@alextheman/components";
 import { FileInput } from "@alextheman/components/file";
@@ -17,7 +17,7 @@ import formatError from "src/utility/errors/formatError";
 import getDataUrlFromFile from "src/utility/getDataUrlFromFile";
 
 interface UploadProfilePictureProps {
-  currentUser: User;
+  currentUser: UserProfile;
 }
 
 function UploadProfilePicture({ currentUser }: UploadProfilePictureProps) {

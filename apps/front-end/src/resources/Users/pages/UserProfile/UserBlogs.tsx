@@ -1,4 +1,4 @@
-import type { BlogSummary, User } from "@lexicon/models";
+import type { BlogSummary, UserProfile } from "@lexicon/models";
 
 import { useIsLargeScreen } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/routing";
@@ -20,7 +20,7 @@ import BlogsTable from "src/resources/Blogs/components/BlogsTable";
 import useBlogsQuery from "src/resources/Blogs/queries/useBlogsQuery";
 
 interface UserBlogsProps {
-  user: User;
+  user: UserProfile;
 }
 
 function UserBlogs({ user }: UserBlogsProps) {

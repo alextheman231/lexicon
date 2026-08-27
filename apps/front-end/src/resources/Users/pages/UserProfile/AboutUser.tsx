@@ -1,4 +1,4 @@
-import type { User } from "@lexicon/models";
+import type { UserProfile } from "@lexicon/models";
 
 import type { LexiconQueryBoundaryObjectComponents } from "src/groups/QueryBoundary/creators/createObjectQueryBoundary";
 
@@ -8,7 +8,7 @@ import CardHeader from "@mui/material/CardHeader";
 import Divider from "@mui/material/Divider";
 
 interface AboutUserProps {
-  QueryBoundary: LexiconQueryBoundaryObjectComponents<User>;
+  QueryBoundary: LexiconQueryBoundaryObjectComponents<UserProfile>;
 }
 
 function AboutUser({ QueryBoundary }: AboutUserProps) {

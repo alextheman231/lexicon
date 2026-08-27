@@ -1,5 +1,5 @@
-import { addDaysToDate } from "@alextheman/utility";
-import { parseUser } from "@lexicon/models";
+import { addDaysToDate, omitProperties } from "@alextheman/utility";
+import { parseUserProfile } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
@@ -15,9 +15,16 @@ describe("GET /api/v1/current-user", () => {
     const user = await fixtures.authenticatedUser;
 
     const { body } = await testClient.get("/api/v1/current-user").expect(200);
-    const signedInUser = parseUser(body.user);
+    const signedInUser = parseUserProfile(body.user);
 
-    expect(signedInUser).toMatchObject(user);
+    expect(signedInUser).toMatchObject(
+      omitProperties(user, [
+        "email",
+        "dateOfBirth",
+        "profilePictureFileKey",
+        "profilePictureFileName",
+      ]),
+    );
   });
   test("If there is currently no session, return a null user", async () => {
     const { body } = await testClient.get("/api/v1/current-user").expect(200);
