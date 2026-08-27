@@ -6,14 +6,24 @@ import {
   DropdownMenuTrigger,
 } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import { useTheme } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import { MdCreate, MdError, MdLogin, MdLogout, MdManageAccounts, MdPerson } from "react-icons/md";
+import {
+  MdAccountCircle,
+  MdCreate,
+  MdError,
+  MdLogin,
+  MdLogout,
+  MdManageAccounts,
+  MdPerson,
+} from "react-icons/md";
 
 import { useAuth } from "src/AuthContextProvider";
 import createObjectQueryBoundary from "src/groups/QueryBoundary/creators/createObjectQueryBoundary";
@@ -32,13 +42,17 @@ function UserDropdown() {
   const theme = useTheme();
 
   const dropdownTrigger = (
-    <DropdownMenuTrigger aria-label="User options">
-      <QueryBoundaryUser.Data nullFallback="Options">
-        {(user) => {
-          return user.displayName ?? user.username;
-        }}
-      </QueryBoundaryUser.Data>
-    </DropdownMenuTrigger>
+    <QueryBoundaryUser.Data
+      nullFallback={<DropdownMenuTrigger data-testid="User options">Options</DropdownMenuTrigger>}
+    >
+      {(user) => {
+        return (
+          <DropdownMenuTrigger aria-label="User options" component={IconButton}>
+            <Avatar src={user.profilePictureUrl ?? ""} />
+          </DropdownMenuTrigger>
+        );
+      }}
+    </QueryBoundaryUser.Data>
   );
 
   return (
@@ -115,6 +129,12 @@ function UserDropdown() {
                     <MdPerson />
                   </ListItemIcon>
                   <Typography>View Profile</Typography>
+                </DropdownMenuItem>
+                <DropdownMenuItem component={InternalLink} to="/account/profile-picture/upload">
+                  <ListItemIcon>
+                    <MdAccountCircle />
+                  </ListItemIcon>
+                  <Typography>Upload Profile Picture</Typography>
                 </DropdownMenuItem>
                 <DropdownMenuItem component={InternalLink} to="/account/edit">
                   <ListItemIcon>

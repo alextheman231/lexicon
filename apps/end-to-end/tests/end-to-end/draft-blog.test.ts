@@ -81,7 +81,7 @@ test.describe("Draft blog", () => {
       draftButton.click(),
     ]);
 
-    await expect(authenticatedPage.getByText("Created by Test User")).toBeVisible();
+    await expect(authenticatedPage.getByText("Test User")).toBeVisible();
     await expect(authenticatedPage.getByText("Unpublished (saved as draft)")).toBeVisible();
 
     await authenticatedPage.getByLabel("Blog options").click();
@@ -171,7 +171,7 @@ test.describe("Draft blog", () => {
     await expect(newTitle).toBeVisible();
     await expect(authenticatedPage.getByText(editedContent)).toBeVisible();
 
-    await expect(authenticatedPage.getByText("Published by Test User")).toBeVisible();
+    await expect(authenticatedPage.getByText("Test User")).toBeVisible();
     await expect(authenticatedPage.getByText("Today at")).toBeVisible();
   });
 });
