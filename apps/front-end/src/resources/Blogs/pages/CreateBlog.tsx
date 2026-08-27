@@ -1,4 +1,4 @@
-import type { User } from "@lexicon/models";
+import type { UserProfile } from "@lexicon/models";
 
 import type { BlogFormSubmitData } from "src/resources/Blogs/components/BlogForm";
 
@@ -11,7 +11,7 @@ import useCreateBlogMutation from "src/resources/Blogs/queries/useCreateBlogMuta
 import formatError from "src/utility/errors/formatError";
 
 interface CreateBlogProps {
-  currentUser: User;
+  currentUser: UserProfile;
 }
 
 function CreateBlog({ currentUser }: CreateBlogProps) {

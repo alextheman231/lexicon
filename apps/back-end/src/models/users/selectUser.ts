@@ -17,7 +17,7 @@ interface SelectUserFilterEmail {
   userId?: never;
 }
 
-type SelectUserFilter = SelectUserFilterUserId | SelectUserFilterEmail;
+export type SelectUserFilter = SelectUserFilterUserId | SelectUserFilterEmail;
 
 async function selectUser(connection: Connection, filters: SelectUserFilter): Promise<User | null> {
   const user = fetchSole(

@@ -1,4 +1,4 @@
-import { parseUser } from "@lexicon/models";
+import { parseUserProfile } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
 import TestFixtures from "tests/fixtures";
@@ -20,7 +20,7 @@ describe("PUT /api/v1/current-user/profile", () => {
 
     const { body } = await testClient.get("/api/v1/current-user").expect(200);
 
-    const currentUser = parseUser(body.user);
+    const currentUser = parseUserProfile(body.user);
 
     expect(currentUser.username).toBe("alex_man");
     expect(currentUser.displayName).toBe("Alex Man");

@@ -1,4 +1,4 @@
-import type { User, UserProfileFormOutputData } from "@lexicon/models";
+import type { UserProfile, UserProfileFormOutputData } from "@lexicon/models";
 
 import { userProfileFormSchema } from "@lexicon/models";
 import Box from "@mui/material/Box";
@@ -8,7 +8,7 @@ import Stack from "@mui/material/Stack";
 import useAppForm from "src/hooks/useAppForm";
 
 interface UserProfileFormProps {
-  user: User;
+  user: UserProfile;
   onSubmit: (data: UserProfileFormOutputData) => Promise<void>;
   back: string;
 }

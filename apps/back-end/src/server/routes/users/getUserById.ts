@@ -3,7 +3,7 @@ import type { Router } from "express";
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
-import selectUser from "src/models/users/selectUser";
+import loadUserProfile from "src/services/users/views/loadUserProfile";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
@@ -18,7 +18,7 @@ function getUserById(users: Router) {
     handleEndpointMiddleware<{ userId: string }>(async (request, response) => {
       const connection = getConnection();
 
-      const user = await selectUser(connection, request.params);
+      const user = await loadUserProfile(connection, request.params);
 
       if (user === null) {
         throw resourceNotFoundError("user", request.params.userId);

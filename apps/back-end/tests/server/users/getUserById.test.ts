@@ -1,5 +1,6 @@
+import { omitProperties } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
-import { parseUser } from "@lexicon/models";
+import { parseUserProfile } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
@@ -16,9 +17,16 @@ describe("GET /api/v1/users/<userId>", () => {
     const user = await factory.users.insert();
 
     const { body } = await testClient.get(`/api/v1/users/${user.id}`).expect(200);
-    const userPayload = parseUser(body.user);
+    const userPayload = parseUserProfile(body.user);
 
-    expect(userPayload).toMatchObject(user);
+    expect(userPayload).toMatchObject(
+      omitProperties(user, [
+        "email",
+        "dateOfBirth",
+        "profilePictureFileKey",
+        "profilePictureFileName",
+      ]),
+    );
   });
   test("Should fail with 404 if the ID is not found", async () => {
     const missingId = randomUUID();
