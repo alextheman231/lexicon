@@ -5,7 +5,7 @@ import useQueryInvalidation from "src/hooks/query/useQueryInvalidation";
 import lexiconAuthenticatedClient from "src/utility/lexiconAuthenticatedClient";
 
 function useUploadProfilePictureMutation() {
-  const invalidate = useQueryInvalidation("users");
+  const invalidate = useQueryInvalidation("auth");
 
   return useMutation({
     mutationFn: async (file: File) => {

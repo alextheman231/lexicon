@@ -31,10 +31,13 @@ function UploadProfilePicture({ currentUser }: UploadProfilePictureProps) {
   async function handleSubmit() {
     try {
       if (file === null) {
-        addSnackbar("No file chosen. Please choose a file to upload.", { severity: "info" });
-        return;
+        if (currentUser.profilePictureUrl === null) {
+          addSnackbar("No file chosen. Please choose a file to upload.", { severity: "error" });
+          return;
+        }
+      } else {
+        await upload(file);
       }
-      await upload(file);
       setLocation(`/users/${currentUser.id}`);
       addSnackbar("Profile picture uploaded", { severity: "success" });
     } catch (error) {

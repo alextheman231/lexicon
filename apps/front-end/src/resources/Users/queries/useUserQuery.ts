@@ -8,7 +8,7 @@ import queryKeys from "src/utility/query/queryKeys";
 
 function useUserQuery(userId: string) {
   return useQuery<UserProfile>({
-    queryKey: queryKeys.users(),
+    queryKey: queryKeys.users({ userId }),
     queryFn: async () => {
       const { data } = await lexiconAuthenticatedClient.get(`/api/v1/users/${userId}`);
       return parseUserProfile(data.user);
