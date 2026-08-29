@@ -39,7 +39,7 @@
     "lexical": "0.49.0"
   },
   "devDependencies": {
-    "@types/node": "26.2.0",
+    "@types/node": "26.4.0",
     "tsdown": "0.22.14"
   }
 }
