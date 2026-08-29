@@ -66,11 +66,10 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
                       <TableRow>
                         <TableCell>Revision Number</TableCell>
                         <TableCell>Revision Blog Title</TableCell>
-                        <TableCell>Revision Message</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      <QueryBoundaryRevisions.DataRowsMap columns={3}>
+                      <QueryBoundaryRevisions.DataRowsMap columns={2}>
                         {(revision) => {
                           return (
                             <TableRow>
@@ -82,7 +81,6 @@ function BlogRevisions({ blogId }: BlogRevisionsProps) {
                                 </InternalLink>
                               </TableCell>
                               <TableCell>{revision.title}</TableCell>
-                              <TableCell>{revision.revisionMessage ?? "None"}</TableCell>
                             </TableRow>
                           );
                         }}
