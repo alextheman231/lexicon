@@ -50,6 +50,21 @@ function EditBlog({ blogId }: EditBlogProps) {
     }
   }
 
+  async function onSave(data: BlogFormSubmitData) {
+    try {
+      await updateBlog({ ...data, state: BlogState.DRAFT });
+      addSnackbar("Blog saved", { severity: "success" });
+    } catch (error) {
+      addSnackbar(
+        formatError(error, {
+          ...defaultErrorFormatters,
+          FORBIDDEN_ACCESS: forbiddenMessage,
+        }),
+        { severity: "error" },
+      );
+    }
+  }
+
   return (
     <QueryBoundaryItemWrapper data={blog} isLoading={isPending} error={error}>
       {(blog) => {
@@ -64,6 +79,7 @@ function EditBlog({ blogId }: EditBlogProps) {
               defaultValues={{ title: blog.title, content: JSON.stringify(blog.content) }}
               onPublishSubmit={onPublishSubmit}
               onDraftSubmit={onDraftSubmit}
+              onSave={onSave}
               back={`/blogs/${blog.id}`}
               loading={isFormPending}
             />
