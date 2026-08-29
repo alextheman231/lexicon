@@ -13,7 +13,7 @@ function ErrorPage({ error, resetError }: Parameters<FallbackRender>[0]) {
 
   return (
     <AlexErrorPage title={DEFAULT_ERROR_MESSAGE}>
-      {message === DEFAULT_ERROR_MESSAGE ? null : message}
+      {import.meta.env.DEV && message === DEFAULT_ERROR_MESSAGE ? null : message}
       {import.meta.env.DEV && error instanceof Error && error.stack ? (
         <Debug content={error.stack} disableJsonStringify />
       ) : null}
