@@ -8,6 +8,9 @@ import defaultErrorFormatters from "src/utility/errors/errorFormatters";
 
 function resolveErrorFromCode(error: CodeError, errorFormatters: CodeErrorMap, status?: number) {
   if (error.code in errorFormatters) {
+    if (status === 429) {
+      return "You are currently being rate-limited. Please try again later.";
+    }
     const defaultMessageForCode = errorFormatters[error.code];
     if (typeof defaultMessageForCode === "function") {
       return defaultMessageForCode(error, status);
