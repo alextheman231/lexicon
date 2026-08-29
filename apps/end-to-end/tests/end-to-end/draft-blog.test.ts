@@ -67,7 +67,7 @@ test.describe("Draft blog", () => {
     await editor.click();
     await authenticatedPage.keyboard.insertText(content);
 
-    const draftButton = authenticatedPage.getByRole("button", { name: "Save as Draft" });
+    const draftButton = authenticatedPage.getByRole("button", { name: "Save and Exit" });
     await expect(draftButton).toBeEnabled();
     await Promise.all([
       authenticatedPage.waitForResponse((response) => {

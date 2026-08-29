@@ -39,11 +39,22 @@ function CreateBlog({ currentUser }: CreateBlogProps) {
     }
   }
 
+  async function onSave(data: BlogFormSubmitData) {
+    try {
+      const id = await uploadBlog({ ...data, state: BlogState.DRAFT });
+      addSnackbar("Blog saved", { severity: "success" });
+      setLocation(`/blogs/${id}/edit`);
+    } catch (error) {
+      addSnackbar(formatError(error), { severity: "error" });
+    }
+  }
+
   return (
     <BlogForm
       defaultValues={{ title: "", content: "" }}
       onPublishSubmit={onPublishSubmit}
       onDraftSubmit={onDraftSubmit}
+      onSave={onSave}
       back={`/users/${currentUser.id}`}
       loading={isPending}
     />

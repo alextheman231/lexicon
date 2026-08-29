@@ -7,6 +7,7 @@ import { BlogState } from "@lexicon/models";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import { useSelector } from "@tanstack/react-store";
 import { useState } from "react";
@@ -26,17 +27,26 @@ export type BlogFormSubmitData = BlogFormValidatedType & { content: SerializedEd
 
 interface BlogFormMeta {
   blogState: BlogState;
+  exit: boolean;
 }
 
 interface BlogFormProps {
   defaultValues: BlogFormType & { content: SerializedEditorState | string };
   onPublishSubmit: (data: BlogFormSubmitData) => void | Promise<void>;
   onDraftSubmit: (data: BlogFormSubmitData) => void | Promise<void>;
+  onSave: (data: BlogFormSubmitData) => void | Promise<void>;
   back: string;
   loading?: boolean;
 }
 
-function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading }: BlogFormProps) {
+function BlogForm({
+  back,
+  defaultValues,
+  onPublishSubmit,
+  onDraftSubmit,
+  onSave,
+  loading,
+}: BlogFormProps) {
   const [editorState, setEditorState] = useState<SerializedEditorState | undefined>(
     typeof defaultValues.content === "string" && defaultValues.content !== ""
       ? JSON.parse(defaultValues.content)
@@ -46,7 +56,7 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
   );
   const { addSnackbar } = useSnackbarContext();
 
-  const onSubmitMeta: BlogFormMeta = { blogState: BlogState.PUBLISHED };
+  const onSubmitMeta: BlogFormMeta = { blogState: BlogState.PUBLISHED, exit: true };
 
   const form = useAppForm({
     defaultValues: { title: defaultValues.title },
@@ -66,10 +76,14 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
           break;
         }
         case BlogState.DRAFT: {
-          await onDraftSubmit({
-            ...blogCreationSchema.parse(value),
-            content: editorState,
-          });
+          if (meta.exit) {
+            await onDraftSubmit({
+              ...blogCreationSchema.parse(value),
+              content: editorState,
+            });
+          } else {
+            await onSave({ ...blogCreationSchema.parse(value), content: editorState });
+          }
           break;
         }
         case BlogState.ARCHIVED: {
@@ -114,23 +128,40 @@ function BlogForm({ back, defaultValues, onPublishSubmit, onDraftSubmit, loading
         <CardActions>
           <Stack direction="row" spacing={2}>
             <form.AppForm>
-              <form.BackButton to={back} />
-              <form.SubmitButton
-                loading={loading}
-                disabled={title === "" || editorState === undefined}
-                label="Save as Draft"
-                variant="outlined"
-                onClick={() => {
-                  form.handleSubmit({ blogState: BlogState.DRAFT });
-                }}
-              />
-              <form.SubmitButton
-                loading={loading}
-                disabled={title === "" || editorState === undefined}
-                onClick={() => {
-                  form.handleSubmit({ blogState: BlogState.PUBLISHED });
-                }}
-              />
+              <Grid container spacing={2}>
+                <Grid>
+                  <form.BackButton to={back} />
+                </Grid>
+                <Grid>
+                  <form.SubmitButton
+                    loading={loading}
+                    disabled={title === "" || editorState === undefined}
+                    label="Save"
+                    variant="outlined"
+                    onClick={() => {
+                      form.handleSubmit({ blogState: BlogState.DRAFT, exit: false });
+                    }}
+                  />
+                  <form.SubmitButton
+                    loading={loading}
+                    disabled={title === "" || editorState === undefined}
+                    label="Save and Exit"
+                    variant="outlined"
+                    onClick={() => {
+                      form.handleSubmit({ blogState: BlogState.DRAFT, exit: true });
+                    }}
+                  />
+                </Grid>
+                <Grid>
+                  <form.SubmitButton
+                    loading={loading}
+                    disabled={title === "" || editorState === undefined}
+                    onClick={() => {
+                      form.handleSubmit({ blogState: BlogState.PUBLISHED, exit: true });
+                    }}
+                  />
+                </Grid>
+              </Grid>
             </form.AppForm>
           </Stack>
         </CardActions>
