@@ -13,6 +13,7 @@ jobs:
     uses: alextheman231/github-actions/.github/workflows/audit-javascript-dependencies.yml@bba094b0c09dda59228db6437a5231ba0538d09a # v12.7.0
     with:
       pull-request-number: ${{ github.event.pull_request.number }}
+      node-version: 26
       APP_ID: ${{ vars.ALEX_UP_BOT_APP_ID }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.ALEX_UP_BOT_PRIVATE_KEY }}
