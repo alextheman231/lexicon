@@ -2,7 +2,8 @@ FROM ghcr.io/pnpm/pnpm:latest
 RUN ["pnpm", "runtime", "set", "node", "26", "-g"]
 
 ARG GITHUB_SHA=unknown
-ENV GITHUB_SHA=$GITHUB_SHA
+ENV GITHUB_SHA=${GITHUB_SHA}
+ENV VITE_SENTRY_RELEASE=${GITHUB_SHA}
 
 WORKDIR /app
 
