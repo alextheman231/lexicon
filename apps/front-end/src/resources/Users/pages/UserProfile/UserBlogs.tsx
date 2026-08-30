@@ -78,6 +78,7 @@ function UserBlogs({ user }: UserBlogsProps) {
           PaginationGroup={PaginationGroup}
           QueryBoundary={QueryBoundary}
           totalRecordCount={totalRecordCount}
+          dateColumn={BlogState.DRAFT ? "updatedAt" : "publishedAt"}
         />
       ) : (
         <BlogsList
@@ -85,6 +86,7 @@ function UserBlogs({ user }: UserBlogsProps) {
           PaginationGroup={PaginationGroup}
           QueryBoundary={QueryBoundary}
           totalRecordCount={totalRecordCount}
+          dateColumn={BlogState.DRAFT ? "updatedAt" : "publishedAt"}
         />
       )}
     </Stack>

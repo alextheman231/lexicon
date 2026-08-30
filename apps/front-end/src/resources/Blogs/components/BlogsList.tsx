@@ -21,6 +21,7 @@ interface BlogsListProps {
   QueryBoundary: LexiconQueryBoundaryComponentsList<BlogSummary>;
   totalRecordCount?: number;
   includeAuthor?: boolean;
+  dateColumn?: "publishedAt" | "updatedAt";
   cardContent?: ReactNode;
 }
 
@@ -29,6 +30,7 @@ function BlogsList({
   QueryBoundary,
   totalRecordCount,
   includeAuthor,
+  dateColumn = "publishedAt",
   cardContent,
 }: BlogsListProps) {
   return (
@@ -55,8 +57,11 @@ function BlogsList({
                     </Typography>
                   ) : null}
                   <Typography variant="subtitle2">
-                    Published:{" "}
-                    {blog.publishedAt ? formatDateAndTime(blog.publishedAt) : "Not published yet"}
+                    {dateColumn === "publishedAt"
+                      ? blog.publishedAt
+                        ? formatDateAndTime(blog.publishedAt)
+                        : "Not published yet"
+                      : formatDateAndTime(blog.updatedAt)}
                   </Typography>
                 </CardContent>
               </Card>
