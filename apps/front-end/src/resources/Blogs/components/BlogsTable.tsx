@@ -25,6 +25,7 @@ interface BlogsTableProps {
   QueryBoundary: LexiconQueryBoundaryComponentsList<BlogSummary>;
   totalRecordCount?: number;
   includeAuthor?: boolean;
+  dateColumn?: "publishedAt" | "updatedAt";
   cardContent?: ReactNode;
 }
 
@@ -33,6 +34,7 @@ function BlogsTable({
   QueryBoundary,
   totalRecordCount,
   includeAuthor,
+  dateColumn = "publishedAt",
   cardContent,
 }: BlogsTableProps) {
   return (
@@ -54,8 +56,8 @@ function BlogsTable({
               </TableCell>
               {includeAuthor ? <TableCell>Author</TableCell> : null}
               <TableCell>
-                <PaginationGroup.TableSortLabel columnName="publishedAt">
-                  Published at
+                <PaginationGroup.TableSortLabel columnName={dateColumn}>
+                  {dateColumn === "publishedAt" ? "Published at" : "Updated at"}
                 </PaginationGroup.TableSortLabel>
               </TableCell>
               <TableCell>Actions</TableCell>
@@ -80,7 +82,11 @@ function BlogsTable({
                       </TableCell>
                     ) : null}
                     <TableCell>
-                      {blog.publishedAt ? formatDateAndTime(blog.publishedAt) : "Not published yet"}
+                      {dateColumn === "publishedAt"
+                        ? blog.publishedAt
+                          ? formatDateAndTime(blog.publishedAt)
+                          : "Not published yet"
+                        : formatDateAndTime(blog.updatedAt)}
                     </TableCell>
                     <TableCell>
                       <BlogDropdown blog={blog} />
