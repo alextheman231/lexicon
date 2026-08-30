@@ -20,11 +20,15 @@ function ContentEditable(props?: ContentEditableProps) {
           minHeight: 150,
           typography: "body1",
           padding: 1,
+          width: "100%",
+          maxWidth: "100%",
           minWidth: 0,
+          boxSizing: "border-box",
           whiteSpace: "pre-wrap",
+          overflowWrap: "anywhere",
           wordBreak: "break-word",
-          overflowWrap: "break-word",
           overflowY: "auto",
+          overflowX: "hidden",
           maxHeight: 550,
         }}
         {...props}
