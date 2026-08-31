@@ -11,6 +11,7 @@ import { InternalLink } from "@alextheman/components/routing";
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
 import AddToCollectionDropdownMenuItem from "src/resources/BlogCollections/components/AddToCollectionDropdownMenuItem";
+import ArchiveBlogDropdownMenuItem from "src/resources/Blogs/components/ArchiveBlogDropdownMenuItem";
 
 interface BlogDropdownProps {
   blog: Blog | BlogView | BlogSummary;
@@ -36,6 +37,7 @@ function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
             <DropdownMenuItem component={InternalLink} to={`/blogs/${blog.id}/edit`}>
               Edit
             </DropdownMenuItem>
+            <ArchiveBlogDropdownMenuItem blogId={blog.id} />
           </>
         ) : null}
         <AddToCollectionDropdownMenuItem blogId={blog.id} />
