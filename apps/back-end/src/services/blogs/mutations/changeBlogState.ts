@@ -5,7 +5,7 @@ import type { BlogEndpointIds } from "src/services/blogs/helpers/BlogEndpointIds
 
 import { assertNotNull } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
-import { BlogState, parseBlog } from "@lexicon/models";
+import { BlogState } from "@lexicon/models";
 
 import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
 import selectBlog from "src/models/blogs/selectBlog";
@@ -24,7 +24,8 @@ async function changeBlogState(
   }
 
   if (currentBlog.state === newState) {
-    return parseBlog(currentBlog);
+    assertNotNull(currentBlog.currentRevisionId);
+    return { ...currentBlog, currentRevisionId: currentBlog.currentRevisionId };
   }
 
   const allowedStateTransitions: Record<BlogState, Array<BlogState>> = {
