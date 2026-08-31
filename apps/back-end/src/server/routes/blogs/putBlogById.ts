@@ -1,7 +1,7 @@
 import type { Router } from "express";
 
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
-import { APIError } from "@alextheman/utility/v6";
+import { APIError, DataError } from "@alextheman/utility/v6";
 import { parseEditBlogData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
@@ -42,7 +42,16 @@ function putBlogById(blogs: Router) {
         const ids = { blogId: request.params.blogId, editorId: request.user.id };
 
         await editBlog(transaction, ids, data);
-        await changeBlogState(transaction, ids, data.state);
+
+        try {
+          await changeBlogState(transaction, ids, data.state);
+        } catch (error) {
+          if (DataError.checkWithCode(error, "INVALID_STATE_TRANSITION")) {
+            throw new APIError(400, error.code, error.message, error.data);
+          } else {
+            throw error;
+          }
+        }
 
         response.status(200).send({});
       });

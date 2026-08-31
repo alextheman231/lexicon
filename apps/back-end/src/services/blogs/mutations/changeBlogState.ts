@@ -4,6 +4,7 @@ import type { Connection } from "src/database/connection";
 import type { BlogEndpointIds } from "src/services/blogs/helpers/BlogEndpointIds";
 
 import { assertNotNull } from "@alextheman/utility";
+import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlog } from "@lexicon/models";
 
 import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
@@ -24,6 +25,20 @@ async function changeBlogState(
 
   if (currentBlog.state === newState) {
     return parseBlog(currentBlog);
+  }
+
+  const allowedStateTransitions: Record<BlogState, Array<BlogState>> = {
+    [BlogState.DRAFT]: [BlogState.PUBLISHED, BlogState.ARCHIVED],
+    [BlogState.PUBLISHED]: [BlogState.DRAFT, BlogState.ARCHIVED],
+    [BlogState.ARCHIVED]: [BlogState.DRAFT, BlogState.PUBLISHED],
+  };
+
+  if (!allowedStateTransitions[currentBlog.state].includes(newState)) {
+    throw new DataError(
+      { currentState: currentBlog.state, newState },
+      "INVALID_STATE_TRANSITION",
+      "The provided state transition is not allowed",
+    );
   }
 
   const blog = await updateBlog(connection, ids.blogId, {
