@@ -1,0 +1,94 @@
+name: Deploy to ECS
+
+on:
+  workflow_call:
+    inputs:
+      aws_region:
+        type: string
+        required: true
+      aws_cluster_name:
+        type: string
+        required: true
+      aws_service_name:
+        type: string
+        required: true
+      aws_role_arn:
+        type: string
+        required: true
+
+jobs:
+  deploy-ecs:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'alextheman231/lexicon' }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Login to AWS
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+        with:
+          role-to-assume: ${{ inputs.aws_role_arn }}
+          aws-region: ${{ inputs.aws_region }}
+
+      - name: Deploy to ECS
+        env:
+          AWS_REGION: ${{ inputs.aws_region }}
+          AWS_CLUSTER_NAME: ${{ inputs.aws_cluster_name }}
+          AWS_SERVICE_NAME: ${{ inputs.aws_service_name }}
+        run: aws ecs update-service --cluster "$AWS_CLUSTER_NAME" --service "$AWS_SERVICE_NAME" --region "$AWS_REGION" --force-new-deployment
+
+      - name: Wait for service to stabilise
+        env:
+          AWS_REGION: ${{ inputs.aws_region }}
+          AWS_CLUSTER_NAME: ${{ inputs.aws_cluster_name }}
+          AWS_SERVICE_NAME: ${{ inputs.aws_service_name }}
+        run: |
+          START_TIME=$(date +%s)
+
+          DEPLOYMENT_ID=$(
+            aws ecs describe-services \
+              --cluster "$AWS_CLUSTER_NAME" \
+              --services "$AWS_SERVICE_NAME" \
+              --query "services[0].deployments[?status=='PRIMARY'] | [0].id" \
+              --output text
+          )
+          echo "Primary deployment ID: $DEPLOYMENT_ID"
+
+          LAST_EVENT=""
+
+          while true; do
+            SERVICE_INFO=$(
+              aws ecs describe-services \
+                --cluster "$AWS_CLUSTER_NAME" \
+                --services "$AWS_SERVICE_NAME" \
+                --query "services[0].{
+                  rolloutState: deployments[?id=='$DEPLOYMENT_ID'] | [0].rolloutState,
+                  latestEvent: sort_by(events, &createdAt)[-1].message
+                }" \
+                --output json
+            )
+
+            ROLLOUT_STATE=$(jq -r '.rolloutState' <<<"$SERVICE_INFO")
+            LATEST_EVENT=$(jq -r '.latestEvent' <<<"$SERVICE_INFO")
+
+            ELAPSED=$(( $(date +%s) - START_TIME ))
+
+            if [[ "$LATEST_EVENT" != "$LAST_EVENT" ]]; then
+              echo "Latest event: $LATEST_EVENT (Rollout state: $ROLLOUT_STATE, ${ELAPSED}s elapsed)"
+              LAST_EVENT="$LATEST_EVENT"
+            else
+              echo "Rollout state: $ROLLOUT_STATE (${ELAPSED}s elapsed)"
+            fi
+
+            if [[ "$ROLLOUT_STATE" == "FAILED" ]]; then
+              echo "Deployment failed."
+              exit 1
+            fi
+
+            if [[ "$ROLLOUT_STATE" == "COMPLETED" ]]; then
+              echo "Service is stable."
+              break
+            fi
+
+            sleep 10
+          done
