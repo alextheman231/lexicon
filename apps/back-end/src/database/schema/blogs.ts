@@ -57,9 +57,12 @@ export const blogRevisionsTable = pgTable(
   {
     blogId: uuid("blog_id")
       .notNull()
-      .references(() => {
-        return blogsTable.id;
-      }),
+      .references(
+        () => {
+          return blogsTable.id;
+        },
+        { onDelete: "cascade" },
+      ),
     content: jsonb("content").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     editorId: uuid("editor_id")
@@ -85,9 +88,12 @@ export const blogStateHistoryTable = pgTable(
   {
     blogId: uuid("blog_id")
       .notNull()
-      .references(() => {
-        return blogsTable.id;
-      }),
+      .references(
+        () => {
+          return blogsTable.id;
+        },
+        { onDelete: "cascade" },
+      ),
     id: bigserial("id", { mode: "number" }).primaryKey(),
     revisionId: uuid("revision_id")
       .notNull()

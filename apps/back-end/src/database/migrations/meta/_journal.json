@@ -50,6 +50,13 @@
       "when": 1787180955450,
       "tag": "0006_material_landau",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1788207702417,
+      "tag": "0007_puzzling_the_fury",
+      "breakpoints": true
     }
   ]
 }
