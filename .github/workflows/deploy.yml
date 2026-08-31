@@ -175,14 +175,14 @@ jobs:
         env:
           AWS_REGION: ${{ vars.AWS_REGION }}
           AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
-          AWS_SERVICE_NAME: ${{ vars.AWS_SERVICE_NAME }}
+          AWS_SERVICE_NAME: ${{ vars.AWS_APP_SERVICE_NAME }}
         run: aws ecs update-service --cluster "$AWS_CLUSTER_NAME" --service "$AWS_SERVICE_NAME" --region "$AWS_REGION" --force-new-deployment
 
       - name: Wait for service to stabilise
         env:
           AWS_REGION: ${{ vars.AWS_REGION }}
           AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
-          AWS_SERVICE_NAME: ${{ vars.AWS_SERVICE_NAME }}
+          AWS_SERVICE_NAME: ${{ vars.AWS_APP_SERVICE_NAME }}
         run: |
           START_TIME=$(date +%s)
 
