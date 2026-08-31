@@ -1,15 +1,30 @@
 import type { UserConfig } from "tsdown";
 
-const tsdownConfig: UserConfig = {
-  entry: ["src/server/index.ts"],
-  format: ["esm"],
-  dts: true,
-  clean: true,
-  fixedExtension: false,
-  deps: {
-    neverBundle: ["@alextheman/utility", "zod"],
+const tsdownConfig: Array<UserConfig> = [
+  {
+    entry: ["src/server/index.ts"],
+    outDir: "dist/server",
+    format: ["esm"],
+    dts: true,
+    clean: true,
+    fixedExtension: false,
+    deps: {
+      neverBundle: ["@alextheman/utility", "zod"],
+    },
+    sourcemap: true,
   },
-  sourcemap: true,
-};
+  {
+    entry: ["src/workers/index.ts"],
+    outDir: "dist/workers",
+    format: ["esm"],
+    dts: true,
+    clean: true,
+    fixedExtension: false,
+    deps: {
+      neverBundle: ["@alextheman/utility", "zod"],
+    },
+    sourcemap: true,
+  },
+];
 
 export default tsdownConfig;

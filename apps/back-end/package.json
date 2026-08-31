@@ -39,13 +39,15 @@
     "reset-end-to-end-db": "dropdb --if-exists lexicon_end_to_end && createdb lexicon_end_to_end",
     "reset-test-db": "dropdb --if-exists lexicon_test && createdb lexicon_test",
     "seed-db": "tsx dev/data.ts",
-    "start": "node dist/index.js",
+    "start": "node dist/server/index.js",
     "start-docker-test-db": "docker compose -f docker-compose.test.yml up -d && cross-env NODE_ENV=test pnpm run migrate-db",
-    "start-end-to-end": "NODE_ENV=end-to-end node dist/index.js",
+    "start-end-to-end": "NODE_ENV=end-to-end node dist/server/index.js",
     "test": "vitest --run",
     "test-debug": "cross-env DEBUG=true pnpm test",
     "test-watch": "vitest",
-    "update-dependencies": "pnpm update --latest && pnpm update"
+    "update-dependencies": "pnpm update --latest && pnpm update",
+    "workers": "node dist/workers/index.js",
+    "workers-dev": "nodemon src/workers/index.ts"
   },
   "engines": {
     "node": ">=26.0.0"
@@ -83,6 +85,7 @@
     "express": "5.2.1",
     "express-rate-limit": "8.6.2",
     "multer": "2.2.0",
+    "node-cron": "4.6.0",
     "openid-client": "6.8.7",
     "pg": "8.23.0",
     "rate-limit-redis": "6.0.1",
