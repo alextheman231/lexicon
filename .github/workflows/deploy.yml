@@ -69,7 +69,7 @@ jobs:
           ignore_missing: true
           ignore_empty: true
 
-  deploy-app:
+  deploy-image:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
     permissions:
@@ -104,6 +104,20 @@ jobs:
 
           docker push "$AWS_ECR_REPOSITORY_URL:$IMAGE_TAG"
           docker push "$AWS_ECR_REPOSITORY_URL:latest"
+
+  deploy-migrations:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'alextheman231/lexicon' }}
+    permissions:
+      contents: read
+      id-token: write
+    needs: [deploy-image]
+    steps:
+      - name: Login to AWS
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Apply migrations
         id: migration
@@ -171,65 +185,26 @@ jobs:
             sleep 10
           done
 
-      - name: Deploy ECS service
-        env:
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
-          AWS_SERVICE_NAME: ${{ vars.AWS_APP_SERVICE_NAME }}
-        run: aws ecs update-service --cluster "$AWS_CLUSTER_NAME" --service "$AWS_SERVICE_NAME" --region "$AWS_REGION" --force-new-deployment
+  deploy-app:
+    needs: [deploy-migrations]
+    permissions:
+      contents: read
+      id-token: write
+    uses: ./.github/workflows/deploy-ecs.yml
+    with:
+      aws_role_arn: ${{ vars.AWS_ROLE_ARN }}
+      aws_region: ${{ vars.AWS_REGION }}
+      aws_cluster_name: ${{ vars.AWS_CLUSTER_NAME }}
+      aws_service_name: ${{ vars.AWS_APP_SERVICE_NAME }}
 
-      - name: Wait for service to stabilise
-        env:
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
-          AWS_SERVICE_NAME: ${{ vars.AWS_APP_SERVICE_NAME }}
-        run: |
-          START_TIME=$(date +%s)
-
-          DEPLOYMENT_ID=$(
-            aws ecs describe-services \
-              --cluster "$AWS_CLUSTER_NAME" \
-              --services "$AWS_SERVICE_NAME" \
-              --query "services[0].deployments[?status=='PRIMARY'] | [0].id" \
-              --output text
-          )
-          echo "Primary deployment ID: $DEPLOYMENT_ID"
-
-          LAST_EVENT=""
-
-          while true; do
-            SERVICE_INFO=$(
-              aws ecs describe-services \
-                --cluster "$AWS_CLUSTER_NAME" \
-                --services "$AWS_SERVICE_NAME" \
-                --query "services[0].{
-                  rolloutState: deployments[?id=='$DEPLOYMENT_ID'] | [0].rolloutState,
-                  latestEvent: sort_by(events, &createdAt)[-1].message
-                }" \
-                --output json
-            )
-
-            ROLLOUT_STATE=$(jq -r '.rolloutState' <<<"$SERVICE_INFO")
-            LATEST_EVENT=$(jq -r '.latestEvent' <<<"$SERVICE_INFO")
-
-            ELAPSED=$(( $(date +%s) - START_TIME ))
-
-            if [[ "$LATEST_EVENT" != "$LAST_EVENT" ]]; then
-              echo "Latest event: $LATEST_EVENT (Rollout state: $ROLLOUT_STATE, ${ELAPSED}s elapsed)"
-              LAST_EVENT="$LATEST_EVENT"
-            else
-              echo "Rollout state: $ROLLOUT_STATE (${ELAPSED}s elapsed)"
-            fi
-
-            if [[ "$ROLLOUT_STATE" == "FAILED" ]]; then
-              echo "Deployment failed."
-              exit 1
-            fi
-
-            if [[ "$ROLLOUT_STATE" == "COMPLETED" ]]; then
-              echo "Service is stable."
-              break
-            fi
-
-            sleep 10
-          done
+  deploy-workers:
+    needs: [deploy-migrations]
+    permissions:
+      contents: read
+      id-token: write
+    uses: ./.github/workflows/deploy-ecs.yml
+    with:
+      aws_role_arn: ${{ vars.AWS_ROLE_ARN }}
+      aws_region: ${{ vars.AWS_REGION }}
+      aws_cluster_name: ${{ vars.AWS_CLUSTER_NAME }}
+      aws_service_name: ${{ vars.AWS_WORKERS_SERVICE_NAME }}
