@@ -45,7 +45,15 @@ function ArchiveBlogDialog({
       <DialogContent>
         <QueryBoundaryBlog.Data>
           {(blog) => {
-            return <Typography>Are you sure you want to archive "{blog.title}"?</Typography>;
+            return (
+              <>
+                <Typography>
+                  Are you sure you want to archive "{blog.title}"?
+                </Typography>
+                <Typography>
+                  It will be archived for 30 days, after which it will be properly deleted.
+                </Typography>
+              </>
           }}
         </QueryBoundaryBlog.Data>
       </DialogContent>
