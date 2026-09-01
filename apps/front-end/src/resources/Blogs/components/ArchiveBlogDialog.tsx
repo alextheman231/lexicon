@@ -54,6 +54,7 @@ function ArchiveBlogDialog({
                   It will be archived for 30 days, after which it will be properly deleted.
                 </Typography>
               </>
+             )
           }}
         </QueryBoundaryBlog.Data>
       </DialogContent>
