@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
@@ -46,12 +47,12 @@ function ArchiveBlogDialog({
         <QueryBoundaryBlog.Data>
           {(blog) => {
             return (
-              <>
+              <Stack spacing={2}>
                 <Typography>Are you sure you want to archive "{blog.title}"?</Typography>
                 <Typography>
                   It will be archived for 30 days, after which it will be properly deleted.
                 </Typography>
-              </>
+              </Stack>
             );
           }}
         </QueryBoundaryBlog.Data>
