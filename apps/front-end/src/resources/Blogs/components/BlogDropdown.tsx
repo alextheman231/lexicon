@@ -7,12 +7,15 @@ import {
   DropdownMenuProvider,
 } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
+import { useSnackbarContext } from "@alextheman/components/snackbar";
 import { BlogState } from "@lexicon/models";
 
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
 import AddToCollectionDropdownMenuItem from "src/resources/BlogCollections/components/AddToCollectionDropdownMenuItem";
 import ArchiveBlogDropdownMenuItem from "src/resources/Blogs/components/ArchiveBlogDropdownMenuItem";
+import useEditBlogStateMutation from "src/resources/Blogs/queries/useEditBlogStateMutation";
+import formatError from "src/utility/errors/formatError";
 
 interface BlogDropdownProps {
   blog: Blog | BlogView | BlogSummary;
@@ -24,6 +27,17 @@ interface BlogDropdownProps {
 
 function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
   const { currentUser } = useAuth();
+  const { mutateAsync: changeBlogState } = useEditBlogStateMutation(blog.id);
+  const { addSnackbar } = useSnackbarContext();
+
+  async function handleUnarchive(state: Exclude<BlogState, "archived">) {
+    try {
+      await changeBlogState({ state });
+      addSnackbar("Blog restored successfully.", { severity: "success" });
+    } catch (error) {
+      addSnackbar(formatError(error), { severity: "error" });
+    }
+  }
 
   return (
     <DropdownMenuProvider>
@@ -45,7 +59,24 @@ function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
         ) : null}
         {blog.state !== BlogState.ARCHIVED ? (
           <AddToCollectionDropdownMenuItem blogId={blog.id} />
-        ) : null}
+        ) : (
+          <>
+            <DropdownMenuItem
+              onClick={async () => {
+                await handleUnarchive(BlogState.DRAFT);
+              }}
+            >
+              Unarchive as Draft
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                await handleUnarchive(BlogState.PUBLISHED);
+              }}
+            >
+              Unarchive and Publish
+            </DropdownMenuItem>
+          </>
+        )}
         {extraItems && extraItems.insertLocation === "bottom" ? extraItems.items : null}
       </DropdownMenu>
     </DropdownMenuProvider>
