@@ -43,7 +43,9 @@ function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
             ) : null}
           </>
         ) : null}
-        <AddToCollectionDropdownMenuItem blogId={blog.id} />
+        {blog.state !== BlogState.ARCHIVED ? (
+          <AddToCollectionDropdownMenuItem blogId={blog.id} />
+        ) : null}
         {extraItems && extraItems.insertLocation === "bottom" ? extraItems.items : null}
       </DropdownMenu>
     </DropdownMenuProvider>

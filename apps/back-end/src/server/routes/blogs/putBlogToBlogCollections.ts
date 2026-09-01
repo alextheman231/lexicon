@@ -1,6 +1,9 @@
 import type { Router } from "express";
 
+import type { ResourceNotFoundErrorPayload } from "src/utility/errors/resourceNotFoundError";
+
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
+import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parsePutBlogToBlogCollectionsData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
@@ -8,6 +11,7 @@ import selectBlogCollections from "src/models/blogCollections/selectBlogCollecti
 import selectBlog from "src/models/blogs/selectBlog";
 import setBlogCollectionsForBlog from "src/services/blogCollections/mutations/transaction/setBlogCollectionsForBlog";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
+import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -36,8 +40,16 @@ function putBlogToBlogCollections(blogs: Router) {
           }
         }
 
-        await setBlogCollectionsForBlog(transaction, request.params.blogId, blogCollectionIds);
-        response.status(200).send({});
+        try {
+          await setBlogCollectionsForBlog(transaction, request.params.blogId, blogCollectionIds);
+          response.status(200).send({});
+        } catch (error) {
+          if (DataError.checkWithCode<ResourceNotFoundErrorPayload>(error, "RESOURCE_NOT_FOUND")) {
+            throw resourceNotFoundError(error.data.resourceType, error.data.resourceId);
+          } else {
+            throw error;
+          }
+        }
       });
     }),
   );
