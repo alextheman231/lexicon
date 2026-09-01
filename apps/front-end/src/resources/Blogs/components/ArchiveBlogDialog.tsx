@@ -1,4 +1,3 @@
-import type { BlogView } from "@lexicon/models";
 import type { DialogProps } from "@mui/material/Dialog";
 
 import { createObjectQueryBoundary } from "@alextheman/components/QueryBoundary";
@@ -15,7 +14,7 @@ import useBlogQuery from "src/resources/Blogs/queries/useBlogQuery";
 
 interface ArchiveBlogDialog extends Omit<DialogProps, "onClose" | "onSubmit"> {
   onClose: () => void | Promise<void>;
-  onSubmit: (data: BlogView) => void | Promise<void>;
+  onSubmit: () => void | Promise<void>;
   blogId: string;
   disabled?: boolean;
 }
@@ -59,26 +58,12 @@ function ArchiveBlogDialog({
       </DialogContent>
       <Divider />
       <DialogActions>
-        <QueryBoundaryBlog.Data>
-          {(blog) => {
-            return (
-              <>
-                <Button onClick={onClose} disabled={disabled}>
-                  No
-                </Button>
-                <Button
-                  onClick={async () => {
-                    await onSubmit(blog);
-                  }}
-                  variant="contained"
-                  disabled={disabled}
-                >
-                  Yes
-                </Button>
-              </>
-            );
-          }}
-        </QueryBoundaryBlog.Data>
+        <Button onClick={onClose} disabled={disabled}>
+          No
+        </Button>
+        <Button onClick={onSubmit} variant="contained" disabled={disabled}>
+          Yes
+        </Button>
       </DialogActions>
     </Dialog>
   );

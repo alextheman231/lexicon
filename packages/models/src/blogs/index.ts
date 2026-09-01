@@ -9,6 +9,7 @@ export { parseBlogSummary, parseBlogSummaries } from "src/blogs/BlogSummary";
 export { parseBlogView } from "src/blogs/BlogView";
 export { parseCreateBlogData } from "src/blogs/CreateBlogData";
 export { parseEditBlogData } from "src/blogs/EditBlogData";
+export { parseEditBlogStateData, editBlogStateDataSchema } from "src/blogs/EditBlogStateData";
 export {
   parsePutBlogToBlogCollectionsData,
   putBlogToBlogCollectionsSchema,
@@ -27,4 +28,5 @@ export type { BlogSummary } from "src/blogs/BlogSummary";
 export type { BlogView } from "src/blogs/BlogView";
 export type { CreateBlogData } from "src/blogs/CreateBlogData";
 export type { EditBlogData } from "src/blogs/EditBlogData";
+export type { EditBlogStateData } from "src/blogs/EditBlogStateData";
 export type { PutBlogToBlogCollectionsData } from "src/blogs/PutBlogToBlogCollectionsData";

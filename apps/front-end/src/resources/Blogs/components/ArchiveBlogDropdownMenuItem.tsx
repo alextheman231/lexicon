@@ -1,5 +1,4 @@
 import type { DropdownMenuItemProps } from "@alextheman/components/DropdownMenu";
-import type { BlogView } from "@lexicon/models";
 
 import { DropdownMenuItem, useDropdownMenuContext } from "@alextheman/components/DropdownMenu";
 import { useSnackbarContext } from "@alextheman/components/snackbar";
@@ -7,7 +6,7 @@ import { BlogState } from "@lexicon/models";
 import { useState } from "react";
 
 import ArchiveBlogDialog from "src/resources/Blogs/components/ArchiveBlogDialog";
-import useEditBlogMutation from "src/resources/Blogs/queries/useEditBlogMutation";
+import useEditBlogStateMutation from "src/resources/Blogs/queries/useEditBlogStateMutation";
 import formatError from "src/utility/errors/formatError";
 
 interface ArchiveBlogDropdownMenuItemProps extends Omit<DropdownMenuItemProps, "onClick"> {
@@ -16,15 +15,13 @@ interface ArchiveBlogDropdownMenuItemProps extends Omit<DropdownMenuItemProps, "
 
 function ArchiveBlogDropdownMenuItem({ blogId, ...props }: ArchiveBlogDropdownMenuItemProps) {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { mutateAsync: updateBlog, isPending } = useEditBlogMutation(blogId);
+  const { mutateAsync: updateBlog, isPending } = useEditBlogStateMutation(blogId);
   const { addSnackbar } = useSnackbarContext();
   const { closeMenu } = useDropdownMenuContext();
 
-  async function handleArchive(blog: BlogView) {
+  async function handleArchive() {
     try {
       await updateBlog({
-        title: blog.title,
-        content: blog.content,
         state: BlogState.ARCHIVED,
       });
       addSnackbar("Blog archived", { severity: "success" });
