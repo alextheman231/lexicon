@@ -7,6 +7,7 @@ import {
   DropdownMenuProvider,
 } from "@alextheman/components/DropdownMenu";
 import { InternalLink } from "@alextheman/components/routing";
+import { BlogState } from "@lexicon/models";
 
 import { useAuth } from "src/AuthContextProvider";
 import DropdownMenuIconButton from "src/components/DropdownIconButton";
@@ -37,7 +38,9 @@ function BlogDropdown({ blog, extraItems }: BlogDropdownProps) {
             <DropdownMenuItem component={InternalLink} to={`/blogs/${blog.id}/edit`}>
               Edit
             </DropdownMenuItem>
-            <ArchiveBlogDropdownMenuItem blogId={blog.id} />
+            {blog.state !== BlogState.ARCHIVED ? (
+              <ArchiveBlogDropdownMenuItem blogId={blog.id} />
+            ) : null}
           </>
         ) : null}
         <AddToCollectionDropdownMenuItem blogId={blog.id} />
