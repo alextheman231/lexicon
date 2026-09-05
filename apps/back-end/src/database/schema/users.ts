@@ -11,6 +11,7 @@ export const usersTable = pgTable("users", {
   displayName: varchar("display_name", { length: 50 }),
   email: text("email").notNull().unique(),
   id: uuid("id").primaryKey().defaultRandom(),
+  passwordHash: text("password_hash"),
   profilePictureFileKey: text("profile_picture_file_key"),
   profilePictureFileName: text("profile_picture_file_name"),
   updatedAt: timestamp("updated_at", { withTimezone: true }),
