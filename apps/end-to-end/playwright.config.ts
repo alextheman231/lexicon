@@ -20,34 +20,19 @@ const playwrightConfig: PlaywrightTestConfig = {
   },
   testMatch: "**/*.test.ts",
   projects: [
-    process.env.CI
-      ? null
-      : {
-          name: "setup",
-          testMatch: "tests/setup.ts",
-        },
-    ...[
-      {
-        name: "chromium",
-        use: devices["Desktop Chrome"],
-      },
-      {
-        name: "webkit",
-        use: devices["Desktop Safari"],
-      },
-      {
-        name: "mobile-chrome",
-        use: devices["Pixel 5"],
-      },
-    ].map(({ name, use }) => {
-      if (process.env.CI) {
-        return { name, use };
-      }
-      return { name, use, dependencies: ["setup"] };
-    }),
-  ].filter((item) => {
-    return item !== null;
-  }),
+    {
+      name: "chromium",
+      use: devices["Desktop Chrome"],
+    },
+    {
+      name: "webkit",
+      use: devices["Desktop Safari"],
+    },
+    {
+      name: "mobile-chrome",
+      use: devices["Pixel 5"],
+    },
+  ],
   webServer: [
     {
       command: "pnpm run start-end-to-end",
