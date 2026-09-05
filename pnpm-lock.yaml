@@ -279,6 +279,9 @@ importers:
       playwright:
         specifier: 1.62.1
         version: 1.62.1
+      tsx:
+        specifier: 4.23.13
+        version: 4.23.13
 
   apps/front-end:
     dependencies:
