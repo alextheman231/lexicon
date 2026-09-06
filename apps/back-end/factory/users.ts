@@ -23,7 +23,7 @@ class UserFactory {
   }
 
   public async insert(data: UserFactoryData = {}): Promise<User> {
-    const userTemplate: CreateUserData & { id?: string | undefined } = {
+    const userTemplate: CreateUserData & { id?: string | undefined; state: UserState } = {
       username: faker.internet.username(),
       displayName: faker.internet.displayName(),
       description: faker.lorem.paragraph(),
