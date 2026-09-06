@@ -101,7 +101,7 @@ jobs:
         run: |
           docker build \
             --build-arg GITHUB_SHA="$IMAGE_TAG" \
-            --build-arg FRONT_END_SENTRY_DSN="$FRONT_END_SENTRY_DSN"
+            --build-arg FRONT_END_SENTRY_DSN="$FRONT_END_SENTRY_DSN" \
             -t "$AWS_ECR_REPOSITORY_URL:$IMAGE_TAG" \
             -t "$AWS_ECR_REPOSITORY_URL:latest" \
             .
