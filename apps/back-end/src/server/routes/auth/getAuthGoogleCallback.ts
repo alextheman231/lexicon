@@ -9,12 +9,12 @@ import { randomBytes } from "node:crypto";
 
 import { loadGoogleConfig } from "src/auth/google";
 import { getConnection } from "src/database/connection";
+import { insertUser } from "src/models/users/insertUser";
 import selectUser from "src/models/users/selectUser";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
 import loadCookies from "src/server/routes/auth/helpers/loadCookies";
 import createUserAuthProvider from "src/services/auth/createUserAuthProvider";
 import findGoogleAuthUser from "src/services/auth/findGoogleAuthUser";
-import createUser from "src/services/users/createUser";
 import createUserSession from "src/services/userSessions/createUserSession";
 import loadEnvironment from "src/utility/env/loadEnvironment";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
@@ -78,7 +78,7 @@ function getAuthGoogleCallback(auth: Router) {
         const [baseUsername] = claims.email.toString().split("@");
         const username = `${baseUsername}_${randomBytes(3).toString("hex")}`;
 
-        const user = await createUser(transaction, {
+        const user = await insertUser(transaction, {
           email: claims.email.toString(),
           username,
           displayName: claims.name?.toString() ?? username,
