@@ -5,9 +5,6 @@ ARG GITHUB_SHA=unknown
 ENV GITHUB_SHA=${GITHUB_SHA}
 ENV VITE_SENTRY_RELEASE=${GITHUB_SHA}
 
-ARG FRONT_END_SENTRY_DSN=unknown
-ENV VITE_SENTRY_DSN=${FRONT_END_SENTRY_DSN}
-
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.json ./
