@@ -17,6 +17,7 @@ COPY packages ./packages
 RUN ["curl", "-fsSL", "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem", "-o", "apps/back-end/aws-rds-global-bundle.pem"]
 
 RUN ["pnpm", "install", "--frozen-lockfile"]
+RUN ["pnpm", "run", "build-packages"]
 
 EXPOSE 8080
 
