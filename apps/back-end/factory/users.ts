@@ -41,7 +41,7 @@ class UserFactory {
       }
     }
 
-    const userTemplate: CreateUserData & { id?: string | undefined } = {
+    const userTemplate: CreateUserData & { id?: string | undefined; state: UserState } = {
       username,
       displayName: faker.internet.displayName(),
       description: faker.lorem.paragraph(),

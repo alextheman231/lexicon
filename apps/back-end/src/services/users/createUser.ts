@@ -1,4 +1,4 @@
-import type { CreateUserData, User } from "@lexicon/models";
+import type { CreateUserData, User, UserState } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 
@@ -10,7 +10,7 @@ import insertUserStateHistory from "src/models/users/insertUserStateHistory";
 
 async function createUser(
   connection: Connection,
-  data: Omit<CreateUserData, "dateOfBirth"> & { dateOfBirth?: Date },
+  data: Omit<CreateUserData, "dateOfBirth"> & { dateOfBirth?: Date; state: UserState },
 ): Promise<User> {
   const user = await insertUser(connection, {
     ...data,
