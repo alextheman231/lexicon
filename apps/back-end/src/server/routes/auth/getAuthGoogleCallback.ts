@@ -82,6 +82,8 @@ function getAuthGoogleCallback(auth: Router) {
           email: claims.email.toString(),
           username,
           displayName: claims.name?.toString() ?? username,
+          description: null,
+          dateOfBirth: null,
         });
 
         await createUserAuthProvider(transaction, {

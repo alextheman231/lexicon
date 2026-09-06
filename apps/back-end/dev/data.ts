@@ -16,6 +16,7 @@ import { getConnection } from "src/database/connection";
     for (const user of usersFixtures) {
       const createdUser = await factory.users.insertStrict({
         ...omitProperties(user, "authProviders"),
+        dateOfBirth: user.dateOfBirth.toISOString(),
       });
       for (const authProvider of user.authProviders) {
         await factory.authProviders.insertStrict({
