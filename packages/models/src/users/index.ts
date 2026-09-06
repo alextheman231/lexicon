@@ -4,6 +4,12 @@ export { userProfileSchema, parseUserProfile } from "src/users/UserProfile";
 export { userProfileFormSchema } from "src/users/UserProfileForm";
 export { parseUserProfileInsertData } from "src/users/UserProfileInsertData";
 export { parseUserProfileUpdateData } from "src/users/UserProfileUpdateData";
+export { UserState } from "src/users/UserState";
+export {
+  userStateHistorySchema,
+  parseUserStateHistory,
+  parseUserStateHistoryRow,
+} from "src/users/UserStateHistoryRow";
 
 export type { CreateUserData } from "src/users/CreateUserData";
 export type { User } from "src/users/User";
@@ -14,3 +20,4 @@ export type {
 } from "src/users/UserProfileForm";
 export type { UserProfileInsertData } from "src/users/UserProfileInsertData";
 export type { UserProfileUpdateData } from "src/users/UserProfileUpdateData";
+export type { UserStateHistoryRow } from "src/users/UserStateHistoryRow";
