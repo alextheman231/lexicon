@@ -1,9 +1,9 @@
-import type { Connection } from "src/database/connection";
+import type { Transaction } from "src/database/connection";
 
 class FactoryContext {
-  public connection: Connection;
+  public connection: Transaction;
 
-  public constructor(connection: Connection) {
+  public constructor(connection: Transaction) {
     this.connection = connection;
   }
 }
