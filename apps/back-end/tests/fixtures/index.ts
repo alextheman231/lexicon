@@ -1,3 +1,5 @@
+import type { Transaction } from "src/database/connection";
+
 import { memoizeAsync } from "@alextheman/utility";
 import DataFactory from "factory";
 import supertest from "supertest";
@@ -36,8 +38,8 @@ class TestFixtures {
   public get authenticatedUser() {
     return this.#authenticatedUser();
   }
-  public get connection() {
-    return getConnection();
+  public get connection(): Transaction {
+    return getConnection() as Transaction;
   }
   public get factory() {
     return this.#factory();

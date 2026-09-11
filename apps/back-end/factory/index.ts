@@ -1,4 +1,4 @@
-import type { Connection } from "src/database/connection";
+import type { Transaction } from "src/database/connection";
 
 import AuthProviderFactory from "factory/authProviders";
 import BlogCollectionItemFactory from "factory/blogCollectionItems";
@@ -36,7 +36,7 @@ class DataFactory {
     this.userSessions = new UserSessionFactory(this.context, this.users);
   }
 
-  public static create(connection: Connection): DataFactory {
+  public static create(connection: Transaction): DataFactory {
     const context = new FactoryContext(connection);
     return new DataFactory(context);
   }
