@@ -4,7 +4,7 @@ import { secondsToMs } from "@alextheman/utility";
 import { parseUser, parseUserProfileUpdateData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import editUserProfile from "src/services/users/mutations/transaction/editUserProfile";
+import editUserProfile from "src/services/users/editUserProfile";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 

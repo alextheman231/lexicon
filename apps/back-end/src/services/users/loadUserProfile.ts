@@ -6,7 +6,7 @@ import type { SelectUserFilter } from "src/models/users/selectUser";
 import { omitProperties } from "@alextheman/utility";
 
 import selectUser from "src/models/users/selectUser";
-import getProfilePictureUrl from "src/services/users/views/getProfilePictureUrl";
+import getProfilePictureUrl from "src/services/users/getProfilePictureUrl";
 
 async function loadUserProfile(
   connection: Connection,

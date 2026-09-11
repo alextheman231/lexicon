@@ -6,7 +6,7 @@ import { omitProperties } from "@alextheman/utility";
 
 import getIdFromFactoryResource from "tests/helpers/getIdFromFactoryResource";
 
-import createUserSession from "src/services/userSessions/mutations/createUserSession";
+import createUserSession from "src/services/userSessions/createUserSession";
 
 interface UserSessionRelations {
   user: string | User;

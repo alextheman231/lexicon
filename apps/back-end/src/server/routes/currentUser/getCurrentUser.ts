@@ -3,7 +3,7 @@ import type { Router } from "express";
 import { secondsToMs } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
-import loadUserProfile from "src/services/users/views/loadUserProfile";
+import loadUserProfile from "src/services/users/loadUserProfile";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 

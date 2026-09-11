@@ -1,4 +1,4 @@
-import type { Connection } from "src/database/connection";
+import type { Transaction } from "src/database/connection";
 
 import { and, eq, gt, sql } from "drizzle-orm";
 
@@ -12,7 +12,7 @@ export interface ItemFilter {
 }
 
 async function removeBlogCollectionItem(
-  connection: Connection,
+  connection: Transaction,
   blogCollectionId: string,
   itemFilter: ItemFilter,
 ): Promise<boolean> {

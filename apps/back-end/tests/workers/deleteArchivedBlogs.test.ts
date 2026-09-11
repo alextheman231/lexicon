@@ -9,7 +9,7 @@ import TestFixtures from "tests/fixtures";
 
 import { blogStateHistoryTable } from "src/database/schema";
 import selectBlog from "src/models/blogs/selectBlog";
-import changeBlogState from "src/services/blogs/mutations/changeBlogState";
+import changeBlogState from "src/services/blogs/changeBlogState";
 import deleteArchivedBlogs from "src/workers/deleteArchivedBlogs";
 
 async function editBlogStateHistory(connection: Connection, blogId: string, newDate: Date) {

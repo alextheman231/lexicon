@@ -6,7 +6,7 @@ import { omitProperties } from "@alextheman/utility";
 import { eq, inArray, sql } from "drizzle-orm";
 
 import { blogRevisionsTable, blogsTable, usersTable } from "src/database/schema";
-import getProfilePictureUrl from "src/services/users/views/getProfilePictureUrl";
+import getProfilePictureUrl from "src/services/users/getProfilePictureUrl";
 import fetchAll from "src/utility/databaseFilters/fetchAll";
 
 async function loadBlogSummaries(

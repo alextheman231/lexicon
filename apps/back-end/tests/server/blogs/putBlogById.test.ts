@@ -12,7 +12,7 @@ import { randomUUID } from "node:crypto";
 import TestFixtures from "tests/fixtures";
 
 import { blogRevisionsTable, blogStateHistoryTable } from "src/database/schema";
-import findLatestBlogVersion from "src/services/blogs/views/findLatestBlogRevision";
+import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
 
 describe("PUT /api/v1/blogs/<blogId>", () => {
   test("Updates the current blog and creates a new revision", async () => {

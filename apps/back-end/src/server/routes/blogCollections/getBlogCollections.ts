@@ -4,9 +4,9 @@ import { pickProperties, secondsToMs } from "@alextheman/utility";
 import { parseBlogCollectionsFilter } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import countBlogCollections from "src/services/blogCollections/views/countBlogCollections";
-import loadBlogCollections from "src/services/blogCollections/views/loadBlogCollections";
-import queryBlogCollectionIds from "src/services/blogCollections/views/queryBlogCollectionIds";
+import countBlogCollections from "src/services/blogCollections/countBlogCollections";
+import loadBlogCollections from "src/services/blogCollections/loadBlogCollections";
+import queryBlogCollectionIds from "src/services/blogCollections/queryBlogCollectionIds";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 

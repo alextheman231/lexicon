@@ -6,8 +6,8 @@ import { omitProperties } from "@alextheman/utility";
 import { eq } from "drizzle-orm";
 
 import { blogCollectionsTable, usersTable } from "src/database/schema";
-import countBlogCollectionItems from "src/services/blogCollections/views/countBlogCollectionItems";
-import getProfilePictureUrl from "src/services/users/views/getProfilePictureUrl";
+import countBlogCollectionItems from "src/services/blogCollections/countBlogCollectionItems";
+import getProfilePictureUrl from "src/services/users/getProfilePictureUrl";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 async function loadBlogCollectionView(

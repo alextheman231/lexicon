@@ -1,6 +1,6 @@
 import type { Blog } from "@lexicon/models";
 
-import type { Connection } from "src/database/connection";
+import type { Transaction } from "src/database/connection";
 import type { BlogEndpointIds } from "src/services/blogs/helpers/BlogEndpointIds";
 
 import { assertNotNull } from "@alextheman/utility";
@@ -12,7 +12,7 @@ import selectBlog from "src/models/blogs/selectBlog";
 import updateBlog from "src/models/blogs/updateBlog";
 
 async function changeBlogState(
-  connection: Connection,
+  connection: Transaction,
   ids: BlogEndpointIds,
   newState: BlogState,
 ): Promise<Blog | null> {

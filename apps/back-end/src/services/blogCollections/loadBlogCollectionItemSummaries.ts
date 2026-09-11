@@ -11,7 +11,7 @@ import {
   blogsTable,
   usersTable,
 } from "src/database/schema";
-import getProfilePictureUrl from "src/services/users/views/getProfilePictureUrl";
+import getProfilePictureUrl from "src/services/users/getProfilePictureUrl";
 import fetchAll from "src/utility/databaseFilters/fetchAll";
 
 async function loadBlogCollectionItemSummaries(
