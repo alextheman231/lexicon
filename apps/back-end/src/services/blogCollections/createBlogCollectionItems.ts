@@ -3,7 +3,7 @@ import type { BlogCollectionItem, CreateBlogCollectionItemData } from "@lexicon/
 import type { Connection } from "src/database/connection";
 
 import { blogCollectionItemsTable } from "src/database/schema";
-import findLatestBlogCollectionItemNumber from "src/services/blogCollections/views/findLatestBlogCollectionItemNumber";
+import findLatestBlogCollectionItemNumber from "src/services/blogCollections/findLatestBlogCollectionItemNumber";
 import fetchAll from "src/utility/databaseFilters/fetchAll";
 
 async function createBlogCollectionItems(

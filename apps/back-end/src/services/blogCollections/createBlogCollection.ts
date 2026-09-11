@@ -1,14 +1,14 @@
 import type { BlogCollection, CreateBlogCollectionData } from "@lexicon/models";
 
-import type { Connection } from "src/database/connection";
+import type { Transaction } from "src/database/connection";
 
 import { omitProperties } from "@alextheman/utility";
 
 import insertBlogCollection from "src/models/blogCollections/insertBlogCollection";
-import createBlogCollectionItems from "src/services/blogCollections/mutations/createBlogCollectionItems";
+import createBlogCollectionItems from "src/services/blogCollections/createBlogCollectionItems";
 
 async function createBlogCollection(
-  connection: Connection,
+  connection: Transaction,
   userId: string,
   data: CreateBlogCollectionData,
 ): Promise<BlogCollection> {

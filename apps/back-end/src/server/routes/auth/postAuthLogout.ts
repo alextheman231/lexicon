@@ -3,7 +3,7 @@ import type { Router } from "express";
 import { minutesToMs } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
-import expireUserSession from "src/services/userSessions/mutations/transaction/expireUserSession";
+import expireUserSession from "src/services/userSessions/expireUserSession";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 

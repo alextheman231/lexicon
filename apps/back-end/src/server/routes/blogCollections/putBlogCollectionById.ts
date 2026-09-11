@@ -6,7 +6,7 @@ import { parseEditBlogCollectionData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
-import editBlogCollection from "src/services/blogCollections/mutations/transaction/editBlogCollection";
+import editBlogCollection from "src/services/blogCollections/editBlogCollection";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";

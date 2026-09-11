@@ -9,7 +9,7 @@ import { BlogState, parsePutBlogToBlogCollectionsData } from "@lexicon/models";
 import { getConnection } from "src/database/connection";
 import selectBlogCollections from "src/models/blogCollections/selectBlogCollections";
 import selectBlog from "src/models/blogs/selectBlog";
-import setBlogCollectionsForBlog from "src/services/blogCollections/mutations/transaction/setBlogCollectionsForBlog";
+import setBlogCollectionsForBlog from "src/services/blogCollections/setBlogCollectionsForBlog";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";

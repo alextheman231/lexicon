@@ -4,7 +4,7 @@ import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
-import removeBlogCollectionItem from "src/services/blogCollections/mutations/transaction/removeBlogCollectionItem";
+import removeBlogCollectionItem from "src/services/blogCollections/removeBlogCollectionItem";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";

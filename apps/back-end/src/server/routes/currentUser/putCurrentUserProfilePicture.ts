@@ -3,7 +3,7 @@ import type { Router } from "express";
 import { APIError } from "@alextheman/utility/v6";
 
 import { getConnection } from "src/database/connection";
-import setProfilePicture from "src/services/users/mutations/transaction/setProfilePicture";
+import setProfilePicture from "src/services/users/setProfilePicture";
 import upload from "src/upload";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 

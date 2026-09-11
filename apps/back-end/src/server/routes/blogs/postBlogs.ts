@@ -5,7 +5,7 @@ import { APIError } from "@alextheman/utility/v6";
 import { BlogState, parseCreateBlogData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import createBlog from "src/services/blogs/mutations/transaction/createBlog";
+import createBlog from "src/services/blogs/createBlog";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 

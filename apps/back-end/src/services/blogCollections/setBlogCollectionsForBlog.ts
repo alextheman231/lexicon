@@ -1,15 +1,15 @@
-import type { Connection } from "src/database/connection";
+import type { Transaction } from "src/database/connection";
 
 import { DataError } from "@alextheman/utility/v6";
 import { BlogState } from "@lexicon/models";
 
 import selectBlog from "src/models/blogs/selectBlog";
-import createBlogCollectionItems from "src/services/blogCollections/mutations/createBlogCollectionItems";
-import removeBlogCollectionItem from "src/services/blogCollections/mutations/removeBlogCollectionItem";
-import queryBlogCollectionIds from "src/services/blogCollections/views/queryBlogCollectionIds";
+import createBlogCollectionItems from "src/services/blogCollections/createBlogCollectionItems";
+import queryBlogCollectionIds from "src/services/blogCollections/queryBlogCollectionIds";
+import removeBlogCollectionItem from "src/services/blogCollections/removeBlogCollectionItem";
 
 async function setBlogCollectionsForBlog(
-  connection: Connection,
+  connection: Transaction,
   blogId: string,
   desiredCollectionIds: Array<string>,
 ): Promise<void> {

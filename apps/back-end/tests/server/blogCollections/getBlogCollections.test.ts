@@ -7,7 +7,7 @@ import { describe, expect, test } from "vitest";
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
-import countBlogCollectionItems from "src/services/blogCollections/views/countBlogCollectionItems";
+import countBlogCollectionItems from "src/services/blogCollections/countBlogCollectionItems";
 
 describe("GET /api/v1/blog-collections", () => {
   test("Returns an array of all blog collections", async () => {

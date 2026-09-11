@@ -1,16 +1,16 @@
 import type { Blog, EditBlogData } from "@lexicon/models";
 
-import type { Connection } from "src/database/connection";
+import type { Transaction } from "src/database/connection";
 import type { BlogEndpointIds } from "src/services/blogs/helpers/BlogEndpointIds";
 
 import { assertNotNull } from "@alextheman/utility";
 
 import insertBlogRevision from "src/models/blogs/insertBlogRevision";
 import updateBlog from "src/models/blogs/updateBlog";
-import findLatestBlogVersion from "src/services/blogs/views/findLatestBlogRevision";
+import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
 
 async function editBlog(
-  connection: Connection,
+  connection: Transaction,
   ids: BlogEndpointIds,
   data: Omit<EditBlogData, "state">,
 ): Promise<Blog | null> {

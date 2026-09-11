@@ -1,4 +1,4 @@
-import type { Connection } from "src/database/connection";
+import type { Transaction } from "src/database/connection";
 
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 
@@ -13,7 +13,7 @@ export interface ProfilePictureData {
 }
 
 async function setProfilePicture(
-  connection: Connection,
+  connection: Transaction,
   userId: string,
   { file }: ProfilePictureData,
 ) {

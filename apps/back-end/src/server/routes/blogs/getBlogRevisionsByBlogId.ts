@@ -4,7 +4,7 @@ import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
 import selectBlog from "src/models/blogs/selectBlog";
-import loadBlogRevisions from "src/services/blogs/views/loadBlogRevisions";
+import loadBlogRevisions from "src/services/blogs/loadBlogRevisions";
 import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";

@@ -3,7 +3,7 @@ import type { Router } from "express";
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
-import loadUserProfile from "src/services/users/views/loadUserProfile";
+import loadUserProfile from "src/services/users/loadUserProfile";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";

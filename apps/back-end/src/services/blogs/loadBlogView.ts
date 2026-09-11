@@ -7,7 +7,7 @@ import { and, eq } from "drizzle-orm";
 import z from "zod";
 
 import { blogRevisionsTable, blogsTable, usersTable } from "src/database/schema";
-import getProfilePictureUrl from "src/services/users/views/getProfilePictureUrl";
+import getProfilePictureUrl from "src/services/users/getProfilePictureUrl";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 interface BlogViewFilter {
