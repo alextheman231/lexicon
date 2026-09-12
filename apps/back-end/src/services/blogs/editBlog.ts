@@ -7,14 +7,14 @@ import { assertNotNull } from "@alextheman/utility";
 
 import insertBlogRevision from "src/models/blogs/insertBlogRevision";
 import updateBlog from "src/models/blogs/updateBlog";
-import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
+import findLatestBlogVersion from "src/services/blogs/findLatestBlogVersion";
 
 async function editBlog(
   connection: Transaction,
   ids: BlogEndpointIds,
   data: Omit<EditBlogData, "state">,
 ): Promise<Blog | null> {
-  const oldVersionNumber = await findLatestBlogVersion(connection, ids.blogId);
+  const oldVersionNumber = await findLatestBlogVersion(connection, ids.blogId, { forUpdate: {} });
 
   if (oldVersionNumber === null) {
     return null;
