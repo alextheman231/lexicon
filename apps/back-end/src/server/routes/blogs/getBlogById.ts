@@ -6,7 +6,7 @@ import { blogQueryStringSchema, BlogState } from "@lexicon/models";
 import z from "zod";
 
 import { getConnection } from "src/database/connection";
-import findLatestBlogVersion from "src/services/blogs/findLatestBlogRevision";
+import findLatestBlogVersion from "src/services/blogs/findLatestBlogVersion";
 import loadBlogView from "src/services/blogs/loadBlogView";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
