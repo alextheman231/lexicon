@@ -6,9 +6,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  restrict-manual-deployment:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'alextheman231/lexicon' && github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: read
+    steps:
+      - name: Do not allow anyone other than AlexMan123456 to directly deploy manually
+        run: |
+          if [[ "$GITHUB_ACTOR" !=  "AlexMan123456" ]]; then
+            echo "Only AlexMan123456 is allowed to manually deploy."
+            exit 1
+          fi
+
   deploy-sentry:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'alextheman231/lexicon' }}
+    needs: [restrict-manual-deployment]
     permissions:
       contents: read
     env:
