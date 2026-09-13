@@ -1,6 +1,7 @@
 import type { CreateUserData } from "@lexicon/models";
 
 import { assertNotNull, az, isSameDate } from "@alextheman/utility";
+import { UserState } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 import z from "zod";
 
@@ -8,6 +9,7 @@ import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 import selectUser from "src/models/users/selectUser";
+import selectUserStateHistory from "src/models/users/selectUserStateHistory";
 
 describe("POST /api/v1/users", () => {
   test("Posts a user to the database", async () => {
@@ -34,7 +36,18 @@ describe("POST /api/v1/users", () => {
     expect(user.displayName).toBe(data.displayName);
     expect(user.description).toBe(data.description);
     expect(user.email).toBe(data.email);
+    expect(user.state).toBe(UserState.UNVERIFIED);
     assertNotNull(user.dateOfBirth);
     expect(isSameDate(new Date(user.dateOfBirth), data.dateOfBirth)).toBe(true);
+
+    const stateHistory = await selectUserStateHistory(connection, user.id);
+    expect(stateHistory.length).toBe(1);
+
+    const [historyRow] = stateHistory;
+
+    expect(historyRow.state).toBe(user.state);
+    expect(historyRow.userId).toBe(user.id);
+    expect(historyRow.updatedById).toBeNull();
+    expect(isSameDate(historyRow.updatedAt, new Date())).toBe(true);
   });
 });
