@@ -3,7 +3,7 @@ import type { Router } from "express";
 import { parseCreateUserData, UserState } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
-import createUser from "src/services/users/mutations/transaction/createUser";
+import createUser from "src/services/users/createUser";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function postUser(users: Router) {
