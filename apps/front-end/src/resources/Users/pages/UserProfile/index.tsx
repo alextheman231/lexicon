@@ -8,7 +8,7 @@ import createObjectQueryBoundary from "src/groups/QueryBoundary/creators/createO
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogCollections from "src/resources/Users/pages/UserProfile/UserBlogCollections";
 import UserBlogs from "src/resources/Users/pages/UserProfile/UserBlogs";
-import useUserQuery from "src/resources/Users/queries/useUserQuery";
+import useUserProfileQuery from "src/resources/Users/queries/useUserProfileQuery";
 import subtitleFormatter from "src/utility/valueFormatters/subtitleFormatter";
 
 interface UserProfileProps {
@@ -18,7 +18,7 @@ interface UserProfileProps {
 type TabState = "blogs" | "collections" | "about";
 
 function UserProfile({ userId }: UserProfileProps) {
-  const { data: user, isPending, error } = useUserQuery(userId);
+  const { data: user, isPending, error } = useUserProfileQuery(userId);
   const QueryBoundary = createObjectQueryBoundary({
     query: { data: user, isLoading: isPending, error },
   });

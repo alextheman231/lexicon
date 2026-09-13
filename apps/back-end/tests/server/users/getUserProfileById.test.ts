@@ -9,7 +9,7 @@ import testClient from "tests/fixtures/testClient";
 
 import DataError from "src/utility/errors/DataError";
 
-describe("GET /api/v1/users/<userId>", () => {
+describe("GET /api/v1/users/<userId>/profile", () => {
   test("Should get the user with the given ID", async () => {
     const fixtures = new TestFixtures();
 
@@ -17,7 +17,7 @@ describe("GET /api/v1/users/<userId>", () => {
 
     const user = await factory.users.insert();
 
-    const { body } = await testClient.get(`/api/v1/users/${user.id}`).expect(200);
+    const { body } = await testClient.get(`/api/v1/users/${user.id}/profile`).expect(200);
     const userPayload = parseUserProfile(body.user);
 
     expect(userPayload).toMatchObject(
@@ -32,7 +32,7 @@ describe("GET /api/v1/users/<userId>", () => {
   test("Should fail with 404 if the ID is not found", async () => {
     const missingId = randomUUID();
 
-    const { body } = await testClient.get(`/api/v1/users/${missingId}`).expect(404);
+    const { body } = await testClient.get(`/api/v1/users/${missingId}/profile`).expect(404);
 
     const error = DataError.expectError(() => {
       throw body.error;
@@ -43,11 +43,11 @@ describe("GET /api/v1/users/<userId>", () => {
     expect(error.data.resourceId).toBe(missingId);
   });
   test("Should fail with 404 if not a valid UUID", async () => {
-    const { body } = await testClient.get(`/api/v1/users/hello`).expect(404);
+    const { body } = await testClient.get(`/api/v1/users/hello/profile`).expect(404);
     const error = DataError.expectError(() => {
       throw body.error;
     });
     expect(error.code).toBe("ENDPOINT_NOT_FOUND");
-    expect(error.data.endpoint).toBe("/api/v1/users/hello");
+    expect(error.data.endpoint).toBe("/api/v1/users/hello/profile");
   });
 });

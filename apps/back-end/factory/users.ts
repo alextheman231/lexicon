@@ -7,6 +7,7 @@ import { omitProperties } from "@alextheman/utility";
 import { faker } from "@faker-js/faker";
 import { parseUser, UserState } from "@lexicon/models";
 import { eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import { usersTable } from "src/database/schema";
 import insertUser from "src/models/users/insertUser";
