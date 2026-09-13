@@ -5,13 +5,13 @@ import type { UserInsert } from "src/database/schema";
 
 import { omitProperties } from "@alextheman/utility";
 import { faker } from "@faker-js/faker";
-import { eq } from "drizzle-orm";
 import { parseUser, UserState } from "@lexicon/models";
+import { eq } from "drizzle-orm";
 
 import { usersTable } from "src/database/schema";
 import { insertUser } from "src/models/users/insertUser";
-import fetchSole from "src/utility/databaseFilters/fetchSole";
 import insertUserStateHistory from "src/models/users/insertUserStateHistory";
+import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 export type UserFactoryData = Partial<UserInsert>;
 
