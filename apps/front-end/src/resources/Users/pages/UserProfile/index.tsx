@@ -1,17 +1,9 @@
-import { Page, useHash, useIsLargeScreen } from "@alextheman/components";
-import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuProvider,
-} from "@alextheman/components/DropdownMenu";
-import { InternalLink } from "@alextheman/components/routing";
+import { Page, useHash } from "@alextheman/components";
 import { createTabGroup } from "@alextheman/components/Tab";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-import { useAuth } from "src/AuthContextProvider";
-import DropdownMenuIconButton from "src/components/DropdownIconButton";
 import createObjectQueryBoundary from "src/groups/QueryBoundary/creators/createObjectQueryBoundary";
 import AboutUser from "src/resources/Users/pages/UserProfile/AboutUser";
 import UserBlogCollections from "src/resources/Users/pages/UserProfile/UserBlogCollections";
@@ -34,9 +26,6 @@ function UserProfile({ userId }: UserProfileProps) {
   const [tab, setTab] = useHash<TabState>("blogs");
   const Tab = createTabGroup<TabState>({ tab, setTab });
 
-  const isLargeScreen = useIsLargeScreen();
-  const { currentUser, unauthenticate } = useAuth();
-
   return (
     <Page
       title={
@@ -52,33 +41,6 @@ function UserProfile({ userId }: UserProfileProps) {
         </QueryBoundary.Data>
       }
       subtitle={<QueryBoundary.Value propertyName="username" valueFormatter={subtitleFormatter} />}
-      action={
-        <QueryBoundary.Data>
-          {(user) => {
-            return (
-              <DropdownMenuProvider>
-                <DropdownMenuIconButton />
-                <DropdownMenu>
-                  <DropdownMenuItem component={InternalLink} to="/blogs/new">
-                    Create Blog
-                  </DropdownMenuItem>
-                  <DropdownMenuItem component={InternalLink} to="/blog-collections/new">
-                    Create Blog Collection
-                  </DropdownMenuItem>
-                  {user.id === currentUser?.id ? (
-                    <DropdownMenuItem component={InternalLink} to="/account/profile-picture/upload">
-                      Upload Profile Picture
-                    </DropdownMenuItem>
-                  ) : null}
-                  {!isLargeScreen && user.id === currentUser?.id ? (
-                    <DropdownMenuItem onClick={unauthenticate}>Sign out</DropdownMenuItem>
-                  ) : null}
-                </DropdownMenu>
-              </DropdownMenuProvider>
-            );
-          }}
-        </QueryBoundary.Data>
-      }
       tabs={
         <Tab.List>
           <Tab.Item label="Blogs" value="blogs" />
