@@ -5,6 +5,7 @@ import { InternalLink } from "@alextheman/components/routing";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
+import { useAuth } from "src/AuthContextProvider";
 import createPaginationGroup from "src/groups/pagination";
 import createListQueryBoundary from "src/groups/QueryBoundary/creators/createListQueryBoundary";
 import usePagination from "src/hooks/usePagination";
@@ -32,14 +33,17 @@ function UserBlogCollections({ user }: UserBlogCollectionsProps) {
     query: { data: data?.blogCollections, isLoading: isPending, error },
   });
   const isLargeScreen = useIsLargeScreen();
+  const { currentUser } = useAuth();
 
   return (
     <Stack spacing={2}>
-      <Button component={InternalLink} to="/blog-collections/new" variant="contained">
-        <Stack direction="row" spacing={4}>
-          + New Blog Collection
-        </Stack>
-      </Button>
+      {currentUser?.id === user.id ? (
+        <Button component={InternalLink} to="/blog-collections/new" variant="contained">
+          <Stack direction="row" spacing={4}>
+            + New Blog Collection
+          </Stack>
+        </Button>
+      ) : null}
       {isLargeScreen ? (
         <BlogCollectionsTable
           PaginationGroup={PaginationGroup}
