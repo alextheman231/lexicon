@@ -36,10 +36,10 @@
   "author": "alextheman",
   "license": "ISC",
   "dependencies": {
-    "lexical": "0.50.0"
+    "lexical": "0.51.0"
   },
   "devDependencies": {
-    "@types/node": "26.4.1",
+    "@types/node": "26.6.1",
     "tsdown": "0.23.0"
   }
 }
