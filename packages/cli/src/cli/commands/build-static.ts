@@ -11,11 +11,19 @@ function buildStatic(program: Command) {
   program
     .command("build-static")
     .description("Build static files and serve them from back-end")
-    .action(async () => {
-      await execa({
-        cwd: path.join(REPOSITORY_ROOT, "apps", "front-end"),
-        stdio: "inherit",
-      })`pnpm run build`;
+    .option("--no-cache-builds", "Cache the result of the builds")
+    .action(async ({ cacheBuilds }) => {
+      if (cacheBuilds) {
+        await execa({
+          cwd: REPOSITORY_ROOT,
+          stdio: "inherit",
+        })`pnpm run build --filter=front-end`;
+      } else {
+        await execa({
+          cwd: path.join(REPOSITORY_ROOT, "apps", "front-end"),
+          stdio: "inherit",
+        })`pnpm run build`;
+      }
 
       await cp(
         path.join(REPOSITORY_ROOT, "apps", "front-end", "dist"),
@@ -23,10 +31,17 @@ function buildStatic(program: Command) {
         { recursive: true },
       );
 
-      await execa({
-        cwd: path.join(REPOSITORY_ROOT, "apps", "back-end"),
-        stdio: "inherit",
-      })`pnpm run build`;
+      if (cacheBuilds) {
+        await execa({
+          cwd: REPOSITORY_ROOT,
+          stdio: "inherit",
+        })`pnpm run build --filter=back-end`;
+      } else {
+        await execa({
+          cwd: path.join(REPOSITORY_ROOT, "apps", "back-end"),
+          stdio: "inherit",
+        })`pnpm run build`;
+      }
     });
 }
 
