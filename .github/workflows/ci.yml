@@ -168,9 +168,6 @@ jobs:
           echo PORT="9090" >> apps/back-end/.env.end-to-end
           echo API_BASE_URL="http://localhost:9090" >> apps/back-end/.env.end-to-end
 
-      - name: Build packages
-        run: pnpm run build-packages
-
       - name: Build apps for static serving
         run: pnpm run build-static
 
