@@ -55,9 +55,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build packages
-        run: pnpm run build-packages
-
       - name: Build apps for static serving
         env:
           VITE_SENTRY_DSN: ${{ vars.FRONT_END_SENTRY_DSN }}
