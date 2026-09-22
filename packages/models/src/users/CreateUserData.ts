@@ -6,7 +6,7 @@ const createUserSchema = z.object({
   displayName: z.string().max(50).nullable(),
   description: z.string().nullable(),
   email: z.email(),
-  dateOfBirth: z.coerce.date().nullable(),
+  dateOfBirth: z.coerce.date(),
 });
 
 export type CreateUserData = z.infer<typeof createUserSchema>;
