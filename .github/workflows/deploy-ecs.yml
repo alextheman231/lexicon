@@ -43,6 +43,8 @@ jobs:
           AWS_CLUSTER_NAME: ${{ inputs.aws_cluster_name }}
           AWS_SERVICE_NAME: ${{ inputs.aws_service_name }}
         run: |
+          # aws ecs describe-services --cluster "$AWS_CLUSTER_NAME" --services "$AWS_SERVICE_NAME"
+
           START_TIME=$(date +%s)
 
           DEPLOYMENT_ID=$(
