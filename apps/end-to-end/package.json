@@ -34,10 +34,10 @@
   "devDependencies": {
     "@lexicon/configs": "workspace:*",
     "@playwright/test": "1.63.0",
-    "@types/node": "26.6.1",
-    "dotenv": "18.0.0",
+    "@types/node": "26.6.2",
+    "dotenv": "18.0.4",
     "execa": "10.0.1",
     "playwright": "1.63.0",
-    "tsx": "4.23.13"
+    "tsx": "4.23.15"
   }
 }
