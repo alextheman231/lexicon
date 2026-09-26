@@ -173,6 +173,10 @@ jobs:
           AWS_SUBNET_IDS: ${{ vars.AWS_SUBNET_IDS }}
           AWS_ASSIGN_PUBLIC_IP: ${{ vars.AWS_ASSIGN_PUBLIC_IP }}
         run: |
+          # aws ecs run-task
+
+          START_TIME=$(date +%s)
+
           TASK_ARN=$(aws ecs run-task \
             --cluster "$AWS_CLUSTER_NAME" \
             --task-definition "$AWS_MIGRATION_TASK_FAMILY" \
@@ -187,15 +191,6 @@ jobs:
             echo "Failed to start migration task."
             exit 1
           fi
-
-          echo "task_arn=$TASK_ARN" >> "$GITHUB_OUTPUT"
-
-      - name: Wait for migrations to apply successfully
-        env:
-          AWS_CLUSTER_NAME: ${{ vars.AWS_CLUSTER_NAME }}
-          TASK_ARN: ${{ steps.migration.outputs.task_arn }}
-        run: |
-          START_TIME=$(date +%s)
 
           while true; do
             TASK_INFO=$(aws ecs describe-tasks \
