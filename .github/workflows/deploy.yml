@@ -55,10 +55,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build packages
+        run: pnpm run build-packages
+
       - name: Build apps for static serving
         env:
           VITE_SENTRY_DSN: ${{ vars.FRONT_END_SENTRY_DSN }}
-        run: pnpm run build-static
+        run: pnpm run build-static --no-cache-builds
 
       - name: Create Sentry release for back-end
         uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
