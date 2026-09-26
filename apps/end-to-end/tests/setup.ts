@@ -9,7 +9,7 @@ if (!process.env.CI) {
   await execa({
     cwd: REPOSITORY_ROOT,
     stdio: "inherit",
-  })`pnpm run build-static`;
+  })`pnpm run build-static --no-cache-builds`;
   await execa({
     cwd: BACK_END_ROOT,
     stdio: "inherit",
