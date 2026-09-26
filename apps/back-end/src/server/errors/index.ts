@@ -1,6 +1,7 @@
 import type { Express } from "express";
 
-import { setupExpressErrorHandler } from "@sentry/node";
+import { parseIntStrict } from "@alextheman/utility";
+import { expressIntegration } from "@sentry/node";
 
 import handleAPIErrors from "src/server/errors/handleAPIErrors";
 import handleClearCookies from "src/server/errors/handleClearCookies";
@@ -13,7 +14,15 @@ const ENV = loadEnvironment();
 
 export function resolveErrors(app: Express) {
   if (ENV === "production") {
-    setupExpressErrorHandler(app);
+    expressIntegration({
+      shouldHandleError: (error) => {
+        const statusCode =
+          typeof error.statusCode === "string"
+            ? parseIntStrict(error.statusCode)
+            : error.statusCode;
+        return (statusCode ?? 500) >= 500;
+      },
+    });
   }
 
   app.use(handleUnfoundEndpoint);
