@@ -5,33 +5,33 @@ import createQueryKey from "src/utility/query/createQueryKey";
 const queryKeys = {
   auth: createQueryKey("auth"),
   backendError: createQueryKey("backendError"),
-  users: createQueryKey("users"),
-  blogs: createQueryKey("blog"),
-  blogRevisions: createQueryKey("blogRevisions"),
-  blogCollections: createQueryKey("blogCollections"),
   blogCollectionOptions: createQueryKey("blogCollectionOptions"),
+  blogCollections: createQueryKey("blogCollections"),
+  blogRevisions: createQueryKey("blogRevisions"),
+  blogs: createQueryKey("blog"),
   metadata: createQueryKey("metadata"),
+  users: createQueryKey("users"),
 };
 
 export const relatedQueryKeys: Record<keyof typeof queryKeys, Array<QueryKey>> = {
   auth: [queryKeys.auth(), queryKeys.users()],
   backendError: [queryKeys.backendError()],
-  users: [queryKeys.users()],
-  blogs: [
-    queryKeys.blogs(),
-    queryKeys.blogRevisions(),
-    queryKeys.blogCollections(),
-    queryKeys.blogCollectionOptions(),
-  ],
+  blogCollectionOptions: [queryKeys.blogCollectionOptions()],
+  blogCollections: [queryKeys.blogCollections()],
   blogRevisions: [
     queryKeys.blogs(),
     queryKeys.blogRevisions(),
     queryKeys.blogCollections(),
     queryKeys.blogCollectionOptions(),
   ],
-  blogCollections: [queryKeys.blogCollections()],
-  blogCollectionOptions: [queryKeys.blogCollectionOptions()],
+  blogs: [
+    queryKeys.blogs(),
+    queryKeys.blogRevisions(),
+    queryKeys.blogCollections(),
+    queryKeys.blogCollectionOptions(),
+  ],
   metadata: [queryKeys.metadata()],
+  users: [queryKeys.users()],
 };
 
 export default queryKeys;
