@@ -1,7 +1,7 @@
 import type { Linter } from "eslint";
 
 import alexPlugin from "@alextheman/eslint-plugin";
-import { personalRestrictedImports } from "@alextheman/eslint-plugin/internal";
+import { personalRestrictedImports, sortObjects } from "@alextheman/eslint-plugin/internal";
 import { combineRestrictedImports } from "@alextheman/eslint-plugin/utility";
 
 const frontendMain: Array<Linter.Config> = [
@@ -37,6 +37,12 @@ const frontendMain: Array<Linter.Config> = [
           ],
         }),
       ],
+    },
+  },
+  {
+    files: ["utility/query/queryKeys.ts"],
+    rules: {
+      "perfectionist/sort-objects": ["error", sortObjects],
     },
   },
 ];
