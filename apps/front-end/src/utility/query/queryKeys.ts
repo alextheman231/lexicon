@@ -1,30 +1,16 @@
 import type { QueryKey } from "@tanstack/react-query";
 
+import createQueryKey from "src/utility/query/createQueryKey";
+
 const queryKeys = {
-  auth: (...args: Array<unknown>): QueryKey => {
-    return ["auth", ...args];
-  },
-  backendError: (...args: Array<unknown>): QueryKey => {
-    return ["backendError", ...args];
-  },
-  users: (...args: Array<unknown>): QueryKey => {
-    return ["users", ...args];
-  },
-  blogs: (...args: Array<unknown>): QueryKey => {
-    return ["blogs", ...args];
-  },
-  blogRevisions: (...args: Array<unknown>): QueryKey => {
-    return ["blogRevisions", ...args];
-  },
-  blogCollections: (...args: Array<unknown>): QueryKey => {
-    return ["blogCollections", ...args];
-  },
-  blogCollectionOptions: (...args: Array<unknown>): QueryKey => {
-    return ["blogCollectionOptions", ...args];
-  },
-  metadata: (...args: Array<unknown>): QueryKey => {
-    return ["metadata", ...args];
-  },
+  auth: createQueryKey("auth"),
+  backendError: createQueryKey("backendError"),
+  users: createQueryKey("users"),
+  blogs: createQueryKey("blog"),
+  blogRevisions: createQueryKey("blogRevisions"),
+  blogCollections: createQueryKey("blogCollections"),
+  blogCollectionOptions: createQueryKey("blogCollectionOptions"),
+  metadata: createQueryKey("metadata"),
 };
 
 export const relatedQueryKeys: Record<keyof typeof queryKeys, Array<QueryKey>> = {
