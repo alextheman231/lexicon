@@ -31,7 +31,7 @@
     "update-dependencies": "turbo run update-dependencies && pnpm update --latest && pnpm update"
   },
   "devDependencies": {
-    "@alextheman/eslint-plugin": "5.18.3",
+    "@alextheman/eslint-plugin": "5.18.4",
     "@faker-js/faker": "10.6.0",
     "@types/node": "26.6.3",
     "@typescript-eslint/utils": "8.71.0",
@@ -40,7 +40,7 @@
     "eslint": "10.11.0",
     "husky": "9.1.7",
     "prettier": "3.9.9",
-    "turbo": "2.11.5",
+    "turbo": "2.11.6",
     "typescript": "7.0.2",
     "typescript-eslint": "8.71.0"
   },
@@ -49,7 +49,7 @@
     "node": ">=26.0.0"
   },
   "dependencies": {
-    "@alextheman/utility": "5.28.1",
+    "@alextheman/utility": "5.28.2",
     "zod": "4.6.5"
   }
 }

@@ -72,14 +72,14 @@
     "supertest": "7.3.0",
     "tsdown": "0.23.0",
     "tsx": "4.23.15",
-    "vitest": "5.0.2"
+    "vitest": "5.0.3"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "3.1143.0",
+    "@aws-sdk/client-s3": "3.1144.0",
     "@lexicon/models": "workspace:*",
-    "@sentry/node": "11.1.0",
+    "@sentry/node": "11.2.0",
     "cookie-parser": "1.4.7",
-    "dotenv": "18.0.4",
+    "dotenv": "18.0.5",
     "drizzle-orm": "0.45.3",
     "drizzle-zod": "0.8.3",
     "express": "5.2.1",
@@ -87,8 +87,8 @@
     "multer": "2.4.0",
     "node-cron": "4.6.0",
     "openid-client": "6.8.8",
-    "pg": "8.23.0",
+    "pg": "8.23.1",
     "rate-limit-redis": "6.0.1",
-    "redis": "6.2.1"
+    "redis": "6.3.0"
   }
 }
