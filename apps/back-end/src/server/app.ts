@@ -2,7 +2,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 
 import "src/instrument";
-import { resolveErrors } from "src/server/errors";
+import resolveErrors from "src/server/errors";
 import createEndpoints from "src/server/routes";
 import loadCurrentUser from "src/utility/handlers/loadCurrentUser";
 

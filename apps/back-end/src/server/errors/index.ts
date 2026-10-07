@@ -12,7 +12,7 @@ import loadEnvironment from "src/utility/env/loadEnvironment";
 
 const ENV = loadEnvironment();
 
-export function resolveErrors(app: Express) {
+function resolveErrors(app: Express) {
   if (ENV === "production") {
     expressIntegration({
       shouldHandleError: (error) => {
@@ -31,3 +31,5 @@ export function resolveErrors(app: Express) {
   app.use(handleAPIErrors);
   app.use(handleInternalServerErrors);
 }
+
+export default resolveErrors;
