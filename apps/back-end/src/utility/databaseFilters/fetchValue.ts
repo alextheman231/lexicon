@@ -15,11 +15,7 @@ async function fetchValue<ValueType>(
   const values = Object.values(result);
 
   if (values.length !== 1) {
-    throw new DataError(
-      { columns: values.length },
-      "MULTIPLE_COLUMNS_ERROR",
-      "Expected only one column to be returned.",
-    );
+    throw new DataError({ columns: values.length }, "MULTIPLE_COLUMNS_ERROR", errorMessage);
   }
 
   return values[0];
