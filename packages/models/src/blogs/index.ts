@@ -2,7 +2,7 @@ export { parseBlog, parseBlogs } from "src/blogs/Blog";
 export { blogQueryStringSchema, parseBlogQueryString } from "src/blogs/BlogQueryString";
 export { parseBlogRevision, parseBlogRevisionHistory } from "src/blogs/BlogRevision";
 export { parseBlogsFilter } from "src/blogs/BlogsFilter";
-export { BlogState } from "src/blogs/BlogState";
+export { BlogState, formatBlogState } from "src/blogs/BlogState";
 export { parseBlogStateHistory, parseBlogStateHistoryRow } from "src/blogs/BlogStateHistoryRow";
 export { parseBlogSummariesResponse } from "src/blogs/BlogSummariesResponse";
 export { parseBlogSummary, parseBlogSummaries } from "src/blogs/BlogSummary";

@@ -1,13 +1,9 @@
 import type { BlogSummary, UserProfile } from "@lexicon/models";
 
-import { useIsLargeScreen } from "@alextheman/components";
+import { SelectInput, useIsLargeScreen } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/routing";
-import { BlogState } from "@lexicon/models";
+import { BlogState, formatBlogState } from "@lexicon/models";
 import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
 
@@ -47,21 +43,17 @@ function UserBlogs({ user }: UserBlogsProps) {
   });
 
   const select = (
-    <FormControl fullWidth>
-      <InputLabel id="user-blog-state-filter">State</InputLabel>
-      <Select
-        labelId="user-blog-state-filter"
-        value={stateFilter}
-        onChange={(event) => {
-          setStateFilter(event.target.value);
-        }}
-        label="State"
-      >
-        <MenuItem value={BlogState.PUBLISHED}>Published</MenuItem>
-        <MenuItem value={BlogState.DRAFT}>Draft</MenuItem>
-        <MenuItem value={BlogState.ARCHIVED}>Archived</MenuItem>
-      </Select>
-    </FormControl>
+    <SelectInput<BlogState>
+      fullWidth
+      label="State"
+      value={stateFilter}
+      onChange={(value) => {
+        setStateFilter(value);
+      }}
+      options={Object.values(BlogState).map((value) => {
+        return { label: formatBlogState(value), value };
+      })}
+    />
   );
 
   return (
