@@ -6,8 +6,11 @@ import type { UserInsert } from "src/database/schema";
 import { omitProperties } from "@alextheman/utility";
 import { faker } from "@faker-js/faker";
 import { parseUser } from "@lexicon/models";
+import { eq } from "drizzle-orm";
 
+import { usersTable } from "src/database/schema";
 import { insertUser } from "src/models/users/insertUser";
+import fetchSole from "src/utility/databaseFilters/fetchSole";
 
 export type UserFactoryData = Partial<UserInsert>;
 
@@ -22,8 +25,23 @@ class UserFactory {
   }
 
   public async insert(data: UserFactoryData = {}): Promise<User> {
+    let username = data?.username;
+
+    while (username === undefined) {
+      const candidate = faker.internet.username();
+      const result = await fetchSole(
+        this.context.connection
+          .select({ username: usersTable.username })
+          .from(usersTable)
+          .where(eq(usersTable.username, candidate)),
+      );
+      if (result === null) {
+        username = candidate;
+      }
+    }
+
     const userTemplate: CreateUserData & { id?: string | undefined } = {
-      username: faker.internet.username(),
+      username,
       displayName: faker.internet.displayName(),
       description: faker.lorem.paragraph(),
       email: faker.internet.email(),
