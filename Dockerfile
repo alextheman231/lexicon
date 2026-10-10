@@ -10,6 +10,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.json ./
 COPY apps ./apps
 COPY packages ./packages
+COPY patches ./patches
 
 RUN ["curl", "-fsSL", "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem", "-o", "apps/back-end/aws-rds-global-bundle.pem"]
 
