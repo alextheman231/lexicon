@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index fe986a73b204d3fe09aaf0d4890c10e4269112ff..f7140229256c3a8f29f6deaa361b4c69622656eb 100644
+--- a/package.json
++++ b/package.json
+@@ -44,7 +44,6 @@
+ 	},
+ 	"dependencies": {
+ 		"@drizzle-team/brocli": "^0.10.2",
+-		"@esbuild-kit/esm-loader": "^2.5.5",
+ 		"esbuild": "^0.25.4",
+ 		"tsx": "^4.21.0"
+ 	},
