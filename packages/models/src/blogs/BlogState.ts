@@ -1,4 +1,4 @@
-import type { CreateEnumType } from "@alextheman/utility";
+import type { ObjectValue } from "@alextheman/utility";
 
 export const BlogState = {
   DRAFT: "draft",
@@ -6,7 +6,7 @@ export const BlogState = {
   ARCHIVED: "archived",
 } as const;
 
-export type BlogState = CreateEnumType<typeof BlogState>;
+export type BlogState = ObjectValue<typeof BlogState>;
 
 export function formatBlogState(value: BlogState) {
   switch (value) {
