@@ -36,7 +36,6 @@
   "author": "alextheman",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "26.6.4",
     "eslint-plugin-perfectionist": "5.12.1",
     "tsdown": "0.23.0"
   },
