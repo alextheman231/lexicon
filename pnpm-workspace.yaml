@@ -8,6 +8,7 @@ savePrefix: ""
 minimumReleaseAgeExclude:
   - "@alextheman/*"
   - alex-c-line
+  - "alextheman231/github-actions/*"
 ignoreWorkspaceRootCheck: true
 overrides:
   typescript: 6.0.3
