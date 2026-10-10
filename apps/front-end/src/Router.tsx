@@ -6,7 +6,6 @@ import AuthRequired from "src/components/AuthRequired";
 import BackendError from "src/components/BackendError";
 import PageWrapper from "src/components/PageWrapper";
 import AuthCallback from "src/pages/AuthCallback";
-import SignIn from "src/pages/SignIn";
 import BlogCollectionsRouter from "src/resources/BlogCollections/Router";
 import Blogs from "src/resources/Blogs/pages/Blogs";
 import BlogsRouter from "src/resources/Blogs/Router";
@@ -21,9 +20,6 @@ function Router() {
         <Switch>
           <Route path="/">
             <Blogs />
-          </Route>
-          <Route path="/sign-in">
-            <SignIn />
           </Route>
           <Route path="/auth/callback">
             <AuthCallback />

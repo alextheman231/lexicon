@@ -58,7 +58,7 @@ function NavigationBottom({ children }: NavigationBottomProps) {
           {
             label: "Profile",
             icon: <MdPerson />,
-            to: currentUser === null ? "/sign-in" : `/users/${currentUser?.id}`,
+            to: currentUser === null ? "/users/sign-in" : `/users/${currentUser?.id}`,
           },
         ]}
       >

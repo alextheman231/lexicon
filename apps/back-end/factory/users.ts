@@ -5,12 +5,13 @@ import type { UserInsert } from "src/database/schema";
 
 import { omitProperties } from "@alextheman/utility";
 import { faker } from "@faker-js/faker";
-import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
+import { parseUser, UserState } from "@lexicon/models";
 
 import { usersTable } from "src/database/schema";
 import { insertUser } from "src/models/users/insertUser";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
+import insertUserStateHistory from "src/models/users/insertUserStateHistory";
 
 export type UserFactoryData = Partial<UserInsert>;
 
@@ -40,18 +41,25 @@ class UserFactory {
       }
     }
 
-    const userTemplate: CreateUserData & { id?: string | undefined } = {
+    const userTemplate: CreateUserData & { id?: string | undefined; state: UserState } = {
       username,
       displayName: faker.internet.displayName(),
       description: faker.lorem.paragraph(),
       email: faker.internet.email(),
       dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : faker.date.birthdate(),
+      state: UserState.VERIFIED,
       ...omitProperties(data, "dateOfBirth"),
     };
 
     const insertedUser = await insertUser(this.context.connection, {
       ...userTemplate,
       dateOfBirth: userTemplate.dateOfBirth?.toISOString(),
+    });
+
+    await insertUserStateHistory(this.context.connection, {
+      userId: insertedUser.id,
+      state: insertedUser.state,
+      updatedById: null,
     });
 
     const user = parseUser(insertedUser);

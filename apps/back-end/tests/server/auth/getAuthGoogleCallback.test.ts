@@ -1,4 +1,4 @@
-import { assertNotNull } from "@alextheman/utility";
+import { assertNotNull, omitProperties } from "@alextheman/utility";
 import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 // eslint-disable-next-line @alextheman/no-namespace-imports -- Needed to mock OpenIDClient.
@@ -67,7 +67,7 @@ describe("GET /api/v1/auth/google/callback", () => {
 
     const databaseUser = await selectUser(connection, { userId: user.id });
     assertNotNull(databaseUser);
-    expect(user).toMatchObject(databaseUser);
+    expect(user).toMatchObject(omitProperties(databaseUser, "passwordHash"));
   });
 
   test("If auth provider and user already exists in database, use the existing details", async () => {

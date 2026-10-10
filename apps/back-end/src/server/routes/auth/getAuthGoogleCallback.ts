@@ -3,6 +3,7 @@ import type { ParamsDictionary } from "express-serve-static-core";
 
 import { assertNotNull, minutesToMs } from "@alextheman/utility";
 import { APIError } from "@alextheman/utility/v6";
+import { UserState } from "@lexicon/models";
 import { authorizationCodeGrant } from "openid-client";
 
 import { randomBytes } from "node:crypto";
@@ -83,7 +84,7 @@ function getAuthGoogleCallback(auth: Router) {
           username,
           displayName: claims.name?.toString() ?? username,
           description: null,
-          dateOfBirth: null,
+          state: UserState.VERIFIED,
         });
 
         await createUserAuthProvider(transaction, {

@@ -3,14 +3,14 @@ import type { Router } from "express";
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
-import loadUserProfile from "src/services/users/loadUserProfile";
+import loadUserInfo from "src/services/users/loadUserInfo";
 import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
-function getUserById(users: Router) {
+function getUserInfoById(users: Router) {
   users.get(
-    RegExp(`^/(?<userId>${UUID_REGEX_PATTERN})$`),
+    RegExp(`^/(?<userId>${UUID_REGEX_PATTERN})/info$`),
     handleRateLimit({
       limit: 30,
       windowMs: secondsToMs(10),
@@ -18,7 +18,7 @@ function getUserById(users: Router) {
     handleEndpointMiddleware<{ userId: string }>(async (request, response) => {
       const connection = getConnection();
 
-      const user = await loadUserProfile(connection, request.params);
+      const user = await loadUserInfo(connection, request.params);
 
       if (user === null) {
         throw resourceNotFoundError("user", request.params.userId);
@@ -29,4 +29,4 @@ function getUserById(users: Router) {
   );
 }
 
-export default getUserById;
+export default getUserInfoById;
