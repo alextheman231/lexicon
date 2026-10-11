@@ -2,8 +2,9 @@ import type { AzParsingErrorHandler } from "@alextheman/utility";
 import type { DataError } from "@alextheman/utility/v6";
 
 import { az } from "@alextheman/utility";
-import { BlogState } from "@lexicon/models";
 import z from "zod";
+
+import { BlogState } from "src/blogs/BlogState";
 
 export const createBlogSchema = z.strictObject({
   title: z.string(),
