@@ -1,11 +1,11 @@
 import type { Router } from "express";
 
 import { secondsToMs } from "@alextheman/utility";
-import { APIError } from "@alextheman/utility/v6";
 import { BlogState, parseCreateBlogData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import createBlog from "src/services/blogs/createBlog";
+import APIError from "src/utility/errors/APIError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -20,7 +20,16 @@ function postBlogs(blogs: Router) {
       const connection = getConnection();
 
       await connection.transaction(async (transaction) => {
-        const data = parseCreateBlogData(request.body);
+        const data = parseCreateBlogData<APIError>(request.body, () => {
+          return new APIError(
+            400,
+            "INVALID_BLOG_DATA",
+            "The provided blog data to create is invalid",
+            {
+              input: request.body,
+            },
+          );
+        });
 
         if (data.state === BlogState.ARCHIVED) {
           throw new APIError(

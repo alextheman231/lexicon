@@ -2,7 +2,6 @@ import type { Router } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
 import { assertNotNull, minutesToMs } from "@alextheman/utility";
-import { APIError } from "@alextheman/utility/v6";
 import { authorizationCodeGrant } from "openid-client";
 
 import { randomBytes } from "node:crypto";
@@ -17,6 +16,7 @@ import findGoogleAuthUser from "src/services/auth/findGoogleAuthUser";
 import createUser from "src/services/users/createUser";
 import createUserSession from "src/services/userSessions/createUserSession";
 import loadEnvironment from "src/utility/env/loadEnvironment";
+import APIError from "src/utility/errors/APIError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 

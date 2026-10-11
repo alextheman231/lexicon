@@ -7,6 +7,7 @@ import handleAPIErrors from "src/server/errors/handleAPIErrors";
 import handleClearCookies from "src/server/errors/handleClearCookies";
 import handleDebugLogging from "src/server/errors/handleDebugLogging";
 import handleInternalServerErrors from "src/server/errors/handleInternalServerErrors";
+import handleLexiconBackEndErrors from "src/server/errors/handleLexiconBackEndErrors";
 import handleUnfoundEndpoint from "src/server/errors/handleUnfoundEndpoint";
 import loadEnvironment from "src/utility/env/loadEnvironment";
 
@@ -28,6 +29,7 @@ function resolveErrors(app: Express) {
   app.use(handleUnfoundEndpoint);
   app.use(handleClearCookies);
   app.use(handleDebugLogging);
+  app.use(handleLexiconBackEndErrors);
   app.use(handleAPIErrors);
   app.use(handleInternalServerErrors);
 }

@@ -1,5 +1,4 @@
 import { assertNotNull, omitProperties } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogView } from "@lexicon/models";
 import BlogFactory from "factory/blogs";
 import { describe, expect, test } from "vitest";
@@ -10,6 +9,7 @@ import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 import selectUser from "src/models/users/selectUser";
+import DataError from "src/utility/errors/DataError";
 
 describe("GET /api/v1/blogs/<blogId>", () => {
   test("Returns the blog with the given blog ID", async () => {

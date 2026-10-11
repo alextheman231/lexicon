@@ -1,7 +1,6 @@
-import { CodeError } from "@alextheman/utility/v6";
-
 import loadEnvironment from "src/utility/env/loadEnvironment";
-import internalServerError from "src/utility/errors/internalServerError";
+import CodeError from "src/utility/errors/CodeError";
+import InternalServerError from "src/utility/errors/InternalServerError";
 import handleErrorMiddleware from "src/utility/handlers/handleErrorMiddleware";
 
 const ENV = loadEnvironment();
@@ -14,7 +13,7 @@ const handleInternalServerErrors = handleErrorMiddleware((error, _request, respo
   ) {
     console.error(error);
   }
-  const serverError = internalServerError();
+  const serverError = new InternalServerError();
   response.status(serverError.status).send({
     error: new CodeError(serverError.code, serverError.message).toJSON(),
   });

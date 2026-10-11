@@ -1,5 +1,6 @@
 import { removeDuplicates } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
+
+import DataError from "src/utility/errors/DataError";
 
 async function fetchValues<ValueType>(
   query: Promise<Array<Record<string, ValueType>>>,

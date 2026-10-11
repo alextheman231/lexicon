@@ -5,8 +5,8 @@ import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { getConnection } from "src/database/connection";
 import selectBlog from "src/models/blogs/selectBlog";
 import loadBlogRevisions from "src/services/blogs/loadBlogRevisions";
-import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
-import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
+import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
+import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -24,11 +24,11 @@ function getBlogRevisionsByBlogId(blogs: Router) {
       const blog = await selectBlog(connection, blogId);
 
       if (blog === null) {
-        throw resourceNotFoundError("blog", blogId);
+        throw new ResourceNotFoundError({ resourceType: "blog", resourceId: blogId });
       }
 
       if (blog.authorId !== request.user.id) {
-        throw forbiddenAccessError({ userId: request.user.id });
+        throw new ForbiddenAccessError({ userId: request.user.id });
       }
 
       const revisions = await loadBlogRevisions(connection, { blogId });

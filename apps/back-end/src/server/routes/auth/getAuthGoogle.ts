@@ -2,7 +2,6 @@ import type { Router } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
 import { minutesToMs } from "@alextheman/utility";
-import { APIError } from "@alextheman/utility/v6";
 import {
   buildAuthorizationUrl,
   calculatePKCECodeChallenge,
@@ -13,6 +12,7 @@ import {
 import { loadGoogleConfig } from "src/auth/google";
 import createCallbackUrl from "src/server/routes/auth/helpers/createCallbackUrl";
 import loadCookies from "src/server/routes/auth/helpers/loadCookies";
+import APIError from "src/utility/errors/APIError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 

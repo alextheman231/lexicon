@@ -1,10 +1,11 @@
 import type { EditBlogCollectionData } from "@lexicon/models";
 
-import { DataError } from "@alextheman/utility/v6";
 import { parseBlogCollectionView } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
 import TestFixtures from "tests/fixtures";
+
+import DataError from "src/utility/errors/DataError";
 
 describe("PUT /api/v1/blog-collections/<blogCollectionId>", () => {
   test("Updates a given blog collection's metadata if no items provided", async () => {

@@ -1,5 +1,4 @@
 import { omitProperties } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { parseUserProfile } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
@@ -7,6 +6,8 @@ import { randomUUID } from "node:crypto";
 
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
+
+import DataError from "src/utility/errors/DataError";
 
 describe("GET /api/v1/users/<userId>", () => {
   test("Should get the user with the given ID", async () => {

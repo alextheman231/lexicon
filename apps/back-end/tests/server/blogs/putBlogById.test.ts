@@ -1,7 +1,6 @@
 import type { EditBlogData } from "@lexicon/models";
 
 import { isSameDate } from "@alextheman/utility";
-import { CodeError, DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogView } from "@lexicon/models";
 import { desc, eq } from "drizzle-orm";
 import BlogFactory from "factory/blogs";
@@ -13,6 +12,8 @@ import TestFixtures from "tests/fixtures";
 
 import { blogRevisionsTable, blogStateHistoryTable } from "src/database/schema";
 import findLatestBlogVersion from "src/services/blogs/findLatestBlogVersion";
+import CodeError from "src/utility/errors/CodeError";
+import DataError from "src/utility/errors/DataError";
 
 describe("PUT /api/v1/blogs/<blogId>", () => {
   test("Updates the current blog and creates a new revision", async () => {

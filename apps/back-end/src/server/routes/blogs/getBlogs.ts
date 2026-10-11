@@ -7,7 +7,7 @@ import { getConnection } from "src/database/connection";
 import countBlogs from "src/services/blogs/countBlogs";
 import loadBlogSummaries from "src/services/blogs/loadBlogSummaries";
 import queryBlogIds from "src/services/blogs/queryBlogIds";
-import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
+import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -28,7 +28,7 @@ function getBlogs(blogs: Router) {
         ) &&
         parsedFilters.authorId !== request.user?.id
       ) {
-        throw forbiddenAccessError({ userId: request.user?.id });
+        throw new ForbiddenAccessError({ userId: request.user?.id });
       }
 
       const filters = { ...parsedFilters, state: parsedFilters.state ?? BlogState.PUBLISHED };

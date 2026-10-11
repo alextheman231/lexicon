@@ -1,8 +1,9 @@
-import { az } from "@alextheman/utility";
-import { APIError } from "@alextheman/utility/v6";
-import z from "zod";
+import type { AzParsingErrorHandler } from "@alextheman/utility";
+import type { DataError } from "@alextheman/utility/v6";
 
-import { BlogState } from "src/blogs/BlogState";
+import { az } from "@alextheman/utility";
+import { BlogState } from "@lexicon/models";
+import z from "zod";
 
 export const createBlogSchema = z.strictObject({
   title: z.string(),
@@ -12,11 +13,9 @@ export const createBlogSchema = z.strictObject({
 
 export type CreateBlogData = z.infer<typeof createBlogSchema>;
 
-export function parseCreateBlogData(input: unknown): CreateBlogData {
-  return az.with(createBlogSchema).parse(
-    input,
-    new APIError(400, "INVALID_BLOG_DATA", "The provided blog data to create is invalid", {
-      input,
-    }),
-  );
+export function parseCreateBlogData<ErrorType extends Error = DataError>(
+  input: unknown,
+  error?: AzParsingErrorHandler<ErrorType>,
+): CreateBlogData {
+  return az.with(createBlogSchema).parse(input, error);
 }

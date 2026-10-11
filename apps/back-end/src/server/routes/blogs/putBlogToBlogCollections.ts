@@ -1,17 +1,13 @@
 import type { Router } from "express";
 
-import type { ResourceNotFoundErrorPayload } from "src/utility/errors/resourceNotFoundError";
-
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parsePutBlogToBlogCollectionsData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import selectBlogCollections from "src/models/blogCollections/selectBlogCollections";
 import selectBlog from "src/models/blogs/selectBlog";
 import setBlogCollectionsForBlog from "src/services/blogCollections/setBlogCollectionsForBlog";
-import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
-import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
+import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -36,20 +32,12 @@ function putBlogToBlogCollections(blogs: Router) {
             blogCollection.userId !== request.user.id ||
             (blog?.state === BlogState.DRAFT && blog?.authorId !== request.user.id)
           ) {
-            throw forbiddenAccessError({ userId: request.user.id });
+            throw new ForbiddenAccessError({ userId: request.user.id });
           }
         }
 
-        try {
-          await setBlogCollectionsForBlog(transaction, request.params.blogId, blogCollectionIds);
-          response.status(200).send({});
-        } catch (error) {
-          if (DataError.checkWithCode<ResourceNotFoundErrorPayload>(error, "RESOURCE_NOT_FOUND")) {
-            throw resourceNotFoundError(error.data.resourceType, error.data.resourceId);
-          } else {
-            throw error;
-          }
-        }
+        await setBlogCollectionsForBlog(transaction, request.params.blogId, blogCollectionIds);
+        response.status(200).send({});
       });
     }),
   );

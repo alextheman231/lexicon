@@ -1,12 +1,12 @@
 import type { Transaction } from "src/database/connection";
 
-import { DataError } from "@alextheman/utility/v6";
 import { BlogState } from "@lexicon/models";
 
 import selectBlog from "src/models/blogs/selectBlog";
 import createBlogCollectionItems from "src/services/blogCollections/createBlogCollectionItems";
 import queryBlogCollectionIds from "src/services/blogCollections/queryBlogCollectionIds";
 import removeBlogCollectionItem from "src/services/blogCollections/removeBlogCollectionItem";
+import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 
 async function setBlogCollectionsForBlog(
   connection: Transaction,
@@ -20,11 +20,7 @@ async function setBlogCollectionsForBlog(
   }
 
   if (blog.state === BlogState.ARCHIVED) {
-    throw new DataError(
-      { resourceType: "blog", resourceId: blog.id },
-      "RESOURCE_NOT_FOUND",
-      "Could not find blog in database.",
-    );
+    throw new ResourceNotFoundError({ resourceType: "blog", resourceId: blog.id });
   }
 
   const currentCollectionIds = await queryBlogCollectionIds(connection, { blogId });

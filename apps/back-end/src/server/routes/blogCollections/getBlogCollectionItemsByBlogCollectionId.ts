@@ -2,7 +2,6 @@ import type { BlogCollectionItemsFilter } from "@lexicon/models";
 import type { Router } from "express";
 
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
-import { APIError } from "@alextheman/utility/v6";
 import { parseBlogCollectionItemsFilter } from "@lexicon/models";
 import z from "zod";
 
@@ -11,7 +10,8 @@ import selectBlogCollection from "src/models/blogCollections/selectBlogCollectio
 import countBlogCollectionItems from "src/services/blogCollections/countBlogCollectionItems";
 import loadBlogCollectionItemSummaries from "src/services/blogCollections/loadBlogCollectionItemSummaries";
 import queryBlogCollectionItemIds from "src/services/blogCollections/queryBlogCollectionItemIds";
-import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
+import APIError from "src/utility/errors/APIError";
+import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -29,7 +29,10 @@ function getBlogCollectionItemsByBlogCollectionId(blogCollections: Router) {
       const blogCollection = await selectBlogCollection(connection, blogCollectionId);
 
       if (blogCollection === null) {
-        throw resourceNotFoundError("blog-collection", blogCollectionId);
+        throw new ResourceNotFoundError({
+          resourceType: "blog-collection",
+          resourceId: blogCollectionId,
+        });
       }
 
       const parsedFilters = parseBlogCollectionItemsFilter(request.query, (error) => {

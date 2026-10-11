@@ -2,7 +2,7 @@ import type { User } from "@lexicon/models";
 import type { NextFunction, Request, RequestHandler, Response } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
-import authRequiredError from "src/utility/errors/authRequiredError";
+import AuthRequiredError from "src/utility/errors/AuthRequiredError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 interface AuthenticatedRequest<
@@ -31,7 +31,7 @@ function handleAuthenticatedEndpointMiddleware<
   return handleEndpointMiddleware<ParameterType, ResBody, ReqBody, ReqQuery, Locals>(
     async (request, response, next) => {
       if (request.user === null) {
-        throw authRequiredError();
+        throw new AuthRequiredError();
       }
       await middleware(
         request as AuthenticatedRequest<ParameterType, ResBody, ReqBody, ReqQuery, Locals>,

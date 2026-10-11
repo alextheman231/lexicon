@@ -1,7 +1,7 @@
 import type { Env } from "src/utility/miscellaneous/parseEnv";
 
 import loadEnvironment from "src/utility/env/loadEnvironment";
-import endpointNotFoundError from "src/utility/errors/endpointNotFoundError";
+import EndpointNotFoundError from "src/utility/errors/EndpointNotFoundError";
 import handleFallthroughMiddleware from "src/utility/handlers/handleFallthroughMiddleware";
 
 const ENV = loadEnvironment();
@@ -9,7 +9,7 @@ const ENV = loadEnvironment();
 function allowEnvironments(environments: Array<Env>) {
   return handleFallthroughMiddleware((request) => {
     if (!environments.includes(ENV)) {
-      throw endpointNotFoundError({ endpoint: request.path });
+      throw new EndpointNotFoundError({ endpoint: request.path });
     }
   });
 }
