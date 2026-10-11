@@ -1,4 +1,4 @@
-import type { APIError } from "@alextheman/utility/v6";
+import type APIError from "src/utility/errors/APIError";
 
 // eslint-disable-next-line no-restricted-imports -- We need to use the original CodeError to redefine the Lexicon-specific one.
 import { CodeError as AlexCodeError } from "@alextheman/utility/v6";
