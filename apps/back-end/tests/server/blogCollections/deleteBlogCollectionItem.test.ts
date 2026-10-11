@@ -1,7 +1,6 @@
-import type { ResourceNotFoundErrorPayload } from "src/utility/errors/resourceNotFoundError";
+import type { ResourceNotFoundErrorPayload } from "src/utility/errors/ResourceNotFoundError";
 
 import { fillArray, paralleliseArrays, range, sortBy } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { parseBlogCollectionItemsResponse } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
@@ -10,6 +9,7 @@ import { randomUUID } from "node:crypto";
 import TestFixtures from "tests/fixtures";
 
 import loadBlogCollectionItemsByBlogCollectionId from "src/services/blogCollections/loadBlogCollectionItemsByBlogCollectionId";
+import DataError from "src/utility/errors/DataError";
 
 describe("DELETE /api/v1/blog-collections/<blogCollectionId>/items/<itemNumber>", () => {
   test("Deletes a blog collection item from the collection", async () => {

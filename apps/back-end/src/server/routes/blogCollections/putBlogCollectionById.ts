@@ -1,13 +1,13 @@
 import type { Router } from "express";
 
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
-import { APIError } from "@alextheman/utility/v6";
 import { parseEditBlogCollectionData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
 import editBlogCollection from "src/services/blogCollections/editBlogCollection";
-import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
+import APIError from "src/utility/errors/APIError";
+import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -34,7 +34,7 @@ function putBlogCollectionById(blogCollections: Router) {
           const blogCollection = await selectBlogCollection(transaction, blogCollectionId);
 
           if (blogCollection?.userId !== request.user.id) {
-            throw forbiddenAccessError({ userId: request.user.id });
+            throw new ForbiddenAccessError({ userId: request.user.id });
           }
 
           await editBlogCollection(

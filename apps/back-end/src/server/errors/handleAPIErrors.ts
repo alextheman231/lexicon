@@ -1,5 +1,6 @@
-import { APIError, CodeError, DataError } from "@alextheman/utility/v6";
-
+import APIError from "src/utility/errors/APIError";
+import CodeError from "src/utility/errors/CodeError";
+import DataError from "src/utility/errors/DataError";
 import handleErrorMiddleware from "src/utility/handlers/handleErrorMiddleware";
 
 const handleAPIErrors = handleErrorMiddleware((error, _request, response, next) => {

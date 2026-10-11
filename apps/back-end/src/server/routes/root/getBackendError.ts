@@ -1,6 +1,6 @@
 import type { Router } from "express";
 
-import { CodeError } from "@alextheman/utility/v6";
+import CodeError from "src/utility/errors/CodeError";
 
 function getBackendError(root: Router) {
   root.get("/control/be-error", () => {

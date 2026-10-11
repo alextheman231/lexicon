@@ -1,12 +1,14 @@
 import type { EditBlogStateData } from "@lexicon/models";
 
-import { CodeError, DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogView } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
 import { randomUUID } from "node:crypto";
 
 import TestFixtures from "tests/fixtures";
+
+import CodeError from "src/utility/errors/CodeError";
+import DataError from "src/utility/errors/DataError";
 
 describe("PUT /api/v1/blogs/<blogId>/state", () => {
   test("Updates the state of the blog", async () => {

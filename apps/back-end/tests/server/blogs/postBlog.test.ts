@@ -1,7 +1,6 @@
 import type { CreateBlogData } from "@lexicon/models";
 
 import { assertNotNull, isSameDate } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogView } from "@lexicon/models";
 import BlogFactory from "factory/blogs";
 import { describe, expect, test } from "vitest";
@@ -10,6 +9,9 @@ import { randomUUID } from "node:crypto";
 
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
+
+import CodeError from "src/utility/errors/CodeError";
+import DataError from "src/utility/errors/DataError";
 
 describe("POST /api/v1/blogs", () => {
   test("Inserts a blog into the database", async () => {
@@ -44,12 +46,11 @@ describe("POST /api/v1/blogs", () => {
 
     const { body } = await testClient.post("/api/v1/blogs").send(data).expect(401);
 
-    const error = DataError.expectError(() => {
+    const error = CodeError.expectError(() => {
       throw body.error;
     });
 
     expect(error.code).toBe("AUTH_REQUIRED");
-    expect(error.data.sessionId).toBeUndefined();
   });
   test("Does not allow an ID in the data payload", async () => {
     const fixtures = new TestFixtures();

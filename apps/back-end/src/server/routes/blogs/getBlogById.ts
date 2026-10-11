@@ -1,14 +1,14 @@
 import type { Router } from "express";
 
 import { az, secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
-import { APIError } from "@alextheman/utility/v6";
 import { blogQueryStringSchema, BlogState } from "@lexicon/models";
 import z from "zod";
 
 import { getConnection } from "src/database/connection";
 import findLatestBlogVersion from "src/services/blogs/findLatestBlogVersion";
 import loadBlogView from "src/services/blogs/loadBlogView";
-import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
+import APIError from "src/utility/errors/APIError";
+import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -35,19 +35,19 @@ function getBlogById(blogs: Router) {
       const blog = await loadBlogView(connection, { blogId, revisionNumber });
 
       if (blog === null) {
-        throw resourceNotFoundError("blog", blogId);
+        throw new ResourceNotFoundError({ resourceType: "blog", resourceId: blogId });
       }
 
       if (
         ([BlogState.ARCHIVED, BlogState.DRAFT] as Array<BlogState>).includes(blog.state) &&
         blog.authorId !== request.user?.id
       ) {
-        throw resourceNotFoundError("blog", blogId);
+        throw new ResourceNotFoundError({ resourceType: "blog", resourceId: blogId });
       }
 
       const currentVersion = await findLatestBlogVersion(connection, blogId);
       if (currentVersion !== blog.revisionNumber && request.user?.id !== blog.authorId) {
-        throw resourceNotFoundError("blog", blogId);
+        throw new ResourceNotFoundError({ resourceType: "blog", resourceId: blogId });
       }
 
       response.status(200).send({ blog });

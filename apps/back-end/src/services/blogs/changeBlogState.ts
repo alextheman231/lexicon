@@ -4,12 +4,12 @@ import type { Transaction } from "src/database/connection";
 import type { BlogEndpointIds } from "src/services/blogs/helpers/BlogEndpointIds";
 
 import { assertNotNull } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { BlogState } from "@lexicon/models";
 
 import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
 import selectBlog from "src/models/blogs/selectBlog";
 import updateBlog from "src/models/blogs/updateBlog";
+import DataError from "src/utility/errors/DataError";
 
 async function changeBlogState(
   connection: Transaction,

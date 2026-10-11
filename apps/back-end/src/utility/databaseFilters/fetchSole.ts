@@ -1,4 +1,4 @@
-import { DataError } from "@alextheman/utility/v6";
+import DataError from "src/utility/errors/DataError";
 
 interface FetchSoleOptions {
   errorMessage?: string;

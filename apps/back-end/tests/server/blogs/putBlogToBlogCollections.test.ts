@@ -1,9 +1,10 @@
 import { fillArray } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogCollectionItemsResponse } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
 import TestFixtures from "tests/fixtures";
+
+import DataError from "src/utility/errors/DataError";
 
 describe("PUT /blogs/<blogId>/blog-collections", () => {
   test("Adds a blog to a list of blog collections.", async () => {

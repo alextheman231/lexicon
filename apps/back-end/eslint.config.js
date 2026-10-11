@@ -1,7 +1,8 @@
 import alexPlugin from "@alextheman/eslint-plugin";
+import { backendMain } from "@lexicon/configs";
 
 export default [
-  ...alexPlugin.configs["combined/typescript"],
+  ...backendMain,
   ...alexPlugin.configs["internal/package-json"],
   {
     rules: {

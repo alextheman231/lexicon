@@ -5,8 +5,8 @@ import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { getConnection } from "src/database/connection";
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
 import removeBlogCollectionItem from "src/services/blogCollections/removeBlogCollectionItem";
-import forbiddenAccessError from "src/utility/errors/forbiddenAccessError";
-import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
+import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
+import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -29,18 +29,24 @@ function deleteBlogCollectionItemEndpoint(blogCollections: Router) {
       await connection.transaction(async (transaction) => {
         const blogCollection = await selectBlogCollection(transaction, blogCollectionId);
         if (blogCollection === null) {
-          throw resourceNotFoundError("blog-collection", blogCollectionId);
+          throw new ResourceNotFoundError({
+            resourceType: "blog-collection",
+            resourceId: blogCollectionId,
+          });
         }
 
         if (blogCollection.userId !== request.user.id) {
-          throw forbiddenAccessError({ userId: request.user.id });
+          throw new ForbiddenAccessError({ userId: request.user.id });
         }
 
         const wasDeleted = await removeBlogCollectionItem(transaction, blogCollectionId, {
           blogCollectionItemId,
         });
         if (!wasDeleted) {
-          throw resourceNotFoundError("blog-collection-item", blogCollectionItemId);
+          throw new ResourceNotFoundError({
+            resourceType: "blog-collection-item",
+            resourceId: blogCollectionItemId,
+          });
         }
 
         response.status(204).send({});

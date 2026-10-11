@@ -1,7 +1,6 @@
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { PoolClient } from "pg";
 
-import { DataError } from "@alextheman/utility/v6";
 import dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
@@ -13,6 +12,7 @@ import path from "node:path";
 // eslint-disable-next-line @alextheman/no-namespace-imports -- Needed to give the connection access to our schema types.
 import * as schema from "src/database/schema";
 import loadEnvironment from "src/utility/env/loadEnvironment";
+import DataError from "src/utility/errors/DataError";
 
 const ENV = loadEnvironment();
 

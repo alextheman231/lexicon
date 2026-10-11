@@ -1,6 +1,5 @@
-import { DataError } from "@alextheman/utility/v6";
-
 import fetchSole from "src/utility/databaseFilters/fetchSole";
+import DataError from "src/utility/errors/DataError";
 
 async function fetchValue<ValueType>(
   query: Promise<Array<Record<string, ValueType>>>,

@@ -1,12 +1,12 @@
 import type { Router } from "express";
 
 import { assertNotNull, assertNotUndefined, UUID_REGEX_PATTERN } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 
 import { getConnection } from "src/database/connection";
 import fileStoreClient from "src/fileStoreClient";
 import selectUser from "src/models/users/selectUser";
+import DataError from "src/utility/errors/DataError";
 import getIdsFromProfilePictureFileKey from "src/utility/fileKeys/getIdsFromProfilePictureFileKey";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 

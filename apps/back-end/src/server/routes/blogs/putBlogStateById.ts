@@ -1,13 +1,14 @@
 import type { Router } from "express";
 
 import { UUID_REGEX_PATTERN } from "@alextheman/utility";
-import { APIError, DataError } from "@alextheman/utility/v6";
 import { parseEditBlogStateData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import selectBlog from "src/models/blogs/selectBlog";
 import changeBlogState from "src/services/blogs/changeBlogState";
-import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
+import APIError from "src/utility/errors/APIError";
+import DataError from "src/utility/errors/DataError";
+import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 
 function putBlogStateById(blogs: Router) {
@@ -19,7 +20,10 @@ function putBlogStateById(blogs: Router) {
       await connection.transaction(async (transaction) => {
         const oldBlog = await selectBlog(transaction, request.params.blogId);
         if (oldBlog === null) {
-          throw resourceNotFoundError("blog", request.params.blogId);
+          throw new ResourceNotFoundError({
+            resourceType: "blog",
+            resourceId: request.params.blogId,
+          });
         }
 
         if (oldBlog.authorId !== request.user.id) {

@@ -1,6 +1,6 @@
 import type { BlogCollectionItemsFilter } from "@lexicon/models";
 
-import type { ResourceNotFoundErrorPayload } from "src/utility/errors/resourceNotFoundError";
+import type { ResourceNotFoundErrorPayload } from "src/utility/errors/ResourceNotFoundError";
 
 import {
   assertNotNull,
@@ -10,7 +10,6 @@ import {
   paralleliseArrays,
   sortBy,
 } from "@alextheman/utility";
-import { DataError } from "@alextheman/utility/v6";
 import { parseBlogCollectionItemsResponse } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
@@ -18,6 +17,8 @@ import { randomUUID } from "node:crypto";
 
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
+
+import DataError from "src/utility/errors/DataError";
 
 describe("GET /api/v1/blog-collections/:blogCollectionId/items", () => {
   test("Returns all blog collection items", async () => {

@@ -4,7 +4,7 @@ import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 
 import { getConnection } from "src/database/connection";
 import loadUserProfile from "src/services/users/loadUserProfile";
-import resourceNotFoundError from "src/utility/errors/resourceNotFoundError";
+import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -21,7 +21,10 @@ function getUserById(users: Router) {
       const user = await loadUserProfile(connection, request.params);
 
       if (user === null) {
-        throw resourceNotFoundError("user", request.params.userId);
+        throw new ResourceNotFoundError({
+          resourceType: "user",
+          resourceId: request.params.userId,
+        });
       }
 
       response.status(200).send({ user });
