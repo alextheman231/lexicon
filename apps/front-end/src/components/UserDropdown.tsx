@@ -1,4 +1,3 @@
-import { ExternalLink } from "@alextheman/components";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -92,10 +91,7 @@ function UserDropdown() {
       <DropdownMenu>
         <QueryBoundaryUser.Data
           nullFallback={
-            <DropdownMenuItem
-              component={ExternalLink}
-              href={`/api/v1/auth/google?redirect=${encodeURIComponent(window.location.origin)}`}
-            >
+            <DropdownMenuItem component={InternalLink} to="/users/sign-in">
               <ListItemIcon>
                 <MdLogin />
               </ListItemIcon>
