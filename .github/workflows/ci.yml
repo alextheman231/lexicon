@@ -204,4 +204,4 @@ jobs:
           retention-days: 30
 
   actions-ci:
-    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@a8e567aa7146169f3d858752ffb0f2dfd9ecb70f # v14.0.1
+    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@b2f0b2147ee6559019c8379f381d982bf0644381 # v14.1.0
