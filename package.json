@@ -33,16 +33,16 @@
   "devDependencies": {
     "@alextheman/eslint-plugin": "5.18.5",
     "@faker-js/faker": "10.6.0",
-    "@types/node": "26.6.4",
-    "@typescript-eslint/utils": "8.71.1",
+    "@types/node": "26.6.5",
+    "@typescript-eslint/utils": "8.71.2",
     "alex-c-line": "2.16.4",
     "cross-env": "10.1.0",
     "eslint": "10.12.0",
     "husky": "9.1.7",
-    "prettier": "3.9.9",
-    "turbo": "2.11.7",
+    "prettier": "3.9.10",
+    "turbo": "2.11.8",
     "typescript": "7.0.2",
-    "typescript-eslint": "8.71.1"
+    "typescript-eslint": "8.71.2"
   },
   "packageManager": "pnpm@12.14.0+sha512.c18ba6d87993d3d164cb5e8948f32b2c06ee854487e06cd8d86781342fb3e5bb4634367034711e86802baa9c37bea906ce1929ad08d70884c97d801df13389a6",
   "engines": {
@@ -50,6 +50,6 @@
   },
   "dependencies": {
     "@alextheman/utility": "5.30.0",
-    "zod": "4.6.5"
+    "zod": "4.6.7"
   }
 }
