@@ -33,10 +33,10 @@
   "type": "module",
   "devDependencies": {
     "@lexicon/configs": "workspace:*",
-    "@playwright/test": "1.64.0",
-    "dotenv": "18.0.6",
-    "execa": "10.1.0",
-    "playwright": "1.64.0",
+    "@playwright/test": "1.64.1",
+    "dotenv": "18.0.8",
+    "execa": "10.1.1",
+    "playwright": "1.64.1",
     "tsx": "4.23.15"
   }
 }
