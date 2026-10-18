@@ -27,7 +27,7 @@ async function selectUser(connection: Connection, filters: SelectUserFilter): Pr
       .where(and(maybeEq(usersTable.id, filters.userId), maybeEq(usersTable.email, filters.email))),
   );
 
-  return user ?? null;
+  return user;
 }
 
 export default selectUser;
