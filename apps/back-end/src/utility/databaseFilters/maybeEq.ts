@@ -3,7 +3,10 @@ import type { PgColumn } from "drizzle-orm/pg-core";
 
 import { eq } from "drizzle-orm";
 
-function maybeEq<Column extends PgColumn, Value>(left: Column, right?: Value | SQLWrapper) {
+function maybeEq<Column extends PgColumn, Value>(
+  left: Column,
+  right?: Value | SQLWrapper,
+): ReturnType<typeof eq> | undefined {
   return right !== undefined ? eq(left, right) : undefined;
 }
 
