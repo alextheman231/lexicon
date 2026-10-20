@@ -8,6 +8,7 @@ import {
   paralleliseArrays,
   sortBy,
 } from "@alextheman/utility";
+import { CodeError, DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogSummaries, parseBlogSummariesResponse } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
@@ -17,8 +18,6 @@ import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
 import selectUser from "src/models/users/selectUser";
-import CodeError from "src/utility/errors/CodeError";
-import DataError from "src/utility/errors/DataError";
 
 describe("GET /api/v1/blogs", () => {
   test("Returns all the blogs from all users", async () => {

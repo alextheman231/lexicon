@@ -1,10 +1,11 @@
 import type { ObjectValue } from "@alextheman/utility";
 import type { ExpectErrorOptions } from "@alextheman/utility/v6";
 
+import type { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
+
 import { containsKeys, isNonNullableObject, objectContainsKeys } from "@alextheman/utility";
 // eslint-disable-next-line no-restricted-imports -- Our internal CodeError uses APIError so we need to use the utility one to avoid circular imports.
 import { CodeError } from "@alextheman/utility/v6";
-import { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
 
 export const APIErrorCode = {
   BAD_REQUEST: "BAD_REQUEST",
@@ -12,8 +13,8 @@ export const APIErrorCode = {
   FORBIDDEN: "FORBIDDEN",
   NOT_FOUND: "NOT_FOUND",
   I_AM_A_TEAPOT: "I_AM_A_TEAPOT",
-  INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR"
-} as const
+  INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
+} as const;
 export type APIErrorCode = ObjectValue<typeof APIErrorCode>;
 
 export const httpErrorCodeLookup = {
@@ -25,7 +26,7 @@ export const httpErrorCodeLookup = {
   // You'll never use it in practice because why would an error give a teapot, but it's funny. Do not question me.
   418: "I_AM_A_TEAPOT",
   500: "INTERNAL_SERVER_ERROR",
-} satisfies Record<string, APIErrorCode>
+} satisfies Record<string, APIErrorCode>;
 
 export type HTTPErrorCode = keyof typeof httpErrorCodeLookup;
 
@@ -39,7 +40,7 @@ export type HTTPErrorCode = keyof typeof httpErrorCodeLookup;
  */
 class APIErrorBase<
   DataType extends object = Record<PropertyKey, unknown>,
-  ErrorCode extends string = string
+  ErrorCode extends string = string,
 > extends CodeError<ErrorCode> {
   public data?: DataType;
   public status: number;
@@ -152,7 +153,10 @@ class APIErrorBase<
     errorFunction: () => Promise<unknown>,
     options?: ExpectErrorOptions<ErrorCode>,
   ): Promise<APIErrorBase<DataType, ErrorCode>> {
-    return (await super.expectErrorAsync(errorFunction, options)) as APIErrorBase<DataType, ErrorCode>;
+    return (await super.expectErrorAsync(errorFunction, options)) as APIErrorBase<
+      DataType,
+      ErrorCode
+    >;
   }
   /**
    * Create a new `APIError` with the error code derived from the status directly.
@@ -190,9 +194,7 @@ class APIErrorBase<
 
 class APIError<
   DataType extends object = Record<PropertyKey, unknown>,
-  ErrorCode extends LexiconErrorCode = LexiconErrorCode
-> extends APIErrorBase<DataType, ErrorCode> {
-
-}
+  ErrorCode extends LexiconErrorCode = LexiconErrorCode,
+> extends APIErrorBase<DataType, ErrorCode> {}
 
 export default APIError;

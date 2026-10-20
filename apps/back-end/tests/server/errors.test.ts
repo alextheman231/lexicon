@@ -1,11 +1,9 @@
 import type { EndpointNotFoundErrorPayload } from "src/utility/errors/EndpointNotFoundError";
 
+import { CodeError, DataError } from "@alextheman/utility/v6";
 import { describe, expect, test } from "vitest";
 
 import testClient from "tests/fixtures/testClient";
-
-import CodeError from "src/utility/errors/CodeError";
-import DataError from "src/utility/errors/DataError";
 
 describe("/api/v1/control/be-error", () => {
   test("Should throw an internal server error", async () => {

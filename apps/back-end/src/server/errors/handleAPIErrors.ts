@@ -1,7 +1,8 @@
+import type { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
+
 import APIError from "src/utility/errors/APIError";
 import CodeError from "src/utility/errors/CodeError";
 import DataError from "src/utility/errors/DataError";
-import { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
 import handleErrorMiddleware from "src/utility/handlers/handleErrorMiddleware";
 
 const handleAPIErrors = handleErrorMiddleware((error, _request, response, next) => {

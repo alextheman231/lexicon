@@ -9,10 +9,10 @@ import changeBlogState from "src/services/blogs/changeBlogState";
 import editBlog from "src/services/blogs/editBlog";
 import APIError from "src/utility/errors/APIError";
 import DataError from "src/utility/errors/DataError";
+import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
-import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 
 function putBlogById(blogs: Router) {
   blogs.put(
@@ -32,7 +32,7 @@ function putBlogById(blogs: Router) {
         }
 
         if (oldBlog.authorId !== request.user.id) {
-          throw new ForbiddenAccessError({userId: request.user.id})
+          throw new ForbiddenAccessError({ userId: request.user.id });
         }
 
         const data = parseEditBlogData(request.body);
