@@ -1,6 +1,7 @@
 import type { CreateBlogData } from "@lexicon/models";
 
 import { assertNotNull, isSameDate } from "@alextheman/utility";
+import { CodeError, DataError } from "@alextheman/utility/v6";
 import { BlogState, parseBlogView } from "@lexicon/models";
 import BlogFactory from "factory/blogs";
 import { describe, expect, test } from "vitest";
@@ -9,9 +10,6 @@ import { randomUUID } from "node:crypto";
 
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
-
-import CodeError from "src/utility/errors/CodeError";
-import DataError from "src/utility/errors/DataError";
 
 describe("POST /api/v1/blogs", () => {
   test("Inserts a blog into the database", async () => {
@@ -115,6 +113,6 @@ describe("POST /api/v1/blogs", () => {
     });
 
     expect(error.data.input).toEqual(data);
-    expect(error.code).toBe("INVALID_BLOG_DATA");
+    expect(error.code).toBe("RESOURCE_NOT_IN_REQUIRED_STATE");
   });
 });

@@ -1,6 +1,7 @@
 import type { ResourceNotFoundErrorPayload } from "src/utility/errors/ResourceNotFoundError";
 
 import { assertNotUndefined, fillArray, paralleliseArrays, sortBy } from "@alextheman/utility";
+import { CodeError, DataError } from "@alextheman/utility/v6";
 import { parseBlogRevisionHistory } from "@lexicon/models";
 import { describe, expect, test } from "vitest";
 
@@ -8,9 +9,6 @@ import { randomUUID } from "node:crypto";
 
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
-
-import CodeError from "src/utility/errors/CodeError";
-import DataError from "src/utility/errors/DataError";
 
 describe("GET /api/v1/blogs/<blogId>/revisions", () => {
   test("Gets all the blog revisions for the chosen blog", async () => {

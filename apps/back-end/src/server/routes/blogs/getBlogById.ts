@@ -22,8 +22,7 @@ function getBlogById(blogs: Router) {
       const connection = getConnection();
 
       const { revisionNumber } = az.with(blogQueryStringSchema).parse(request.query, (error) => {
-        return new InvalidQueryStringError({ query: request.query }, error
-        );
+        return new InvalidQueryStringError({ query: request.query }, error);
       });
       const { blogId } = request.params;
 

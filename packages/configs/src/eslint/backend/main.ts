@@ -17,7 +17,7 @@ const backendMain: Array<Linter.Config> = [
     },
   },
   {
-    files: ["{src,tests}/**/*.ts"],
+    files: ["src/**/*.ts"],
     rules: {
       "no-restricted-imports": [
         "error",

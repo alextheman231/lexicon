@@ -35,8 +35,7 @@ function getBlogCollectionItemsByBlogCollectionId(blogCollections: Router) {
       }
 
       const parsedFilters = parseBlogCollectionItemsFilter(request.query, (error) => {
-        return new InvalidQueryStringError({ query: request.query }, error
-        );
+        return new InvalidQueryStringError({ query: request.query }, error);
       });
 
       const filters: BlogCollectionItemsFilter = {

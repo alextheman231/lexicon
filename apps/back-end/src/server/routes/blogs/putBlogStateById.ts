@@ -8,9 +8,9 @@ import selectBlog from "src/models/blogs/selectBlog";
 import changeBlogState from "src/services/blogs/changeBlogState";
 import APIError from "src/utility/errors/APIError";
 import DataError from "src/utility/errors/DataError";
+import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
-import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 
 function putBlogStateById(blogs: Router) {
   blogs.put(
@@ -28,7 +28,7 @@ function putBlogStateById(blogs: Router) {
         }
 
         if (oldBlog.authorId !== request.user.id) {
-          throw new ForbiddenAccessError({userId: request.user.id})
+          throw new ForbiddenAccessError({ userId: request.user.id });
         }
 
         const data = parseEditBlogStateData(request.body);

@@ -20,7 +20,7 @@ function postBlogCollection(blogCollections: Router) {
       const connection = getConnection();
 
       const data = parseCreateBlogCollectionData(request.body, (error) => {
-        return new InvalidBlogCollectionDataError({input: request.body}, error)
+        return new InvalidBlogCollectionDataError({ input: request.body }, error);
       });
 
       await connection.transaction(async (transaction) => {

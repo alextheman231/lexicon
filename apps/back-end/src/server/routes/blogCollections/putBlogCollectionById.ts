@@ -22,7 +22,7 @@ function putBlogCollectionById(blogCollections: Router) {
       async (request, response) => {
         const connection = getConnection();
         const data = parseEditBlogCollectionData(request.body, (error) => {
-          return new InvalidBlogCollectionDataError({input: request.body}, error)
+          return new InvalidBlogCollectionDataError({ input: request.body }, error);
         });
         const { blogCollectionId } = request.params;
 
