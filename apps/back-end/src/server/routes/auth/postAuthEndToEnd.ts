@@ -32,7 +32,7 @@ function postAuthEndToEnd(auth: Router) {
         if (user === null) {
           throw new APIError(
             404,
-            "USER_NOT_FOUND",
+            "END_TO_END_USER_NOT_FOUND",
             "The user could not be found in the development database. If you wish to test with the provided credentials, please add it to `dev/fixtures`.",
           );
         }

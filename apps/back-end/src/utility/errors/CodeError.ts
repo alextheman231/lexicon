@@ -4,8 +4,9 @@ import type APIError from "src/utility/errors/APIError";
 import { CodeError as AlexCodeError } from "@alextheman/utility/v6";
 
 import InternalServerError from "src/utility/errors/InternalServerError";
+import { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
 
-class CodeError<ErrorCode extends string = string> extends AlexCodeError<ErrorCode> {
+class CodeError<ErrorCode extends LexiconErrorCode = LexiconErrorCode> extends AlexCodeError<ErrorCode> {
   public toAPIError(): APIError {
     return new InternalServerError();
   }

@@ -5,8 +5,8 @@ import { parseEditBlogCollectionData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
+import InvalidBlogCollectionDataError from "src/server/routes/blogCollections/helpers/InvalidBlogCollectionDataError";
 import editBlogCollection from "src/services/blogCollections/editBlogCollection";
-import APIError from "src/utility/errors/APIError";
 import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
@@ -21,12 +21,8 @@ function putBlogCollectionById(blogCollections: Router) {
     handleAuthenticatedEndpointMiddleware<{ blogCollectionId: string }>(
       async (request, response) => {
         const connection = getConnection();
-        const data = parseEditBlogCollectionData(request.body, () => {
-          return new APIError(
-            400,
-            "INVALID_BLOG_COLLECTION_DATA",
-            "The blog collection data provided is invalid. Please try again.",
-          );
+        const data = parseEditBlogCollectionData(request.body, (error) => {
+          return new InvalidBlogCollectionDataError({input: request.body}, error)
         });
         const { blogCollectionId } = request.params;
 

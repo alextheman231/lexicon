@@ -2,12 +2,11 @@ import type { Router } from "express";
 
 import { az, secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { blogQueryStringSchema, BlogState } from "@lexicon/models";
-import z from "zod";
 
 import { getConnection } from "src/database/connection";
 import findLatestBlogVersion from "src/services/blogs/findLatestBlogVersion";
 import loadBlogView from "src/services/blogs/loadBlogView";
-import APIError from "src/utility/errors/APIError";
+import InvalidQueryStringError from "src/utility/errors/InvalidQueryStringError";
 import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
@@ -23,11 +22,7 @@ function getBlogById(blogs: Router) {
       const connection = getConnection();
 
       const { revisionNumber } = az.with(blogQueryStringSchema).parse(request.query, (error) => {
-        return new APIError(
-          400,
-          "INVALID_QUERY_STRING",
-          `The provided query string is invalid:\n\n${z.prettifyError(error)}`,
-          { query: request.query },
+        return new InvalidQueryStringError({ query: request.query }, error
         );
       });
       const { blogId } = request.params;

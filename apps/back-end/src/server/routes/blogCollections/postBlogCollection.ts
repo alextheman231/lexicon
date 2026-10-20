@@ -4,8 +4,8 @@ import { secondsToMs } from "@alextheman/utility";
 import { parseCreateBlogCollectionData } from "@lexicon/models";
 
 import { getConnection } from "src/database/connection";
+import InvalidBlogCollectionDataError from "src/server/routes/blogCollections/helpers/InvalidBlogCollectionDataError";
 import createBlogCollection from "src/services/blogCollections/createBlogCollection";
-import APIError from "src/utility/errors/APIError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
 
@@ -19,12 +19,8 @@ function postBlogCollection(blogCollections: Router) {
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
 
-      const data = parseCreateBlogCollectionData(request.body, () => {
-        return new APIError(
-          400,
-          "INVALID_BLOG_COLLECTION_DATA",
-          "The blog collection data provided is invalid. Please try again.",
-        );
+      const data = parseCreateBlogCollectionData(request.body, (error) => {
+        return new InvalidBlogCollectionDataError({input: request.body}, error)
       });
 
       await connection.transaction(async (transaction) => {

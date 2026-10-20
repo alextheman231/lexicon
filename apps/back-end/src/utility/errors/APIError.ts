@@ -4,6 +4,17 @@ import type { ExpectErrorOptions } from "@alextheman/utility/v6";
 import { containsKeys, isNonNullableObject, objectContainsKeys } from "@alextheman/utility";
 // eslint-disable-next-line no-restricted-imports -- Our internal CodeError uses APIError so we need to use the utility one to avoid circular imports.
 import { CodeError } from "@alextheman/utility/v6";
+import { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
+
+export const APIErrorCode = {
+  BAD_REQUEST: "BAD_REQUEST",
+  UNAUTHORISED: "UNAUTHORISED",
+  FORBIDDEN: "FORBIDDEN",
+  NOT_FOUND: "NOT_FOUND",
+  I_AM_A_TEAPOT: "I_AM_A_TEAPOT",
+  INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR"
+} as const
+export type APIErrorCode = ObjectValue<typeof APIErrorCode>;
 
 export const httpErrorCodeLookup = {
   400: "BAD_REQUEST",
@@ -14,10 +25,9 @@ export const httpErrorCodeLookup = {
   // You'll never use it in practice because why would an error give a teapot, but it's funny. Do not question me.
   418: "I_AM_A_TEAPOT",
   500: "INTERNAL_SERVER_ERROR",
-} as const;
+} satisfies Record<string, APIErrorCode>
 
 export type HTTPErrorCode = keyof typeof httpErrorCodeLookup;
-export type APIErrorCode = ObjectValue<typeof httpErrorCodeLookup>;
 
 /**
  * Represents common errors you may get from a HTTP API request.
@@ -27,9 +37,9 @@ export type APIErrorCode = ObjectValue<typeof httpErrorCodeLookup>;
  * @template DataType The type of the data that caused the error.
  * @template ErrorCode The type of the standardised error code.
  */
-class APIError<
+class APIErrorBase<
   DataType extends object = Record<PropertyKey, unknown>,
-  ErrorCode extends string = string,
+  ErrorCode extends string = string
 > extends CodeError<ErrorCode> {
   public data?: DataType;
   public status: number;
@@ -68,10 +78,10 @@ class APIError<
    *
    * @returns `true` if the input is an APIError, and `false` otherwise. The type of the input will also be narrowed down to APIError if `true`.
    */
-  public static check<
+  public static override check<
     DataType extends object = Record<PropertyKey, unknown>,
     ErrorCode extends string = string,
-  >(input: unknown): input is APIError<DataType, ErrorCode> {
+  >(input: unknown): input is APIErrorBase<DataType, ErrorCode> {
     if (input instanceof APIError) {
       return true;
     }
@@ -98,10 +108,10 @@ class APIError<
    *
    * @returns `true` if the error code matches the expected code, and `false` otherwise. The type of the input will also be narrowed down to `APIError`, and its code will be narrowed to the expected code's type if the function returns `true`.
    */
-  public static checkWithCode<
+  public static override checkWithCode<
     DataType extends object = Record<PropertyKey, unknown>,
     ErrorCode extends string = string,
-  >(input: unknown, code: ErrorCode): input is APIError<DataType, ErrorCode> {
+  >(input: unknown, code: ErrorCode): input is APIErrorBase<DataType, ErrorCode> {
     return this.check(input) && input.code === code;
   }
   /**
@@ -121,8 +131,8 @@ class APIError<
   >(
     errorFunction: () => unknown,
     options?: ExpectErrorOptions<ErrorCode>,
-  ): APIError<DataType, ErrorCode> {
-    return super.expectError(errorFunction, options) as APIError<DataType, ErrorCode>;
+  ): APIErrorBase<DataType, ErrorCode> {
+    return super.expectError(errorFunction, options) as APIErrorBase<DataType, ErrorCode>;
   }
   /**
    * Gets the thrown `APIError` from a given asynchronous function if one was thrown, and re-throws any other errors, or throws a default `APIError` if no error thrown.
@@ -141,8 +151,8 @@ class APIError<
   >(
     errorFunction: () => Promise<unknown>,
     options?: ExpectErrorOptions<ErrorCode>,
-  ): Promise<APIError<DataType, ErrorCode>> {
-    return (await super.expectErrorAsync(errorFunction, options)) as APIError<DataType, ErrorCode>;
+  ): Promise<APIErrorBase<DataType, ErrorCode>> {
+    return (await super.expectErrorAsync(errorFunction, options)) as APIErrorBase<DataType, ErrorCode>;
   }
   /**
    * Create a new `APIError` with the error code derived from the status directly.
@@ -159,9 +169,9 @@ class APIError<
     message?: string,
     data?: DataType,
     options?: ErrorOptions,
-  ): APIError<DataType, APIErrorCode> {
+  ): APIErrorBase<DataType, APIErrorCode> {
     const code: APIErrorCode = httpErrorCodeLookup[status];
-    return new APIError<DataType, APIErrorCode>(status, code, message, data, options);
+    return new APIErrorBase<DataType, APIErrorCode>(status, code, message, data, options);
   }
 
   /**
@@ -169,13 +179,20 @@ class APIError<
    *
    * @returns A JSON serialised version of the current `APIError` instance.
    */
-  public override toJSON(): Omit<APIError<DataType, ErrorCode>, "toJSON" | "name"> {
+  public override toJSON(): Omit<APIErrorBase<DataType, ErrorCode>, "toJSON" | "name"> {
     return {
       ...super.toJSON(),
       status: this.status,
       data: this.data,
     };
   }
+}
+
+class APIError<
+  DataType extends object = Record<PropertyKey, unknown>,
+  ErrorCode extends LexiconErrorCode = LexiconErrorCode
+> extends APIErrorBase<DataType, ErrorCode> {
+
 }
 
 export default APIError;
