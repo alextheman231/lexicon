@@ -16,6 +16,7 @@ async function countBlogCollections(
   const count = await fetchValue(
     buildBlogCollectionsQuery(connection, { count: sql`COUNT(*)` }, filters),
   );
+
   return az.with(z.coerce.number().int().nonnegative()).parse(count);
 }
 
