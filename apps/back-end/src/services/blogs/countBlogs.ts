@@ -2,7 +2,7 @@ import type { BlogsFilter } from "@lexicon/models";
 
 import type { Connection } from "src/database/connection";
 
-import { az } from "@alextheman/utility";
+import { assertNotUndefined, az } from "@alextheman/utility";
 import { sql } from "drizzle-orm";
 import z from "zod";
 
@@ -14,6 +14,7 @@ async function countBlogs(
   filters: Omit<BlogsFilter, "pageNumber" | "pageSize" | "sortColumn" | "sortDirection">,
 ): Promise<number> {
   const count = await fetchValue(buildBlogsQuery(connection, { count: sql`COUNT(*)` }, filters));
+  assertNotUndefined(count);
   return az.with(z.coerce.number().int()).parse(count);
 }
 

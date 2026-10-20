@@ -1,6 +1,6 @@
 import type { Connection } from "src/database/connection";
 
-import { assertNotNull, az } from "@alextheman/utility";
+import { assertNotUndefined, az } from "@alextheman/utility";
 import { sql } from "drizzle-orm";
 import z from "zod";
 
@@ -14,7 +14,7 @@ async function countBlogCollectionItems(
   const count = await fetchValue(
     buildBlogCollectionItemsQuery(connection, blogCollectionId, { count: sql`COUNT(*)` }, {}),
   );
-  assertNotNull(count);
+  assertNotUndefined(count);
   return az.with(z.coerce.number().int().nonnegative()).parse(count);
 }
 

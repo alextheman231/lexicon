@@ -3,12 +3,12 @@ import DataError from "src/utility/errors/DataError";
 
 async function fetchValue<ValueType>(
   query: Promise<Array<Record<string, ValueType>>>,
-): Promise<ValueType> {
+): Promise<ValueType | undefined> {
   const errorMessage = "Expected exactly one row to be returned.";
   const result = await fetchSole(query, { errorMessage });
 
   if (result === null) {
-    throw new DataError({ result }, "NO_ROWS_ERROR", errorMessage);
+    return undefined;
   }
 
   const values = Object.values(result);
