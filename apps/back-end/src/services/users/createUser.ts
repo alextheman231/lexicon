@@ -5,7 +5,7 @@ import type { Connection } from "src/database/connection";
 import { az } from "@alextheman/utility";
 import z from "zod";
 
-import { insertUser } from "src/models/users/insertUser";
+import insertUser from "src/models/users/insertUser";
 
 async function createUser(connection: Connection, data: CreateUserData): Promise<User> {
   const user = await insertUser(connection, {
