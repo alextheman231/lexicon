@@ -48,7 +48,7 @@ function getAuthGoogleCallback(auth: Router) {
       const callbackUrl = new URL(createCallbackUrl(request.originalUrl));
 
       if (request.query.state !== cookieState) {
-        throw new APIError(400, "INVALID_STATE", "The state provided is invalid.");
+        throw new APIError(400, "INVALID_COOKIE_STATE", "The cookiestate provided is invalid.");
       }
 
       const tokens = await authorizationCodeGrant(config, callbackUrl, {

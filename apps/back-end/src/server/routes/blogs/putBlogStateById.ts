@@ -10,6 +10,7 @@ import APIError from "src/utility/errors/APIError";
 import DataError from "src/utility/errors/DataError";
 import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
+import ForbiddenAccessError from "src/utility/errors/ForbiddenAccessError";
 
 function putBlogStateById(blogs: Router) {
   blogs.put(
@@ -27,11 +28,7 @@ function putBlogStateById(blogs: Router) {
         }
 
         if (oldBlog.authorId !== request.user.id) {
-          throw new APIError(
-            403,
-            "FORBIDDEN_ACCESS",
-            "You do not have permission to edit this blog.",
-          );
+          throw new ForbiddenAccessError({userId: request.user.id})
         }
 
         const data = parseEditBlogStateData(request.body);

@@ -4,12 +4,13 @@ import type APIError from "src/utility/errors/APIError";
 import { DataError as AlexDataError } from "@alextheman/utility/v6";
 
 import InternalServerError from "src/utility/errors/InternalServerError";
+import { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
 
 class DataError<
   DataType extends object = Record<PropertyKey, unknown>,
-  ErrorCode extends string = string,
+  ErrorCode extends LexiconErrorCode = LexiconErrorCode,
 > extends AlexDataError<DataType, ErrorCode> {
-  public toAPIError(): APIError<object, string> {
+  public toAPIError(): APIError<object, LexiconErrorCode> {
     return new InternalServerError();
   }
 }

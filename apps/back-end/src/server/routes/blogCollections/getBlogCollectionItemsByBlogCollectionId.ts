@@ -3,14 +3,13 @@ import type { Router } from "express";
 
 import { secondsToMs, UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { parseBlogCollectionItemsFilter } from "@lexicon/models";
-import z from "zod";
 
 import { getConnection } from "src/database/connection";
 import selectBlogCollection from "src/models/blogCollections/selectBlogCollection";
 import countBlogCollectionItems from "src/services/blogCollections/countBlogCollectionItems";
 import loadBlogCollectionItemSummaries from "src/services/blogCollections/loadBlogCollectionItemSummaries";
 import queryBlogCollectionItemIds from "src/services/blogCollections/queryBlogCollectionItemIds";
-import APIError from "src/utility/errors/APIError";
+import InvalidQueryStringError from "src/utility/errors/InvalidQueryStringError";
 import ResourceNotFoundError from "src/utility/errors/ResourceNotFoundError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 import handleRateLimit from "src/utility/handlers/handleRateLimit";
@@ -36,11 +35,7 @@ function getBlogCollectionItemsByBlogCollectionId(blogCollections: Router) {
       }
 
       const parsedFilters = parseBlogCollectionItemsFilter(request.query, (error) => {
-        return new APIError(
-          400,
-          "INVALID_QUERY_STRING",
-          `The query string is invalid:\n\n${z.prettifyError(error)}`,
-          { query: request.query },
+        return new InvalidQueryStringError({ query: request.query }, error
         );
       });
 
