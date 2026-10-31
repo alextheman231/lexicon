@@ -14,23 +14,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Install PNPM
-        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        uses: pnpm/action-setup@v6.1.0
         with:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: 26
           cache: "pnpm"
 
       - name: Cache Turborepo cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache@v6.1.0
         with:
           path: "**/.turbo"
           key: turbo-lint-${{ hashFiles('{apps,packages}/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'turbo.json') }}
@@ -63,23 +63,23 @@ jobs:
           - 5432:5432
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Use PNPM
-        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        uses: pnpm/action-setup@v6.1.0
         with:
           run_install: false
 
       - name: Use Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: 26
           cache: "pnpm"
 
       - name: Cache Turborepo cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache@v6.1.0
         with:
           path: "**/.turbo"
           key: turbo-test-${{ hashFiles('{apps,packages}/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'turbo.json') }}
@@ -125,30 +125,30 @@ jobs:
           - 5432:5432
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Use PNPM
-        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        uses: pnpm/action-setup@v6.1.0
         with:
           run_install: false
 
       - name: Use Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: 26
           cache: "pnpm"
 
       - name: Cache Turborepo cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache@v6.1.0
         with:
           path: "**/.turbo"
           key: turbo-end-to-end-${{ hashFiles('{apps,packages}/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'turbo.json') }}
           restore-keys: turbo-end-to-end-
 
       - name: Cache Playwright browsers
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache@v6.1.0
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml', 'apps/end-to-end/playwright.config.ts') }}
@@ -188,7 +188,7 @@ jobs:
         run: pnpm test
 
       - name: Upload Playwright reports to workflow output
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v7.0.2
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
@@ -196,7 +196,7 @@ jobs:
           retention-days: 30
 
       - name: Upload test results to workflow output
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v7.0.2
         if: ${{ !cancelled() }}
         with:
           name: test-results
@@ -204,12 +204,12 @@ jobs:
           retention-days: 30
 
   actions-ci:
-    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@418c332315197ab9833fa7e2abf2bfb6475335d1 # v14.3.0
+    uses: alextheman231/github-actions/.github/workflows/actions-ci.yml@6303ccc55913d70a641b50c97dc36475c5053c99 # v14.4.0
 
   secret-scan-ci:
     permissions:
       contents: read
-    uses: alextheman231/github-actions/.github/workflows/secret-scan-ci.yml@418c332315197ab9833fa7e2abf2bfb6475335d1 # v14.3.0
+    uses: alextheman231/github-actions/.github/workflows/secret-scan-ci.yml@6303ccc55913d70a641b50c97dc36475c5053c99 # v14.4.0
     with:
       github-push-before-sha: ${{ github.event.before }}
       github-push-base-sha: ${{ github.event.base_ref }}
