@@ -1,7 +1,6 @@
 {
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ]
+  "files.associations": {
+    "**/templates/**/*.md": "markdown",
+    "**/templates/**/*.html": "html"
+  }
 }
