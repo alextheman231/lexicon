@@ -39,6 +39,6 @@
     "lexical": "0.53.0"
   },
   "devDependencies": {
-    "tsdown": "0.23.4"
+    "tsdown": "0.23.7"
   }
 }
