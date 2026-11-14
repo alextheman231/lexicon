@@ -3,7 +3,8 @@ import type { CodeError } from "@alextheman/utility/v6";
 import { DataError } from "@alextheman/utility/v6";
 
 export type CodeErrorFormatter =
-  string | ((error: CodeError | DataError, status?: number) => string);
+  | string
+  | ((error: CodeError | DataError, status?: number) => string);
 export type CodeErrorMap = Record<string, CodeErrorFormatter>;
 
 const defaultErrorFormatters: CodeErrorMap = {

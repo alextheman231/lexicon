@@ -2,35 +2,31 @@
   "name": "end-to-end",
   "version": "1.0.0",
   "description": "End-to-end tests for Lexicon",
-  "files": [
-    "tests"
-  ],
-  "main": "index.js",
+  "license": "ISC",
+  "author": "alextheman",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alextheman231/lexicon.git"
   },
+  "files": [
+    "tests"
+  ],
+  "type": "module",
   "sideEffects": false,
+  "main": "index.js",
   "scripts": {
-    "format": "pnpm run format-prettier && pnpm run format-eslint",
+    "format": "pnpm run format-oxfmt && pnpm run format-eslint",
     "format-eslint": "eslint --fix --suppress-all \"tests/**/*.{ts,tsx}\" && rm -f eslint-suppressions.json",
-    "format-prettier": "pnpm run format-prettier-typescript && pnpm run format-prettier-javascript",
-    "format-prettier-javascript": "prettier --write \"**/*.{js,json}\"",
-    "format-prettier-typescript": "prettier --write --parser typescript \"./**/*.{ts,tsx}\"",
-    "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-prettier",
+    "format-oxfmt": "oxfmt \"**/*.{ts,js,json}\"",
+    "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-oxfmt",
     "lint-eslint": "eslint \"tests/**/*.{ts,tsx}\"",
-    "lint-prettier": "pnpm run lint-prettier-typescript && pnpm run lint-prettier-javascript",
-    "lint-prettier-javascript": "prettier --check \"**/*.{js,json}\"",
-    "lint-prettier-typescript": "prettier --check --parser typescript \"**/*.{ts,tsx}\"",
+    "lint-oxfmt": "oxfmt --check \"**/*.{ts,tsx,js,json}\"",
     "lint-tsc": "tsc --noEmit",
     "show-report": "playwright show-report",
     "show-trace": "playwright show-trace",
     "test": "tsx tests/setup.ts && playwright test",
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
-  "author": "alextheman",
-  "license": "ISC",
-  "type": "module",
   "devDependencies": {
     "@lexicon/configs": "workspace:*",
     "@playwright/test": "1.65.0",

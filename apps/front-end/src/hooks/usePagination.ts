@@ -45,7 +45,9 @@ interface SearchAction {
 }
 
 type Action<DataType extends object = Record<PropertyKey, unknown>> =
-  SortAction<DataType> | PageAction | SearchAction;
+  | SortAction<DataType>
+  | PageAction
+  | SearchAction;
 
 function createReducer<DataType extends object = Record<PropertyKey, unknown>>(
   initialState: Partial<PaginationSettings<DataType>>,
