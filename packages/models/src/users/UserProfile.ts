@@ -1,11 +1,14 @@
 import { az } from "@alextheman/utility";
 import z from "zod";
 
+import { UserState } from "src/users/UserState";
+
 export const userProfileSchema = z.object({
   id: z.uuid(),
   username: z.string().max(100),
   description: z.string().nullable(),
   displayName: z.string().max(50).nullable(),
+  state: z.enum(UserState),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().nullable(),
   profilePictureUrl: z.string().nullable(),
