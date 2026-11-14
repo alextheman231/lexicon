@@ -22,7 +22,8 @@ export interface QueryBoundaryErrorPropsDefault extends QueryBoundaryErrorPropsB
 }
 
 export type QueryBoundaryErrorProps =
-  QueryBoundaryErrorPropsDefault | QueryBoundaryErrorPropsCodeError;
+  | QueryBoundaryErrorPropsDefault
+  | QueryBoundaryErrorPropsCodeError;
 
 function QueryBoundaryError({
   children,

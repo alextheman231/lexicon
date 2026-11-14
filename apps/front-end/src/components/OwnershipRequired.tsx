@@ -24,7 +24,8 @@ interface OwnershipRequiredPropsNoUnauthorisedPage {
 }
 
 export type OwnershipRequiredProps<DataType> = (
-  OwnershipRequiredPropsWithData<DataType> | OwnershipRequiredPropsNoData
+  | OwnershipRequiredPropsWithData<DataType>
+  | OwnershipRequiredPropsNoData
 ) &
   (OwnershipRequiredPropsWithUnauthorisedPage | OwnershipRequiredPropsNoUnauthorisedPage);
 

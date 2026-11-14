@@ -2,6 +2,17 @@
   "name": "@lexicon/configs",
   "version": "1.0.0",
   "description": "Shared configs throughout Lexicon",
+  "license": "ISC",
+  "author": "alextheman",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextheman231/lexicon.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -9,32 +20,17 @@
       "require": "./dist/index.cjs"
     }
   },
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/alextheman231/lexicon.git"
-  },
-  "sideEffects": false,
   "scripts": {
     "build": "tsdown",
-    "format": "pnpm run format-prettier && pnpm run format-eslint",
+    "format": "pnpm run format-oxfmt && pnpm run format-eslint",
     "format-eslint": "eslint --fix --suppress-all \"src/**/*.{ts,tsx}\" && rm -f eslint-suppressions.json",
-    "format-prettier": "pnpm run format-prettier-typescript && pnpm run format-prettier-javascript",
-    "format-prettier-javascript": "prettier --write \"./**/*.{js,json}\"",
-    "format-prettier-typescript": "prettier --write --parser typescript \"./**/*.{ts,tsx}\"",
-    "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-prettier",
+    "format-oxfmt": "oxfmt \"**/*.{ts,js,json}\"",
+    "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-oxfmt",
     "lint-eslint": "eslint \"src/**/*.{ts,tsx}\"",
-    "lint-prettier": "pnpm run lint-prettier-typescript && pnpm run lint-prettier-javascript",
-    "lint-prettier-javascript": "prettier --check \"./**/*.{js,json}\"",
-    "lint-prettier-typescript": "prettier --check --parser typescript \"./**/*.{ts,tsx}\"",
+    "lint-oxfmt": "oxfmt --check \"**/*.{ts,js,json}\"",
     "lint-tsc": "tsc --noEmit",
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
-  "author": "alextheman",
-  "license": "ISC",
   "devDependencies": {
     "eslint-plugin-perfectionist": "5.13.0",
     "tsdown": "0.23.7"
