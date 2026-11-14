@@ -89,7 +89,7 @@ jobs:
         run: |
           touch apps/back-end/.env.test
           echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/tests?schema=public" >> apps/back-end/.env.test
-          echo API_BASE_URL="http://localhost:5432" >> apps/back-end/.env.test
+          echo LEXICON_BASE_URL="http://localhost:5432" >> apps/back-end/.env.test
 
       - name: Install dependencies
         run: pnpm install
@@ -167,7 +167,7 @@ jobs:
           {
             echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/end-to-end?schema=public"
             echo PORT="9090"
-            echo API_BASE_URL="http://localhost:9090"
+            echo LEXICON_BASE_URL="http://localhost:9090"
           } >> apps/back-end/.env.end-to-end
 
       - name: Build apps for static serving
