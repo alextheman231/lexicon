@@ -23,7 +23,6 @@
     "lint-oxfmt": "oxfmt --check \"**/*.{ts,tsx,js,json}\"",
     "lint-tsc": "tsc --noEmit",
     "preview": "vite preview",
-    "start-end-to-end": "NODE_ENV=end-to-end VITE_API_BASE_URL=http://localhost:9090 vite",
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "dependencies": {
