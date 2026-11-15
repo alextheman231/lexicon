@@ -7,60 +7,64 @@ import { getConnection } from "src/database/connection";
 import { blogsTable, blogStateHistoryTable } from "src/database/schema";
 import deleteBlog from "src/models/blogs/deleteBlog";
 import fetchValues from "src/utility/databaseFilters/fetchValues";
+import handleWorkerCallback from "src/utility/handlers/handleWorkerCallback";
 
-const deleteArchivedBlogs = nodeCron.createTask("1 0 * * *", async () => {
-  const connection = getConnection();
+const deleteArchivedBlogs = nodeCron.createTask(
+  "1 0 * * *",
+  handleWorkerCallback(async () => {
+    const connection = getConnection();
 
-  const { blogIdsToDelete, s } = await connection.transaction(async (transaction) => {
-    const mostRecentArchivedCte = transaction.$with("most_recent_archived_cte").as(
-      transaction
-        .selectDistinctOn([blogStateHistoryTable.blogId], {
-          blogId: blogStateHistoryTable.blogId,
-          archivedAt: blogStateHistoryTable.updatedAt,
-        })
-        .from(blogStateHistoryTable)
-        .where(eq(blogStateHistoryTable.state, BlogState.ARCHIVED))
-        .orderBy(
-          blogStateHistoryTable.blogId,
-          desc(blogStateHistoryTable.updatedAt),
-          desc(blogStateHistoryTable.id),
-        ),
-    );
-
-    const blogIdsToDelete = await fetchValues(
-      transaction
-        .with(mostRecentArchivedCte)
-        .select({ id: blogsTable.id })
-        .from(blogsTable)
-        .innerJoin(mostRecentArchivedCte, eq(mostRecentArchivedCte.blogId, blogsTable.id))
-        .where(
-          and(
-            eq(blogsTable.state, BlogState.ARCHIVED),
-            lte(mostRecentArchivedCte.archivedAt, addDaysToDate(new Date(), -30)),
+    const { blogIdsToDelete, s } = await connection.transaction(async (transaction) => {
+      const mostRecentArchivedCte = transaction.$with("most_recent_archived_cte").as(
+        transaction
+          .selectDistinctOn([blogStateHistoryTable.blogId], {
+            blogId: blogStateHistoryTable.blogId,
+            archivedAt: blogStateHistoryTable.updatedAt,
+          })
+          .from(blogStateHistoryTable)
+          .where(eq(blogStateHistoryTable.state, BlogState.ARCHIVED))
+          .orderBy(
+            blogStateHistoryTable.blogId,
+            desc(blogStateHistoryTable.updatedAt),
+            desc(blogStateHistoryTable.id),
           ),
-        )
-        .for("update", { skipLocked: true }),
-    );
+      );
 
-    if (blogIdsToDelete.length === 0) {
-      console.info("No archived blogs to delete");
-      return { blogIdsToDelete, s: "s" };
+      const blogIdsToDelete = await fetchValues(
+        transaction
+          .with(mostRecentArchivedCte)
+          .select({ id: blogsTable.id })
+          .from(blogsTable)
+          .innerJoin(mostRecentArchivedCte, eq(mostRecentArchivedCte.blogId, blogsTable.id))
+          .where(
+            and(
+              eq(blogsTable.state, BlogState.ARCHIVED),
+              lte(mostRecentArchivedCte.archivedAt, addDaysToDate(new Date(), -30)),
+            ),
+          )
+          .for("update", { skipLocked: true }),
+      );
+
+      if (blogIdsToDelete.length === 0) {
+        console.info("No archived blogs to delete");
+        return { blogIdsToDelete, s: "s" };
+      }
+
+      const s = blogIdsToDelete.length === 1 ? "" : "s";
+
+      console.info(`Found ${blogIdsToDelete.length} archived blog${s} to delete`);
+
+      for (const blogId of blogIdsToDelete) {
+        await deleteBlog(transaction, blogId);
+      }
+
+      return { blogIdsToDelete, s };
+    });
+
+    if (blogIdsToDelete.length !== 0) {
+      console.info(`Deleted ${blogIdsToDelete.length} blog${s} successfully`);
     }
-
-    const s = blogIdsToDelete.length === 1 ? "" : "s";
-
-    console.info(`Found ${blogIdsToDelete.length} archived blog${s} to delete`);
-
-    for (const blogId of blogIdsToDelete) {
-      await deleteBlog(transaction, blogId);
-    }
-
-    return { blogIdsToDelete, s };
-  });
-
-  if (blogIdsToDelete.length !== 0) {
-    console.info(`Deleted ${blogIdsToDelete.length} blog${s} successfully`);
-  }
-});
+  }),
+);
 
 export default deleteArchivedBlogs;

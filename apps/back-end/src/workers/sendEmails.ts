@@ -13,70 +13,74 @@ import changeEmailSent from "src/services/emails/changeEmailSent";
 import loadEmails from "src/services/emails/loadEmails";
 import emailClient from "src/sesClient";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
+import handleWorkerCallback from "src/utility/handlers/handleWorkerCallback";
 
-const sendEmails = nodeCron.createTask("* * * * *", async () => {
-  const connection = getConnection();
+const sendEmails = nodeCron.createTask(
+  "* * * * *",
+  handleWorkerCallback(async () => {
+    const connection = getConnection();
 
-  let emailSent: boolean = true;
+    let emailSent: boolean = true;
 
-  while (emailSent) {
-    await connection.transaction(async (transaction) => {
-      const email = await fetchSole(
-        loadEmails(transaction, {
-          sentAt: null,
-          forUpdate: { skipLocked: true },
-          limit: 1,
-        }),
-      );
+    while (emailSent) {
+      await connection.transaction(async (transaction) => {
+        const email = await fetchSole(
+          loadEmails(transaction, {
+            sentAt: null,
+            forUpdate: { skipLocked: true },
+            limit: 1,
+          }),
+        );
 
-      if (email === null) {
-        emailSent = false;
-        return;
-      }
+        if (email === null) {
+          emailSent = false;
+          return;
+        }
 
-      switch (email.ident) {
-        case EmailIdent.RESET_PASSWORD: {
-          console.info(`Sending ${email.ident} email ${email.id}`);
-          const token = await generatePasswordResetToken(email.recipientId);
-          await changeEmailSent(transaction, email.id);
+        switch (email.ident) {
+          case EmailIdent.RESET_PASSWORD: {
+            console.info(`Sending ${email.ident} email ${email.id}`);
+            const token = await generatePasswordResetToken(email.recipientId);
+            await changeEmailSent(transaction, email.id);
 
-          const template = handlebars.compile(
-            await readFile(path.join(process.cwd(), "templates", "resetPassword.html"), "utf-8"),
-          )({ ...email.context, signUpLink: getSignUpLink({ token }) });
+            const template = handlebars.compile(
+              await readFile(path.join(process.cwd(), "templates", "resetPassword.html"), "utf-8"),
+            )({ ...email.context, signUpLink: getSignUpLink({ token }) });
 
-          const command = new SendEmailCommand({
-            Source: "noreply@lexiconblogs.com",
-            Destination: {
-              ToAddresses: [email.recipientEmail],
-            },
-            Message: {
-              Subject: {
-                Data: "Reset Your Password",
-                Charset: "UTF-8",
+            const command = new SendEmailCommand({
+              Source: "noreply@lexiconblogs.com",
+              Destination: {
+                ToAddresses: [email.recipientEmail],
               },
-              Body: {
-                Html: {
-                  Data: template,
+              Message: {
+                Subject: {
+                  Data: "Reset Your Password",
                   Charset: "UTF-8",
                 },
+                Body: {
+                  Html: {
+                    Data: template,
+                    Charset: "UTF-8",
+                  },
+                },
               },
-            },
-          });
+            });
 
-          // eslint-disable-next-line no-console -- For debugging
-          console.log(command);
+            // eslint-disable-next-line no-console -- For debugging
+            console.log(command);
 
-          await emailClient.send(command);
+            await emailClient.send(command);
 
-          console.info(`${email.ident} email ${email.id} sent`);
-          break;
+            console.info(`${email.ident} email ${email.id} sent`);
+            break;
+          }
+          default: {
+            throw email.ident satisfies never;
+          }
         }
-        default: {
-          throw email.ident satisfies never;
-        }
-      }
-    });
-  }
-});
+      });
+    }
+  }),
+);
 
 export default sendEmails;
