@@ -15,7 +15,7 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "dev": "vite",
-    "format": "pnpm run format-oxfmt && pnpm run format-eslint",
+    "format": "pnpm run format-eslint && pnpm run format-oxfmt",
     "format-eslint": "eslint --fix --suppress-all \"src/**/*.{ts,tsx}\" && rm -f eslint-suppressions.json",
     "format-oxfmt": "oxfmt \"**/*.{ts,tsx,js,json}\"",
     "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-oxfmt",
