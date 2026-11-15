@@ -36,6 +36,7 @@ const sendEmails = nodeCron.createTask("* * * * *", async () => {
 
       switch (email.ident) {
         case EmailIdent.RESET_PASSWORD: {
+          console.info(`Sending ${email.ident} email ${email.id}`);
           const token = await generatePasswordResetToken(email.recipientId);
           await changeEmailSent(transaction, email.id);
 
@@ -63,6 +64,7 @@ const sendEmails = nodeCron.createTask("* * * * *", async () => {
               },
             }),
           );
+          console.info(`${email.ident} email ${email.id} sent`);
           break;
         }
         default: {
