@@ -1,6 +1,6 @@
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { EmailIdent } from "@lexicon/models";
-import { compile } from "handlebars";
+import handlebars from "handlebars";
 import nodeCron from "node-cron";
 
 import { readFile } from "node:fs/promises";
@@ -40,7 +40,7 @@ const sendEmails = nodeCron.createTask("* * * * *", async () => {
           const token = await generatePasswordResetToken(email.recipientId);
           await changeEmailSent(transaction, email.id);
 
-          const template = compile(
+          const template = handlebars.compile(
             await readFile(path.join(process.cwd(), "templates", "resetPassword.html"), "utf-8"),
           )({ ...email.context, signUpLink: getSignUpLink({ token }) });
 
