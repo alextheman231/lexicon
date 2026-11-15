@@ -62,10 +62,11 @@ const sendEmails = nodeCron.createTask("* * * * *", async () => {
               },
             },
           });
-          await emailClient.send(command);
 
           // eslint-disable-next-line no-console -- For debugging
           console.log(command);
+
+          await emailClient.send(command);
 
           console.info(`${email.ident} email ${email.id} sent`);
           break;
