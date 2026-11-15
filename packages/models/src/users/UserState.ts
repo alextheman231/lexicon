@@ -1,8 +1,8 @@
-import type { CreateEnumType } from "@alextheman/utility";
+import type { ObjectValue } from "@alextheman/utility";
 
 export const UserState = {
   VERIFIED: "verified",
   UNVERIFIED: "unverified",
 } as const;
 
-export type UserState = CreateEnumType<typeof UserState>;
+export type UserState = ObjectValue<typeof UserState>;
