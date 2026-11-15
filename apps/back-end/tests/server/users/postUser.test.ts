@@ -1,6 +1,7 @@
 import type { CreateUserData } from "@lexicon/models";
 
 import { assertNotNull, az, isSameDate } from "@alextheman/utility";
+import { CodeError } from "@alextheman/utility/v6";
 import { EmailIdent, UserState } from "@lexicon/models";
 import { eq } from "drizzle-orm";
 import { describe, expect, test } from "vitest";
@@ -13,6 +14,7 @@ import { emailsTable } from "src/database/schema";
 import selectUser from "src/models/users/selectUser";
 import selectUserStateHistory from "src/models/users/selectUserStateHistory";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
+import { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
 
 describe("POST /api/v1/users", () => {
   test("Posts a user to the database", async () => {
@@ -89,5 +91,24 @@ describe("POST /api/v1/users", () => {
     expect(email.ident).toBe(EmailIdent.RESET_PASSWORD);
     expect(email.sentAt).toBeNull();
     expect(context.username).toBe(user.displayName ?? user.username);
+  });
+  test("Rejects users less than 13 years old", async () => {
+    const today = new Date();
+
+    const data: CreateUserData = {
+      username: "test_user",
+      displayName: "Test user",
+      description: "I am a user",
+      email: "test@example.com",
+      dateOfBirth: new Date(`${today.getFullYear() - 11}-07-15T00:00:00.000Z`),
+    };
+
+    const { body } = await testClient.post("/api/v1/users").send(data).expect(400);
+
+    const error = CodeError.expectError<LexiconErrorCode>(() => {
+      throw body.error;
+    });
+
+    expect(error.code).toBe(LexiconErrorCode.INVALID_AGE);
   });
 });

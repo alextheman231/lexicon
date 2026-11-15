@@ -5,6 +5,7 @@ import { EmailIdent, parseCreateUserData, UserState } from "@lexicon/models";
 import { getConnection } from "src/database/connection";
 import createEmail from "src/services/emails/createEmail";
 import createUser from "src/services/users/createUser";
+import APIError from "src/utility/errors/APIError";
 import handleEndpointMiddleware from "src/utility/handlers/handleEndpointMiddleware";
 
 function postUser(users: Router) {
@@ -14,6 +15,18 @@ function postUser(users: Router) {
       const connection = getConnection();
 
       const data = parseCreateUserData(request.body);
+
+      const today = new Date();
+      const minimumDateOfBirth = new Date(today);
+      minimumDateOfBirth.setFullYear(today.getFullYear() - 13);
+
+      if (data.dateOfBirth > minimumDateOfBirth) {
+        throw new APIError(
+          400,
+          "INVALID_AGE",
+          "You must be at least 13 years old to create an account.",
+        );
+      }
 
       await connection.transaction(async (transaction) => {
         const user = await createUser(transaction, { ...data, state: UserState.UNVERIFIED });

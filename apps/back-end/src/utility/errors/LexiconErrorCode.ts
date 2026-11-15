@@ -32,5 +32,6 @@ export const LexiconErrorCode = {
   INVALID_SIGN_IN_DATA: "INVALID_SIGN_IN_DATA",
   INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
   MISSING_PASSWORD_HASH: "MISSING_PASSWORD_HASH",
+  INVALID_AGE: "INVALID_AGE",
 } as const;
 export type LexiconErrorCode = ObjectValue<typeof LexiconErrorCode>;
