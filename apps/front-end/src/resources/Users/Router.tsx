@@ -3,6 +3,7 @@ import { UUID_REGEX_PATTERN } from "@alextheman/utility";
 import { Route } from "wouter";
 
 import CompleteSignUpMessagePage from "src/resources/Users/pages/CompleteSignUpMessagePage";
+import ResetPassword from "src/resources/Users/pages/ResetPassword";
 import SignIn from "src/resources/Users/pages/SignIn";
 import SignUp from "src/resources/Users/pages/SignUp";
 import UserProfile from "src/resources/Users/pages/UserProfile";
@@ -20,6 +21,9 @@ function UsersRouter() {
       </Route>
       <Route path="/sign-up">
         <SignUp />
+      </Route>
+      <Route path="/reset-password">
+        <ResetPassword />
       </Route>
       <Route<{ userId: string }>
         path={RegExp(`^/sign-up/(?<userId>${UUID_REGEX_PATTERN})/email-redirect`)}
