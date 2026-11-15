@@ -4,7 +4,7 @@ import type { LockConfig } from "drizzle-orm/pg-core";
 import type { Connection } from "src/database/connection";
 
 import { az } from "@alextheman/utility";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import z from "zod";
 
 import { emailsTable, usersTable } from "src/database/schema";
@@ -16,14 +16,15 @@ interface FetchEmailsFilters {
   ident?: EmailIdent;
   sentAt?: Date | null;
   forUpdate?: LockConfig;
+  limit?: number;
 }
 
 async function loadEmails(
   connection: Connection,
-  { emailId, ident, sentAt, forUpdate }: FetchEmailsFilters,
+  { emailId, ident, sentAt, forUpdate, limit }: FetchEmailsFilters,
 ): Promise<Array<Email>> {
-  const emails = await fetchAll(
-    connection
+  const query = (() => {
+    const query = connection
       .select({
         id: emailsTable.id,
         context: emailsTable.context,
@@ -38,11 +39,18 @@ async function loadEmails(
         and(
           maybeEq(emailsTable.id, emailId),
           maybeEq(emailsTable.ident, ident),
-          maybeEq(emailsTable.sentAt, sentAt),
+          sentAt === null ? isNull(emailsTable.sentAt) : maybeEq(emailsTable.sentAt, sentAt),
         ),
       )
-      .for("update", forUpdate),
-  );
+      .for("update", forUpdate);
+
+    if (limit !== undefined) {
+      return query.limit(limit);
+    }
+    return query;
+  })();
+
+  const emails = await fetchAll(query);
 
   return emails.map((email) => {
     return { ...email, context: az.with(z.record(z.string(), z.unknown())).parse(email.context) };

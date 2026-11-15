@@ -23,7 +23,6 @@ function postUser(users: Router) {
           sentAt: null,
           context: {
             username: user.displayName ?? user.username,
-            signUpLink: "", // TBC
           },
         });
         response.status(201).send({ id: user.id });

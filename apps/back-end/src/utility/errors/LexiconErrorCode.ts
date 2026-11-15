@@ -26,5 +26,8 @@ export const LexiconErrorCode = {
   AUTH_REQUIRED: "AUTH_REQUIRED",
   ENDPOINT_NOT_FOUND: "ENDPOINT_NOT_FOUND",
   RESOURCE_NOT_FOUND: "RESOURCE_NOT_FOUND",
+  INVALID_TOKEN: "INVALID_TOKEN",
+  WEAK_PASSWORD: "WEAK_PASSWORD",
+  TOKEN_EXPIRED: "TOKEN_EXPIRED",
 } as const;
 export type LexiconErrorCode = ObjectValue<typeof LexiconErrorCode>;
