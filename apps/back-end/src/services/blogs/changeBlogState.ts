@@ -9,7 +9,7 @@ import { BlogState } from "@lexicon/models";
 import insertBlogStateHistory from "src/models/blogs/insertBlogStateHistory";
 import selectBlog from "src/models/blogs/selectBlog";
 import updateBlog from "src/models/blogs/updateBlog";
-import DataError from "src/utility/errors/DataError";
+import InvalidStateTransitionError from "src/utility/errors/InvalidStateTransition";
 
 async function changeBlogState(
   connection: Transaction,
@@ -35,11 +35,7 @@ async function changeBlogState(
   };
 
   if (!allowedStateTransitions[currentBlog.state].includes(newState)) {
-    throw new DataError(
-      { currentState: currentBlog.state, newState },
-      "INVALID_STATE_TRANSITION",
-      "The provided state transition is not allowed",
-    );
+    throw new InvalidStateTransitionError({ currentState: currentBlog.state, newState });
   }
 
   const blog = await updateBlog(connection, ids.blogId, {
