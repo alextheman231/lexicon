@@ -44,26 +44,29 @@ const sendEmails = nodeCron.createTask("* * * * *", async () => {
             await readFile(path.join(process.cwd(), "templates", "resetPassword.html"), "utf-8"),
           )({ ...email.context, signUpLink: getSignUpLink({ token }) });
 
-          await emailClient.send(
-            new SendEmailCommand({
-              Source: "noreply@lexiconblogs.com",
-              Destination: {
-                ToAddresses: [email.recipientEmail],
+          const command = new SendEmailCommand({
+            Source: "noreply@lexiconblogs.com",
+            Destination: {
+              ToAddresses: [email.recipientEmail],
+            },
+            Message: {
+              Subject: {
+                Data: "Reset Your Password",
+                Charset: "UTF-8",
               },
-              Message: {
-                Subject: {
-                  Data: "Reset Your Password",
+              Body: {
+                Html: {
+                  Data: template,
                   Charset: "UTF-8",
                 },
-                Body: {
-                  Html: {
-                    Data: template,
-                    Charset: "UTF-8",
-                  },
-                },
               },
-            }),
-          );
+            },
+          });
+          await emailClient.send(command);
+
+          // eslint-disable-next-line no-console -- For debugging
+          console.log(command);
+
           console.info(`${email.ident} email ${email.id} sent`);
           break;
         }
