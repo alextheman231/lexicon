@@ -1,5 +1,6 @@
 import { Page } from "@alextheman/components";
 import { createItemQueryBoundary } from "@alextheman/components/QueryBoundary";
+import Alert from "@mui/material/Alert";
 
 import useUserInfoQuery from "src/resources/Users/queries/useUserInfoQuery";
 
@@ -13,6 +14,11 @@ function CompleteSignUpMessagePage({ userId }: SignUpConfirmationProps) {
 
   return (
     <Page title="Complete Sign-up">
+      <Alert severity="info">
+        NOTE: Email delivery is temporarily unavailable while we await production access from our
+        email provider. In the meantime, please contact AlexMan123456 on GitHub to request
+        assistance completing your registration.
+      </Alert>
       <QueryBoundary.Data>
         {(user) => {
           return `We have sent an email to ${user.email}. Please follow the instructions in the email to complete sign-up.`;
