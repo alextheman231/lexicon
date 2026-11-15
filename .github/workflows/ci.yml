@@ -88,8 +88,10 @@ jobs:
       - name: Initialise environment variables
         run: |
           touch apps/back-end/.env.test
-          echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/tests?schema=public" >> apps/back-end/.env.test
-          echo LEXICON_BASE_URL="http://localhost:5432" >> apps/back-end/.env.test
+          {
+            echo DATABASE_URL="postgresql://postgres:lexicon@localhost:5432/tests?schema=public"
+            echo LEXICON_BASE_URL="http://localhost:5432"  
+          } >> apps/back-end/.env.test
 
       - name: Install dependencies
         run: pnpm install
