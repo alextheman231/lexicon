@@ -48,7 +48,7 @@ function formatError(
         : undefined;
 
     if (CodeError.check(apiError)) {
-      return resolveErrorFromCode(apiError, codeErrorMap, error.response?.status);
+      return resolveErrorFromCode(apiError, codeErrorMap, error.status);
     }
     return resolveError(error, codeErrorMap, errorFunction);
   }
