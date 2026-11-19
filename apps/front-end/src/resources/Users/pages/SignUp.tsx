@@ -2,7 +2,6 @@ import type { UserInfoFormValidatedType } from "src/resources/Users/components/U
 
 import { Page } from "@alextheman/components";
 import { useSnackbarContext } from "@alextheman/components/snackbar";
-import Alert from "@mui/material/Alert";
 
 import useLocation from "src/hooks/useLocation";
 import UserInfoForm from "src/resources/Users/components/UserInfoForm";
@@ -25,11 +24,6 @@ function SignUp() {
 
   return (
     <Page title="Sign up to Lexicon" subtitle="Please enter your details below" disablePadding>
-      <Alert severity="info">
-        NOTE: Email delivery is temporarily unavailable while we await production access from our
-        email provider. In the meantime, please contact AlexMan123456 on GitHub to request
-        assistance completing your registration after submitting the form.
-      </Alert>
       <UserInfoForm
         defaultValues={{
           email: "",
