@@ -38,13 +38,13 @@ const sendEmails = nodeCron.createTask(
         }
 
         switch (email.ident) {
-          case EmailIdent.RESET_PASSWORD: {
+          case EmailIdent.COMPLETE_SIGN_UP: {
             console.info(`Sending ${email.ident} email ${email.id}`);
             const token = await generatePasswordResetToken(email.recipientId);
             await changeEmailSent(transaction, email.id);
 
             const template = handlebars.compile(
-              await readFile(path.join(process.cwd(), "templates", "resetPassword.html"), "utf-8"),
+              await readFile(path.join(process.cwd(), "templates", "completeSignUp.html"), "utf-8"),
             )({ ...email.context, signUpLink: getSignUpLink({ token }) });
 
             const command = new SendEmailCommand({
@@ -54,7 +54,7 @@ const sendEmails = nodeCron.createTask(
               },
               Message: {
                 Subject: {
-                  Data: "Reset Your Password",
+                  Data: "Complete your sign-up to Lexicon",
                   Charset: "UTF-8",
                 },
                 Body: {

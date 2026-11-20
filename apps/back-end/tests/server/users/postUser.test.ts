@@ -88,7 +88,7 @@ describe("POST /api/v1/users", () => {
       .parse(email.context);
 
     expect(email.recipientId).toBe(userId);
-    expect(email.ident).toBe(EmailIdent.RESET_PASSWORD);
+    expect(email.ident).toBe(EmailIdent.COMPLETE_SIGN_UP);
     expect(email.sentAt).toBeNull();
     expect(context.username).toBe(user.displayName ?? user.username);
   });

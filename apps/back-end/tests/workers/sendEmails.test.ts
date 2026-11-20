@@ -24,7 +24,7 @@ describe("sendEmails", () => {
 
     const user = await factory.users.insert();
     const email = await insertEmail(connection, {
-      ident: "RESET_PASSWORD",
+      ident: "COMPLETE_SIGN_UP",
       recipientId: user.id,
       context: { username: user.displayName ?? user.username },
       sentAt: null,
@@ -47,13 +47,13 @@ describe("sendEmails", () => {
 
     const user = await factory.users.insert();
     const emailToSend = await insertEmail(connection, {
-      ident: "RESET_PASSWORD",
+      ident: "COMPLETE_SIGN_UP",
       recipientId: user.id,
       context: { username: user.displayName ?? user.username },
       sentAt: null,
     });
     const emailNotToSend = await insertEmail(connection, {
-      ident: "RESET_PASSWORD",
+      ident: "COMPLETE_SIGN_UP",
       recipientId: user.id,
       context: { username: user.displayName ?? user.username },
       sentAt: yesterday,
