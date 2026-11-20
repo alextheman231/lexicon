@@ -34,7 +34,7 @@ function useFormSubmission(token: string | null) {
   };
 }
 
-function ResetPassword() {
+function CompleteSignUp() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
 
@@ -89,4 +89,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword;
+export default CompleteSignUp;

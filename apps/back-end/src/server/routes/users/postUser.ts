@@ -37,7 +37,7 @@ function postUser(users: Router) {
       await connection.transaction(async (transaction) => {
         const user = await createUser(transaction, { ...data, state: UserState.UNVERIFIED });
         await createEmail(transaction, {
-          ident: EmailIdent.RESET_PASSWORD,
+          ident: EmailIdent.COMPLETE_SIGN_UP,
           recipientId: user.id,
           sentAt: null,
           context: {
