@@ -4,12 +4,12 @@ import z from "zod";
 import { BlogState } from "src/blogs/BlogState";
 
 const blogSchema = z.object({
-  id: z.uuid(),
   authorId: z.uuid(),
-  state: z.enum(BlogState),
   currentRevisionId: z.uuid(),
-  updatedAt: z.coerce.date(),
+  id: z.uuid(),
   publishedAt: z.coerce.date().nullable(),
+  state: z.enum(BlogState),
+  updatedAt: z.coerce.date(),
 });
 
 export type Blog = z.infer<typeof blogSchema>;

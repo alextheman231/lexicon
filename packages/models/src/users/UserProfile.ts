@@ -4,14 +4,14 @@ import z from "zod";
 import { UserState } from "src/users/UserState";
 
 export const userProfileSchema = z.object({
-  id: z.uuid(),
-  username: z.string().max(100),
+  createdAt: z.coerce.date(),
   description: z.string().nullable(),
   displayName: z.string().max(50).nullable(),
-  state: z.enum(UserState),
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date().nullable(),
+  id: z.uuid(),
   profilePictureUrl: z.string().nullable(),
+  state: z.enum(UserState),
+  updatedAt: z.coerce.date().nullable(),
+  username: z.string().max(100),
 });
 
 export type UserProfile = z.infer<typeof userProfileSchema>;

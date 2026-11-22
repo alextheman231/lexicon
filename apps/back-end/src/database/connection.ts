@@ -5,11 +5,10 @@ import dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
-// eslint-disable-next-line no-restricted-imports -- The configuration must be loaded synchronously so fs/promises can't be used.
-import { readFileSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-// eslint-disable-next-line @alextheman/no-namespace-imports -- Needed to give the connection access to our schema types.
+// oxlint-disable-next-line typescript/no-namespace -- Needed to give the connection access to our schema types.
 import * as schema from "src/database/schema";
 import loadEnvironment from "src/utility/env/loadEnvironment";
 import DataError from "src/utility/errors/DataError";
@@ -39,7 +38,7 @@ const pool = new Pool({
   ssl:
     ENV === "production"
       ? {
-          ca: readFileSync(path.join(process.cwd(), "aws-rds-global-bundle.pem"), "utf-8"),
+          ca: await readFile(path.join(process.cwd(), "aws-rds-global-bundle.pem"), "utf-8"),
         }
       : false,
 });

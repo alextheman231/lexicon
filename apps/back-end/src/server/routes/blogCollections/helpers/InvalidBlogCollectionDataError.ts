@@ -1,7 +1,5 @@
 import type { ZodError } from "zod";
 
-import type { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
-
 import z from "zod";
 
 import APIError from "src/utility/errors/APIError";
@@ -11,10 +9,7 @@ interface InvalidBlogCollectionDataErrorPayload {
   input: unknown;
 }
 
-class InvalidBlogCollectionDataError extends DataError<
-  InvalidBlogCollectionDataErrorPayload,
-  LexiconErrorCode
-> {
+class InvalidBlogCollectionDataError extends DataError<InvalidBlogCollectionDataErrorPayload> {
   public constructor(data: InvalidBlogCollectionDataErrorPayload, parsingError: ZodError) {
     super(
       data,
@@ -23,7 +18,7 @@ class InvalidBlogCollectionDataError extends DataError<
     );
   }
 
-  public override toAPIError(): APIError<object, LexiconErrorCode> {
+  public override toAPIError(): APIError<object> {
     return new APIError(400, this.code, this.message, this.data);
   }
 }

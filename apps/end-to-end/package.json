@@ -15,12 +15,12 @@
   "sideEffects": false,
   "main": "index.js",
   "scripts": {
-    "format": "pnpm run format-eslint && pnpm run format-oxfmt",
-    "format-eslint": "eslint --fix --suppress-all \"tests/**/*.{ts,tsx}\" && rm -f eslint-suppressions.json",
+    "format": "pnpm run format-oxfmt && pnpm run format-oxlint",
     "format-oxfmt": "oxfmt \"**/*.{ts,js,json}\"",
-    "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-oxfmt",
-    "lint-eslint": "eslint \"tests/**/*.{ts,tsx}\"",
+    "format-oxlint": "oxlint --fix",
+    "lint": "pnpm run lint-tsc && pnpm run lint-oxlint && pnpm run lint-oxfmt",
     "lint-oxfmt": "oxfmt --check \"**/*.{ts,tsx,js,json}\"",
+    "lint-oxlint": "oxlint",
     "lint-tsc": "tsc --noEmit",
     "show-report": "playwright show-report",
     "show-trace": "playwright show-trace",
@@ -28,7 +28,6 @@
     "update-dependencies": "pnpm update --latest && pnpm update"
   },
   "devDependencies": {
-    "@lexicon/configs": "workspace:*",
     "@playwright/test": "1.65.1",
     "dotenv": "18.0.10",
     "execa": "10.2.1",

@@ -8,7 +8,7 @@ import { Pool } from "pg";
 
 import { getConnection } from "src/database/connection";
 
-(async () => {
+void (async () => {
   const connection = getConnection();
   try {
     await connection.transaction(async (transaction) => {

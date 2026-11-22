@@ -1,7 +1,5 @@
 import type { ZodError } from "zod";
 
-import type { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
-
 import z from "zod";
 
 import APIError from "src/utility/errors/APIError";
@@ -11,7 +9,7 @@ interface InvalidQueryStringErrorPayload {
   query: unknown;
 }
 
-class InvalidQueryStringError extends DataError<InvalidQueryStringErrorPayload, LexiconErrorCode> {
+class InvalidQueryStringError extends DataError<InvalidQueryStringErrorPayload> {
   public constructor(data: InvalidQueryStringErrorPayload, parsingError: ZodError) {
     super(
       data,
@@ -20,7 +18,7 @@ class InvalidQueryStringError extends DataError<InvalidQueryStringErrorPayload, 
     );
   }
 
-  public override toAPIError(): APIError<object, LexiconErrorCode> {
+  public override toAPIError(): APIError<object> {
     return new APIError(400, this.code, this.message, this.data);
   }
 }

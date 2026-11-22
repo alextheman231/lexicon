@@ -2,14 +2,14 @@ import { az } from "@alextheman/utility";
 import z from "zod";
 
 export const blogRevisionSchema = z.object({
-  id: z.uuid(),
-  editorId: z.uuid(),
   blogId: z.uuid("blog_id"),
-  title: z.string().max(100),
   content: z.record(z.string(), z.any()),
-  version: z.int().positive(),
-  revisionMessage: z.string().nullable().optional(),
   createdAt: z.coerce.date(),
+  editorId: z.uuid(),
+  id: z.uuid(),
+  revisionMessage: z.string().nullable().optional(),
+  title: z.string().max(100),
+  version: z.int().positive(),
 });
 
 export type BlogRevision = z.infer<typeof blogRevisionSchema>;

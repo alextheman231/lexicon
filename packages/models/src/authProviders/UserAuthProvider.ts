@@ -4,11 +4,11 @@ import z from "zod";
 import { AuthProvider } from "src/authProviders/AuthProvider";
 
 const userAuthProviderSchema = z.object({
+  createdAt: z.coerce.date(),
   id: z.uuid(),
-  userId: z.uuid(),
   provider: z.enum(AuthProvider),
   providerUserId: z.string(),
-  createdAt: z.coerce.date(),
+  userId: z.uuid(),
 });
 
 export type UserAuthProvider = z.infer<typeof userAuthProviderSchema>;

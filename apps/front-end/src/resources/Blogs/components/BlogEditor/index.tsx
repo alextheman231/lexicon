@@ -8,7 +8,7 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { defineExtension } from "lexical";
-import { useRef } from "react";
+import { useState } from "react";
 
 import ContentEditable from "src/resources/Blogs/components/BlogEditor/ContentEditable";
 
@@ -18,8 +18,8 @@ interface EditorProps {
 }
 
 function BlogEditor({ initialContent, setEditorState }: EditorProps) {
-  const extensionRef = useRef(
-    defineExtension({
+  const [extension] = useState(() => {
+    return defineExtension({
       name: "lexicon-editor",
       namespace: "lexicon-editor",
       theme: {},
@@ -32,11 +32,11 @@ function BlogEditor({ initialContent, setEditorState }: EditorProps) {
           editor.setEditorState(editorState);
         }
       },
-    }),
-  );
+    });
+  });
 
   return (
-    <LexicalExtensionComposer extension={extensionRef.current} contentEditable={null}>
+    <LexicalExtensionComposer extension={extension} contentEditable={null}>
       <RichTextPlugin contentEditable={<ContentEditable />} ErrorBoundary={LexicalErrorBoundary} />
       <HistoryPlugin />
       <OnChangePlugin

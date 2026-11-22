@@ -5,10 +5,10 @@ import { UserState } from "src/users/UserState";
 
 export const userStateHistorySchema = z.object({
   id: z.int().positive(),
-  updatedById: z.uuid().nullable(),
-  userId: z.uuid(),
   state: z.enum(UserState),
   updatedAt: z.coerce.date(),
+  updatedById: z.uuid().nullable(),
+  userId: z.uuid(),
 });
 export type UserStateHistoryRow = z.infer<typeof userStateHistorySchema>;
 

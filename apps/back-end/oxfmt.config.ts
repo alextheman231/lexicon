@@ -1,7 +1,3 @@
-import type { OxfmtConfig } from "oxfmt";
+import { oxfmtConfigBase, oxfmtConfigBaseDefaultOptions } from "@alextheman/configs/oxfmt";
 
-const config: OxfmtConfig = {
-  ignorePatterns: ["dist/**", "pnpm-lock.yaml", "src/database/migrations/meta"],
-};
-
-export default config;
+export default oxfmtConfigBase({ignore: [...oxfmtConfigBaseDefaultOptions.ignore, "src/database/migrations/meta"]})

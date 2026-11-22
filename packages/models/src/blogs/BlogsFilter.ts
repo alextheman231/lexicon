@@ -5,12 +5,12 @@ import { BlogState } from "src/blogs/BlogState";
 
 const blogsFilterSchema = z.object({
   authorId: z.uuid().optional(),
-  state: z.enum(BlogState).optional(),
   pageNumber: az.fieldNumber().int().optional(),
   pageSize: az.fieldNumber().int().optional(),
+  searchQuery: z.string().optional(),
   sortColumn: z.enum(["updatedAt", "publishedAt", "state", "title"]).optional(),
   sortDirection: z.enum(SortDirection).optional(),
-  searchQuery: z.string().optional(),
+  state: z.enum(BlogState).optional(),
 });
 
 export type BlogsFilter = z.infer<typeof blogsFilterSchema>;

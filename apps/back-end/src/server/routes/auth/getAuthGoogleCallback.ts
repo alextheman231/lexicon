@@ -1,9 +1,10 @@
 import type { Router } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
-import { assertNotNull, minutesToMs } from "@alextheman/utility";
+import { assertNotNull, az, minutesToMs } from "@alextheman/utility";
 import { UserState } from "@lexicon/models";
 import { authorizationCodeGrant } from "openid-client";
+import z from "zod";
 
 import { randomBytes } from "node:crypto";
 
@@ -76,13 +77,15 @@ function getAuthGoogleCallback(auth: Router) {
           return { user, session };
         }
 
-        const [baseUsername] = claims.email.toString().split("@");
+        const claimsEmail = az.with(z.email()).parse(claims.email);
+
+        const [baseUsername] = claimsEmail.split("@");
         const username = `${baseUsername}_${randomBytes(3).toString("hex")}`;
 
         const user = await createUser(transaction, {
-          email: claims.email.toString(),
+          email: claimsEmail,
           username,
-          displayName: claims.name?.toString() ?? username,
+          displayName: typeof claims.name === "string" ? claims.name : username,
           description: null,
           state: UserState.VERIFIED,
         });

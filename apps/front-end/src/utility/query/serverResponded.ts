@@ -1,7 +1,7 @@
-import axios from "axios";
+import { isAxiosError } from "axios";
 
 function serverResponded(error: unknown) {
-  return axios.isAxiosError(error) && error.response !== undefined;
+  return isAxiosError(error) && error.response !== undefined;
 }
 
 export default serverResponded;

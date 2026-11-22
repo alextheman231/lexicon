@@ -4,10 +4,10 @@ import z from "zod";
 import { blogCollectionSchema } from "src/blogCollections/BlogCollection";
 
 export const blogCollectionViewSchema = blogCollectionSchema.extend({
-  username: z.string(),
+  itemCount: z.int().nonnegative(),
   userDisplayName: z.string().nullable(),
   userProfilePictureUrl: z.string().nullable(),
-  itemCount: z.int().nonnegative(),
+  username: z.string(),
 });
 
 export type BlogCollectionView = z.infer<typeof blogCollectionViewSchema>;

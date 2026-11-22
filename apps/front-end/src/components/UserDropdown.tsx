@@ -73,12 +73,7 @@ function UserDropdown() {
                     },
                   }}
                 >
-                  <MdError
-                    size={30}
-                    color={theme.palette.error.main}
-                    aria-label={errorMessage}
-                    role="img"
-                  />
+                  <MdError size={30} color={theme.palette.error.main} aria-label={errorMessage} />
                 </Box>
               </Tooltip>
             </Box>

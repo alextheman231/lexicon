@@ -106,7 +106,7 @@ describe("PUT /api/v1/blogs/<blogId>", () => {
     expect(history[1].state).toBe(blog.state);
   });
   test("Only updates the blog with the given ID", async () => {
-    const fixtures = await new TestFixtures();
+    const fixtures = new TestFixtures();
 
     const { connection } = fixtures;
     const factory = await fixtures.factory;

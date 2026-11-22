@@ -7,9 +7,9 @@ import z from "zod";
 import { createBlogCollectionItemDataSchema } from "src/blogCollections/CreateBlogCollectionItemData";
 
 export const createBlogCollectionDataSchema = z.object({
-  name: z.string(),
   description: z.string().nullable(),
   items: z.array(createBlogCollectionItemDataSchema).nullable().optional(),
+  name: z.string(),
 });
 
 export type CreateBlogCollectionData = z.infer<typeof createBlogCollectionDataSchema>;

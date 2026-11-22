@@ -139,7 +139,7 @@ function BlogForm({
                     label="Save"
                     variant="outlined"
                     onClick={() => {
-                      form.handleSubmit({ blogState: BlogState.DRAFT, exit: false });
+                      void form.handleSubmit({ blogState: BlogState.DRAFT, exit: false });
                     }}
                   />
                   <form.SubmitButton
@@ -148,7 +148,7 @@ function BlogForm({
                     label="Save and Exit"
                     variant="outlined"
                     onClick={() => {
-                      form.handleSubmit({ blogState: BlogState.DRAFT, exit: true });
+                      void form.handleSubmit({ blogState: BlogState.DRAFT, exit: true });
                     }}
                   />
                 </Grid>
@@ -157,7 +157,7 @@ function BlogForm({
                     loading={loading}
                     disabled={title === "" || editorState === undefined}
                     onClick={() => {
-                      form.handleSubmit({ blogState: BlogState.PUBLISHED, exit: true });
+                      void form.handleSubmit({ blogState: BlogState.PUBLISHED, exit: true });
                     }}
                   />
                 </Grid>

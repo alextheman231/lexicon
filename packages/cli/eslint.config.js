@@ -1,11 +1,3 @@
-import alexPlugin from "@alextheman/eslint-plugin";
+import { oxfmtConfigBase } from "@alextheman/configs/oxfmt";
 
-export default [
-  ...alexPlugin.configs["combined/typescript"],
-  ...alexPlugin.configs["internal/package-json"],
-  {
-    rules: {
-      "package-json/require-exports": "off",
-    },
-  },
-];
+export default oxfmtConfigBase();

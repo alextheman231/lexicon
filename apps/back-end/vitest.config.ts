@@ -1,4 +1,4 @@
-import { UserProjectConfigExport } from "vitest/config";
+import type { UserProjectConfigExport } from "vitest/config";
 
 const vitestConfig: UserProjectConfigExport = {
   resolve: {

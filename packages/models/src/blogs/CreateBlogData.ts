@@ -7,9 +7,9 @@ import z from "zod";
 import { BlogState } from "src/blogs/BlogState";
 
 export const createBlogSchema = z.strictObject({
-  title: z.string(),
   content: z.record(z.string(), z.any()),
   state: z.enum(BlogState),
+  title: z.string(),
 });
 
 export type CreateBlogData = z.infer<typeof createBlogSchema>;

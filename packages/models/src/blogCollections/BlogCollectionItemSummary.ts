@@ -5,18 +5,18 @@ import { az } from "@alextheman/utility";
 import z from "zod";
 
 export const blogCollectionItemSummarySchema = z.object({
+  authorDisplayName: z.string().nullable(),
+  authorId: z.uuid(),
+  authorProfilePictureUrl: z.string().nullable(),
+  authorUsername: z.string(),
+  blogCollectionId: z.uuid(),
+  blogId: z.uuid(),
+  blogPublishedAt: z.coerce.date().nullable(),
+  blogTitle: z.string(),
+  blogUpdatedAt: z.coerce.date(),
+  createdAt: z.coerce.date(),
   id: z.uuid(),
   itemNumber: z.int().positive(),
-  createdAt: z.coerce.date(),
-  blogId: z.uuid(),
-  blogTitle: z.string(),
-  authorId: z.uuid(),
-  authorUsername: z.string(),
-  authorDisplayName: z.string().nullable(),
-  authorProfilePictureUrl: z.string().nullable(),
-  blogUpdatedAt: z.coerce.date(),
-  blogPublishedAt: z.coerce.date().nullable(),
-  blogCollectionId: z.uuid(),
 });
 export type BlogCollectionItemSummary = z.infer<typeof blogCollectionItemSummarySchema>;
 export function parseBlogCollectionItemSummary<ErrorType extends Error = DataError>(

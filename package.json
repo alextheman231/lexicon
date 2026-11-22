@@ -11,11 +11,11 @@
     "build-packages": "pnpm run build --filter=@lexicon/**",
     "build-static": "pnpm --dir packages/cli run dev build-static",
     "dev": "turbo run dev --filter=!@lexicon/cli",
-    "format": "pnpm run format-package-json && pnpm run format-oxfmt && pnpm run format-workspaces",
+    "format": "pnpm run format-oxfmt && pnpm run format-workspaces",
     "format-oxfmt": "oxfmt \"*.json\" \"**/*.{yml,yaml}\"",
     "format-package-json": "eslint --fix --suppress-all \"**/package.json\" && rm -f eslint-suppressions.json",
     "format-workspaces": "bash -c 'turbo run format $@' --",
-    "lint": "pnpm run lint-package-json && pnpm run lint-oxfmt && pnpm run lint-workspaces",
+    "lint": "pnpm run lint-oxfmt && pnpm run lint-workspaces",
     "lint-oxfmt": "oxfmt --check \"*.json\" \"**/*.{yml,yaml}\"",
     "lint-package-json": "eslint \"**/package.json\"",
     "lint-workspaces": "bash -c 'turbo run lint $@' --",
@@ -31,18 +31,17 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@alextheman/eslint-plugin": "5.18.9",
+    "@alextheman/configs": "1.5.2",
     "@faker-js/faker": "10.6.0",
     "@types/node": "26.6.6",
-    "@typescript-eslint/utils": "8.72.2",
     "alex-c-line": "2.18.2",
     "cross-env": "10.1.0",
-    "eslint": "10.15.0",
     "husky": "9.1.7",
     "oxfmt": "0.78.0",
+    "oxlint": "1.94.0",
+    "oxlint-tsgolint": "7.0.2008",
     "turbo": "2.11.11",
-    "typescript": "7.0.2",
-    "typescript-eslint": "8.72.2"
+    "typescript": "7.0.2"
   },
   "engines": {
     "node": ">=26.0.0"

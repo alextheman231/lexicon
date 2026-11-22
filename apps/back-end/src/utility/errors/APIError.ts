@@ -4,7 +4,6 @@ import type { ExpectErrorOptions } from "@alextheman/utility/v6";
 import type { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
 
 import { containsKeys, isNonNullableObject, objectContainsKeys } from "@alextheman/utility";
-// eslint-disable-next-line no-restricted-imports -- Our internal CodeError uses APIError so we need to use the utility one to avoid circular imports.
 import { CodeError } from "@alextheman/utility/v6";
 
 export const APIErrorCode = {

@@ -4,15 +4,15 @@ import z from "zod";
 import { BlogState } from "src/blogs/BlogState";
 
 export const blogSummarySchema = z.object({
-  id: z.uuid(),
-  authorId: z.uuid(),
-  authorUsername: z.string(),
   authorDisplayName: z.string().nullable(),
+  authorId: z.uuid(),
   authorProfilePictureUrl: z.string().nullable(),
-  updatedAt: z.coerce.date(),
+  authorUsername: z.string(),
+  id: z.uuid(),
   publishedAt: z.coerce.date().nullable(),
   state: z.enum(BlogState),
   title: z.string(),
+  updatedAt: z.coerce.date(),
 });
 
 export type BlogSummary = z.infer<typeof blogSummarySchema>;

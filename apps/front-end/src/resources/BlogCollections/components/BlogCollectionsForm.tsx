@@ -65,7 +65,7 @@ function BlogCollectionsForm({
         : [""],
     },
     onSubmit: ({ value }) => {
-      onSubmit(value);
+      void onSubmit(value);
     },
   });
 

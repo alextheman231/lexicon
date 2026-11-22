@@ -6,19 +6,8 @@ import dotenv from "dotenv";
 dotenv.config({ quiet: true });
 
 const playwrightConfig: PlaywrightTestConfig = {
-  testDir: "./tests",
-  timeout: 60000,
-  fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
-  retries: process.env.CI ? 2 : 0,
-  reporter: [["html", { open: "never" }], ["list"]],
-  use: {
-    baseURL: "http://localhost:9090",
-    trace: "on-first-retry",
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
-  },
-  testMatch: "**/*.test.ts",
+  fullyParallel: true,
   projects: [
     {
       name: "chromium",
@@ -33,6 +22,17 @@ const playwrightConfig: PlaywrightTestConfig = {
       use: devices["Pixel 5"],
     },
   ],
+  reporter: [["html", { open: "never" }], ["list"]],
+  retries: process.env.CI ? 2 : 0,
+  testDir: "./tests",
+  testMatch: "**/*.test.ts",
+  timeout: 60000,
+  use: {
+    baseURL: "http://localhost:9090",
+    screenshot: "only-on-failure",
+    trace: "on-first-retry",
+    video: "retain-on-failure",
+  },
   webServer: [
     {
       command: "pnpm run start-end-to-end",
