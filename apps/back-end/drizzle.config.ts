@@ -1,6 +1,9 @@
-import dotenv from "dotenv";
 import type { Config } from "drizzle-kit";
+
+import dotenv from "dotenv";
+
 import path from "node:path";
+
 import loadEnvironment from "src/utility/env/loadEnvironment";
 
 const ENV = loadEnvironment();
