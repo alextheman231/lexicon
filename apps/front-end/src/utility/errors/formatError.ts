@@ -1,7 +1,7 @@
 import type { CodeErrorMap } from "src/utility/errors/errorFormatters";
 
 import { CodeError } from "@alextheman/utility/v6";
-import axios from "axios";
+import { isAxiosError } from "axios";
 
 import DEFAULT_ERROR_MESSAGE from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 import defaultErrorFormatters from "src/utility/errors/errorFormatters";
@@ -38,7 +38,7 @@ function formatError(
   codeErrorMap: CodeErrorMap = defaultErrorFormatters,
   errorFunction?: (error: unknown) => string,
 ): string {
-  if (axios.isAxiosError(error)) {
+  if (isAxiosError(error)) {
     const apiError =
       error.response?.data && typeof error.response.data === "object"
         ? error.response.data?.error

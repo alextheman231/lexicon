@@ -5,7 +5,7 @@ import path from "node:path";
 
 import { getConnection } from "src/database/connection";
 
-(async () => {
+void (async () => {
   const connection = getConnection();
   try {
     console.info("Applying migrations to database...");

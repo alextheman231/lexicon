@@ -5,7 +5,7 @@ import path from "node:path";
 import generatePasswordResetToken from "src/services/auth/generatePasswordResetToken";
 import getSignUpLink from "src/services/auth/getSignUpLink";
 
-(async () => {
+void (async () => {
   dotenv.config({ path: path.join(process.cwd(), ".env.development") });
 
   const [_, __, ___, userId] = process.argv;

@@ -3,7 +3,7 @@ import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { LexicalExtensionComposer } from "@lexical/react/LexicalExtensionComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { defineExtension } from "lexical";
-import { useRef } from "react";
+import { useState } from "react";
 
 import ContentReadable from "src/resources/Blogs/components/BlogEditor/ContentReadable";
 
@@ -12,8 +12,8 @@ interface BlogContentProps {
 }
 
 function BlogContent({ content }: BlogContentProps) {
-  const extensionRef = useRef(
-    defineExtension({
+  const [extension] = useState(() => {
+    return defineExtension({
       name: "lexicon-blog-viewer",
       namespace: "lexicon-blog-viewer",
       $initialEditorState: typeof content === "string" ? content : JSON.stringify(content),
@@ -21,11 +21,11 @@ function BlogContent({ content }: BlogContentProps) {
       onError(error: Error) {
         throw new DataError({ error }, "LEXICAL_ERROR", error.message);
       },
-    }),
-  );
+    });
+  });
 
   return (
-    <LexicalExtensionComposer extension={extensionRef.current} contentEditable={null}>
+    <LexicalExtensionComposer extension={extension} contentEditable={null}>
       <RichTextPlugin contentEditable={<ContentReadable />} ErrorBoundary={LexicalErrorBoundary} />
     </LexicalExtensionComposer>
   );

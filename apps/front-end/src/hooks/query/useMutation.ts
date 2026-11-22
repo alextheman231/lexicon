@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-restricted-imports -- We need to import useMutation here so that the rest of the app doesn't need to.
 import { useMutation as useTanstackMutation } from "@tanstack/react-query";
 
 import retry from "src/hooks/query/helpers/retry";

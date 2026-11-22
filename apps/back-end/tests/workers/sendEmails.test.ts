@@ -1,5 +1,5 @@
 import { addDaysToDate, assertNotNull, isSameDate } from "@alextheman/utility";
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test, vitest } from "vitest";
 
 import TestFixtures from "tests/fixtures";
 
@@ -7,10 +7,10 @@ import insertEmail from "src/models/emails/insertEmail";
 import selectEmail from "src/models/emails/selectEmail";
 import sendEmails from "src/workers/sendEmails";
 
-vi.mock("src/sesClient", () => {
+vitest.mock("src/sesClient", () => {
   return {
     default: {
-      send: vi.fn(),
+      send: vitest.fn(),
     },
   };
 });

@@ -1,9 +1,9 @@
 import { assertNotNull, omitProperties } from "@alextheman/utility";
 import { parseUser } from "@lexicon/models";
 import { eq } from "drizzle-orm";
-// eslint-disable-next-line @alextheman/no-namespace-imports -- Needed to mock OpenIDClient.
+// oxlint-disable-next-line import/no-namespace -- Needed to mock OpenIDClient.
 import * as OpenIDClient from "openid-client";
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test, vitest } from "vitest";
 
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
@@ -13,14 +13,14 @@ import getSetCookies from "tests/server/auth/helpers/getSetCookies";
 import { usersTable } from "src/database/schema";
 import selectUser from "src/models/users/selectUser";
 
-vi.mock("openid-client", async () => {
+vitest.mock("openid-client", async () => {
   return {
-    authorizationCodeGrant: vi.fn(),
-    buildAuthorizationUrl: vi.fn(),
-    calculatePKCECodeChallenge: vi.fn(),
-    randomPKCECodeVerifier: vi.fn(),
-    randomState: vi.fn(),
-    discovery: vi.fn(),
+    authorizationCodeGrant: vitest.fn(),
+    buildAuthorizationUrl: vitest.fn(),
+    calculatePKCECodeChallenge: vitest.fn(),
+    randomPKCECodeVerifier: vitest.fn(),
+    randomState: vitest.fn(),
+    discovery: vitest.fn(),
   };
 });
 
@@ -36,7 +36,7 @@ describe("GET /api/v1/auth/google/callback", () => {
       .where(eq(usersTable.email, "test@example.com"));
     expect(initialUser.length).toBe(0);
 
-    vi.spyOn(OpenIDClient, "authorizationCodeGrant").mockResolvedValue({
+    vitest.spyOn(OpenIDClient, "authorizationCodeGrant").mockResolvedValue({
       claims: () => {
         return {
           sub: "google-user-123",
@@ -79,7 +79,7 @@ describe("GET /api/v1/auth/google/callback", () => {
     const factoryUser = await factory.users.insert();
     const factoryAuthProvider = await factory.authProviders.insert({ user: factoryUser });
 
-    vi.spyOn(OpenIDClient, "authorizationCodeGrant").mockResolvedValue({
+    vitest.spyOn(OpenIDClient, "authorizationCodeGrant").mockResolvedValue({
       claims: () => {
         return {
           sub: factoryAuthProvider.providerUserId,
@@ -122,7 +122,7 @@ describe("GET /api/v1/auth/google/callback", () => {
     const factoryUser = await factory.users.insert();
     const factoryAuthProvider = await factory.authProviders.insert({ user: factoryUser });
 
-    vi.spyOn(OpenIDClient, "authorizationCodeGrant").mockResolvedValue({
+    vitest.spyOn(OpenIDClient, "authorizationCodeGrant").mockResolvedValue({
       claims: () => {
         return {
           sub: factoryAuthProvider.providerUserId,

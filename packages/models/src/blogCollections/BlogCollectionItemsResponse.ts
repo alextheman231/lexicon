@@ -7,8 +7,8 @@ import z from "zod";
 import { blogCollectionItemSummarySchema } from "src/blogCollections/BlogCollectionItemSummary";
 
 export const blogCollectionItemsResponseSchema = z.object({
-  items: z.array(blogCollectionItemSummarySchema),
   count: z.int().nonnegative(),
+  items: z.array(blogCollectionItemSummarySchema),
 });
 export type BlogCollectionItemsResponse = z.infer<typeof blogCollectionItemsResponseSchema>;
 export function parseBlogCollectionItemsResponse<ErrorType extends Error = DataError>(

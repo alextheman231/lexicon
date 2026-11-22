@@ -1,9 +1,8 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-
 import type { ObjectValue } from "@alextheman/utility";
 
 import { Env as AlexEnv, az } from "@alextheman/utility";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 import z from "zod";
 
 const Env = {

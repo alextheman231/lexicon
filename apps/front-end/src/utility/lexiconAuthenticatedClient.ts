@@ -1,6 +1,6 @@
-import axios from "axios";
+import { create } from "axios";
 
-const lexiconAuthenticatedClient = axios.create({
+const lexiconAuthenticatedClient = create({
   withCredentials: true,
 });
 

@@ -5,9 +5,9 @@ import { AuthProvider } from "src/authProviders/AuthProvider";
 
 const userAuthProviderInsertSchema = z.object({
   id: z.uuid().optional(),
-  userId: z.uuid(),
   provider: z.enum(AuthProvider),
   providerUserId: z.string(),
+  userId: z.uuid(),
 });
 
 export type UserAuthProviderInsertData = z.infer<typeof userAuthProviderInsertSchema>;

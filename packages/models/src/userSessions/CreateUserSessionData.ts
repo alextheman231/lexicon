@@ -2,8 +2,8 @@ import { az } from "@alextheman/utility";
 import z from "zod";
 
 const createUserSessionSchema = z.object({
-  userId: z.uuid(),
   expiresAt: z.coerce.date().optional(),
+  userId: z.uuid(),
 });
 
 export type CreateUserSessionData = z.infer<typeof createUserSessionSchema>;

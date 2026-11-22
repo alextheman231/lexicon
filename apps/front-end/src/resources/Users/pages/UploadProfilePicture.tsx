@@ -4,6 +4,7 @@ import { Page } from "@alextheman/components";
 import { FileInput } from "@alextheman/components/file";
 import { InternalLink } from "@alextheman/components/routing";
 import { useSnackbarContext } from "@alextheman/components/snackbar";
+import { convertFileToBase64 } from "@alextheman/utility";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
@@ -15,7 +16,6 @@ import { useState } from "react";
 import useLocation from "src/hooks/useLocation";
 import useUploadProfilePictureMutation from "src/resources/Users/queries/useUploadProfilePictureMutation";
 import formatError from "src/utility/errors/formatError";
-import getDataUrlFromFile from "src/utility/getDataUrlFromFile";
 
 interface UploadProfilePictureProps {
   currentUser: UserProfile;
@@ -55,7 +55,7 @@ function UploadProfilePicture({ currentUser }: UploadProfilePictureProps) {
             multiple={false}
             onFileInput={async (files) => {
               setFile(files[0]);
-              setDisplay(await getDataUrlFromFile(files[0]));
+              setDisplay(await convertFileToBase64(files[0]));
             }}
           />
         </Stack>

@@ -1,14 +1,14 @@
 import type { UserConfig } from "tsdown";
 
 const config: UserConfig = {
-  entry: ["src/index.ts"],
-  format: ["esm", "cjs"],
-  dts: true,
   clean: true,
-  fixedExtension: false,
   deps: {
     neverBundle: ["zod"],
   },
+  dts: true,
+  entry: ["src/index.ts"],
+  fixedExtension: false,
+  format: ["esm", "cjs"],
 };
 
 export default config;

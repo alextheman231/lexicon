@@ -1,5 +1,3 @@
-import type { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
-
 import APIError from "src/utility/errors/APIError";
 import DataError from "src/utility/errors/DataError";
 
@@ -18,7 +16,7 @@ class InvalidStateTransitionError extends DataError<InvalidStateTransitionErrorP
     );
   }
 
-  public override toAPIError(): APIError<object, LexiconErrorCode> {
+  public override toAPIError(): APIError<object> {
     return new APIError(400, this.code, this.message, this.data);
   }
 }

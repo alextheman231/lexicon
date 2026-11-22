@@ -8,6 +8,7 @@ import Debug from "src/components/Debug";
 import DEFAULT_ERROR_MESSAGE from "src/utility/errors/DEFAULT_ERROR_MESSAGE";
 import formatError from "src/utility/errors/formatError";
 
+// oxlint-disable-next-line typescript/unbound-method -- resetError shouldn't be an unbound method.
 function ErrorPage({ error, resetError }: Parameters<FallbackRender>[0]) {
   const message = formatError(error);
 

@@ -1,7 +1,7 @@
 import { addDaysToDate } from "@alextheman/utility";
 import { BlogState } from "@lexicon/models";
 import { and, desc, eq, lte } from "drizzle-orm";
-import nodeCron from "node-cron";
+import { createTask } from "node-cron";
 
 import { getConnection } from "src/database/connection";
 import { blogsTable, blogStateHistoryTable } from "src/database/schema";
@@ -9,7 +9,7 @@ import deleteBlog from "src/models/blogs/deleteBlog";
 import fetchValues from "src/utility/databaseFilters/fetchValues";
 import handleWorkerCallback from "src/utility/handlers/handleWorkerCallback";
 
-const deleteArchivedBlogs = nodeCron.createTask(
+const deleteArchivedBlogs = createTask(
   "1 0 * * *",
   handleWorkerCallback(async () => {
     const connection = getConnection();

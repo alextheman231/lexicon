@@ -2,11 +2,11 @@ import { az } from "@alextheman/utility";
 import z from "zod";
 
 export const blogCollectionSchema = z.object({
+  createdAt: z.coerce.date(),
+  description: z.string().nullable(),
   id: z.uuid(),
   name: z.string().max(100),
   userId: z.uuid(),
-  description: z.string().nullable(),
-  createdAt: z.coerce.date(),
 });
 
 export type BlogCollection = z.infer<typeof blogCollectionSchema>;

@@ -2,11 +2,11 @@ import { az } from "@alextheman/utility";
 import z from "zod";
 
 const createUserSchema = z.object({
-  username: z.string().max(100),
-  displayName: z.string().max(50).nullable(),
-  description: z.string().nullable(),
-  email: z.email(),
   dateOfBirth: z.coerce.date(),
+  description: z.string().nullable(),
+  displayName: z.string().max(50).nullable(),
+  email: z.email(),
+  username: z.string().max(100),
 });
 
 export type CreateUserData = z.infer<typeof createUserSchema>;

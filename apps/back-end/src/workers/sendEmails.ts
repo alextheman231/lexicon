@@ -1,7 +1,7 @@
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { EmailIdent } from "@lexicon/models";
 import handlebars from "handlebars";
-import nodeCron from "node-cron";
+import { createTask } from "node-cron";
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -15,7 +15,7 @@ import emailClient from "src/sesClient";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
 import handleWorkerCallback from "src/utility/handlers/handleWorkerCallback";
 
-const sendEmails = nodeCron.createTask(
+const sendEmails = createTask(
   "* * * * *",
   handleWorkerCallback(async () => {
     const connection = getConnection();

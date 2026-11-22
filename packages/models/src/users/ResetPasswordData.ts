@@ -2,8 +2,8 @@ import { az } from "@alextheman/utility";
 import z from "zod";
 
 export const resetPasswordDataSchema = z.object({
-  token: z.string(),
   password: z.string().min(8).max(256),
+  token: z.string(),
 });
 
 export type ResetPasswordData = z.infer<typeof resetPasswordDataSchema>;

@@ -5,7 +5,7 @@ import formatError from "src/utility/formatError";
 
 import packageInfo from "package.json" with { type: "json" };
 
-(async () => {
+void (async () => {
   try {
     const program = new Command();
     program

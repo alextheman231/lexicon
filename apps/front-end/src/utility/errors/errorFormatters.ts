@@ -1,6 +1,8 @@
 import type { CodeError } from "@alextheman/utility/v6";
 
+import { az } from "@alextheman/utility";
 import { DataError } from "@alextheman/utility/v6";
+import z from "zod";
 
 export type CodeErrorFormatter =
   | string
@@ -10,7 +12,8 @@ export type CodeErrorMap = Record<string, CodeErrorFormatter>;
 const defaultErrorFormatters: CodeErrorMap = {
   RESOURCE_NOT_FOUND: (error) => {
     if (DataError.checkWithCode(error, "RESOURCE_NOT_FOUND")) {
-      const resourceType = error.data.resourceType ?? "resource";
+      const resourceType =
+        az.with(z.string().optional()).parse(error.data.resourceType) ?? "resource";
       return `The ${resourceType} you are looking for does not seem to exist.`;
     }
     return "The resource you are looking for does not seem to exist.";

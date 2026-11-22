@@ -20,11 +20,11 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsx src/cli/index.ts",
-    "format": "pnpm run format-eslint && pnpm run format-oxfmt",
-    "format-eslint": "eslint --fix --suppress-all \"src/**/*.{ts,tsx}\" && rm -f eslint-suppressions.json",
+    "format": "pnpm run format-oxlint && pnpm run format-oxfmt",
+    "format-oxlint": "oxlint --fix",
     "format-oxfmt": "oxfmt \"**/*.{ts,js,json}\"",
-    "lint": "pnpm run lint-tsc && pnpm run lint-eslint && pnpm run lint-oxfmt",
-    "lint-eslint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint": "pnpm run lint-tsc && pnpm run lint-oxlint && pnpm run lint-oxfmt",
+    "lint-oxlint": "oxlint",
     "lint-oxfmt": "oxfmt --check \"**/*.{ts,js,json}\"",
     "lint-tsc": "tsc --noEmit",
     "update-dependencies": "pnpm update --latest && pnpm update"

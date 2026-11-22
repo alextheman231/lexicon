@@ -1,9 +1,9 @@
 import type { ObjectValue } from "@alextheman/utility";
 
 export const BlogState = {
+  ARCHIVED: "archived",
   DRAFT: "draft",
   PUBLISHED: "published",
-  ARCHIVED: "archived",
 } as const;
 
 export type BlogState = ObjectValue<typeof BlogState>;

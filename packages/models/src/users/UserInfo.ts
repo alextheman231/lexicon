@@ -4,10 +4,10 @@ import z from "zod";
 import { UserState } from "src/users/UserState";
 
 export const userInfoSchema = z.object({
-  id: z.uuid(),
-  email: z.email(),
-  state: z.enum(UserState),
   createdAt: z.coerce.date(),
+  email: z.email(),
+  id: z.uuid(),
+  state: z.enum(UserState),
   updatedAt: z.coerce.date().nullable(),
 });
 

@@ -1,7 +1,7 @@
 import type { UserProfile } from "@lexicon/models";
 import type { ReactNode } from "react";
 
-import axios from "axios";
+import { isAxiosError } from "axios";
 
 import { useAuth } from "src/AuthContextProvider";
 import QueryBoundaryItemWrapper from "src/groups/QueryBoundary/QueryBoundaryItemWrapper";
@@ -29,7 +29,7 @@ function AuthRequired({
       codeErrorMap={{ ...defaultErrorFormatters, AUTH_REQUIRED: unauthorisedMessage }}
       errorFunction={(error) => {
         if (
-          axios.isAxiosError(error) &&
+          isAxiosError(error) &&
           (error.response?.status === 401 || error.response?.status === 403)
         ) {
           return unauthorisedMessage;
