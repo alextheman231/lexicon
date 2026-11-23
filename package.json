@@ -27,20 +27,20 @@
     "update-dependencies": "turbo run update-dependencies && pnpm update --latest && pnpm update"
   },
   "dependencies": {
-    "@alextheman/utility": "5.32.1",
+    "@alextheman/utility": "5.32.2",
     "zod": "4.6.7"
   },
   "devDependencies": {
     "@alextheman/configs": "1.5.2",
     "@faker-js/faker": "10.6.0",
     "@types/node": "26.6.6",
-    "alex-c-line": "2.18.2",
+    "alex-c-line": "2.18.3",
     "cross-env": "10.1.0",
     "husky": "9.1.7",
     "oxfmt": "0.79.0",
     "oxlint": "1.94.0",
     "oxlint-tsgolint": "7.0.2008",
-    "turbo": "2.11.11",
+    "turbo": "2.11.13",
     "typescript": "7.0.2"
   },
   "engines": {
