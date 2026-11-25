@@ -2,7 +2,7 @@ import { vitest } from "vitest";
 
 import handleFallthroughMiddleware from "src/utility/handlers/handleFallthroughMiddleware";
 
-vitest.mock("src/server/rateLimit/store", () => {
+vitest.mock("src/clients/redisClient", () => {
   return {
     default: undefined,
   };

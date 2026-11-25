@@ -4,7 +4,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 import { randomUUID } from "node:crypto";
 
-import fileStoreClient from "src/fileStoreClient";
+import fileStoreClient from "src/clients/fileStoreClient";
 import updateUser from "src/models/users/updateUser";
 import getProfilePictureFileKey from "src/utility/fileKeys/getProfilePictureFileKey";
 
