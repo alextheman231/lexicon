@@ -24,7 +24,28 @@ describe("sendEmails", () => {
 
     const user = await factory.users.insert();
     const email = await insertEmail(connection, {
-      ident: "COMPLETE_SIGN_UP",
+      ident: "FORGOTTEN_PASSWORD",
+      recipientId: user.id,
+      context: { username: user.displayName ?? user.username },
+      sentAt: null,
+    });
+
+    await sendEmails.execute();
+
+    const sentEmail = await selectEmail(connection, { id: email.id });
+    assertNotNull(sentEmail);
+
+    expect(sentEmail.sentAt).not.toBeNull();
+  });
+  test("Sends the forgotten password email", async () => {
+    const fixtures = new TestFixtures();
+
+    const { connection } = fixtures;
+    const factory = await fixtures.factory;
+
+    const user = await factory.users.insert();
+    const email = await insertEmail(connection, {
+      ident: "FORGOTTEN_PASSWORD",
       recipientId: user.id,
       context: { username: user.displayName ?? user.username },
       sentAt: null,

@@ -47,6 +47,12 @@ function SignIn() {
         <Typography>
           Don't have an account yet? <InternalLink to="/users/sign-up">Sign up here.</InternalLink>
         </Typography>
+        <Typography>
+          Forgot your password?{" "}
+          <InternalLink to="/users/forgotten-password">
+            Click here to reset your password.
+          </InternalLink>
+        </Typography>
       </CardContent>
     </Page>
   );

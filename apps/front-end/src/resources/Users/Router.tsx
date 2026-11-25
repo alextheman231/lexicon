@@ -4,6 +4,9 @@ import { Route } from "wouter";
 
 import CompleteSignUp from "src/resources/Users/pages/CompleteSignUp";
 import CompleteSignUpMessagePage from "src/resources/Users/pages/CompleteSignUpMessagePage";
+import ForgottenPassword from "src/resources/Users/pages/ForgottenPassword";
+import ForgottenPasswordEmailRedirect from "src/resources/Users/pages/ForgottenPasswordEmailRedirect";
+import ResetPassword from "src/resources/Users/pages/ResetPassword";
 import SignIn from "src/resources/Users/pages/SignIn";
 import SignUp from "src/resources/Users/pages/SignUp";
 import UserProfile from "src/resources/Users/pages/UserProfile";
@@ -24,6 +27,15 @@ function UsersRouter() {
       </Route>
       <Route path="/complete-sign-up">
         <CompleteSignUp />
+      </Route>
+      <Route path="/forgotten-password">
+        <ForgottenPassword />
+      </Route>
+      <Route path="/forgotten-password/email-redirect">
+        <ForgottenPasswordEmailRedirect />
+      </Route>
+      <Route path="/reset-password">
+        <ResetPassword />
       </Route>
       <Route<{ userId: string }>
         path={RegExp(`^/sign-up/(?<userId>${UUID_REGEX_PATTERN})/email-redirect`)}

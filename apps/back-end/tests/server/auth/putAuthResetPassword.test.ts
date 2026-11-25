@@ -14,8 +14,9 @@ import { randomBytes, randomUUID } from "node:crypto";
 import TestFixtures from "tests/fixtures";
 import testClient from "tests/fixtures/testClient";
 
+import { TokenPurpose } from "src/models/auth/TokenPurpose";
 import selectUser from "src/models/users/selectUser";
-import generatePasswordResetToken from "src/services/auth/generatePasswordResetToken";
+import generateToken from "src/services/auth/generateToken";
 import { LexiconErrorCode } from "src/utility/errors/LexiconErrorCode";
 
 describe("PUT /api/v1/auth/reset-password", () => {
@@ -26,7 +27,7 @@ describe("PUT /api/v1/auth/reset-password", () => {
     const factory = await fixtures.factory;
 
     const user = await factory.users.insert();
-    const token = await generatePasswordResetToken(user.id);
+    const token = await generateToken(user.id, "forgotten-password");
 
     const data: ResetPasswordData = {
       token,
@@ -46,7 +47,7 @@ describe("PUT /api/v1/auth/reset-password", () => {
     const factory = await fixtures.factory;
 
     const user = await factory.users.insert();
-    const token = await generatePasswordResetToken(user.id);
+    const token = await generateToken(user.id, "forgotten-password");
 
     const data: ResetPasswordData = {
       token,
@@ -63,7 +64,7 @@ describe("PUT /api/v1/auth/reset-password", () => {
   });
   test("Fails with status code 404 if the user does not exist", async () => {
     const missingId = randomUUID();
-    const token = await generatePasswordResetToken(missingId);
+    const token = await generateToken(missingId, "forgotten-password");
 
     const data: ResetPasswordData = {
       token,
@@ -88,13 +89,13 @@ describe("PUT /api/v1/auth/reset-password", () => {
     const user = await factory.users.insert();
 
     const secret = new TextEncoder().encode(process.env.LEXICON_SECRET_KEY);
-    const token = await new SignJWT({ purpose: "password-reset" })
+    const token = await new SignJWT({ purpose: TokenPurpose.FORGOTTEN_PASSWORD })
       .setProtectedHeader({ alg: "HS256" })
       .setSubject(user.id)
       .setIssuedAt()
       .setExpirationTime("1s")
       .setIssuer("lexicon")
-      .setAudience("password-reset")
+      .setAudience(TokenPurpose.FORGOTTEN_PASSWORD)
       .sign(secret);
 
     await wait(2);
@@ -112,7 +113,7 @@ describe("PUT /api/v1/auth/reset-password", () => {
 
     expect(error.code).toBe(LexiconErrorCode.TOKEN_EXPIRED);
     expect(error.data.payload.sub).toBe(user.id);
-    expect(error.data.payload.purpose).toBe("password-reset");
+    expect(error.data.payload.purpose).toBe(TokenPurpose.FORGOTTEN_PASSWORD);
   });
   test("Fails for an invalid token", async () => {
     const token = "invalid";
