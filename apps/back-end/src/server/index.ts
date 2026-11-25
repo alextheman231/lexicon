@@ -7,6 +7,7 @@ const PORT = parseIntStrict(process.env.PORT ?? "8080");
 app.listen(PORT, (error) => {
   if (error) {
     console.error(error);
+    // new feature!!
   } else if (process.env.LEXICON_BASE_URL) {
     console.info(`Listening for requests at ${process.env.LEXICON_BASE_URL}`);
   } else {
