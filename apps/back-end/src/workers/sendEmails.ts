@@ -1,19 +1,15 @@
-import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { EmailIdent } from "@lexicon/models";
-import handlebars from "handlebars";
 import { createTask } from "node-cron";
-
-import { readFile } from "node:fs/promises";
-import path from "node:path";
 
 import { getConnection } from "src/database/connection";
 import generatePasswordResetToken from "src/services/auth/generatePasswordResetToken";
 import getSignUpLink from "src/services/auth/getSignUpLink";
 import changeEmailSent from "src/services/emails/changeEmailSent";
 import loadEmails from "src/services/emails/loadEmails";
-import emailClient from "src/sesClient";
+import sendEmail from "src/services/emails/sendEmail";
 import fetchSole from "src/utility/databaseFilters/fetchSole";
 import handleWorkerCallback from "src/utility/handlers/handleWorkerCallback";
+import renderHtmlTemplate from "src/utility/template/renderHtmlTemplate";
 
 const sendEmails = createTask(
   "* * * * *",
@@ -43,30 +39,14 @@ const sendEmails = createTask(
             const token = await generatePasswordResetToken(email.recipientId);
             await changeEmailSent(transaction, email.id);
 
-            const template = handlebars.compile(
-              await readFile(path.join(process.cwd(), "templates", "completeSignUp.html"), "utf-8"),
-            )({ ...email.context, signUpLink: getSignUpLink({ token }) });
-
-            const command = new SendEmailCommand({
-              Source: "noreply@lexiconblogs.com",
-              Destination: {
-                ToAddresses: [email.recipientEmail],
-              },
-              Message: {
-                Subject: {
-                  Data: "Complete your sign-up to Lexicon",
-                  Charset: "UTF-8",
-                },
-                Body: {
-                  Html: {
-                    Data: template,
-                    Charset: "UTF-8",
-                  },
-                },
-              },
+            const template = await renderHtmlTemplate("completeSignUp.html", {
+              ...email.context,
+              signUpLink: getSignUpLink({ token }),
             });
-
-            await emailClient.send(command);
+            await sendEmail(email.recipientEmail, {
+              subject: "Complete your sign-up to Lexicon",
+              html: template,
+            });
 
             console.info(`${email.ident} email ${email.id} sent`);
             break;
