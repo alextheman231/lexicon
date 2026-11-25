@@ -7,7 +7,7 @@ import insertEmail from "src/models/emails/insertEmail";
 import selectEmail from "src/models/emails/selectEmail";
 import sendEmails from "src/workers/sendEmails";
 
-vitest.mock("src/sesClient", () => {
+vitest.mock("src/clients/sesClient", () => {
   return {
     default: {
       send: vitest.fn(),

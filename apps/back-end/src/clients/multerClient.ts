@@ -1,7 +1,7 @@
 import multer from "multer";
 
-const upload = multer({
+const multerClient = multer({
   storage: multer.memoryStorage(),
 });
 
-export default upload;
+export default multerClient;

@@ -1,15 +1,15 @@
 import type { Router } from "express";
 
+import multerClient from "src/clients/multerClient";
 import { getConnection } from "src/database/connection";
 import setProfilePicture from "src/services/users/setProfilePicture";
-import upload from "src/upload";
 import APIError from "src/utility/errors/APIError";
 import handleAuthenticatedEndpointMiddleware from "src/utility/handlers/handleAuthenticatedEndpointMiddleware";
 
 function putCurrentUserProfilePicture(currentUser: Router) {
   currentUser.put(
     "/profile-picture",
-    upload.single("file"),
+    multerClient.single("file"),
     handleAuthenticatedEndpointMiddleware(async (request, response) => {
       const connection = getConnection();
 

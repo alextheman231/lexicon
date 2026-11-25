@@ -1,6 +1,6 @@
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 
-import emailClient from "src/sesClient";
+import sesClient from "src/clients/sesClient";
 
 interface SendEmailData {
   subject: string;
@@ -8,7 +8,7 @@ interface SendEmailData {
 }
 
 async function sendEmail(email: string, { subject, html }: SendEmailData): Promise<void> {
-  await emailClient.send(
+  await sesClient.send(
     new SendEmailCommand({
       Source: "noreply@lexiconblogs.com",
       Destination: {

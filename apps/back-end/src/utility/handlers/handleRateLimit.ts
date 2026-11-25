@@ -1,7 +1,7 @@
 import rateLimit from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
 
-import redisClient from "src/server/rateLimit/redis";
+import redisClient from "src/clients/redisClient";
 import loadEnvironment from "src/utility/env/loadEnvironment";
 
 interface RateLimitOptions {
