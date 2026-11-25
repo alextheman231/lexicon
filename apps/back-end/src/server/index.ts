@@ -8,6 +8,7 @@ app.listen(PORT, (error) => {
   if (error) {
     console.error(error);
     // new feature!!
+    gfrdsghd
   } else if (process.env.LEXICON_BASE_URL) {
     console.info(`Listening for requests at ${process.env.LEXICON_BASE_URL}`);
   } else {
