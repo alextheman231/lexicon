@@ -1,4 +1,9 @@
+export { completeSignUpDataSchema, parseCompleteSignUpData } from "src/users/CompleteSignUpData";
 export { parseCreateUserData } from "src/users/CreateUserData";
+export {
+  forgottenPasswordDataSchema,
+  parseForgottenPasswordData,
+} from "src/users/ForgottenPasswordData";
 export { parseResetPasswordData, resetPasswordDataSchema } from "src/users/ResetPasswordData";
 export { signInDataSchema, parseSignInData } from "src/users/SignInData";
 export { parseUser, parseUsers } from "src/users/User";
@@ -14,7 +19,9 @@ export {
   parseUserStateHistoryRow,
 } from "src/users/UserStateHistoryRow";
 
+export type { CompleteSignUpData } from "src/users/CompleteSignUpData";
 export type { CreateUserData } from "src/users/CreateUserData";
+export type { ForgottenPasswordData } from "src/users/ForgottenPasswordData";
 export type { ResetPasswordData } from "src/users/ResetPasswordData";
 export type { SignInData } from "src/users/SignInData";
 export type { User } from "src/users/User";

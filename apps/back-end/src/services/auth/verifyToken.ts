@@ -1,20 +1,22 @@
+import type { TokenPurpose } from "src/models/auth/TokenPurpose";
+
 import { jwtVerify } from "jose";
 import { JWSInvalid, JWTExpired } from "jose/errors";
 
 import InvalidTokenError from "src/services/auth/errors/InvalidTokenError";
 import TokenExpiredError from "src/services/auth/errors/TokenExpiredError";
 
-async function verifyPasswordResetToken(token: string): Promise<string> {
+async function verifyToken(token: string, purpose: TokenPurpose): Promise<string> {
   const secret = new TextEncoder().encode(process.env.LEXICON_SECRET_KEY);
 
   try {
     const { payload } = await jwtVerify(token, secret, {
       algorithms: ["HS256"],
       issuer: "lexicon",
-      audience: "password-reset",
+      audience: purpose,
     });
 
-    if (payload.purpose !== "password-reset" || !payload.sub) {
+    if (payload.purpose !== purpose || !payload.sub) {
       throw new InvalidTokenError({ payload });
     }
 
@@ -30,4 +32,4 @@ async function verifyPasswordResetToken(token: string): Promise<string> {
   }
 }
 
-export default verifyPasswordResetToken;
+export default verifyToken;
