@@ -28,10 +28,12 @@ describe("PUT /api/v1/auth/reset-password", () => {
 
     const user = await factory.users.insert();
     const token = await generateToken(user.id, "forgotten-password");
+    const password = randomBytes(6).toString("hex");
 
     const data: ResetPasswordData = {
       token,
-      password: randomBytes(6).toString("hex"),
+      password,
+      passwordAgain: password,
     };
 
     await testClient.put("/api/v1/auth/reset-password").send(data).expect(200);
@@ -48,10 +50,12 @@ describe("PUT /api/v1/auth/reset-password", () => {
 
     const user = await factory.users.insert();
     const token = await generateToken(user.id, "forgotten-password");
+    const password = "password";
 
     const data: ResetPasswordData = {
       token,
-      password: "password",
+      password,
+      passwordAgain: password,
     };
 
     const { body } = await testClient.put("/api/v1/auth/reset-password").send(data).expect(400);
@@ -65,10 +69,12 @@ describe("PUT /api/v1/auth/reset-password", () => {
   test("Fails with status code 404 if the user does not exist", async () => {
     const missingId = randomUUID();
     const token = await generateToken(missingId, "forgotten-password");
+    const password = randomBytes(6).toString("hex");
 
     const data: ResetPasswordData = {
       token,
-      password: randomBytes(6).toString("hex"),
+      password,
+      passwordAgain: password,
     };
 
     const { body } = await testClient.put("/api/v1/auth/reset-password").send(data).expect(404);
@@ -99,10 +105,12 @@ describe("PUT /api/v1/auth/reset-password", () => {
       .sign(secret);
 
     await wait(2);
+    const password = randomBytes(6).toString("hex");
 
     const data: ResetPasswordData = {
       token,
-      password: randomBytes(6).toString("hex"),
+      password,
+      passwordAgain: password,
     };
 
     const { body } = await testClient.put("/api/v1/auth/reset-password").send(data).expect(400);
@@ -117,10 +125,12 @@ describe("PUT /api/v1/auth/reset-password", () => {
   });
   test("Fails for an invalid token", async () => {
     const token = "invalid";
+    const password = randomBytes(6).toString("hex");
 
     const data: ResetPasswordData = {
       token,
-      password: randomBytes(6).toString("hex"),
+      password,
+      passwordAgain: password,
     };
 
     const { body } = await testClient.put("/api/v1/auth/reset-password").send(data).expect(400);
@@ -130,5 +140,29 @@ describe("PUT /api/v1/auth/reset-password", () => {
     });
 
     expect(error.code).toBe(LexiconErrorCode.INVALID_TOKEN);
+  });
+  test("Fails if the passwords do not match", async () => {
+    const fixtures = new TestFixtures();
+
+    const factory = await fixtures.factory;
+
+    const user = await factory.users.insert();
+    const token = await generateToken(user.id, "forgotten-password");
+    const password = randomBytes(6).toString("hex");
+    const passwordAgain = randomBytes(6).toString("hex");
+
+    const data: ResetPasswordData = {
+      token,
+      password,
+      passwordAgain,
+    };
+
+    const { body } = await testClient.put("/api/v1/auth/reset-password").send(data).expect(400);
+
+    const error = CodeError.expectError(() => {
+      throw body.error;
+    });
+
+    expect(error.code).toBe(LexiconErrorCode.PASSWORDS_DO_NOT_MATCH);
   });
 });
