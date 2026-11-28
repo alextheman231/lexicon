@@ -7,8 +7,8 @@ import { DataError } from "@alextheman/utility/v6";
 import { createContext, use, useCallback, useMemo } from "react";
 
 import useQueryInvalidation from "src/hooks/query/useQueryInvalidation";
+import useLogoutMutation from "src/resources/Auth/queries/useLogoutMutation";
 import useCurrentUserQuery from "src/resources/Users/queries/useCurrentUserQuery";
-import useLogoutMutation from "src/resources/Users/queries/useLogoutMutation";
 
 export interface AuthContextValue {
   authenticate: () => void;

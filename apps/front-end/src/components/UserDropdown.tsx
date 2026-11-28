@@ -86,7 +86,7 @@ function UserDropdown() {
       <DropdownMenu>
         <QueryBoundaryUser.Data
           nullFallback={
-            <DropdownMenuItem component={InternalLink} to="/users/sign-in">
+            <DropdownMenuItem component={InternalLink} to="/auth/sign-in">
               <ListItemIcon>
                 <MdLogin />
               </ListItemIcon>

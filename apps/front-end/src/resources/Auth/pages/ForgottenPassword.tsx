@@ -7,7 +7,7 @@ import z from "zod";
 
 import useAppForm from "src/hooks/useAppForm";
 import useLocation from "src/hooks/useLocation";
-import useForgottenPasswordMutation from "src/resources/Users/queries/useForgottenPasswordMutation";
+import useForgottenPasswordMutation from "src/resources/Auth/queries/useForgottenPasswordMutation";
 import formatError from "src/utility/errors/formatError";
 
 const forgottenPasswordFormSchema = z.object({
@@ -36,7 +36,7 @@ function ForgottenPassword() {
   async function onSubmit(data: ForgottenPasswordFormOutputType) {
     try {
       await putForgottenPassword(data);
-      setLocation("/users/forgotten-password/email-redirect");
+      setLocation("/auth/forgotten-password/email-redirect");
     } catch (error) {
       addSnackbar(formatError(error), { severity: "error" });
     }
