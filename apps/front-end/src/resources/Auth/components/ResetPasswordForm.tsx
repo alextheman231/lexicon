@@ -11,7 +11,7 @@ const resetPasswordFormSchema = z.object({
     z
       .string()
       .min(8, { error: "The password is too short. Please try a longer password." })
-      .max(256, { error: "The password is too short. Please try a shorter password." }),
+      .max(256, { error: "The password is too long. Please try a shorter password." }),
   ),
   passwordAgain: az.field(z.string()),
 });

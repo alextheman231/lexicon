@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "format": "pnpm run format-oxfmt && pnpm run format-oxlint",
+    "format": "pnpm run format-oxlint && pnpm run format-oxfmt",
     "format-oxfmt": "oxfmt \"**/*.{js,json,ts}\"",
     "format-oxlint": "oxlint --fix",
     "lint": "pnpm run lint-tsc && pnpm run lint-oxlint && pnpm run lint-oxfmt",
