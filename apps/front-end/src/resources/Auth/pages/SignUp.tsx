@@ -4,8 +4,8 @@ import { Page } from "@alextheman/components";
 import { useSnackbarContext } from "@alextheman/components/snackbar";
 
 import useLocation from "src/hooks/useLocation";
+import useSignUpMutation from "src/resources/Auth/queries/useSignUpMutation";
 import UserInfoForm from "src/resources/Users/components/UserInfoForm";
-import useSignUpMutation from "src/resources/Users/queries/useSignUpMutation";
 import formatError from "src/utility/errors/formatError";
 
 function SignUp() {
@@ -16,7 +16,7 @@ function SignUp() {
   async function onSubmit(data: UserInfoFormValidatedType) {
     try {
       const userId = await createUser(data);
-      setLocation(`/users/sign-up/${userId}/email-redirect`);
+      setLocation(`/auth/sign-up/${userId}/email-redirect`);
     } catch (error) {
       addSnackbar(formatError(error), { severity: "error" });
     }

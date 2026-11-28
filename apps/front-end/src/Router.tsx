@@ -6,6 +6,7 @@ import AuthRequired from "src/components/AuthRequired";
 import BackendError from "src/components/BackendError";
 import PageWrapper from "src/components/PageWrapper";
 import AuthCallback from "src/pages/AuthCallback";
+import AuthRouter from "src/resources/Auth/Router";
 import BlogCollectionsRouter from "src/resources/BlogCollections/Router";
 import Blogs from "src/resources/Blogs/pages/Blogs";
 import BlogsRouter from "src/resources/Blogs/Router";
@@ -35,6 +36,9 @@ function Router() {
             </AuthRequired>
           </Route>
 
+          <Route path="/auth" nest>
+            <AuthRouter />
+          </Route>
           <Route path="/users" nest>
             <UsersRouter />
           </Route>

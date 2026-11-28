@@ -7,7 +7,7 @@ function getSignUpLink({
   token,
   baseUrl = process.env.LEXICON_BASE_URL,
 }: GetSignUpLinkArgs): string {
-  return `${baseUrl}/users/complete-sign-up?token=${token}`;
+  return `${baseUrl}/auth/complete-sign-up?token=${token}`;
 }
 
 export default getSignUpLink;

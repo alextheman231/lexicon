@@ -1,7 +1,7 @@
 import { az } from "@alextheman/utility";
 import z from "zod";
 
-import { AuthProvider } from "src/authProviders/AuthProvider";
+import { AuthProvider } from "src/auth/AuthProvider";
 
 const userAuthProviderSchema = z.object({
   createdAt: z.coerce.date(),

@@ -1,17 +1,22 @@
-import type { ResetPasswordFormOutputType } from "src/resources/Users/components/ResetPasswordForm";
-
 import { Page } from "@alextheman/components";
 import { ErrorPage } from "@alextheman/components/routing";
 import { useSnackbarContext } from "@alextheman/components/snackbar";
-import { useSearchParams } from "wouter";
+import { az } from "@alextheman/utility";
+import { useLocation, useSearchParams } from "wouter";
+import z from "zod";
 
-import useLocation from "src/hooks/useLocation";
-import ResetPasswordForm from "src/resources/Users/components/ResetPasswordForm";
-import useResetPasswordMutation from "src/resources/Users/queries/useResetPasswordMutation";
+import ResetPasswordForm from "src/resources/Auth/components/ResetPasswordForm";
+import useCompleteSignUpMutation from "src/resources/Auth/queries/useCompleteSignUpMutation";
 import formatError from "src/utility/errors/formatError";
 
+const resetPasswordFormSchema = z.object({
+  password: az.field(z.string().min(8).max(256)),
+});
+
+type ResetPasswordFormOutputType = z.output<typeof resetPasswordFormSchema>;
+
 function useFormSubmission(token: string | null) {
-  const { mutateAsync: resetPassword } = useResetPasswordMutation(token ?? "");
+  const { mutateAsync: resetPassword } = useCompleteSignUpMutation(token ?? "");
   const { addSnackbar } = useSnackbarContext();
   const [_, setLocation] = useLocation();
 
@@ -19,14 +24,14 @@ function useFormSubmission(token: string | null) {
     try {
       await resetPassword(data.password);
       addSnackbar("Password reset", { severity: "success" });
-      setLocation("/users/sign-in");
+      setLocation("/auth/sign-in");
     } catch (error) {
       addSnackbar(formatError(error), { severity: "error" });
     }
   };
 }
 
-function ResetPassword() {
+function CompleteSignUp() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
 
@@ -37,10 +42,10 @@ function ResetPassword() {
   }
 
   return (
-    <Page title="Reset password" subtitle="Please enter your new password here." disablePadding>
+    <Page title="Complete your sign-up" subtitle="Please enter a password here." disablePadding>
       <ResetPasswordForm onSubmit={onSubmit} />
     </Page>
   );
 }
 
-export default ResetPassword;
+export default CompleteSignUp;

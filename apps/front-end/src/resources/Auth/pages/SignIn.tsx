@@ -1,4 +1,4 @@
-import type { SignInFormOutputType } from "src/resources/Users/components/SignInForm";
+import type { SignInFormOutputType } from "src/resources/Auth/components/SignInForm";
 
 import { ExternalLink, Page } from "@alextheman/components";
 import { InternalLink } from "@alextheman/components/routing";
@@ -9,8 +9,8 @@ import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 
 import useLocation from "src/hooks/useLocation";
-import SignInForm from "src/resources/Users/components/SignInForm";
-import useSignInMutation from "src/resources/Users/queries/useSignInMutation";
+import SignInForm from "src/resources/Auth/components/SignInForm";
+import useSignInMutation from "src/resources/Auth/queries/useSignInMutation";
 import formatError from "src/utility/errors/formatError";
 
 function SignIn() {
@@ -45,11 +45,11 @@ function SignIn() {
       <Divider />
       <CardContent>
         <Typography>
-          Don't have an account yet? <InternalLink to="/users/sign-up">Sign up here.</InternalLink>
+          Don't have an account yet? <InternalLink to="/auth/sign-up">Sign up here.</InternalLink>
         </Typography>
         <Typography>
           Forgot your password?{" "}
-          <InternalLink to="/users/forgotten-password">
+          <InternalLink to="/auth/forgotten-password">
             Click here to reset your password.
           </InternalLink>
         </Typography>
