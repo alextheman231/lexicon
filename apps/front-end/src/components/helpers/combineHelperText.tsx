@@ -1,12 +1,27 @@
 import type { ReactNode } from "react";
 
-function combineHelperText(helperText: ReactNode, errors: Array<string>) {
+import { isNonNullableObject } from "@alextheman/utility";
+
+function combineHelperText(helperText: ReactNode, errors: Array<unknown>) {
   if (errors.length === 0) {
     return helperText;
   }
   return (
     <>
-      {errors.join(", ")}. {helperText}
+      {errors
+        .map((error) => {
+          if (
+            isNonNullableObject(error) &&
+            "message" in error &&
+            typeof error.message === "string"
+          ) {
+            return error.message;
+          } else {
+            return error;
+          }
+        })
+        .join(", ")}{" "}
+      - {helperText}
     </>
   );
 }

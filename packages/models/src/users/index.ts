@@ -1,5 +1,4 @@
 export { parseCreateUserData } from "src/users/CreateUserData";
-export { parseResetPasswordData, resetPasswordDataSchema } from "src/users/ResetPasswordData";
 export { parseUser, parseUsers } from "src/users/User";
 export { userInfoSchema, parseUserInfo } from "src/users/UserInfo";
 export { userProfileSchema, parseUserProfile } from "src/users/UserProfile";
@@ -14,7 +13,7 @@ export {
 } from "src/users/UserStateHistoryRow";
 
 export type { CreateUserData } from "src/users/CreateUserData";
-export type { ResetPasswordData } from "src/users/ResetPasswordData";
+
 export type { User } from "src/users/User";
 export type { UserInfo } from "src/users/UserInfo";
 export type { UserProfile } from "src/users/UserProfile";

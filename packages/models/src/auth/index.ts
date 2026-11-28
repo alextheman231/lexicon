@@ -8,9 +8,11 @@ export { parseEndToEndAuthInsertData } from "src/auth/EndToEndAuthInsertData";
 export { parseUserAuthProviders, parseUserAuthProvider } from "src/auth/UserAuthProvider";
 export { parseUserAuthProviderInsertData } from "src/auth/UserAuthProviderInsertData";
 export { signInDataSchema, parseSignInData } from "src/auth/SignInData";
-export type { SignInData } from "src/auth/SignInData";
+export { parseResetPasswordData, resetPasswordDataSchema } from "src/auth/ResetPasswordData";
 
+export type { SignInData } from "src/auth/SignInData";
 export type { EndToEndAuthInsertData } from "src/auth/EndToEndAuthInsertData";
+export type { ResetPasswordData } from "src/auth/ResetPasswordData";
 export type { CompleteSignUpData } from "src/auth/CompleteSignUpData";
 export type { ForgottenPasswordData } from "src/auth/ForgottenPasswordData";
 export type { UserAuthProvider } from "src/auth/UserAuthProvider";
